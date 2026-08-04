@@ -25,22 +25,27 @@ npm run build:ghpages      # 同 build，但 base-href=/mytv-doc/ 并复制 404.
 
 ## 部署到 GitHub Pages
 
-前提：
+### 自动部署（推荐）
 
-1. 本仓库推到 GitHub（仓库名建议为 `mytv-doc`，否则需要把 `package.json` 与 `angular.json` 中的 `/mytv-doc/` 改为 `/你的仓库名/`）。
-2. 仓库 Settings → Pages → Source 选 "GitHub Actions" 或 "Deploy from a branch"（branch: `gh-pages`）。
+仓库已带 `.github/workflows/deploy.yml`，推到 `main` 分支即自动构建并发布。
 
-部署：
+一次性配置：
+
+1. 仓库 **Settings → Pages → Build and deployment → Source** 选 **GitHub Actions**。
+2. 推送代码到 `main`，等 Action 跑完。
+3. 几分钟后访问 `https://<owner>.github.io/<repo>/`。
+
+base-href 会从仓库名自动推导（`${GITHUB_REPOSITORY##*/}`），仓库改名不需要改配置。
+
+### 手动部署
+
+也可以本地构建后通过 `angular-cli-ghpages` 推到 `gh-pages` 分支：
 
 ```bash
 npm run deploy
 ```
 
-该命令会：
-1. `npm run build:ghpages`：用 `--base-href=/mytv-doc/` 构建生产包，并把 `index.html` 复制为 `404.html` 以支持 SPA 路由刷新。
-2. `ng deploy --no-build`：通过 `angular-cli-ghpages` 把 `dist/mytv-doc/browser` 推到 `gh-pages` 分支。
-
-几分钟后访问 `https://<你的用户名>.github.io/mytv-doc/`。
+注意：手动部署会把产物推到 `gh-pages` 分支，与 Action 的 Pages Source 设置相互独立；如果同时启用，以 Action 部署的为准。建议二选一，优先用 Action。
 
 ## 同步 mytv-android 源码变更
 
