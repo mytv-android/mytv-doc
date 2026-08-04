@@ -1,0 +1,64 @@
+<mat-toolbar color="primary" class="app-toolbar">
+  <button mat-icon-button (click)="toggleSidenav()" aria-label="切换导航">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span class="app-title">mytv-android 使用文档</span>
+  <span class="spacer"></span>
+  <a
+    mat-icon-button
+    href="https://github.com/mytv-android/mytv-android"
+    target="_blank"
+    rel="noopener"
+    aria-label="GitHub 仓库"
+    matTooltip="打开 GitHub 仓库"
+  >
+    <mat-icon>code</mat-icon>
+  </a>
+  <button
+    mat-icon-button
+    (click)="toggleTheme()"
+    aria-label="切换主题"
+    [matTooltip]="isDark() ? '切换为浅色' : '切换为深色'"
+  >
+    <mat-icon>{{ isDark() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-sidenav-container class="app-container">
+  <mat-sidenav
+    [mode]="isHandset() ? 'over' : 'side'"
+    [opened]="isHandset() ? sidenavOpened() && false : sidenavOpened()"
+    (closedStart)="sidenavOpened.set(false)"
+    class="app-sidenav"
+  >
+    <mat-nav-list>
+      @for (group of groups(); track group.name) {
+        <h3 matSubheader>{{ group.name }}</h3>
+        @for (entry of group.entries; track entry.path) {
+          <a
+            mat-list-item
+            [routerLink]="entry.path"
+            routerLinkActive="active-link"
+            (click)="isHandset() && sidenavOpened.set(false)"
+          >
+            <mat-icon matListItemIcon>{{ entry.icon }}</mat-icon>
+            <span matListItemTitle>{{ entry.label }}</span>
+          </a>
+        }
+      }
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="app-content">
+    <main class="page">
+      <router-outlet />
+    </main>
+    <footer class="app-footer">
+      <p>
+        本文档基于
+        <a href="https://github.com/mytv-android/mytv-android" target="_blank" rel="noopener">mytv-android</a>
+        源码整理，遵循其 GNU 许可证。
+      </p>
+    </footer>
+  </mat-sidenav-content>
+</mat-sidenav-container>

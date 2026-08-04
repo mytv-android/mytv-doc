@@ -1,0 +1,191 @@
+// Include theming for Angular Material with `mat.theme()`.
+// This Sass mixin will define CSS variables that are used for styling Angular Material
+// components according to the Material 3 design spec.
+// Learn more about theming and how to use it for your application's
+// custom components at https://material.angular.dev/guide/theming
+@use '@angular/material' as mat;
+
+html {
+  height: 100%;
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
+}
+
+body {
+  color-scheme: light;
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+  margin: 0;
+  height: 100%;
+
+  &.dark-theme {
+    color-scheme: dark;
+  }
+}
+
+// 文档页面通用排版
+.doc-page {
+  h1 {
+    font: var(--mat-sys-headline-large);
+    margin: 0 0 8px;
+    color: var(--mat-sys-on-surface);
+  }
+
+  h2 {
+    font: var(--mat-sys-headline-medium);
+    margin: 40px 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
+  }
+
+  h3 {
+    font: var(--mat-sys-headline-small);
+    margin: 28px 0 10px;
+  }
+
+  h4 {
+    font: var(--mat-sys-title-large);
+    margin: 20px 0 8px;
+  }
+
+  p,
+  li {
+    font: var(--mat-sys-body-large);
+    line-height: 1.7;
+  }
+
+  p {
+    margin: 8px 0 16px;
+  }
+
+  ul,
+  ol {
+    padding-left: 24px;
+    margin: 8px 0 16px;
+  }
+
+  li + li {
+    margin-top: 4px;
+  }
+
+  code {
+    font-family: 'Roboto Mono', Consolas, 'Courier New', monospace;
+    font-size: 0.9em;
+    background-color: var(--mat-sys-surface-variant);
+    color: var(--mat-sys-on-surface-variant);
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  pre {
+    background-color: var(--mat-sys-surface-container);
+    color: var(--mat-sys-on-surface);
+    padding: 16px;
+    border-radius: 8px;
+    overflow-x: auto;
+    border: 1px solid var(--mat-sys-outline-variant);
+
+    code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+    }
+  }
+
+  a {
+    color: var(--mat-sys-primary);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 16px 0;
+    font: var(--mat-sys-body-medium);
+
+    th,
+    td {
+      text-align: left;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--mat-sys-outline-variant);
+      vertical-align: top;
+    }
+
+    th {
+      font: var(--mat-sys-title-small);
+      background-color: var(--mat-sys-surface-container);
+      color: var(--mat-sys-on-surface);
+    }
+
+    tr:hover td {
+      background-color: var(--mat-sys-surface-container-low);
+    }
+  }
+
+  blockquote {
+    margin: 16px 0;
+    padding: 12px 20px;
+    border-left: 4px solid var(--mat-sys-primary);
+    background-color: var(--mat-sys-surface-container-low);
+    border-radius: 0 8px 8px 0;
+    color: var(--mat-sys-on-surface-variant);
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .page-lead {
+    font: var(--mat-sys-body-large);
+    color: var(--mat-sys-on-surface-variant);
+    margin-bottom: 24px;
+  }
+
+  .callout {
+    display: flex;
+    gap: 12px;
+    padding: 16px;
+    margin: 16px 0;
+    border-radius: 8px;
+    border: 1px solid var(--mat-sys-outline-variant);
+    background-color: var(--mat-sys-surface-container-low);
+
+    mat-icon {
+      flex-shrink: 0;
+      color: var(--mat-sys-primary);
+    }
+
+    &.callout-warn {
+      border-color: var(--mat-sys-error);
+      background-color: var(--mat-sys-error-container);
+
+      mat-icon,
+      .callout-title {
+        color: var(--mat-sys-on-error-container);
+      }
+    }
+
+    .callout-title {
+      font: var(--mat-sys-title-medium);
+      margin-bottom: 4px;
+    }
+
+    .callout-body {
+      font: var(--mat-sys-body-medium);
+      line-height: 1.6;
+    }
+  }
+}
