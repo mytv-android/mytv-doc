@@ -14,7 +14,7 @@ import { DocPageHeader } from '../../shared/doc-page-header';
       />
 
       <h2>1. 视频播放器内核</h2>
-      <p>mytv-android 提供三种视频播放器内核：</p>
+      <p>电视直播提供三种视频播放器内核：</p>
       <table>
         <thead>
           <tr><th>内核</th><th>说明</th></tr>
@@ -98,7 +98,7 @@ import { DocPageHeader } from '../../shared/doc-page-header';
 
       <h2>4. ASR 实时字幕（Beta）</h2>
       <p>
-        对没有字幕的直播流，mytv-android 可基于 <b>Sherpa-ONNX</b> 实时生成字幕，<b>支持 Media3 和 IJK 播放器</b>。
+        对没有字幕的直播流，电视直播可基于 <b>Sherpa-ONNX</b> 实时生成字幕，<b>支持 Media3 和 IJK 播放器</b>。
         首次启用会下载 Sherpa 引擎和所选模型。
       </p>
       <p><b>设置 → 播放器 → 实时字幕 (ASR)</b> 子页面提供：</p>

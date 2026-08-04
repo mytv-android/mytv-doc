@@ -10,7 +10,7 @@ import { DocCallout } from '../../shared/doc-callout';
     <div class="doc-page">
       <doc-page-header
         title="遥控器与触屏操作"
-        lead="mytv-android 主要为遥控器设计；触屏手势会被映射为对应的遥控器按键。所有按键行为均可在 TV 应用内或 10591 面板自定义。"
+        lead="电视直播主要为遥控器设计；触屏手势会被映射为对应的遥控器按键。所有按键行为均可在 TV 应用内或 10591 面板自定义。"
       />
 
       <h2>1. 直播主界面按键（默认行为）</h2>

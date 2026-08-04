@@ -47,7 +47,7 @@ import { DocCallout } from '../../shared/doc-callout';
       </ul>
 
       <h2>4. 配置订阅源</h2>
-      <p>订阅源是 mytv-android 的核心数据。<b>实际使用建议自行准备 m3u 订阅</b>。添加订阅源有三种方式：</p>
+      <p>订阅源是电视直播的核心数据。<b>实际使用建议自行准备 m3u 订阅</b>。添加订阅源有三种方式：</p>
       <ol>
         <li><b>TV 端</b>：设置 → 订阅源 → 自定义订阅源 → 添加其他订阅源，弹二维码到面板。</li>
         <li><b>面板首页</b>（<code>http://&lt;设备IP&gt;:10591/</code>）：填名称 + 链接即可推送。</li>
@@ -67,7 +67,7 @@ import { DocCallout } from '../../shared/doc-callout';
 
       <h2>6. 远程配置面板（推荐）</h2>
       <p>
-        电视遥控器改大量设置不方便。mytv-android 启动后会监听局域网 <code>10591</code> 端口，
+        电视遥控器改大量设置不方便。电视直播启动后会监听局域网 <code>10591</code> 端口，
         浏览器访问 <code>http://&lt;设备IP&gt;:10591</code> 即可打开配置面板，
         远程修改订阅源、所有 remoteConfig（云同步账号、UA、代理、央视频 Cookie 等）、上传文件、推 APK、看日志。
         详见 <a [routerLink]="'/remote-panel'">远程配置面板</a>。

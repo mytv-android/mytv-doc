@@ -10,14 +10,19 @@ import { DocPageHeader } from '../../shared/doc-page-header';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="doc-page">
-      <doc-page-header
-        title="mytv-android 使用文档"
-        lead="基于天光云影 3.3.9 的 Android TV 电视直播应用 · 仅支持 Android 6.0（API 23）及以上 · 仅横屏"
-      />
+      <div class="hero">
+        <img src="app-icon.png" alt="电视直播" class="hero-icon" />
+        <div>
+          <doc-page-header
+            title="电视直播 使用文档"
+            lead="基于天光云影 3.3.9 的 Android TV 电视直播应用 · 仅支持 Android 6.0（API 23）及以上 · 仅横屏"
+          />
+        </div>
+      </div>
 
       <h2>这是什么？</h2>
       <p>
-        mytv-android 是一款使用 Android 原生（Kotlin + Jetpack Compose）开发的电视直播应用，
+        <b>电视直播</b>（GitHub 仓库名 mytv-android）是一款使用 Android 原生（Kotlin + Jetpack Compose）开发的电视直播应用，
         支持自定义订阅源（m3u / Xtream / Stalker / 本地文件）、EPG 节目单（XML / DIYP / LOVETV）、
         WebView 播放器、多屏同播（最多 9 路）、云同步（Gist / WebDAV / Gitee / 本地文件）、
         ASR 实时字幕与实时翻译等能力。本文档面向<b>最终用户</b>，介绍每项功能在 TV 应用内和
@@ -55,7 +60,7 @@ import { DocPageHeader } from '../../shared/doc-page-header';
 
       <h2>文档约定</h2>
       <ul>
-        <li>所有功能描述基于 mytv-android 当前源码（commit <code>77e2c27b</code>）。</li>
+        <li>所有功能描述基于电视直播当前源码（commit <code>77e2c27b</code>）。</li>
         <li>「默认 X」指 <code>Configs</code> 中的默认值，可由用户修改。</li>
         <li>「remoteConfig」字段在 TV 设置页只读，需通过 10591 web 面板编辑。</li>
         <li>「10591 面板」即应用内置的远程配置面板，详见 <a routerLink="/remote-panel">远程配置面板</a>。</li>
@@ -63,6 +68,19 @@ import { DocPageHeader } from '../../shared/doc-page-header';
     </div>
   `,
   styles: `
+    .hero {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+    .hero-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 12px;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
     .card-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));

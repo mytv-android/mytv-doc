@@ -52,7 +52,7 @@ import { DocPageHeader } from '../../shared/doc-page-header';
         <li>确认手机 / 电脑与电视在同一局域网。</li>
         <li>确认电视 IP 正确（路由器后台可查）。</li>
         <li>部分路由器开启了 AP 隔离，需关闭。</li>
-        <li>检查电视端 mytv-android 是否在前台运行（前台服务退了面板就关了）。</li>
+        <li>检查电视端电视直播是否在前台运行（前台服务退了面板就关了）。</li>
       </ul>
 
       <h3>Q：云同步失败？</h3>

@@ -17,7 +17,7 @@ import { DocCallout } from '../../shared/doc-callout';
       <h2>怎么打开</h2>
       <ol>
         <li>确保手机 / 电脑与电视在<b>同一局域网</b>。</li>
-        <li>电视端启动 mytv-android，应用会自动监听 <code>10591</code> 端口（被占用时自动换端口）。</li>
+        <li>电视端启动电视直播，应用会自动监听 <code>10591</code> 端口（被占用时自动换端口）。</li>
         <li>电视端 <b>Dashboard → 推送</b> 页面会显示一个二维码，扫码直达；或浏览器手动输入 <code>http://&lt;设备IP&gt;:10591</code>。</li>
       </ol>
       <p>

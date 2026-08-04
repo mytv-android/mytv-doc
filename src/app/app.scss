@@ -10,9 +10,16 @@
   z-index: 10;
 }
 
+.app-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  margin-left: 4px;
+}
+
 .app-title {
   font: var(--mat-sys-title-large);
-  margin-left: 8px;
+  margin-left: 12px;
 }
 
 .spacer {
