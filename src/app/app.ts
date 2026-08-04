@@ -34,7 +34,7 @@ export const NAV_ENTRIES: NavEntry[] = [
   { path: '/settings', label: '设置项总览', icon: 'settings', group: '设置' },
 
   { path: '/faq', label: '常见问题', icon: 'help', group: '其他' },
-  { path: '/build', label: '下载与编译', icon: 'download', group: '其他' },
+  { path: '/build', label: '下载与更新', icon: 'download', group: '其他' },
 ];
 
 @Component({

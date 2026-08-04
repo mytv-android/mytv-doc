@@ -20,7 +20,8 @@ import { DocPageHeader } from '../../shared/doc-page-header';
         mytv-android 是一款使用 Android 原生（Kotlin + Jetpack Compose）开发的电视直播应用，
         支持自定义订阅源（m3u / Xtream / Stalker / 本地文件）、EPG 节目单（XML / DIYP / LOVETV）、
         WebView 播放器、多屏同播（最多 9 路）、云同步（Gist / WebDAV / Gitee / 本地文件）、
-        ASR 实时字幕与实时翻译等能力。本文档面向<b>最终用户</b>，从安装、上手、各项功能到设置项含义做完整介绍。
+        ASR 实时字幕与实时翻译等能力。本文档面向<b>最终用户</b>，介绍每项功能在 TV 应用内和
+        10591 网页面板上的配置方法。
       </p>
 
       <h2>从哪儿开始？</h2>
@@ -96,6 +97,6 @@ export class HomePage {
     { path: '/settings', icon: 'settings', title: '设置项总览', subtitle: '14 大类设置完整索引' },
     { path: '/sync', icon: 'cloud_sync', title: '云同步与备份', subtitle: 'Gist / Gitee / WebDAV / 本地' },
     { path: '/faq', icon: 'help', title: '常见问题', subtitle: '故障排查与 FAQ' },
-    { path: '/build', icon: 'download', title: '下载与编译', subtitle: 'Release、应用内更新、自行构建' },
+    { path: '/build', icon: 'download', title: '下载与更新', subtitle: 'Release、应用内更新、推 APK' },
   ];
 }

@@ -10,16 +10,16 @@ import { DocCallout } from '../../shared/doc-callout';
     <div class="doc-page">
       <doc-page-header
         title="遥控器与触屏操作"
-        lead="mytv-android 主要为遥控器设计；触屏手势会被映射为对应的遥控器按键。所有按键行为均可在「设置 → 控制 → 按键（手势）行为」中自定义。"
+        lead="mytv-android 主要为遥控器设计；触屏手势会被映射为对应的遥控器按键。所有按键行为均可在 TV 应用内或 10591 面板自定义。"
       />
 
-      <h2>直播主界面按键（默认行为）</h2>
+      <h2>1. 直播主界面按键（默认行为）</h2>
       <table>
         <thead>
-          <tr><th>按键</th><th>默认行为</th><th>可自定义为</th></tr>
+          <tr><th>按键</th><th>默认行为</th></tr>
         </thead>
         <tbody>
-          <tr><td>上方向键 / 上滑</td><td>前一频道</td><td rowspan="10">前一/后一频道、前一/后一线路、快进、快退、管理订阅源、频道列表、快捷设置、节目单、线路列表、播放控制、无操作</td></tr>
+          <tr><td>上方向键 / 上滑</td><td>前一频道</td></tr>
           <tr><td>下方向键 / 下滑</td><td>后一频道</td></tr>
           <tr><td>左方向键 / 左滑</td><td>前一线路</td></tr>
           <tr><td>右方向键 / 右滑</td><td>后一线路</td></tr>
@@ -32,7 +32,25 @@ import { DocCallout } from '../../shared/doc-callout';
         </tbody>
       </table>
 
-      <h2>附加遥控键</h2>
+      <h2>2. 可自定义的按键行为</h2>
+      <p>每个按键都可重新映射到以下 13 种行为之一：</p>
+      <ul>
+        <li>前一频道 / 后一频道</li>
+        <li>前一线路 / 后一线路</li>
+        <li>快进 / 快退</li>
+        <li>管理订阅源</li>
+        <li>频道列表</li>
+        <li>快捷设置</li>
+        <li>节目单</li>
+        <li>线路列表</li>
+        <li>播放控制</li>
+        <li>无操作</li>
+      </ul>
+      <p>
+        TV 端：<b>设置 → 控制 → 按键（手势）行为</b>；面板：<code>/control</code> → 按键（手势）行为。
+      </p>
+
+      <h2>3. 附加遥控键</h2>
       <p>以下按键事件<b>不</b>走「按键（手势）行为」配置，但会在主界面触发对应面板：</p>
       <table>
         <thead>
@@ -52,7 +70,7 @@ import { DocCallout } from '../../shared/doc-callout';
         </tbody>
       </table>
 
-      <h2>触屏 / 鼠标手势</h2>
+      <h2>4. 触屏 / 鼠标手势</h2>
       <table>
         <thead>
           <tr><th>手势</th><th>等价按键</th><th>作用</th></tr>
@@ -66,7 +84,7 @@ import { DocCallout } from '../../shared/doc-callout';
         </tbody>
       </table>
 
-      <h2>快进 / 快退</h2>
+      <h2>5. 快进 / 快退</h2>
       <ul>
         <li>默认每次 ±10 秒。</li>
         <li>当 <b>SeekTo 方式 = 重载URL跳转</b> 且当前节目支持回看时，通过重载 URL 改变节目开始时间；否则直接调用 <code>seekTo</code>。</li>
@@ -74,26 +92,47 @@ import { DocCallout } from '../../shared/doc-callout';
         <li>直播最多可回退 48 小时。</li>
       </ul>
 
-      <h2>数字选台</h2>
+      <h2>6. 数字选台</h2>
       <p>
         在主界面直接按数字键输入频道号，OK 确认换台，返回键取消。
         可通过 <b>设置 → 控制 → 数字选台</b> 关闭（避免误触）。
       </p>
 
-      <h2>语音控制</h2>
+      <h2>7. TV 应用内设置项（设置 → 控制）</h2>
+      <table>
+        <thead>
+          <tr><th>设置</th><th>默认</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>数字选台</td><td>开</td><td>通过数字键选择频道</td></tr>
+          <tr><td>频道列表首尾循环</td><td>开</td><td>到达列表首尾后跳到另一端</td></tr>
+          <tr><td>频道切换跨分组</td><td>开</td><td>上下键跨分组连续换台；关闭则仅在当前分组内切换</td></tr>
+          <tr><td>按键（手势）行为</td><td>见 §1</td><td>子页面为 10 个按键（上/下/左/右/OK + 长按上/下/左/右/OK）逐一映射 13 种行为</td></tr>
+        </tbody>
+      </table>
+
+      <h2>8. 10591 面板（<code>/control</code>）的全部可配置项</h2>
+      <table>
+        <thead>
+          <tr><th>面板字段</th><th>类型</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>数字选台</td><td>开关</td><td>同 TV</td></tr>
+          <tr><td>频道列表首尾循环</td><td>开关</td><td>同 TV</td></tr>
+          <tr><td>频道切换跨分组</td><td>开关</td><td>同 TV</td></tr>
+          <tr><td>按键（手势）行为 - 上 / 下 / 左 / 右 / 确认键</td><td>下拉</td><td>13 种 KeyDownAction</td></tr>
+          <tr><td>长按按键行为 - 上 / 下 / 左 / 右 / 确认键</td><td>下拉</td><td>同上</td></tr>
+        </tbody>
+      </table>
+
+      <h2>9. 语音控制</h2>
       <p>
         支持<b>夏杰语音</b>切台。授权 <code>com.peasun.aispeech.aiopen.control</code> 权限后，
         语音指令会触发频道切换，命中后 snackbar 提示「已为您切换至：xxx」。
       </p>
 
-      <h2>防误触建议</h2>
-      <p>「设置 → 控制」提供三类防误触开关：</p>
-      <ul>
-        <li><b>数字选台</b>：默认开。</li>
-        <li><b>频道列表首尾循环</b>：默认开，到达列表末尾后跳到另一端。</li>
-        <li><b>频道切换跨分组</b>：默认开，上下键跨分组连续换台；关闭后仅在当前分组内切换。</li>
-      </ul>
-      <p>
+      <h2>10. 防误触建议</h2>
+      <p>「设置 → 控制」提供三类防误触开关：数字选台 / 频道列表首尾循环 / 频道切换跨分组。
         如果只想保留最基本的"上下换台"，可在「按键（手势）行为」中把左 / 右键 / 长按都设为「无操作」。
       </p>
 

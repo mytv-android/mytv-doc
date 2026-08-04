@@ -90,7 +90,7 @@ export const routes: Routes = [
   {
     path: 'build',
     loadComponent: () => import('./pages/build/build').then((m) => m.BuildPage),
-    title: '下载与自行编译 · mytv-android 使用文档',
+    title: '下载与更新 · mytv-android 使用文档',
   },
   {
     path: '**',

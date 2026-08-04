@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { DocPageHeader } from '../../shared/doc-page-header';
 
 @Component({
   selector: 'app-faq',
-  imports: [DocPageHeader],
+  imports: [DocPageHeader, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="doc-page">
@@ -64,7 +65,7 @@ import { DocPageHeader } from '../../shared/doc-page-header';
 
       <h3>Q：默认演示源失效？</h3>
       <p>
-        仓库自带演示地址仅供测试，可用性不保证。请按 <a href="/sources">订阅源</a> 章节配置自己的订阅。
+        仓库自带演示地址仅供测试，可用性不保证。请按 <a [routerLink]="'/sources'">订阅源</a> 章节配置自己的订阅。
       </p>
 
       <h3>Q：IJK / VLC 内核显示「未下载」？</h3>
