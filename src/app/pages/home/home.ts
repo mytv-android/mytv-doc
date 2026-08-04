@@ -60,7 +60,7 @@ import { DocPageHeader } from '../../shared/doc-page-header';
 
       <h2>文档约定</h2>
       <ul>
-        <li>所有功能描述基于电视直播当前源码（commit <code>77e2c27b</code>）。</li>
+        <li>所有功能描述基于 <b>电视直播</b> 当前源码（commit <code>77e2c27b</code>）。</li>
         <li>「默认 X」指 <code>Configs</code> 中的默认值，可由用户修改。</li>
         <li>「remoteConfig」字段在 TV 设置页只读，需通过 10591 web 面板编辑。</li>
         <li>「10591 面板」即应用内置的远程配置面板，详见 <a routerLink="/remote-panel">远程配置面板</a>。</li>
