@@ -39,39 +39,41 @@ import { DocPageHeader } from '../../shared/doc-page-header';
         <li>频道号、频道名、当前线路名（含混合源 tag，如「央视网」「央视频」「官网」）。</li>
         <li>当前 / 下一个 EPG 节目与进度条。</li>
         <li>台标 Logo（来自 m3u 的 <code>tvg-logo</code>，或自定义图标提供方）。</li>
-        <li>回放标志（回看节目时左下角显示）。</li>
+        <li>回放标志（回看节目时显示，角标位置由「显示回放标志」开关控制）。</li>
       </ul>
+      <p>换台时是否弹出底部信息条由「换台时显示频道信息」开关控制（默认开，配置项 <code>iptvChannelChangeShowInfoPanel</code>，说明：换台时在屏幕底部显示当前频道的详细信息）。</p>
 
       <h2>3. TV 应用内设置项（设置 → 界面）</h2>
+      <p>以下设置均在 <b>设置 → 界面</b> 下，对应面板 <code>/ui</code> 字段。说明文案取自 Android <code>strings.xml</code>。</p>
       <table>
         <thead>
-          <tr><th>设置</th><th>默认</th><th>说明</th></tr>
+          <tr><th>设置</th><th>默认</th><th>说明</th><th>配置项 / 取值</th></tr>
         </thead>
         <tbody>
-          <tr><td>节目进度</td><td>开</td><td>在频道底部显示当前节目进度条</td></tr>
-          <tr><td>常驻节目进度</td><td>关</td><td>在播放器底部常驻进度条</td></tr>
-          <tr><td>台标显示</td><td>开</td><td>—</td></tr>
-          <tr><td>显示回放标志</td><td>开</td><td>回看节目时在播放器左下角显示「回放」角标</td></tr>
-          <tr><td>频道预览</td><td>开</td><td>显示频道预览首帧</td></tr>
-          <tr><td>频道预览并行数</td><td>1</td><td>1–10；过大可能网络卡顿</td></tr>
-          <tr><td>列表项动画</td><td>开</td><td>频道列表重排时的过渡动画</td></tr>
-          <tr><td>列表懒渲染</td><td>关</td><td>预览抓帧按间隔分批节流</td></tr>
-          <tr><td>懒渲染每批并行数</td><td>1</td><td>1–10；仅懒渲染开启时出现</td></tr>
-          <tr><td>懒渲染间隔</td><td>关闭</td><td>-1=关闭 / 50 / 100 / 200 / 300 / 500 / 1000 / 2000 ms</td></tr>
-          <tr><td>经典选台界面</td><td>开</td><td>经典三段式 vs 现代面板</td></tr>
-          <tr><td>经典-显示订阅源列表</td><td>开</td><td>—</td></tr>
-          <tr><td>经典-显示频道信息</td><td>关</td><td>—</td></tr>
-          <tr><td>经典-单独显示频道号</td><td>关</td><td>无台标时显示频道名首字</td></tr>
-          <tr><td>经典-显示全部频道</td><td>关</td><td>—</td></tr>
-          <tr><td>换台时显示频道信息</td><td>开</td><td>换台时底部弹出信息条</td></tr>
-          <tr><td>时间显示</td><td>整点</td><td>隐藏 / 常显 / 整点 / 半点（整点前后 30 秒显示）</td></tr>
-          <tr><td>超时自动关闭界面</td><td>15 秒</td><td>5 / 10 / 15 / 20 / 25 / 30 秒 + 不关闭</td></tr>
-          <tr><td>界面整体缩放比例</td><td>自适应</td><td>×0.5–×2.0 步进 0.1</td></tr>
-          <tr><td>界面字体缩放比例</td><td>×1.0</td><td>×0.5–×2.0 步进 0.1</td></tr>
-          <tr><td>字幕设置</td><td>—</td><td>子页面调整字幕样式，详见 <a [routerLink]="'/player-settings'">播放器与字幕</a></td></tr>
-          <tr><td>焦点优化</td><td>开</td><td>关闭可解决触摸设备部分场景闪退</td></tr>
-          <tr><td>启用收藏</td><td>开</td><td>—</td></tr>
-          <tr><td>启用最近观看</td><td>开</td><td>最多保留 15 条历史</td></tr>
+          <tr><td>节目进度</td><td>开</td><td>在频道底部显示当前节目进度条</td><td><code>uiShowEpgProgrammeProgress</code></td></tr>
+          <tr><td>常驻节目进度</td><td>关</td><td>在播放器底部显示当前节目进度条</td><td><code>uiShowEpgProgrammePermanentProgress</code></td></tr>
+          <tr><td>台标显示</td><td>开</td><td>—</td><td><code>uiShowChannelLogo</code></td></tr>
+          <tr><td>显示回放标志</td><td>开</td><td>回看节目时在播放器左上角显示回放标志</td><td><code>uiShowReplayBadge</code></td></tr>
+          <tr><td>频道预览</td><td>开</td><td>显示频道预览首帧</td><td><code>uiShowChannelPreview</code></td></tr>
+          <tr><td>频道预览并行数</td><td>1</td><td>同时抓取频道预览首帧的数量，过大可能导致网络卡顿</td><td><code>channelPreviewParallelCount</code>，1–10 整数</td></tr>
+          <tr><td>列表项动画</td><td>开</td><td>频道列表重排时的过渡动画</td><td><code>uiListAnimation</code></td></tr>
+          <tr><td>列表懒渲染</td><td>关</td><td>开启后预览抓帧按间隔分批节流，减少滚动时的网络/解码尖峰</td><td><code>uiLazyRender</code>；开启后才会出现下两项</td></tr>
+          <tr><td>懒渲染每批并行数</td><td>1</td><td>每个间隔窗口内放行的抓帧请求数</td><td><code>uiLazyRenderParallelCount</code>，1–10 整数</td></tr>
+          <tr><td>懒渲染间隔</td><td>关闭（-1）</td><td>每个放行窗口的间隔毫秒，关闭表示不限速</td><td><code>uiLazyRenderInterval</code>，取值 -1 / 50 / 100 / 200 / 300 / 500 / 1000 / 2000 ms</td></tr>
+          <tr><td>经典选台界面</td><td>开</td><td>将选台界面替换为经典三段式结构</td><td><code>uiUseClassicPanelScreen</code></td></tr>
+          <tr><td>经典-显示订阅源列表</td><td>开</td><td>在经典选台界面中启用"向左查看订阅源"功能</td><td><code>uiClassicShowSourceList</code></td></tr>
+          <tr><td>经典-显示频道信息</td><td>关</td><td>在经典选台界面中显示当前频道的详细信息</td><td><code>uiClassicShowChannelInfo</code></td></tr>
+          <tr><td>经典-单独显示频道号</td><td>关</td><td>开启时同时显示频道号和台标；没有台标则显示频道名首字</td><td><code>uiClassicShowChannelNo</code></td></tr>
+          <tr><td>经典-显示全部频道</td><td>关</td><td>是否显示当前订阅源全部频道列表</td><td><code>uiClassicShowAllChannels</code></td></tr>
+          <tr><td>换台时显示频道信息</td><td>开</td><td>换台时在屏幕底部显示当前频道的详细信息</td><td><code>iptvChannelChangeShowInfoPanel</code></td></tr>
+          <tr><td>时间显示</td><td>整点</td><td>播放器右上角时间显示模式</td><td><code>uiTimeShowMode</code>，取值 隐藏 / 常显 / 整点 / 半点；整点与半点模式在整点 / 半点前后 30 秒显示时间</td></tr>
+          <tr><td>超时自动关闭界面</td><td>15 秒</td><td>播放器界面无操作多久后自动关闭信息条</td><td><code>uiScreenAutoCloseDelay</code>，取值 5 / 10 / 15 / 20 / 25 / 30 秒 + 不关闭（<code>Long.MAX_VALUE</code>）</td></tr>
+          <tr><td>界面整体缩放比例</td><td>自适应</td><td>界面整体密度缩放，0 表示自适应</td><td><code>uiDensityScaleRatio</code>，取值 自适应（0）/ ×0.5–×2.0 步进 0.1</td></tr>
+          <tr><td>界面字体缩放比例</td><td>×1.0</td><td>字体单独缩放</td><td><code>uiFontScaleRatio</code>，取值 ×0.5–×2.0 步进 0.1</td></tr>
+          <tr><td>字幕设置</td><td>—</td><td>字幕样式调整</td><td>子页面，详见 <a [routerLink]="'/player-settings'">播放器与字幕</a></td></tr>
+          <tr><td>焦点优化</td><td>开</td><td>关闭后可解决触摸设备在部分场景下闪退</td><td><code>uiFocusOptimize</code></td></tr>
+          <tr><td>启用收藏</td><td>开</td><td>是否显示当前订阅源频道收藏列表</td><td><code>iptvChannelFavoriteEnable</code></td></tr>
+          <tr><td>启用最近观看</td><td>开</td><td>是否显示最近观看的频道列表（最多保留 15 条历史）</td><td><code>iptvChannelHistoryEnable</code></td></tr>
         </tbody>
       </table>
 

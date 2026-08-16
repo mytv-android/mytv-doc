@@ -16,39 +16,49 @@ import { DocCallout } from '../../shared/doc-callout';
       <h2>1. 直播主界面按键（默认行为）</h2>
       <table>
         <thead>
-          <tr><th>按键</th><th>默认行为</th></tr>
+          <tr><th>按键</th><th>默认行为</th><th>对应 KeyDownAction</th></tr>
         </thead>
         <tbody>
-          <tr><td>上方向键 / 上滑</td><td>前一频道</td></tr>
-          <tr><td>下方向键 / 下滑</td><td>后一频道</td></tr>
-          <tr><td>左方向键 / 左滑</td><td>前一线路</td></tr>
-          <tr><td>右方向键 / 右滑</td><td>后一线路</td></tr>
-          <tr><td>OK / 选择键</td><td>打开频道列表（数字选台时确认）</td></tr>
-          <tr><td>长按 OK</td><td>快捷设置面板</td></tr>
-          <tr><td>长按上键</td><td>管理订阅源</td></tr>
-          <tr><td>长按下键</td><td>播放控制</td></tr>
-          <tr><td>长按左键</td><td>节目单</td></tr>
-          <tr><td>长按下右键</td><td>线路列表</td></tr>
+          <tr><td>上方向键 / 上滑</td><td>前一频道</td><td><code>ChangeCurrentChannelToPrev</code></td></tr>
+          <tr><td>下方向键 / 下滑</td><td>后一频道</td><td><code>ChangeCurrentChannelToNext</code></td></tr>
+          <tr><td>左方向键 / 左滑</td><td>前一线路</td><td><code>ChangeCurrentChannelLineIdxToPrev</code></td></tr>
+          <tr><td>右方向键 / 右滑</td><td>后一线路</td><td><code>ChangeCurrentChannelLineIdxToNext</code></td></tr>
+          <tr><td>OK / 选择键</td><td>频道列表</td><td><code>ToChannelScreen</code></td></tr>
+          <tr><td>长按 OK</td><td>快捷设置</td><td><code>ToQuickOpScreen</code></td></tr>
+          <tr><td>长按上键</td><td>管理订阅源</td><td><code>ToIptvSourceScreen</code></td></tr>
+          <tr><td>长按下键</td><td>播放控制</td><td><code>ToVideoPlayerControllerScreen</code></td></tr>
+          <tr><td>长按左键</td><td>节目单</td><td><code>ToEpgScreen</code></td></tr>
+          <tr><td>长按右键</td><td>线路列表</td><td><code>ToChannelLineScreen</code></td></tr>
         </tbody>
       </table>
 
       <h2>2. 可自定义的按键行为</h2>
-      <p>每个按键都可重新映射到以下 13 种行为之一：</p>
-      <ul>
-        <li>前一频道 / 后一频道</li>
-        <li>前一线路 / 后一线路</li>
-        <li>快进 / 快退</li>
-        <li>管理订阅源</li>
-        <li>频道列表</li>
-        <li>快捷设置</li>
-        <li>节目单</li>
-        <li>线路列表</li>
-        <li>播放控制</li>
-        <li>无操作</li>
-      </ul>
+      <p>每个按键都可重新映射到以下 13 种行为之一（枚举 <code>KeyDownAction</code>）：</p>
+      <table>
+        <thead>
+          <tr><th>行为（中文显示）</th><th>枚举值</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>前一频道</td><td><code>ChangeCurrentChannelToPrev</code></td><td>切换到上一个频道</td></tr>
+          <tr><td>后一频道</td><td><code>ChangeCurrentChannelToNext</code></td><td>切换到下一个频道</td></tr>
+          <tr><td>前一线路</td><td><code>ChangeCurrentChannelLineIdxToPrev</code></td><td>切换到上一个线路</td></tr>
+          <tr><td>后一线路</td><td><code>ChangeCurrentChannelLineIdxToNext</code></td><td>切换到下一个线路</td></tr>
+          <tr><td>快进</td><td><code>SeekForward</code></td><td>每次 +10 秒</td></tr>
+          <tr><td>快退</td><td><code>SeekBackward</code></td><td>每次 -10 秒</td></tr>
+          <tr><td>管理订阅源</td><td><code>ToIptvSourceScreen</code></td><td>打开订阅源管理</td></tr>
+          <tr><td>频道列表</td><td><code>ToChannelScreen</code></td><td>打开频道列表</td></tr>
+          <tr><td>快捷设置</td><td><code>ToQuickOpScreen</code></td><td>打开快捷设置面板</td></tr>
+          <tr><td>节目单</td><td><code>ToEpgScreen</code></td><td>打开节目单面板</td></tr>
+          <tr><td>线路列表</td><td><code>ToChannelLineScreen</code></td><td>打开当前频道的线路列表</td></tr>
+          <tr><td>播放控制</td><td><code>ToVideoPlayerControllerScreen</code></td><td>打开播放控制面板</td></tr>
+          <tr><td>无操作</td><td><code>NoAction</code></td><td>禁用该按键</td></tr>
+        </tbody>
+      </table>
       <p>
-        TV 端：<b>设置 → 控制 → 按键（手势）行为</b>；面板：<code>/control</code> → 按键（手势）行为。
+        TV 端：<b>设置 → 控制 → 按键（手势）行为</b>（自定义播放界面的按键/手势行为）。
+        子页面列出 10 个按键：上键/上滑、下键/下滑、左键/左滑、右键/右滑、选择键、长按选择键、长按上键、长按下键、长按左键、长按右键，每项点击后在弹出的 4 列网格中选择映射行为。
       </p>
+      <p>面板：<code>/control</code> → 「按键（手势）行为」与「长按按键行为」分组，各 5 个下拉框（上/下/左/右/确认键）。</p>
 
       <h2>3. 附加遥控键</h2>
       <p>以下按键事件<b>不</b>走「按键（手势）行为」配置，但会在主界面触发对应面板：</p>
@@ -88,7 +98,7 @@ import { DocCallout } from '../../shared/doc-callout';
       <ul>
         <li>默认每次 ±10 秒。</li>
         <li>当 <b>SeekTo 方式 = 重载URL跳转</b> 且当前节目支持回看时，通过重载 URL 改变节目开始时间；否则直接调用 <code>seekTo</code>。</li>
-        <li>持续长按方向键 / OK 仅在配置为快进/快退时持续触发。</li>
+        <li>持续长按方向键 / OK 仅在配置为快进/快退（<code>SeekForward</code> / <code>SeekBackward</code>）时持续触发。</li>
         <li>直播最多可回退 48 小时。</li>
       </ul>
 
@@ -96,20 +106,22 @@ import { DocCallout } from '../../shared/doc-callout';
       <p>
         在主界面直接按数字键输入频道号，OK 确认换台，返回键取消。
         可通过 <b>设置 → 控制 → 数字选台</b> 关闭（避免误触）。
+        开关默认开，配置项 <code>iptvChannelNoSelectEnable</code>，说明文案为「通过数字键选择频道」。
       </p>
 
       <h2>7. TV 应用内设置项（设置 → 控制）</h2>
       <table>
         <thead>
-          <tr><th>设置</th><th>默认</th><th>说明</th></tr>
+          <tr><th>设置</th><th>默认</th><th>说明</th><th>配置项</th></tr>
         </thead>
         <tbody>
-          <tr><td>数字选台</td><td>开</td><td>通过数字键选择频道</td></tr>
-          <tr><td>频道列表首尾循环</td><td>开</td><td>到达列表首尾后跳到另一端</td></tr>
-          <tr><td>频道切换跨分组</td><td>开</td><td>上下键跨分组连续换台；关闭则仅在当前分组内切换</td></tr>
-          <tr><td>按键（手势）行为</td><td>见 §1</td><td>子页面为 10 个按键（上/下/左/右/OK + 长按上/下/左/右/OK）逐一映射 13 种行为</td></tr>
+          <tr><td>数字选台</td><td>开</td><td>通过数字键选择频道</td><td><code>iptvChannelNoSelectEnable</code></td></tr>
+          <tr><td>频道列表首尾循环</td><td>开</td><td>启用后，到达列表首尾时将循环切换到另一端</td><td><code>iptvChannelChangeListLoop</code></td></tr>
+          <tr><td>频道切换跨分组</td><td>开</td><td>启用后，上下键可在所有频道间切换；关闭则仅在当前分组内切换</td><td><code>iptvChannelChangeCrossGroup</code></td></tr>
+          <tr><td>按键（手势）行为</td><td>见 §1</td><td>子页面为 10 个按键（上/下/左/右/OK + 长按上/下/左/右/OK）逐一映射 13 种 KeyDownAction</td><td><code>keyDownEvent*</code> 共 10 项</td></tr>
         </tbody>
       </table>
+      <p>说明文案均取自 Android <code>strings.xml</code>，与 TV 端显示完全一致。</p>
 
       <h2>8. 10591 面板（<code>/control</code>）的全部可配置项</h2>
       <table>

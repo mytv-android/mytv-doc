@@ -9,6 +9,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { map } from 'rxjs/operators';
+import { DocSearch } from './shared/doc-search';
 
 export interface NavEntry {
   path: string;
@@ -49,6 +50,7 @@ export const NAV_ENTRIES: NavEntry[] = [
     MatIconModule,
     MatButtonModule,
     MatTooltipModule,
+    DocSearch,
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
