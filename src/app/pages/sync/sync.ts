@@ -85,10 +85,9 @@ import { DocPageHeader } from '../../shared/doc-page-header';
           <code>extraLocalIptvSourceList</code>：本地订阅源文件内容（按路径字典）。
           仅同步 <code>sourceType == 1</code> 且 <code>url</code> 以 <code>Globals.fileDir.path</code> 开头的源文件内容，并行读取以避免串行延迟。
         </li>
-        <li><code>extraChannelNameAlias</code>：频道别名文件（<code>ChannelAlias.aliasFile</code>）内容。</li>
       </ul>
       <p>
-        应用云端数据时（<code>CloudSyncData.apply()</code>）：先 <code>Configs.fromPartial()</code> 写回设置，再把本地订阅源文件内容写回原路径，最后覆盖频道别名文件。
+        应用云端数据时（<code>CloudSyncData.apply()</code>）：先 <code>Configs.fromPartial()</code> 写回设置（含频道别名 <code>iptvChannelNameAlias</code>），再把本地订阅源文件内容写回原路径，最后把别名注入 <code>ChannelAlias</code> 并刷新缓存。
       </p>
 
       <h2>3. TV 应用内设置项（设置 → 云同步）</h2>
@@ -324,7 +323,7 @@ import { DocPageHeader } from '../../shared/doc-page-header';
       <ul>
         <li><b>10591 面板</b>：云同步的账号字段都只能在面板编辑，TV 设置页只读。详见 <a [routerLink]="'/remote-panel'">远程配置面板</a>。</li>
         <li><b>订阅源</b>：<code>extraLocalIptvSourceList</code> 会把所有「本地文件」类型的订阅源内容一并同步，换机后无需重新拷贝 m3u 文件。详见 <a [routerLink]="'/sources'">订阅源</a>。</li>
-        <li><b>频道别名</b>：<code>extraChannelNameAlias</code> 同步别名文件，多设备共享统一命名。</li>
+        <li><b>频道别名</b>：<code>iptvChannelNameAlias</code> 随配置同步，多设备共享统一命名。</li>
         <li><b>系统备份</b>：<code>appBackupEnable</code> 默认开启，由 <code>MyTVBackupAgent</code> 接管 Android 系统备份；与云同步独立，互不影响。</li>
       </ul>
     </div>

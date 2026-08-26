@@ -106,11 +106,12 @@ import { DocPageHeader } from '../../shared/doc-page-header';
       <h2>8. 频道别名</h2>
       <p>
         不同订阅源对同一频道常起名不一致（"CCTV-1" vs "CCTV1 综合"）。在面板首页或 <code>/sources</code> 页编辑<b>频道别名</b>，
-        让多个名字映射到同一逻辑频道。配置项 <code>iptvChannelAlias</code>，TV 端只读（<code>remoteConfig=true</code>），列表头显示「共 N 个频道，M 个别名」。
+        让多个名字映射到同一逻辑频道。配置项 <code>iptvChannelNameAlias</code>（JSON 字符串，默认值为 <code>R.raw.channel_name_alias</code> 的内容；为空时回退到内置资源），
+        参与云同步，TV 端只读（<code>remoteConfig=true</code>），列表头显示「共 N 个频道，M 个别名」。
         配合 <b>设置 → 订阅源 → 相似频道合并</b>（相同频道别名将进行合并，默认开，配置项 <code>iptvSimilarChannelMerge</code>），
         相同别名的频道会合并显示。
       </p>
-      <p>别名文件示例：</p>
+      <p>别名配置示例：</p>
       <pre><code>&#123;
   "__suffix": ["高清", "超清", "HD"],
   "CCTV1": ["CCTV-1", "CCTV 1", "央视一套"],

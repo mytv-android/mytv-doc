@@ -207,7 +207,7 @@ import { DocPageHeader } from '../../shared/doc-page-header';
         <li><b>standardName</b>（频道标准名）：进缓存查找，先查 <code>standardName</code>，再查 <code>displayName</code>，最后遍历 <code>Epg.channelList</code> 做 <code>equals</code> 比对。</li>
       </ol>
       <p>
-        如果 EPG 没显示节目，多半是 <code>tvg-id</code> / <code>tvg-name</code> 与 EPG 源中的 <code>id</code> / <code>channel</code> 不一致。可在面板编辑<b>频道别名</b>（<code>CHANNEL_ALIAS</code>）把多个名字归并到同一逻辑频道。<code>epgSourceFollowIptv</code> 开启时优先使用订阅源内嵌 EPG。
+        如果 EPG 没显示节目，多半是 <code>tvg-id</code> / <code>tvg-name</code> 与 EPG 源中的 <code>id</code> / <code>channel</code> 不一致。可在面板编辑<b>频道别名</b>（配置项 <code>iptvChannelNameAlias</code>，对应 <code>ChannelAlias</code> 模块）把多个名字归并到同一逻辑频道。<code>epgSourceFollowIptv</code> 开启时优先使用订阅源内嵌 EPG。
       </p>
 
       <h2>6. EPG 显示位置</h2>

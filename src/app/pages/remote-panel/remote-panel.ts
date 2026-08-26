@@ -53,7 +53,7 @@ import { DocCallout } from '../../shared/doc-callout';
         <li><b>推送订阅源</b>：支持 5 种类型 — remote（网络 URL）/ xtream / stalker / file（TV 本地路径）/ content（直接粘贴 m3u / txt 内容，面板把内容写到 TV 本地文件再注册为本地源）。</li>
         <li><b>网页源央视频 Cookie</b>：从浏览器登录央视频后复制 Cookie 粘贴到这里。</li>
         <li><b>频道图标提供</b>：URL 模板，支持 <code>&#123;name&#125;</code> / <code>&#123;name|lowercase&#125;</code> / <code>&#123;name|uppercase&#125;</code> 变量。</li>
-        <li><b>频道别名</b>：直接编辑别名文件，示例 <code>&#123;__suffix:[...], CCTV1:[...]&#125;</code>。</li>
+        <li><b>频道别名</b>：直接编辑别名（<code>configs.iptvChannelNameAlias</code>，JSON 字符串），示例 <code>&#123;__suffix:[...], CCTV1:[...]&#125;</code>。编辑后随 <code>POST /api/configs</code> 一起下发。</li>
         <li><b>推送节目单</b>：粘贴名称 + EPG 链接（xml / xml.gz）。</li>
         <li><b>播放器全局设置</b>：全局 UA、自定义 headers。</li>
         <li><b>云同步</b>：五种服务商的账号字段。</li>
@@ -109,7 +109,7 @@ import { DocCallout } from '../../shared/doc-callout';
             </td>
           </tr>
           <tr><td><code>POST /api/epg-source/push</code></td><td>新增 EPG 源（<code>name</code>、<code>url</code>），追加并设为当前。</td></tr>
-          <tr><td><code>GET /api/channel-alias</code> / <code>POST /api/channel-alias</code></td><td>读 / 覆写频道别名文件（写后刷新别名并清空 IPTV / EPG 缓存）。</td></tr>
+          <tr><td><code>GET /api/channel-alias</code> / <code>POST /api/channel-alias</code></td><td>读 / 覆写频道别名（<code>iptvChannelNameAlias</code>，写后刷新别名并清空 IPTV / EPG 缓存）。也可通过 <code>POST /api/configs</code> 一并下发。</td></tr>
         </tbody>
       </table>
 

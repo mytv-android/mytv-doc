@@ -234,10 +234,10 @@ import { DocCallout } from '../../shared/doc-callout';
             <td><b>频道别名</b></td>
             <td>—</td>
             <td>
-              <p>只读显示，右侧显示「共 N 个频道，M 个别名」。编辑在面板（<code>/sources</code> 或 <code>/api/channel-alias</code>）。</p>
-              <p>别名文件位于 TV 本地 <code>channel_name_alias.json</code>，格式：<code>&#123;"__suffix":[...], "CCTV1":["央视一套","cctv-1"]&#125;</code>。</p>
+              <p>只读显示，右侧显示「共 N 个频道，M 个别名」。编辑在面板（<code>/sources</code> 或 <code>/api/channel-alias</code>），对应配置项 <code>iptvChannelNameAlias</code>（JSON 字符串，默认值为 <code>R.raw.channel_name_alias</code> 的内容；为空时回退到内置资源）。</p>
+              <p>格式：<code>&#123;"__suffix":[...], "CCTV1":["央视一套","cctv-1"]&#125;</code>。</p>
               <p><code>__suffix</code> 是频道名后缀剥离规则（如 <code>-HD</code> / <code>+高清</code>），剥离后再查别名表，实现「CCTV1-HD」归并到「CCTV1」。</p>
-              <p>应用内置一份默认别名表（<code>raw/channel_name_alias.json</code>），用户别名与其合并，用户表优先。</p>
+              <p>参与云同步，多设备共享同一份别名配置。</p>
             </td>
           </tr>
           <tr>
@@ -302,7 +302,7 @@ import { DocCallout } from '../../shared/doc-callout';
       </table>
 
       <h2>8. 10591 面板（<code>/sources</code>）的全部可配置项</h2>
-      <p>面板订阅源页比 TV 多了排序、转换JS、单源 UA / 代理、别名编辑、文件内容直接编辑等能力。所有字段通过 <code>POST /api/configs</code> 写回，别名通过 <code>POST /api/channel-alias</code> 单独写回（写后自动刷新别名并清空 IPTV / EPG 缓存）。</p>
+      <p>面板订阅源页比 TV 多了排序、转换JS、单源 UA / 代理、别名编辑、文件内容直接编辑等能力。所有字段通过 <code>POST /api/configs</code> 写回；别名编辑绑定 <code>configs.iptvChannelNameAlias</code>，随 <code>/api/configs</code> 一起下发，也可单独通过 <code>POST /api/channel-alias</code> 写回（两条路径都会自动刷新别名并清空 IPTV / EPG 缓存）。</p>
       <table>
         <thead>
           <tr><th>面板字段</th><th>类型</th><th>说明 / 默认 / 取值</th></tr>
@@ -390,12 +390,12 @@ import { DocCallout } from '../../shared/doc-callout';
             <td>频道别名</td>
             <td>多行文本</td>
             <td>
-              <p>直接编辑 <code>channel_name_alias.json</code> 内容。示例：</p>
+              <p>直接编辑 <code>configs.iptvChannelNameAlias</code>（JSON 字符串，默认值为 <code>R.raw.channel_name_alias</code> 的内容；为空时回退到内置资源）。示例：</p>
               <pre><code>&#123;
   "__suffix": ["-HD", "+高清"],
   "CCTV1": ["央视一套", "cctv-1"]
 &#125;</code></pre>
-              <p>写入后自动刷新别名并清空 IPTV / EPG 全部缓存（<code>IptvRepository.clearAllCache()</code> + <code>EpgRepository.clearAllCache()</code>）。</p>
+              <p>编辑后随 <code>POST /api/configs</code> 一起下发（也可单独走 <code>POST /api/channel-alias</code>），两条路径都会自动刷新别名并清空 IPTV / EPG 全部缓存（<code>IptvRepository.clearAllCache()</code> + <code>EpgRepository.clearAllCache()</code>）。</p>
             </td>
           </tr>
           <tr>

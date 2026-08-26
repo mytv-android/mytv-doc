@@ -176,7 +176,7 @@ export const SEARCH_INDEX: SearchIndexEntry[] = [
     title: '频道、收藏与搜索',
     anchor: '',
     section: '频道别名',
-    keywords: '频道别名 iptvChannelAlias remoteConfig 只读 __suffix 标准名 别名数组 共N个频道M个别名 相似频道合并 iptvSimilarChannelMerge 相同频道别名合并',
+    keywords: '频道别名 iptvChannelNameAlias remoteConfig 只读 __suffix 标准名 别名数组 共N个频道M个别名 相似频道合并 iptvSimilarChannelMerge 相同频道别名合并 R.raw.channel_name_alias 云同步',
   },
   {
     path: '/channels',
@@ -239,14 +239,14 @@ export const SEARCH_INDEX: SearchIndexEntry[] = [
     title: '订阅源（IPTV）',
     anchor: '',
     section: 'TV 应用内设置项（设置 → 订阅源）',
-    keywords: '订阅源设置 自定义订阅源 WebView测试源 类型徽标 转换JS徽标 刷新全部 订阅源缓存时间 不缓存 永久 1小时 15天 humanizeMs 分类隐藏 隐藏频道规则 正则 .*测试.* 支持加密频道组 _数字 密码 频道别名 channel_name_alias.json __suffix 相似频道合并 频道图标提供 gitee myTVlogo name lowercase uppercase 10天周期 频道图标覆盖 PLTV转TVOD rtsp pltv tvod playseek 自动添加网页源 禁用 订阅源优先 IPTV_FIRST 网页源优先 HYBRID_FIRST 网页源央视频Cookie yangshipin.cn 前50字符',
+    keywords: '订阅源设置 自定义订阅源 WebView测试源 类型徽标 转换JS徽标 刷新全部 订阅源缓存时间 不缓存 永久 1小时 15天 humanizeMs 分类隐藏 隐藏频道规则 正则 .*测试.* 支持加密频道组 _数字 密码 频道别名 iptvChannelNameAlias JSON字符串 R.raw.channel_name_alias __suffix 相似频道合并 频道图标提供 gitee myTVlogo name lowercase uppercase 10天周期 频道图标覆盖 PLTV转TVOD rtsp pltv tvod playseek 自动添加网页源 禁用 订阅源优先 IPTV_FIRST 网页源优先 HYBRID_FIRST 网页源央视频Cookie yangshipin.cn 前50字符',
   },
   {
     path: '/sources',
     title: '订阅源（IPTV）',
     anchor: '',
     section: '10591 面板（/sources）的全部可配置项',
-    keywords: '面板订阅源 排序 上移下移 设为当前 编辑对话框 类型 remote file xtream stalker 链接 文件路径 文件内容 用户名密码 输出类型 m3u_plus MAC地址 全局UA httpUserAgent HTTP代理 httpProxy 代理优先级 播放器代理规则 转换JS transformJs function main 订阅源缓存时间 频道隐藏分组 频道隐藏列表 频道别名 channel_name_alias.json 清空缓存 相似频道合并 频道图标提供 频道图标覆盖 PLTV转TVOD 自动添加网页源 网页源央视频Cookie /api/iptv-source/push /api/channel-alias /api/file/content',
+    keywords: '面板订阅源 排序 上移下移 设为当前 编辑对话框 类型 remote file xtream stalker 链接 文件路径 文件内容 用户名密码 输出类型 m3u_plus MAC地址 全局UA httpUserAgent HTTP代理 httpProxy 代理优先级 播放器代理规则 转换JS transformJs function main 订阅源缓存时间 频道隐藏分组 频道隐藏列表 频道别名 iptvChannelNameAlias JSON字符串 清空缓存 相似频道合并 频道图标提供 频道图标覆盖 PLTV转TVOD 自动添加网页源 网页源央视频Cookie /api/iptv-source/push /api/channel-alias /api/file/content',
   },
   {
     path: '/epg',
@@ -281,7 +281,7 @@ export const SEARCH_INDEX: SearchIndexEntry[] = [
     title: 'EPG 节目单',
     anchor: '',
     section: 'EPG 与频道的匹配',
-    keywords: 'EPG匹配 EpgList.match tvg-id tvg-name Channel.epgID Channel.epgName standardName displayName 频道别名 CHANNEL_ALIAS 归并 逻辑频道 epgSourceFollowIptv 大小写不敏感 索引查找',
+    keywords: 'EPG匹配 EpgList.match tvg-id tvg-name Channel.epgID Channel.epgName standardName displayName 频道别名 iptvChannelNameAlias ChannelAlias 归并 逻辑频道 epgSourceFollowIptv 大小写不敏感 索引查找',
   },
   {
     path: '/epg',
@@ -547,7 +547,7 @@ export const SEARCH_INDEX: SearchIndexEntry[] = [
     title: '云同步与备份',
     anchor: '',
     section: '同步哪些数据',
-    keywords: '同步数据 CloudSyncData getData version syncAt syncFrom description configs toPartial desensitized 剔除 云同步账号 globalVideoPlayerCore webViewCore replaceSystemWebView iptvChannelHistoryList iptvSourceCurrentIdx iptvChannelLastPlay iptvChannelLinePlayableHostList iptvChannelLinePlayableUrlList uiFocusOptimize ASR翻译设备本地 extraLocalIptvSourceList sourceType==1 fileDir 并行读取 extraChannelNameAlias aliasFile apply fromPartial',
+    keywords: '同步数据 CloudSyncData getData version syncAt syncFrom description configs toPartial desensitized 剔除 云同步账号 globalVideoPlayerCore webViewCore replaceSystemWebView iptvChannelHistoryList iptvSourceCurrentIdx iptvChannelLastPlay iptvChannelLinePlayableHostList iptvChannelLinePlayableUrlList uiFocusOptimize ASR翻译设备本地 extraLocalIptvSourceList sourceType==1 fileDir 并行读取 iptvChannelNameAlias ChannelAlias apply fromPartial',
   },
   {
     path: '/sync',
