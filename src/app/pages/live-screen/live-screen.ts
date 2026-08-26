@@ -43,6 +43,14 @@ import { DocPageHeader } from '../../shared/doc-page-header';
       </ul>
       <p>换台时是否弹出底部信息条由「换台时显示频道信息」开关控制（默认开，配置项 <code>iptvChannelChangeShowInfoPanel</code>，说明：换台时在屏幕底部显示当前频道的详细信息）。</p>
 
+      <h3>2.1 选台界面与分组</h3>
+      <p>呼出选台界面后，频道按订阅源分组展示。当「启用收藏」「启用最近观看」开启时，会在普通分组上方额外插入<b>收藏分组</b>与<b>最近观看分组</b>（最近观看位于收藏下方），两者均为独立分组，支持上下键跨组导航：</p>
+      <ul>
+        <li><b>收藏分组</b>：来自 <code>iptvChannelFavoriteList</code>，可见性由 <code>iptvChannelFavoriteListVisible</code> 控制，跨屏记忆。</li>
+        <li><b>最近观看分组</b>：来自 <code>iptvChannelHistoryList</code>（最多 15 条，最新在前），可见性由 <code>iptvChannelHistoryListVisible</code> 控制，跨屏记忆，并纳入云同步。</li>
+      </ul>
+      <p>经典选台界面（<code>uiUseClassicPanelScreen</code>）为三段式结构，分组列于最左；非经典模式为覆盖式网格，向上键从普通分组切换到收藏 / 最近观看分组。</p>
+
       <h2>3. TV 应用内设置项（设置 → 界面）</h2>
       <p>以下设置均在 <b>设置 → 界面</b> 下，对应面板 <code>/ui</code> 字段。说明文案取自 Android <code>strings.xml</code>。</p>
       <table>
