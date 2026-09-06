@@ -169,7 +169,7 @@ export const SEARCH_INDEX: SearchIndexEntry[] = [
     title: '频道、收藏与搜索',
     anchor: '',
     section: '多屏同播（MultiView）',
-    keywords: '多屏同播 MultiView 9路 同屏 方案 布局 放大 缩小 暂停 静音 切换线路 回看 移动屏幕',
+    keywords: '多屏同播 MultiView 9路 同屏 方案 布局 放大 缩小 暂停 静音 切换线路 回看 移动屏幕 最近四屏 最近观看',
   },
   {
     path: '/channels',
