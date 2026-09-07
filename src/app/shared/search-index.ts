@@ -407,7 +407,7 @@ export const SEARCH_INDEX: SearchIndexEntry[] = [
     title: '播放器与字幕设置',
     anchor: '',
     section: '解码与渲染',
-    keywords: '渲染方式 SurfaceView TextureView 动画 截图 默认SurfaceView 强制软解 MediaCodec FFmpeg 设备软解 扩展软解 花屏 硬解 CPU 停止上一媒体项 换台 双流 适配视频内容帧率 场率 帧率 刷新率 黑屏 闪烁 SurfaceView 兜底刷新率 系统默认 50Hz 59.94Hz 60Hz PAL NTSC 中国 英国 德国 法国 澳大利亚 美国 日本 韩国 加拿大 互联网视频流 更好的视频探测 起播时间 AUD IDR TS HLS无块准备 探测大小 分析时长 环路过滤 精确跳转 android-opaque 记忆播放器和解码配置 Host URL LRU 内核 渲染 软解 清空记忆',
+    keywords: '渲染方式 SurfaceView TextureView 动画 截图 默认SurfaceView 强制软解 软解仅用于音频 MediaCodec FFmpeg 设备软解 扩展软解 花屏 硬解 CPU 停止上一媒体项 换台 双流 适配视频内容帧率 场率 帧率 刷新率 黑屏 闪烁 SurfaceView 兜底刷新率 系统默认 50Hz 59.94Hz 60Hz PAL NTSC 中国 英国 德国 法国 澳大利亚 美国 日本 韩国 加拿大 互联网视频流 更好的视频探测 起播时间 AUD IDR TS HLS无块准备 探测大小 分析时长 环路过滤 精确跳转 android-opaque 记忆播放器和解码配置 Host URL LRU 内核 渲染 软解 清空记忆',
   },
   {
     path: '/player-settings',
@@ -463,7 +463,7 @@ export const SEARCH_INDEX: SearchIndexEntry[] = [
     title: '播放器与字幕设置',
     anchor: '',
     section: '10591 面板（/player）的全部可配置项',
-    keywords: '面板播放器 视频播放器内核 渲染方式 记忆配置 强制软解 适配帧率 更好探测 提取Header 全局显示模式 SeekTo 加载超时 毫秒 10000 播放缓冲 秒帧 0 RTSP 音量平衡 正则解码配置 代理规则 ASR凭据 识别模型 占位 /storage/emulated/0 暂未实现 领先字幕提前量 断句静音阈值 翻译引擎按钮组 目标语言文本框 腾讯SecretId密码框 百度APIKey MTranServer服务器地址 全局UA 自定义headers Name:Value 自定义DNS HTTP代理 保存按钮',
+    keywords: '面板播放器 视频播放器内核 渲染方式 记忆配置 强制软解 软解仅用于音频 适配帧率 更好探测 提取Header 全局显示模式 SeekTo 加载超时 毫秒 10000 播放缓冲 秒帧 0 RTSP 音量平衡 正则解码配置 代理规则 ASR凭据 识别模型 占位 /storage/emulated/0 暂未实现 领先字幕提前量 断句静音阈值 翻译引擎按钮组 目标语言文本框 腾讯SecretId密码框 百度APIKey MTranServer服务器地址 全局UA 自定义headers Name:Value 自定义DNS HTTP代理 保存按钮',
   },
   {
     path: '/player-settings',
