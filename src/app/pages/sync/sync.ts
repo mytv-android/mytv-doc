@@ -73,7 +73,7 @@ import { DocPageHeader } from '../../shared/doc-page-header';
           <code>configs</code>：<code>Configs.toPartial()</code> 生成的几乎全部字段，但<b>剔除</b>以下本地偏好与敏感字段（<code>desensitized()</code> 处理）：
           <ul>
             <li>云同步账号本身（gist id / token、webdav url / 用户名 / 密码 等）</li>
-            <li><code>globalVideoPlayerCore</code>、<code>webViewCore</code>、<code>replaceSystemWebView</code>、<code>globalVideoPlayerForceSoftDecode</code>、<code>globalVideoPlayerMedia3SoftDecodeAudioOnly</code>、<code>globalVideoPlayerSuperResolution</code>、<code>globalVideoPlayerFrameInterpolation</code></li>
+            <li><code>globalVideoPlayerCore</code>、<code>webViewCore</code>、<code>replaceSystemWebView</code>、<code>globalVideoPlayerForceSoftDecode</code>、<code>globalVideoPlayerMedia3SoftDecodeAudioOnly</code>、<code>globalVideoPlayerSuperResolution</code>、<code>globalVideoPlayerSuperResolutionMode</code>、<code>globalVideoPlayerFrameInterpolation</code>、<code>globalVideoPlayerFrameInterpolationMode</code></li>
             <li><code>iptvChannelHistoryList</code>（最近观看历史）</li>
             <li><code>iptvSourceCurrentIdx</code>、<code>iptvChannelLastPlay</code>、<code>iptvChannelLastPlayLineIdx</code></li>
             <li><code>iptvChannelLinePlayableHostList</code> / <code>iptvChannelLinePlayableUrlList</code>（可播放线路缓存）</li>

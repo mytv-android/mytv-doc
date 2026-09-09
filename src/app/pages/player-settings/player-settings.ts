@@ -84,18 +84,16 @@ import { DocCallout } from '../../shared/doc-callout';
           </tr>
           <tr>
             <td>实时超分</td>
-            <td>关</td>
+            <td>选项</td>
             <td>
-              实验开关。为 <b>Media3 / IJK / VLC</b> 保存当前播放路径的超分状态，设置页和 QuickOP 都会显示开关状态。
-              当前通过共享 GLES Surface 输出执行空间增强和上采样；这是实验性 GPU 路径，不等同于 RIFE/Real-ESRGAN 神经网络超分。
+              在设置页选择超分路径，QuickOP 可循环切换。当前可运行的是共享 GLES Surface 的 GPU 空间增强和上采样；Anime4K、Real-ESRGAN 作为待接入候选保留，不能把当前路径当成神经网络超分。
             </td>
           </tr>
           <tr>
             <td>实时插帧</td>
-            <td>关</td>
+            <td>选项</td>
             <td>
-              实验开关。为 <b>Media3 / IJK / VLC</b> 保存当前播放路径的插帧状态，设置页和 QuickOP 都会显示开关状态。
-              当前通过共享 GLES Surface 混合相邻解码帧生成中间显示帧；这是实验性帧混合路径，运动场景可能出现重影。
+              在设置页选择插帧路径，QuickOP 可循环切换。当前可运行的是共享 GLES Surface 的相邻帧混合；RIFE 光流插帧作为待接入候选保留，帧混合在运动场景可能出现重影。
             </td>
           </tr>
           <tr>
@@ -427,8 +425,8 @@ import { DocCallout } from '../../shared/doc-callout';
           <tr><td>记忆播放器和解码配置</td><td>下拉</td><td>无 / Host / URL；切换会清空现有记忆</td></tr>
           <tr><td>强制软解</td><td>开关</td><td>—</td></tr>
           <tr><td>软解仅用于音频</td><td>开关</td><td>仅 Media3 内核</td></tr>
-          <tr><td>实时超分</td><td>开关</td><td>实验 GLES 路径；Media3 / IJK / VLC 共用 Surface，使用空间增强和上采样</td></tr>
-          <tr><td>实时插帧</td><td>开关</td><td>实验 GLES 路径；使用相邻解码帧混合生成中间显示帧，运动场景可能出现重影</td></tr>
+          <tr><td>实时超分模式</td><td>下拉</td><td>关闭 / GPU 空间增强（当前可运行）/ Anime4K（待接入）/ Real-ESRGAN（VOD/待接入）</td></tr>
+          <tr><td>实时插帧模式</td><td>下拉</td><td>关闭 / GPU 帧混合（当前可运行）/ RIFE 光流插帧（待接入）</td></tr>
           <tr><td>停止上一媒体项</td><td>开关</td><td>—</td></tr>
           <tr><td>适配视频内容帧率</td><td>开关</td><td>系统 &gt; 11 且需 SurfaceView</td></tr>
           <tr><td>更好的视频探测</td><td>开关</td><td>—</td></tr>
