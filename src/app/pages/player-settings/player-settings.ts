@@ -83,17 +83,17 @@ import { DocCallout } from '../../shared/doc-callout';
             </td>
           </tr>
           <tr>
-            <td>实时超分</td>
+            <td>超分路径</td>
             <td>选项</td>
             <td>
-              在设置页选择超分路径，QuickOP 可循环切换。当前可运行的是共享 GLES Surface 的 GPU 空间增强和上采样；Anime4K、Real-ESRGAN 作为待接入候选保留，不能把当前路径当成神经网络超分。
+              在设置页选择超分路径，QuickOP 可循环切换。GPU 空间增强与 Anime4K Shader 可通过共享 GLES Surface 实时运行；Real-ESRGAN 走文件型 VOD 预处理并缓存为普通 MP4，不能把它当成实时模型推理。
             </td>
           </tr>
           <tr>
-            <td>实时插帧</td>
+            <td>插帧路径</td>
             <td>选项</td>
             <td>
-              在设置页选择插帧路径，QuickOP 可循环切换。当前可运行的是共享 GLES Surface 的相邻帧混合；RIFE 光流插帧作为待接入候选保留，帧混合在运动场景可能出现重影。
+              在设置页选择插帧路径，QuickOP 可循环切换。GPU 帧混合可实时运行；RIFE 光流插帧用于文件型 VOD 预处理，生成源帧与中间帧组成的 2 倍帧序列。
             </td>
           </tr>
           <tr>
@@ -140,6 +140,12 @@ import { DocCallout } from '../../shared/doc-callout';
           </tr>
         </tbody>
       </table>
+
+      <doc-callout kind="info" title="VOD 神经后端">
+        RIFE 和 Real-ESRGAN 模型可在电视端「设置 → 播放器 → 视频增强与插帧」页面分别准备。
+        首次准备会下载模型并初始化 ncnn Vulkan/CPU 后端。只有有限的本地文件或无鉴权文件型 URL 会进入预处理；直播 HLS/DASH、回放窗口、带请求头的线路会保留原播放路径。
+        Real-ESRGAN 的 x4 模型对 1080p 文件输出上限为 3840×2160（4K），处理完成后由 Media3 导出普通 MP4，因此 Media3、IjkPlayer 和 VLC 都能继续播放缓存结果。
+      </doc-callout>
 
       <h3>缓冲与超时</h3>
       <table>
@@ -425,8 +431,8 @@ import { DocCallout } from '../../shared/doc-callout';
           <tr><td>记忆播放器和解码配置</td><td>下拉</td><td>无 / Host / URL；切换会清空现有记忆</td></tr>
           <tr><td>强制软解</td><td>开关</td><td>—</td></tr>
           <tr><td>软解仅用于音频</td><td>开关</td><td>仅 Media3 内核</td></tr>
-          <tr><td>实时超分模式</td><td>下拉</td><td>关闭 / GPU 空间增强（当前可运行）/ Anime4K（待接入）/ Real-ESRGAN（VOD/待接入）</td></tr>
-          <tr><td>实时插帧模式</td><td>下拉</td><td>关闭 / GPU 帧混合（当前可运行）/ RIFE 光流插帧（待接入）</td></tr>
+          <tr><td>超分模式</td><td>下拉</td><td>关闭 / GPU 空间增强（实时）/ Anime4K Shader（实时）/ Real-ESRGAN（VOD 预处理）</td></tr>
+          <tr><td>插帧模式</td><td>下拉</td><td>关闭 / GPU 帧混合（实时）/ RIFE 光流（VOD 预处理）</td></tr>
           <tr><td>停止上一媒体项</td><td>开关</td><td>—</td></tr>
           <tr><td>适配视频内容帧率</td><td>开关</td><td>系统 &gt; 11 且需 SurfaceView</td></tr>
           <tr><td>更好的视频探测</td><td>开关</td><td>—</td></tr>
