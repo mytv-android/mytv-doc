@@ -29,7 +29,7 @@ import { DocPageHeader } from '../../shared/doc-page-header';
           <tr><td>界面</td><td>台标、节目进度、信息条、缩放、字幕样式</td><td><a [routerLink]="'/live-screen'">直播主界面</a></td><td><code>/ui</code></td></tr>
           <tr><td>主题</td><td>颜色模式、配色方案、主题包</td><td>本页 §5</td><td><code>/theme</code></td></tr>
           <tr><td>控制</td><td>数字选台、跨组切换、按键行为</td><td><a [routerLink]="'/controls'">遥控器与触屏</a></td><td><code>/control</code></td></tr>
-          <tr><td>播放器</td><td>内核、解码、缓冲、字幕、ASR、翻译</td><td><a [routerLink]="'/player-settings'">播放器与字幕</a></td><td><code>/player</code></td></tr>
+          <tr><td>播放器</td><td>内核、解码、缓冲、超分、插帧、字幕、ASR、翻译</td><td><a [routerLink]="'/player-settings'">播放器与字幕</a></td><td><code>/player</code></td></tr>
           <tr><td>WebView</td><td>内核、超时、替换系统 WebView</td><td><a [routerLink]="'/webview-player'">WebView</a></td><td><code>/webview</code></td></tr>
           <tr><td>更新</td><td>通道、强提醒</td><td>本页 §9</td><td><code>/update</code></td></tr>
           <tr><td>网络</td><td>重试次数、重试间隔</td><td>本页 §10</td><td><code>/network</code></td></tr>
