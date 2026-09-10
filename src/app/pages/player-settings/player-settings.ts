@@ -86,14 +86,14 @@ import { DocCallout } from '../../shared/doc-callout';
             <td>超分路径</td>
             <td>选项</td>
             <td>
-              在设置页选择超分路径，QuickOP 可循环切换。GPU 空间增强与 Anime4K Shader 可通过共享 GLES Surface 实时运行；Real-ESRGAN 走文件型 VOD 预处理并缓存为普通 MP4，不能把它当成实时模型推理。
+              在设置页选择超分路径，QuickOP 通过弹出面板选择。GPU 空间增强与 Anime4K Shader 通过共享 GLES Surface 实时运行；Real-ESRGAN 走文件型 VOD 预处理并缓存为普通 MP4。
             </td>
           </tr>
           <tr>
             <td>插帧路径</td>
             <td>选项</td>
             <td>
-              在设置页选择插帧路径，QuickOP 可循环切换。GPU 帧混合可实时运行；RIFE 光流插帧用于文件型 VOD 预处理，生成源帧与中间帧组成的 2 倍帧序列。
+              在设置页选择插帧路径，QuickOP 通过弹出面板选择。GPU 帧混合实时运行；RIFE 光流插帧用于文件型 VOD 预处理，生成源帧与中间帧组成的 2 倍帧序列。
             </td>
           </tr>
           <tr>
