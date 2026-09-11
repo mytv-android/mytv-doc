@@ -86,14 +86,28 @@ import { DocCallout } from '../../shared/doc-callout';
             <td>超分路径</td>
             <td>选项</td>
             <td>
-              在设置页选择实时超分路径，QuickOP 通过弹出面板选择。GPU 空间增强、Anime4K Shader 和 FSR/CAS 风格 GLES 路径直接在解码后处理画面；AI Lite 按需下载轻量 ONNX 模型，在独立线程限频处理视频帧，适用于 IPTV 直播和在线播放。
+              在设置页选择实时超分路径，QuickOP 通过弹出面板选择。GPU 空间增强、Anime4K Shader 和 FSR/CAS 风格 GLES 路径直接在解码后处理画面；AI Lite 按需下载轻量 ONNX 模型，在独立线程限频处理视频帧；Real-ESRGAN Vulkan 预留在线运行库和模型包接口，运行库准备期间使用 GPU FSR/CAS 输出。
             </td>
           </tr>
           <tr>
             <td>插帧路径</td>
             <td>选项</td>
             <td>
-              在设置页选择实时插帧路径，QuickOP 通过弹出面板选择。GPU 帧混合在解码后生成中间显示帧，适用于低延迟播放；当前未加入需要文件预处理的模型插帧路径。
+              在设置页选择实时插帧路径，QuickOP 通过弹出面板选择。GPU 帧混合在解码后生成中间显示帧；RIFE Vulkan 预留在线运行库和模型包接口，运行库准备期间使用 GPU 帧混合输出。
+            </td>
+          </tr>
+          <tr>
+            <td>插帧目标帧率</td>
+            <td>选项</td>
+            <td>
+              可选自动、30、50、60、120 FPS。固定值会为增强输出 Surface 请求对应刷新率，GPU 帧混合会根据解码帧时间戳连续更新，设备刷新率和处理性能决定最终输出。
+            </td>
+          </tr>
+          <tr>
+            <td>AI 超分执行后端</td>
+            <td>选项</td>
+            <td>
+              AI Lite 可选择自动、NNAPI 设备加速或 CPU。自动模式优先尝试 NNAPI，NNAPI 可由系统选择 GPU、NPU 或其他设备加速实现。
             </td>
           </tr>
           <tr>
@@ -425,8 +439,10 @@ import { DocCallout } from '../../shared/doc-callout';
           <tr><td>记忆播放器和解码配置</td><td>下拉</td><td>无 / Host / URL；切换会清空现有记忆</td></tr>
           <tr><td>强制软解</td><td>开关</td><td>—</td></tr>
           <tr><td>软解仅用于音频</td><td>开关</td><td>仅 Media3 内核</td></tr>
-          <tr><td>超分模式</td><td>下拉</td><td>关闭 / GPU 空间增强（实时）/ Anime4K Shader（实时）/ GPU FSR/CAS 风格（实时）/ AI Lite 超分（在线模型）</td></tr>
-          <tr><td>插帧模式</td><td>下拉</td><td>关闭 / GPU 帧混合（实时）</td></tr>
+          <tr><td>超分模式</td><td>下拉</td><td>关闭 / GPU 空间增强（实时）/ Anime4K Shader（实时）/ GPU FSR/CAS 风格（实时）/ AI Lite 超分（在线模型）/ Real-ESRGAN Vulkan（在线运行库）</td></tr>
+          <tr><td>插帧模式</td><td>下拉</td><td>关闭 / GPU 帧混合（实时）/ RIFE Vulkan（在线运行库）</td></tr>
+          <tr><td>插帧目标帧率</td><td>下拉</td><td>自动跟随源帧率 / 30 FPS / 50 FPS / 60 FPS / 120 FPS；用于增强输出 Surface 刷新率提示</td></tr>
+          <tr><td>AI 超分执行后端</td><td>下拉</td><td>自动选择 / NNAPI 设备加速 / CPU</td></tr>
           <tr><td>停止上一媒体项</td><td>开关</td><td>—</td></tr>
           <tr><td>适配视频内容帧率</td><td>开关</td><td>系统 &gt; 11 且需 SurfaceView</td></tr>
           <tr><td>更好的视频探测</td><td>开关</td><td>—</td></tr>
