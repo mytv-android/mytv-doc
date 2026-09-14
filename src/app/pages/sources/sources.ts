@@ -354,10 +354,10 @@ import { DocCallout } from '../../shared/doc-callout';
             <td>单源级 UA（<code>httpUserAgent</code>）。非 <code>file</code> 类型显示。请求订阅源时作为 <code>User-Agent</code> 头；若频道未单独指定 UA，则播放时也继承此 UA。</td>
           </tr>
           <tr>
-            <td>编辑对话框 - HTTP 代理</td>
+            <td>编辑对话框 - 代理</td>
             <td>文本框</td>
             <td>
-              <p>单源级代理（<code>httpProxy</code>）。非 <code>file</code> 类型显示。</p>
+              <p>单源级代理（<code>httpProxy</code>）。所有类型（含本地源）均显示。</p>
               <p>播放器解析有效代理的优先级：<b>播放器代理规则列表</b>（正则匹配）&gt; <b>当前订阅源的 httpProxy</b> &gt; <b>播放器全局代理</b>。</p>
               <p>格式：<code>http://host:port</code> 或 <code>socks5://host:port</code>。</p>
             </td>

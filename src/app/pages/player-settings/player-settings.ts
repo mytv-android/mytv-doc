@@ -234,9 +234,9 @@ import { DocCallout } from '../../shared/doc-callout';
             <td>自定义 DNS 服务器，<b>仅 Media3 内核生效</b>。TV 端只读；编辑请到面板。</td>
           </tr>
           <tr>
-            <td>HTTP 代理</td>
+            <td>代理</td>
             <td>空</td>
-            <td>全局 HTTP 代理。TV 端只读；编辑请到面板。</td>
+            <td>全局代理。支持 <code>http://</code> / <code>socks5://</code>。TV 端只读；编辑请到面板。</td>
           </tr>
           <tr>
             <td>代理规则</td>
@@ -493,8 +493,8 @@ import { DocCallout } from '../../shared/doc-callout';
           <tr><td>全局 UA</td><td>单行文本</td><td>—</td></tr>
           <tr><td>自定义 headers</td><td>多行文本</td><td>每行 <code>Name: Value</code></td></tr>
           <tr><td>自定义 DNS</td><td>单行文本</td><td>仅 Media3 内核生效</td></tr>
-          <tr><td>HTTP 代理</td><td>单行文本</td><td>—</td></tr>
-          <tr><td>代理规则</td><td>动态列表</td><td>每项：正则规则 + HTTP 代理；可添加 / 删除多条</td></tr>
+          <tr><td>代理</td><td>单行文本</td><td>支持 <code>http://</code> / <code>socks5://</code></td></tr>
+          <tr><td>代理规则</td><td>动态列表</td><td>每项：正则规则 + 代理；可添加 / 删除多条</td></tr>
         </tbody>
       </table>
 

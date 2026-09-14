@@ -246,7 +246,7 @@ export const SEARCH_INDEX: SearchIndexEntry[] = [
     title: '订阅源（IPTV）',
     anchor: '',
     section: '10591 面板（/sources）的全部可配置项',
-    keywords: '面板订阅源 排序 上移下移 设为当前 编辑对话框 类型 remote file xtream stalker 链接 文件路径 文件内容 用户名密码 输出类型 m3u_plus MAC地址 全局UA httpUserAgent HTTP代理 httpProxy 代理优先级 播放器代理规则 转换JS transformJs function main 订阅源缓存时间 频道隐藏分组 频道隐藏列表 频道别名 iptvChannelNameAlias JSON字符串 清空缓存 相似频道合并 频道图标提供 频道图标覆盖 PLTV转TVOD 自动添加网页源 网页源央视频Cookie /api/iptv-source/push /api/channel-alias /api/file/content',
+    keywords: '面板订阅源 排序 上移下移 设为当前 编辑对话框 类型 remote file xtream stalker 链接 文件路径 文件内容 用户名密码 输出类型 m3u_plus MAC地址 全局UA httpUserAgent 代理 httpProxy 代理优先级 播放器代理规则 转换JS transformJs function main 订阅源缓存时间 频道隐藏分组 频道隐藏列表 频道别名 iptvChannelNameAlias JSON字符串 清空缓存 相似频道合并 频道图标提供 频道图标覆盖 PLTV转TVOD 自动添加网页源 网页源央视频Cookie /api/iptv-source/push /api/channel-alias /api/file/content',
   },
   {
     path: '/epg',
@@ -428,7 +428,7 @@ export const SEARCH_INDEX: SearchIndexEntry[] = [
     title: '播放器与字幕设置',
     anchor: '',
     section: '请求与网络',
-    keywords: '在链接中提取Header url|Header1=v1&Header2=v2 分隔 Referer Origin 全局UA Mytv.Android 只读 自定义headers Name: Value 错误图标 自定义DNS 仅Media3 HTTP代理 代理规则 正则 URL 共N条规则',
+    keywords: '在链接中提取Header url|Header1=v1&Header2=v2 分隔 Referer Origin 全局UA Mytv.Android 只读 自定义headers Name: Value 错误图标 自定义DNS 仅Media3 代理 代理规则 正则 URL 共N条规则',
   },
   {
     path: '/player-settings',
@@ -463,7 +463,7 @@ export const SEARCH_INDEX: SearchIndexEntry[] = [
     title: '播放器与字幕设置',
     anchor: '',
     section: '10591 面板（/player）的全部可配置项',
-    keywords: '面板播放器 视频播放器内核 渲染方式 记忆配置 强制软解 软解仅用于音频 适配帧率 更好探测 提取Header 全局显示模式 SeekTo 加载超时 毫秒 10000 播放缓冲 秒帧 0 RTSP 音量平衡 正则解码配置 代理规则 ASR凭据 识别模型 占位 /storage/emulated/0 暂未实现 领先字幕提前量 断句静音阈值 翻译引擎按钮组 目标语言文本框 腾讯SecretId密码框 百度APIKey MTranServer服务器地址 全局UA 自定义headers Name:Value 自定义DNS HTTP代理 保存按钮',
+    keywords: '面板播放器 视频播放器内核 渲染方式 记忆配置 强制软解 软解仅用于音频 适配帧率 更好探测 提取Header 全局显示模式 SeekTo 加载超时 毫秒 10000 播放缓冲 秒帧 0 RTSP 音量平衡 正则解码配置 代理规则 ASR凭据 识别模型 占位 /storage/emulated/0 暂未实现 领先字幕提前量 断句静音阈值 翻译引擎按钮组 目标语言文本框 腾讯SecretId密码框 百度APIKey MTranServer服务器地址 全局UA 自定义headers Name:Value 自定义DNS 代理 保存按钮',
   },
   {
     path: '/player-settings',

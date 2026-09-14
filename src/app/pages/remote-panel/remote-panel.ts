@@ -69,7 +69,7 @@ import { DocCallout } from '../../shared/doc-callout';
         <li>订阅源的 <b>httpUserAgent</b>、<b>httpProxy</b> 单源级配置。</li>
         <li>EPG 源<b>拖拽排序</b>。</li>
         <li>播放器的<b>正则解码配置</b>（按 URL pattern 选内核 / 软解）和<b>代理规则</b>可视化编辑。</li>
-        <li>播放器的 <b>全局 UA</b>、<b>自定义 headers</b>、<b>自定义 DNS</b>、<b>HTTP 代理</b>。</li>
+        <li>播放器的 <b>全局 UA</b>、<b>自定义 headers</b>、<b>自定义 DNS</b>、<b>代理</b>。</li>
         <li>ASR 翻译的<b>腾讯 / 百度 / MTranServer 凭据</b>。</li>
         <li>云同步的<b>所有账号字段</b>（Gist ID / Token、Gitee ID / Token、网络链接、本地路径、WebDAV URL / 用户名 / 密码）。</li>
         <li>云同步的<b>导入 / 导出应用数据</b>（本地 JSON 文件）。</li>
