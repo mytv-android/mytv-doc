@@ -67,7 +67,7 @@ import { DocPageHeader } from '../../shared/doc-page-header';
             <td><b>跟随订阅源</b><br><code>ui_epg_source_follow_iptv</code></td>
             <td>关（<code>Configs.epgSourceFollowIptv = false</code>）</td>
             <td>
-              <p>开关。作用：开启后优先使用订阅源 m3u 中 <code>x-tvg-url</code> / <code>url-tvg</code> 定义的 EPG，而非自定义节目单。</p>
+              <p>开关。作用：开启后优先使用订阅源定义的 EPG 而非自定义节目单。取值优先级：订阅源编辑对话框中的「EPG 地址」（<code>epg</code>，面板配置）&gt; m3u 内嵌的 <code>x-tvg-url</code> / <code>url-tvg</code>。</p>
               <p>子标题（<code>ui_epg_source_follow_iptv_desc</code>）：「优先使用订阅源中定义的节目单」。</p>
               <p>配置方法：设置 → 节目单 → 跟随订阅源，OK 切换。</p>
             </td>

@@ -302,7 +302,7 @@ import { DocCallout } from '../../shared/doc-callout';
       </table>
 
       <h2>8. 10591 面板（<code>/sources</code>）的全部可配置项</h2>
-      <p>面板订阅源页比 TV 多了排序、转换JS、单源 UA / 代理、别名编辑、文件内容直接编辑等能力。所有字段通过 <code>POST /api/configs</code> 写回；别名编辑绑定 <code>configs.iptvChannelNameAlias</code>，随 <code>/api/configs</code> 一起下发，也可单独通过 <code>POST /api/channel-alias</code> 写回（两条路径都会自动刷新别名并清空 IPTV / EPG 缓存）。</p>
+      <p>面板订阅源页比 TV 多了排序、转换JS、单源 UA / 代理、EPG 地址、自动刷新、预览 / 延迟检测开关、别名编辑、文件内容直接编辑等能力。所有字段通过 <code>POST /api/configs</code> 写回；别名编辑绑定 <code>configs.iptvChannelNameAlias</code>，随 <code>/api/configs</code> 一起下发，也可单独通过 <code>POST /api/channel-alias</code> 写回（两条路径都会自动刷新别名并清空 IPTV / EPG 缓存）。</p>
       <table>
         <thead>
           <tr><th>面板字段</th><th>类型</th><th>说明 / 默认 / 取值</th></tr>
@@ -360,6 +360,42 @@ import { DocCallout } from '../../shared/doc-callout';
               <p>单源级代理（<code>httpProxy</code>）。所有类型（含本地源）均显示。</p>
               <p>播放器解析有效代理的优先级：<b>播放器代理规则列表</b>（正则匹配）&gt; <b>当前订阅源的 httpProxy</b> &gt; <b>播放器全局代理</b>。</p>
               <p>格式：<code>http://host:port</code> 或 <code>socks5://host:port</code>。</p>
+            </td>
+          </tr>
+          <tr>
+            <td>编辑对话框 - EPG 地址</td>
+            <td>文本框</td>
+            <td>
+              <p>源级自定义节目单地址（<code>epg</code>）。所有类型均显示，支持 xml / xml.gz。</p>
+              <p>仅在 EPG 设置开启<b>「跟随订阅源」</b>时生效，且<b>优先</b>于源内容内嵌的 <code>x-tvg-url</code> / <code>url-tvg</code>；留空则回落到内嵌地址。</p>
+              <p>不需要修改订阅源内容即可为单个源指定节目单；参与云同步。</p>
+            </td>
+          </tr>
+          <tr>
+            <td>编辑对话框 - 自动刷新</td>
+            <td>数字输入</td>
+            <td>
+              <p>源级自动刷新间隔，单位小时（<code>autoRefresh</code>）。<code>0</code> = 关闭（默认）。</p>
+              <p>大于 0 时，应用运行期间每隔该时间<b>静默强制重新下载</b>当前使用的源（忽略订阅源缓存时间），并随之更新频道列表与节目单；不显示加载界面、不打断播放，失败仅记日志。</p>
+              <p>切换订阅源或修改配置后计时重置。刷新的是「当前源」——为多个源设置后，只有当该源被使用时才会按其间隔刷新。</p>
+            </td>
+          </tr>
+          <tr>
+            <td>编辑对话框 - 关闭预览图</td>
+            <td>开关</td>
+            <td>
+              <p>源级开关（<code>disableChannelPreview</code>），默认关。</p>
+              <p>开启后，当前源处于使用中时不抓取频道列表的预览首帧（与界面「显示频道预览」全局开关叠加，本开关优先关闭）。</p>
+              <p>适合流响应慢或不希望被预览抓帧探测的源，减少频道列表的额外请求。</p>
+            </td>
+          </tr>
+          <tr>
+            <td>编辑对话框 - 关闭延迟检测</td>
+            <td>开关</td>
+            <td>
+              <p>源级开关（<code>disableDelayDetection</code>），默认关。</p>
+              <p>开启后，线路选择界面不再对每条线路发起测延迟请求，不显示 <code>xx ms</code> / 超时标签。</p>
+              <p>适合线路多、源站对频繁探测敏感或测延迟导致卡顿的源。</p>
             </td>
           </tr>
           <tr>
@@ -433,7 +469,7 @@ import { DocCallout } from '../../shared/doc-callout';
 
       <h2>9. 与其他功能的联动</h2>
       <ul>
-        <li><b>EPG</b>：m3u 中的 <code>x-tvg-url</code> / <code>url-tvg</code> 在「跟随订阅源」开启时优先作为 EPG 来源。详见 <a [routerLink]="'/epg'">EPG 节目单</a>。</li>
+        <li><b>EPG</b>：「跟随订阅源」开启时，编辑对话框中的<b>「EPG 地址」</b>（<code>epg</code>）优先作为节目单来源，其次为源内容内嵌的 <code>x-tvg-url</code> / <code>url-tvg</code>。详见 <a [routerLink]="'/epg'">EPG 节目单</a>。</li>
         <li><b>WebView 播放器</b>：<code>webview://</code> 前缀触发 WebView 内核加载。详见 <a [routerLink]="'/webview-player'">WebView 播放器</a>。</li>
         <li><b>加密分组</b>：开启后列表 / 搜索都需密码。详见 <a [routerLink]="'/channels'">频道、收藏与搜索</a>。</li>
         <li><b>频道别名</b>：配合「相似频道合并」让多源同名频道合并显示。详见 <a [routerLink]="'/channels'">频道、收藏与搜索</a>。</li>
