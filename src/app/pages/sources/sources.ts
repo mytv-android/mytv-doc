@@ -329,11 +329,6 @@ import { DocCallout } from '../../shared/doc-callout';
             <td>网络源 URL 或本地文件路径（<code>/</code> 开头）。xtream / stalker 填服务器根地址。</td>
           </tr>
           <tr>
-            <td>编辑对话框 - 文件内容</td>
-            <td>多行文本</td>
-            <td>仅 <code>file</code> 类型显示。直接编辑 TV 本地文件内容（<code>POST /api/file/content</code>）。</td>
-          </tr>
-          <tr>
             <td>编辑对话框 - 用户名 / 密码</td>
             <td>文本框</td>
             <td>仅 <code>xtream</code> 类型显示。用于拼接 <code>get.php?username=…&amp;password=…</code>。</td>
@@ -406,6 +401,11 @@ import { DocCallout } from '../../shared/doc-callout';
               <p>脚本需定义 <code>function main(channelList) &#123; ... return channelList; &#125;</code>，参数和返回值都是 JSON 数组。</p>
               <p>执行失败时回退到原始列表。列表项带「转换JS」徽标。</p>
             </td>
+          </tr>
+          <tr>
+            <td>编辑对话框 - 文件内容</td>
+            <td>多行文本</td>
+            <td>仅 <code>file</code> 类型显示，位于其他设置项下方。直接编辑 TV 本地文件内容（<code>POST /api/file/content</code>）。</td>
           </tr>
           <tr>
             <td>订阅源缓存时间（小时）</td>
