@@ -65,6 +65,47 @@ import { DocCallout } from '../../shared/doc-callout';
             <td>10 秒</td>
             <td>1 / 2 / 3 / 4 / 5 / 10 / 15 / 20 / 25 / 30 / 45 / 60 秒。</td>
           </tr>
+          <tr>
+            <td>加载风格</td>
+            <td>正常显示网页</td>
+            <td>
+              <code>webViewLoadingStyle</code>，三档：<br/>
+              <b>正常显示网页</b>（<code>0</code>，默认）：页面正常渲染。<br/>
+              <b>隐藏网页只显示加载百分比</b>（<code>1</code>）。<br/>
+              <b>隐藏网页显示黑屏</b>（<code>2</code>）。<br/>
+              后两档适合只关心是否取到流、不想看到网页内容的场景。
+            </td>
+          </tr>
+          <tr>
+            <td>网页缩放</td>
+            <td>自适应</td>
+            <td>
+              <code>webViewResolution</code>：<b>自适应</b>（<code>0</code>，默认）/ <b>100%</b>（<code>1</code>）/
+              <b>75%</b>（<code>2</code>）/ <b>50%</b>（<code>3</code>）。降低缩放比可减少渲染开销。
+            </td>
+          </tr>
+          <tr>
+            <td>网页 UA</td>
+            <td>系统默认</td>
+            <td>
+              <code>webViewUaPreset</code>：<b>系统默认</b>（<code>0</code>）/ <b>Windows</b>（<code>1</code>）/
+              <b>macOS</b>（<code>2</code>）/ <b>iPad</b>（<code>3</code>）。按桌面 / 平板 UA 请求页面。
+            </td>
+          </tr>
+          <tr>
+            <td>加载网页图片</td>
+            <td>开</td>
+            <td>
+              <code>webViewLoadImage</code>。关闭后不加载页面图片，可显著加快加载、减少流量。
+            </td>
+          </tr>
+          <tr>
+            <td>图层加速</td>
+            <td>关</td>
+            <td>
+              <code>webViewLayerAccel</code>：<b>关</b>（<code>0</code>，默认）/ <b>硬件</b>（<code>1</code>）/ <b>软件</b>（<code>2</code>）。
+            </td>
+          </tr>
         </tbody>
       </table>
 
@@ -77,6 +118,11 @@ import { DocCallout } from '../../shared/doc-callout';
           <tr><td>WebView 内核</td><td>下拉</td><td>Android（SYSTEM）/ TBS X5（X5）</td></tr>
           <tr><td>替换系统 WebView</td><td>开关</td><td>同 TV；重启生效</td></tr>
           <tr><td>WebView 加载超时</td><td>数字输入</td><td>单位毫秒</td></tr>
+          <tr><td>加载风格</td><td>下拉</td><td>正常显示网页 / 隐藏网页只显示加载百分比 / 隐藏网页显示黑屏</td></tr>
+          <tr><td>网页缩放</td><td>下拉</td><td>自适应 / 100% / 75% / 50%</td></tr>
+          <tr><td>网页 UA</td><td>下拉</td><td>系统默认 / Windows / macOS / iPad</td></tr>
+          <tr><td>加载网页图片</td><td>开关</td><td>同 TV，默认开</td></tr>
+          <tr><td>图层加速</td><td>下拉</td><td>关 / 硬件 / 软件</td></tr>
         </tbody>
       </table>
 

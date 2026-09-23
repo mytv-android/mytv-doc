@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { DocPageHeader } from '../../shared/doc-page-header';
 
 @Component({
   selector: 'app-channels',
-  imports: [DocPageHeader],
+  imports: [DocPageHeader, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="doc-page">
@@ -34,6 +35,31 @@ import { DocPageHeader } from '../../shared/doc-page-header';
         </tbody>
       </table>
       <p>面板：<code>/ui</code> 提供对应的开关字段（经典选台界面 / 经典-显示订阅源列表 / 经典-显示频道信息 / 经典-单独显示频道号 / 经典-显示全部频道），<code>remoteConfig=true</code> 的项随云同步下发。</p>
+
+      <h3>1.1 列表风格与频道项显示</h3>
+      <p>
+        以下三项控制分组形态与频道项上的序号 / 图标显示，均在 <b>设置 → 订阅源</b> 下，面板对应 <code>/sources</code>：
+      </p>
+      <table>
+        <thead>
+          <tr><th>设置</th><th>默认</th><th>配置项</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>列表风格</td><td>传统分组</td><td><code>uiGroupParsStyle</code></td><td>传统分组 / 列表分组 / 二级分组1 / 二级分组2，控制一级 / 二级分组的展示形态；<b>没有一级分组时二级两种风格退化为传统分组</b></td></tr>
+          <tr><td>序号缩写模式</td><td>关</td><td><code>iptvChannelNoAbbrev</code></td><td>开启后序号超过两位时仅显示后两位，例如 <code>102</code> 显示为 <code>02</code></td></tr>
+          <tr><td>图标首字</td><td>关</td><td><code>iptvChannelLogoInitial</code></td><td>开启后频道无台标时使用频道名首字加彩色底色代替占位图标</td></tr>
+        </tbody>
+      </table>
+      <p>
+        一级 / 二级分组的来源写法见 <a [routerLink]="'/sources'">订阅源</a> 第 3 节「一级 / 二级分组」。
+      </p>
+      <p>
+        <b>传统分组</b>（<code>0</code>）与<b>列表分组</b>（<code>1</code>）都按二级分组平铺展示，忽略 <code>category</code>，行为与只有一级分组时代完全相同。
+        <b>二级分组1</b>（<code>2</code>）把 <code>category</code> 显示为一级分类标题，其下依次列出各二级分组；
+        <b>二级分组2</b>（<code>3</code>）排布相同，但某分类下<b>只有一个</b>子分组时不再单独显示该子分组，分类标题本身即为选中项。
+        两种二级风格在没有任何分组带 <code>category</code> 时整体退化为传统分组，界面不会破版；
+        没有 <code>category</code> 的分组在二级风格下仍按普通分组平铺，因此收藏 / 最近观看 / 全部频道等虚拟分组不受影响。
+      </p>
 
       <h2>2. 跨组切换与循环</h2>
       <table>

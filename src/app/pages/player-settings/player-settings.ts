@@ -152,6 +152,89 @@ import { DocCallout } from '../../shared/doc-callout';
               切换模式<b>会清空现有记忆设置</b>，请谨慎切换。
             </td>
           </tr>
+          <tr>
+            <td>音频屏保</td>
+            <td>关</td>
+            <td>
+              开启后纯音频流播放时显示固定背景，避免黑屏（<code>videoPlayerAudioScreensaver</code>）。
+            </td>
+          </tr>
+          <tr>
+            <td>画面锁定（护眼）</td>
+            <td>关</td>
+            <td>
+              开启后切换频道或线路时保留最后一帧画面，新源就绪后再切换，避免中间黑屏
+              （<code>videoPlayerKeepLastFrame</code>）。
+            </td>
+          </tr>
+          <tr>
+            <td>AAC 音轨优先</td>
+            <td>关</td>
+            <td>
+              存在多路音轨时默认选择 AAC；已手动选择的音轨优先（<code>videoPlayerAacPrefer</code>）。
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>解码参数（IJK / EXO）</h3>
+      <p>
+        <b>设置 → 播放器 → 解码参数</b>：统一设置 IJK 与 Media3（EXO）的解码参数，保存后立即生效。
+        页面分「IJK 解码参数」「Media3 解码参数」两组，底部「恢复默认」可将全部解码参数恢复为默认值。
+      </p>
+      <p>
+        优先级：<b>按 Host / URL / 设备 记忆的解码配置</b> &gt; <b>分组级参数</b>（<code>IJKAD</code> / <code>EXOBM</code>，见
+        <a [routerLink]="'/sources'">订阅源</a>）&gt; <b>此处设置的全局值</b>。
+        分组级参数只对当前频道生效，不写入 SharedPreferences。
+      </p>
+      <table>
+        <thead>
+          <tr><th>设置</th><th>字段 / 默认值</th><th>取值 / 说明</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>analyzeduration（微秒）</td>
+            <td><code>videoPlayerIjkAnalyzeduration</code> = <code>2000000</code></td>
+            <td>IJK：播放前分析流的时长。数值越小起播越快，过大可能导致起播变慢。</td>
+          </tr>
+          <tr>
+            <td>probesize（字节）</td>
+            <td><code>videoPlayerIjkProbesize</code> = <code>5000000</code></td>
+            <td>IJK：探测数据大小。数值越小起播越快。</td>
+          </tr>
+          <tr>
+            <td>缓存（毫秒）</td>
+            <td><code>videoPlayerIjkCacheMs</code> = <code>-1</code>（关闭）</td>
+            <td>IJK 播放器缓存时长。<code>-1</code> 为关闭。</td>
+          </tr>
+          <tr>
+            <td>IJK 音频软解</td>
+            <td><code>videoPlayerIjkAudioSoft</code> = <code>false</code></td>
+            <td>强制音频走软解，部分设备可解决无声音问题。</td>
+          </tr>
+          <tr>
+            <td>隧道模式</td>
+            <td><code>videoPlayerExoTunneled</code> = <code>false</code></td>
+            <td>
+              Media3：开启后音视频由设备硬件直接解码输出，可降低功耗与延迟；
+              部分设备不兼容会黑屏无声。
+            </td>
+          </tr>
+          <tr>
+            <td>Media3 音频软解</td>
+            <td><code>videoPlayerExoAudioSoft</code> = <code>false</code></td>
+            <td>强制音频走软解，部分设备可解决无声音问题。</td>
+          </tr>
+          <tr>
+            <td>起播缓冲（毫秒）</td>
+            <td><code>videoPlayerExoBufferPlaybackMs</code> = <code>2500</code></td>
+            <td>Media3：开始播放前需要缓冲的最小时长。</td>
+          </tr>
+          <tr>
+            <td>边播缓存（毫秒）</td>
+            <td><code>videoPlayerExoBufferRebufferMs</code> = <code>-1</code>（关闭）</td>
+            <td>Media3：播放中重新缓冲的最小时长。<code>-1</code> 为关闭。</td>
+          </tr>
         </tbody>
       </table>
 
@@ -453,8 +536,32 @@ import { DocCallout } from '../../shared/doc-callout';
           <tr><td>播放缓冲</td><td>数字输入</td><td>Media3 / VLC 秒、IJK 帧（默认 0）</td></tr>
           <tr><td>RTSP 传输方式</td><td>下拉</td><td>TCP / UDP</td></tr>
           <tr><td>音量平衡</td><td>下拉</td><td>关闭 / 低 / 中 / 高；仅 Media3</td></tr>
+          <tr><td>音频屏保</td><td>开关</td><td>纯音频流显示固定背景</td></tr>
+          <tr><td>画面锁定</td><td>开关</td><td>切源保留最后一帧</td></tr>
+          <tr><td>AAC 音轨优先</td><td>开关</td><td>多音轨时默认选 AAC</td></tr>
         </tbody>
       </table>
+
+      <h3>解码参数（IJK / EXO）</h3>
+      <table>
+        <thead>
+          <tr><th>面板字段</th><th>类型</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>IJK analyzeduration（微秒）</td><td>数字输入</td><td>默认 2000000</td></tr>
+          <tr><td>IJK probesize（字节）</td><td>数字输入</td><td>默认 5000000</td></tr>
+          <tr><td>IJK 缓存（毫秒）</td><td>数字输入</td><td>默认 -1（关闭）</td></tr>
+          <tr><td>IJK 去隔行</td><td>下拉</td><td>关闭 / GL 自动 / GL 强制</td></tr>
+          <tr><td>IJK 音频软解</td><td>开关</td><td>—</td></tr>
+          <tr><td>Media3 隧道模式</td><td>开关</td><td>硬件直解直出，部分设备黑屏无声</td></tr>
+          <tr><td>Media3 音频软解</td><td>开关</td><td>—</td></tr>
+          <tr><td>Media3 起播缓冲（毫秒）</td><td>数字输入</td><td>默认 2500</td></tr>
+          <tr><td>Media3 边播缓存（毫秒）</td><td>数字输入</td><td>默认 -1（关闭）</td></tr>
+        </tbody>
+      </table>
+      <p>
+        保存后立即生效；面板同样提供「恢复默认」，将所有解码参数恢复为默认值。
+      </p>
 
       <h3>正则解码配置（面板专属）</h3>
       <p>

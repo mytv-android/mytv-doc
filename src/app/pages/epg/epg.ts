@@ -15,7 +15,8 @@ import { DocPageHeader } from '../../shared/doc-page-header';
 
       <h2>1. EPG 来源类型</h2>
       <p>
-        类型由 URL 自动探测（<code>EpgSourceType.fromUrl</code>）：先匹配 scheme <code>lovetv://</code> / <code>diyp://</code>，再判断 URL 是否含 <code>.gz</code> / <code>gzip</code>，否则按普通 XMLTV 处理。<code>channel=&#123;name&#125;</code> 也会被识别为 LOVETV，<code>ch=&#123;name&#125;</code> 会被识别为 DIYP。
+        类型默认由 URL 自动探测（<code>EpgSourceType.fromUrl</code>）：先匹配 scheme <code>lovetv://</code> / <code>diyp://</code> / <code>sptv://</code>，再判断 URL 是否含 <code>.gz</code> / <code>gzip</code>，否则按普通 XMLTV 处理。<code>channel=&#123;name&#125;</code> 也会被识别为 LOVETV，<code>ch=&#123;name&#125;</code> 会被识别为 DIYP。
+        在面板 EPG 源编辑对话框中显式指定<b>格式</b>（<code>format</code>）时，优先于 URL 探测。
       </p>
       <table>
         <thead>
@@ -26,18 +27,58 @@ import { DocPageHeader } from '../../shared/doc-page-header';
           <tr><td><b>XML_GZ</b></td><td>URL 含 <code>.gz</code> 或 <code>gzip</code></td><td>gzip 压缩的 XMLTV，响应自动 GZIP 解压</td></tr>
           <tr><td><b>DIYP</b></td><td><code>diyp://</code> 开头，或 URL 含 <code>ch=&#123;name&#125;</code></td><td><code>diyp://&#123;host&#125;/&#123;name&#125;/&#123;date&#125;</code> 模板，每频道每日期一次 JSON 请求；返回 <code>&#123;date, epg_data:[&#123;start,end,title,desc?&#125;]&#125;</code>，start/end 为 <code>HH:mm</code></td></tr>
           <tr><td><b>LOVETV</b></td><td><code>lovetv://</code> 开头，或 URL 含 <code>channel=&#123;name&#125;</code></td><td><code>lovetv://&#123;host&#125;/&#123;name&#125;/&#123;date&#125;</code>，超级直播格式；返回 <code>&#123;频道:&#123;program:[&#123;st秒,et秒,t标题&#125;]&#125;&#125;</code></td></tr>
+          <tr><td><b>SPTV</b></td><td><code>sptv://</code> 开头</td><td><code>sptv://&#123;host&#125;/&#123;name&#125;</code> 模板，每频道一次请求；返回 <code>&#123;频道:&#123;program:[&#123;st,et,t标题,desc简介&#125;]&#125;&#125;</code>，<code>st</code> / <code>et</code> 为<b>当日零时起的秒偏移</b>（非时间戳），<code>et</code> 小于 <code>st</code> 时视为跨天</td></tr>
           <tr><td><b>CHUNKED_XML</b></td><td>—</td><td>分块流式 XMLTV</td></tr>
         </tbody>
       </table>
       <p>
-        DIYP / LOVETV 类型按 <code>previous=-6</code> 到 <code>next=+1</code> 共 8 天抓取（<code>JsonTemplateEpgFetcher.PREVIOUS_DAYS = -6</code> / <code>NEXT_DAYS = 1</code>），并发上限 8（<code>Semaphore(8)</code>），自定义 scheme 在请求前替换为 <code>http://</code>。
+        DIYP / LOVETV / SPTV 类型按 <code>previous=-6</code> 到 <code>next=+1</code> 共 8 天抓取（<code>JsonTemplateEpgFetcher.PREVIOUS_DAYS = -6</code> / <code>NEXT_DAYS = 1</code>），并发上限 8（<code>Semaphore(8)</code>），自定义 scheme 在请求前替换为 <code>http://</code>。
       </p>
       <p>
         默认 EPG 源（<code>Constants.EPG_SOURCE_LIST</code>）：<code>https://gitee.com/mytv-android/myepg/raw/master/output/epg.gz</code>，名称「默认节目单 综合」。
       </p>
 
       <h2>2. 添加 EPG 源</h2>
-      <p>EPG 源数据结构为 <code>EpgSource(name, url)</code>，<code>url</code> 为空字符串的源会被跳过（不显示、不加载）。</p>
+      <p>
+        EPG 源数据结构为 <code>EpgSource(name, url, format, cacheHour, timeZoneOffset, externalStorage)</code>，
+        <code>url</code> 为空字符串的源会被跳过（不显示、不加载）。
+        除名称与链接外，其余字段均可为默认值，用于按订阅源（按源）独立配置：
+      </p>
+      <table>
+        <thead>
+          <tr><th>字段</th><th>类型 / 默认值</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>format</code></td>
+            <td><code>String?</code> = <code>null</code></td>
+            <td>
+              解析格式，取值 <code>XML</code> / <code>DIYP</code> / <code>SPTV</code> / <code>LOVETV</code>。
+              <code>null</code> 表示按 URL 自动探测（见第 1 节）；显式指定时优先于 URL 探测。
+            </td>
+          </tr>
+          <tr>
+            <td><code>cacheHour</code></td>
+            <td><code>Int</code> = <code>-1</code></td>
+            <td>
+              缓存时段（小时）。<code>-1</code> 跟随全局刷新时间阈值，<code>0</code> 表示不缓存。
+            </td>
+          </tr>
+          <tr>
+            <td><code>timeZoneOffset</code></td>
+            <td><code>Int</code> = <code>0</code></td>
+            <td>
+              XML 时间偏移（小时），取值 <code>-12</code> ~ <code>12</code>；<code>0</code> 表示使用默认时区。
+              用于源端节目时间与本地时区不一致的场景。
+            </td>
+          </tr>
+          <tr>
+            <td><code>externalStorage</code></td>
+            <td><code>Boolean</code> = <code>false</code></td>
+            <td>缓存写入外部存储；<code>true</code> 时该源缓存放在外部存储目录。</td>
+          </tr>
+        </tbody>
+      </table>
       <ol>
         <li><b>TV 端：设置 → 节目单 → 自定义节目单 → 添加其他节目单</b>。弹二维码到面板，面板填好名称 + 链接后推送回 TV。</li>
         <li><b>面板首页（<code>/</code>）→ 自定义节目单</b>。粘贴名称 + 链接即可推送，面板提示「支持 xml、xml.gz 格式」（<code>EPG_SUBTITLE</code>）。</li>
@@ -189,9 +230,41 @@ import { DocPageHeader } from '../../shared/doc-page-header';
             <td>文本框（必填）</td>
             <td>
               <p><code>&lt;input matInput required&gt;</code>，绑定 <code>source.url</code>。</p>
-              <p>支持 <code>http(s)://</code> XMLTV、<code>.gz</code> 压缩、<code>diyp://</code> / <code>lovetv://</code> 模板（见第 1 节）。</p>
+              <p>支持 <code>http(s)://</code> XMLTV、<code>.gz</code> 压缩、<code>diyp://</code> / <code>lovetv://</code> / <code>sptv://</code> 模板（见第 1 节）。</p>
               <p>示例：<code>https://gitee.com/mytv-android/myepg/raw/master/output/epg.gz</code>、<code>diyp://example.com/epg/&#123;name&#125;/&#123;date&#125;</code>。</p>
               <p>名称和链接都非空时「推送」按钮才可点击。</p>
+            </td>
+          </tr>
+          <tr>
+            <td><b>EPG 源编辑对话框 - 格式</b></td>
+            <td>下拉</td>
+            <td>
+              <p>绑定 <code>source.format</code>，取值 <code>XML</code> / <code>DIYP</code> / <code>SPTV</code> / <code>LOVETV</code>，另有一项「自动」。</p>
+              <p>选「自动」时写入 <code>null</code>，按 URL 探测类型；显式指定时优先于 URL 探测。</p>
+            </td>
+          </tr>
+          <tr>
+            <td><b>EPG 源编辑对话框 - 缓存时段</b></td>
+            <td>下拉</td>
+            <td>
+              <p>绑定 <code>source.cacheHour</code>，单位小时。</p>
+              <p><code>跟随全局</code>（<code>-1</code>，默认）使用全局刷新时间阈值；<code>不缓存</code>（<code>0</code>）每次启动都重新拉取。</p>
+            </td>
+          </tr>
+          <tr>
+            <td><b>EPG 源编辑对话框 - 时区偏移</b></td>
+            <td>下拉</td>
+            <td>
+              <p>绑定 <code>source.timeZoneOffset</code>，取值 <code>-12</code> ~ <code>12</code>，<code>0</code> 为默认时区。</p>
+              <p>用于修正源端节目时间与本地时区的差异。</p>
+            </td>
+          </tr>
+          <tr>
+            <td><b>EPG 源编辑对话框 - 外部存储缓存</b></td>
+            <td>开关</td>
+            <td>
+              <p>绑定 <code>source.externalStorage</code>，默认关。</p>
+              <p>开启后该源缓存写入外部存储。</p>
             </td>
           </tr>
         </tbody>

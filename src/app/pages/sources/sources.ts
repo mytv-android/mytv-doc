@@ -76,10 +76,52 @@ import { DocCallout } from '../../shared/doc-callout';
       <h3><code>#EXTINF</code> 行（单频道）</h3>
       <ul>
         <li><code>tvg-id</code> / <code>tvg-name</code> / <code>tvg-logo</code> / <code>tvg-chno</code>：频道 ID / 名称 / 台标 / 频道号。</li>
-        <li><code>group-title</code>：分组，支持 <code>;</code> 分隔多组；缺省归入「其他」。</li>
+        <li><code>group-title</code>：二级分组，支持 <code>;</code> 分隔多组；缺省归入「其他」。</li>
+        <li><code>category</code>：一级分组（大分类），缺省为空串（表示无）。与 <code>group-title</code> 组成两级分组。</li>
         <li><code>http-user-agent</code> / <code>http-referrer</code> / <code>http-origin</code> / <code>http-cookie</code> / <code>host</code>：自定义请求头与 host 覆写。</li>
         <li><code>catchup</code> / <code>catchup-source</code>：本条线路的回看覆写。</li>
       </ul>
+      <h3>一级 / 二级分组</h3>
+      <p>
+        频道分组分<b>一级分组</b>（<code>category</code>）与<b>二级分组</b>（分组名）两级，实际展示形态由
+        <b>列表风格</b>（<code>uiGroupParsStyle</code>）决定，见 <a [routerLink]="'/channels'">频道、收藏与搜索</a>。
+      </p>
+      <ul>
+        <li><b>m3u</b>：<code>#EXTINF</code> 行的 <code>category="..."</code> 为一级分组，<code>group-title="..."</code> 为二级分组（仍支持 <code>;</code> 多组，同一频道在每个二级分组下各出现一次）。</li>
+        <li><b>txt</b>：<code>一级分组,#group#</code> 行声明一级分组；<code>分组,#genre#</code> 行声明二级分组。</li>
+      </ul>
+      <h3>分组级参数（<code>#EXTKU9OPT</code>）</h3>
+      <p>
+        为每个分组单独配置播放参数。需先开启 <b>设置 → 订阅源 → 分组级参数</b>（<code>iptvChannelGroupConfigEnable</code>，默认开）；
+        关闭时解析到的分组级参数全部不生效。分组级参数的优先级<b>低于</b>按 Host / URL / 设备记忆的解码配置。
+      </p>
+      <p>声明方式：</p>
+      <ul>
+        <li><b>m3u</b>：单独一行 <code>#EXTKU9OPT:KEY=VALUE#KEY=VALUE</code>。可放在该分组任一频道的地址之后，也可放在 <code>#EXTINF</code> 与地址之间，两种位置都生效。</li>
+        <li><b>txt</b>：直接写在 <code>#genre#</code> 行之后，即 <code>分组,#genre#,DE=1#SC=3#HEADERS=&#123;"User-Agent":"Player"&#125;#SCRIPT=js://a.js</code>。</li>
+      </ul>
+      <p>
+        多个 <code>KEY=VALUE</code> 之间用 <code>#</code> 分隔，key 统一按大写归一。
+        <b>同一分组内同 key 的第一次非空声明生效（先到先得），后续同 key 声明被忽略</b>；
+        历史写法 <code>SP</code> / <code>JS</code> / <code>PY</code> 会归一化为 <code>SCRIPT</code>。
+      </p>
+      <table>
+        <thead>
+          <tr><th>key</th><th>作用</th><th>取值</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>DE</code></td><td>播放器内核</td><td>内核枚举值，覆盖全局内核设置</td></tr>
+          <tr><td><code>SC</code></td><td>显示模式</td><td>显示模式枚举值，覆盖全局显示模式</td></tr>
+          <tr><td><code>HEADERS</code></td><td>补齐请求头（User-Agent / Referer / Origin / Cookie）</td><td>JSON 对象，如 <code>&#123;"User-Agent":"xxx"&#125;</code>；线路自身已指定的项优先，分组只补齐缺项</td></tr>
+          <tr><td><code>SCRIPT</code></td><td>把线路改为 QuickJS 脚本线路</td><td>脚本地址，前缀拼到线路 URL 之前（与 <code>javascript://</code> 同一套机制）</td></tr>
+          <tr><td><code>PB</code></td><td>回看格式</td><td>同 <code>catchup-source</code> 的格式串</td></tr>
+          <tr><td><code>HOST</code></td><td>host 覆写</td><td><code>域名=IP;域名=IP</code> 或 JSON 对象，合并到线路已有 hosts</td></tr>
+          <tr><td><code>PBO</code></td><td>回放偏移</td><td>秒，同时加到开始与结束时间上</td></tr>
+          <tr><td><code>IJKAD</code></td><td>IJK analyzeduration</td><td>微秒；仅对当前频道生效，不写入全局设置</td></tr>
+          <tr><td><code>EXOBM</code></td><td>Media3 起播缓冲</td><td>毫秒；仅对当前频道生效，不写入全局设置</td></tr>
+          <tr><td><code>TSO</code></td><td>时移结束增量</td><td>秒，仅加到结束时间上；<code>-1</code> 表示把结束时间钳到开始时间所在日的 23:59:59</td></tr>
+        </tbody>
+      </table>
       <h3><code>#KODIPROP</code> 与 <code>#EXTVLCOPT</code></h3>
       <ul>
         <li><code>#KODIPROP:inputstream.adaptive.manifest_type</code> / <code>license_type</code> / <code>license_key</code> / <code>drm_legacy</code>：DRM 相关。</li>
@@ -298,6 +340,50 @@ import { DocCallout } from '../../shared/doc-callout';
               <p>源码默认空字符串。</p>
             </td>
           </tr>
+          <tr>
+            <td><b>列表风格</b></td>
+            <td>传统分组</td>
+            <td>
+              <p>频道列表与选台界面的分组展示形态（<code>uiGroupParsStyle</code>）。子页面四选一：</p>
+              <ul>
+                <li><b>传统分组</b>（<code>0</code>，默认）：只按二级分组展示。</li>
+                <li><b>列表分组</b>（<code>1</code>）：一级 / 二级分组以列表形式分级展示。</li>
+                <li><b>二级分组1</b>（<code>2</code>）：一级分组内嵌二级分组的第一种排布。</li>
+                <li><b>二级分组2</b>（<code>3</code>）：一级分组内嵌二级分组的第二种排布。</li>
+              </ul>
+              <p>两级分组来源见第 3 节「一级 / 二级分组」。</p>
+            </td>
+          </tr>
+          <tr>
+            <td><b>序号缩写模式</b></td>
+            <td>关</td>
+            <td>
+              <p>开启后频道序号超过两位时仅显示后两位，例如 <code>102</code> 显示为 <code>02</code>（<code>iptvChannelNoAbbrev</code>）。</p>
+            </td>
+          </tr>
+          <tr>
+            <td><b>图标首字</b></td>
+            <td>关</td>
+            <td>
+              <p>开启后频道无台标时使用频道名首字加彩色底色代替占位图标（<code>iptvChannelLogoInitial</code>）。</p>
+            </td>
+          </tr>
+          <tr>
+            <td><b>m3u 台标优先</b></td>
+            <td>关</td>
+            <td>
+              <p>开启后订阅源（m3u）中的 <code>tvg-logo</code> 优先于节目单（EPG）源提供的台标（<code>iptvM3uLogoPriority</code>）。</p>
+              <p>与「频道图标覆盖」（<code>iptvChannelLogoOverride</code>，图标提供方覆盖 <code>tvg-logo</code>）是两层独立的优先级控制。</p>
+            </td>
+          </tr>
+          <tr>
+            <td><b>分组级参数</b></td>
+            <td>开</td>
+            <td>
+              <p>开启后使用分组中配置的解码、回看等参数（<code>iptvChannelGroupConfigEnable</code>），优先级低于按 Host / URL 记忆的配置。</p>
+              <p>写法见第 3 节「分组级参数（<code>#EXTKU9OPT</code>）」。</p>
+            </td>
+          </tr>
         </tbody>
       </table>
 
@@ -463,6 +549,31 @@ import { DocCallout } from '../../shared/doc-callout';
             <td>网页源央视频 Cookie</td>
             <td>多行文本</td>
             <td>从浏览器登录央视频（<code>yangshipin.cn</code>）后复制所有 Cookie 粘贴。</td>
+          </tr>
+          <tr>
+            <td>列表风格</td>
+            <td>下拉</td>
+            <td>同 TV：<code>传统分组</code> / <code>列表分组</code> / <code>二级分组1</code> / <code>二级分组2</code>。</td>
+          </tr>
+          <tr>
+            <td>序号缩写模式</td>
+            <td>开关</td>
+            <td>同 TV，默认关。</td>
+          </tr>
+          <tr>
+            <td>图标首字</td>
+            <td>开关</td>
+            <td>同 TV，默认关。</td>
+          </tr>
+          <tr>
+            <td>m3u 台标优先</td>
+            <td>开关</td>
+            <td>同 TV，默认关。</td>
+          </tr>
+          <tr>
+            <td>分组级参数</td>
+            <td>开关</td>
+            <td>同 TV，默认开。关闭后全部分组级参数不生效。</td>
           </tr>
         </tbody>
       </table>

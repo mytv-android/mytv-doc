@@ -50,6 +50,31 @@ import { DocPageHeader } from '../../shared/doc-page-header';
         <li><b>最近观看分组</b>：来自 <code>iptvChannelHistoryList</code>（最多 15 条，最新在前），可见性由 <code>iptvChannelHistoryListVisible</code> 控制，跨屏记忆，并纳入云同步。</li>
       </ul>
       <p>经典选台界面（<code>uiUseClassicPanelScreen</code>）为三段式结构，分组列于最左；非经典模式为覆盖式网格，向上键从普通分组切换到收藏 / 最近观看分组。</p>
+      <p>
+        分组的展示形态由 <b>设置 → 订阅源 → 列表风格</b>（<code>uiGroupParsStyle</code>，传统分组 / 列表分组 / 二级分组1 / 二级分组2，面板 <code>/sources</code>）控制；
+        <b>序号缩写模式</b>（<code>iptvChannelNoAbbrev</code>）与 <b>图标首字</b>（<code>iptvChannelLogoInitial</code>）同样位于「设置 → 订阅源」。
+        详见 <a [routerLink]="'/channels'">频道、收藏与搜索</a> §1.1。
+      </p>
+
+      <h3>2.2 频道序号与台标的显示规则</h3>
+      <p>
+        <b>序号缩写模式</b>（<code>iptvChannelNoAbbrev</code>，默认关）：开启后超过两位的频道号只保留后两位，
+        例如 <code>102</code> 显示为 <code>02</code>，让序号在频道列表、经典选台、频道信息面板与数字选台各处宽度一致；关闭时原样显示。
+      </p>
+      <p>
+        <b>图标首字</b>（<code>iptvChannelLogoInitial</code>，默认关）：当频道既拿不到订阅源的 <code>tvg-logo</code>、
+        也拿不到「频道图标提供」模板图标时，用频道名首字加底色代替占位图。底色由频道名稳定派生，同一频道每次显示颜色一致。
+        「台标显示」（<code>uiShowChannelLogo</code>）关闭时不加载任何台标，只剩序号或图标首字。
+      </p>
+      <p><b>m3u 台标优先</b>（<code>iptvM3uLogoPriority</code>，默认关）决定两个台标来源谁先：</p>
+      <ul>
+        <li><b>关闭</b>（默认）：「频道图标覆盖」开启（默认）或频道没有 <code>tvg-logo</code> 时，用「频道图标提供」模板按标准名拼接；否则用订阅源的 <code>tvg-logo</code>。</li>
+        <li><b>开启</b>：只要频道带了 <code>tvg-logo</code> 就优先用它，「频道图标提供」模板退居兜底。</li>
+      </ul>
+      <p>
+        两个来源都取不到时才走「图标首字」占位。非 <code>http(s)://</code> / <code>file://</code> / <code>content://</code> / <code>data:</code>
+        开头的台标地址会被直接忽略并回落占位，避免换台时因非法地址崩溃。
+      </p>
 
       <h2>3. TV 应用内设置项（设置 → 界面）</h2>
       <p>以下设置均在 <b>设置 → 界面</b> 下，对应面板 <code>/ui</code> 字段。说明文案取自 Android <code>strings.xml</code>。</p>

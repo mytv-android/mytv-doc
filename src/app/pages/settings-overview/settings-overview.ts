@@ -23,16 +23,16 @@ import { DocPageHeader } from '../../shared/doc-page-header';
           <tr><th>TV 分类</th><th>主要包含</th><th>详细文档</th><th>10591 面板</th></tr>
         </thead>
         <tbody>
-          <tr><td>通用</td><td>语言、开机自启、启动页、画中画、后台播放、清除缓存、恢复初始化</td><td>本页 §1</td><td><code>/general</code></td></tr>
-          <tr><td>订阅源</td><td>m3u、Xtream、Stalker、混合源、缓存、隐藏、加密分组</td><td><a [routerLink]="'/sources'">订阅源</a></td><td><code>/sources</code></td></tr>
-          <tr><td>节目单</td><td>EPG 来源、刷新阈值、跟随订阅源</td><td><a [routerLink]="'/epg'">EPG</a></td><td><code>/epg</code></td></tr>
+          <tr><td>通用</td><td>语言、开机自启、启动页、画中画、后台播放、清除缓存、恢复初始化、缓存路径（面板）</td><td>本页 §1</td><td><code>/general</code></td></tr>
+          <tr><td>订阅源</td><td>m3u、Xtream、Stalker、混合源、缓存、隐藏、加密分组、列表风格、序号缩写、图标首字、m3u 图标优先级、分组级参数配置</td><td><a [routerLink]="'/sources'">订阅源</a></td><td><code>/sources</code></td></tr>
+          <tr><td>节目单</td><td>EPG 来源、刷新阈值、跟随订阅源、按订阅源独立配置（格式 / 缓存 / 时区 / 外部存储）</td><td><a [routerLink]="'/epg'">EPG</a></td><td><code>/epg</code></td></tr>
           <tr><td>界面</td><td>台标、节目进度、信息条、缩放、字幕样式</td><td><a [routerLink]="'/live-screen'">直播主界面</a></td><td><code>/ui</code></td></tr>
           <tr><td>主题</td><td>颜色模式、配色方案、主题包</td><td>本页 §5</td><td><code>/theme</code></td></tr>
           <tr><td>控制</td><td>数字选台、跨组切换、按键行为</td><td><a [routerLink]="'/controls'">遥控器与触屏</a></td><td><code>/control</code></td></tr>
-          <tr><td>播放器</td><td>内核、解码、缓冲、超分、插帧、字幕、ASR、翻译</td><td><a [routerLink]="'/player-settings'">播放器与字幕</a></td><td><code>/player</code></td></tr>
-          <tr><td>WebView</td><td>内核、超时、替换系统 WebView</td><td><a [routerLink]="'/webview-player'">WebView</a></td><td><code>/webview</code></td></tr>
+          <tr><td>播放器</td><td>内核、解码、解码参数（IJK / EXO）、缓冲、超分、插帧、字幕、ASR、翻译、音频屏保、画面锁定、AAC 优先</td><td><a [routerLink]="'/player-settings'">播放器与字幕</a></td><td><code>/player</code></td></tr>
+          <tr><td>WebView</td><td>内核、超时、替换系统 WebView、加载风格、页面分辨率、UA 预设、图片、图层加速</td><td><a [routerLink]="'/webview-player'">WebView</a></td><td><code>/webview</code></td></tr>
           <tr><td>更新</td><td>通道、强提醒</td><td>本页 §9</td><td><code>/update</code></td></tr>
-          <tr><td>网络</td><td>重试次数、重试间隔</td><td>本页 §10</td><td><code>/network</code></td></tr>
+          <tr><td>网络</td><td>重试次数、重试间隔、IPv6</td><td>本页 §10</td><td><code>/network</code></td></tr>
           <tr><td>云同步</td><td>Gist / WebDAV / 本地文件 / 网络链接 / Gitee</td><td><a [routerLink]="'/sync'">云同步</a></td><td><code>/sync</code></td></tr>
           <tr><td>权限</td><td>安装未知应用、外部存储</td><td>本页 §12</td><td>—</td></tr>
           <tr><td>调试</td><td>FPS、播放器元数据、布局网格、解码器信息</td><td>本页 §13</td><td><code>/debug</code></td></tr>
@@ -103,6 +103,10 @@ import { DocPageHeader } from '../../shared/doc-page-header';
       <p>
         面板 <code>/general</code>（<code>GeneralComponent</code>）提供：开机自启、启动页面（下拉选择）、
         画中画、后台播放四项，不含语言 / 清除缓存 / 恢复初始化。
+      </p>
+      <p>
+        面板 <code>/general</code> 额外提供 <b>缓存写入外部存储</b> 开关（<code>cachePathExternal</code>，默认关）：
+        开启后应用缓存目录改用外部存储，需授予「所有文件访问权限」，<b>重启生效</b>。TV 端无对应设置项。
       </p>
 
       <h2 id="s5">§5 主题</h2>
@@ -203,11 +207,17 @@ import { DocPageHeader } from '../../shared/doc-page-header';
             </td>
             <td>影响订阅源、节目单数据获取。</td>
           </tr>
+          <tr>
+            <td>启用 IPv6</td>
+            <td><code>networkIpv6Enable</code> = <code>false</code></td>
+            <td>开关。开启后域名解析与连接允许使用 IPv6 地址，适用于仅有 IPv6 线路可达的源站。</td>
+            <td>影响订阅源、节目单、台标等全部网络请求。</td>
+          </tr>
         </tbody>
       </table>
       <p>
         面板 <code>/network</code>（<code>NetworkComponent</code>）提供两个 <code>type="number"</code> 输入框，
-        重试间隔后缀 <code>ms</code>，可直接填写任意数值（不受网格列表限制）。
+        重试间隔后缀 <code>ms</code>，可直接填写任意数值（不受网格列表限制），另有「启用 IPv6」开关。
       </p>
       <p>
         注：播放器的 UA / 代理 / DNS 在「播放器」页以 remoteConfig 形式展示，需在面板 <code>/player</code> 编辑。
