@@ -28,6 +28,12 @@ import { DocPageHeader } from '../../shared/doc-page-header';
         </li>
         <li><b>收藏区</b>：横向滚动的收藏频道卡片。</li>
         <li><b>最近观看区</b>：仅当「启用最近观看」开启时显示，最多保留 15 条历史。</li>
+        <li>
+          <b>关于页</b>：应用信息（applicationId / 版本 / 仓库 / Telegram / 检查更新）之外，还显示
+          <b>系统信息</b>：系统版本、设备品牌、设备型号、SDK 版本、网络名称（WiFi SSID / 以太网）、
+          网络类型（WIFI / 以太网 / 蜂窝网络 / 无网络）、网络状态（已连接 / 未连接）、IP 地址。
+          该页由 Dashboard「关于」模块与设置页共同入口进入。
+        </li>
       </ul>
 
       <h2>2. 直播播放器界面</h2>

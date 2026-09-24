@@ -45,6 +45,20 @@ import { DocCallout } from '../../shared/doc-callout';
             <td>先 <code>portal.php?type=stb&amp;action=handshake</code> 取 token，再请求 <code>get_all_channels</code> + <code>get_genres</code>。</td>
             <td>链接、MAC 地址</td>
           </tr>
+          <tr>
+            <td><b>FTP / SMB / WebDAV</b></td>
+            <td><code>0</code></td>
+            <td>
+              仍属网络 m3u / txt（<code>sourceType=0</code>），按地址 scheme 自动识别协议：
+              <code>ftp://</code> / <code>ftps://</code> 走内置 FTP 客户端（PASV/EPSV，显式 AUTH TLS，隐式 TLS 用 990 端口）；
+              <code>smb://</code> / <code>smb2://</code> / <code>cifs://</code> 走 SMB2/3（smbj，NTLM，第一个路径段为共享名；
+              账号支持 <code>域\用户</code> / <code>用户@域</code>）；
+              <code>webdav://</code> / <code>dav://</code>（默认 http）与 <code>webdavs://</code> / <code>davs://</code>（默认 https）按 WebDAV 直链 GET + Basic 认证。
+              也可在面板显式指定「协议」与「端口」，此时地址可省略 scheme。
+              账号密码取值顺序：地址中附带的 <code>user:pass@</code> &gt; 订阅源字段。代理仅对 WebDAV 生效。
+            </td>
+            <td>链接（含协议/账号）或协议 + 端口 + 账号字段</td>
+          </tr>
         </tbody>
       </table>
 
@@ -166,6 +180,16 @@ import { DocCallout } from '../../shared/doc-callout';
           <tr>
             <td><code>javascript://…</code></td>
             <td>走 QuickJS 引擎执行代码，脚本 <code>return</code> 的字符串就是真正的播放地址。详见下方「javascript:// 源」。</td>
+          </tr>
+          <tr>
+            <td><code>ku9-json://https://…</code></td>
+            <td>
+              播放前去取该 JSON，直接取其中的可播放地址与请求头，<b>不执行任何脚本</b>。
+              支持形态：<code>&#123;"url":"…","headers":&#123;…&#125;&#125;</code>、headers 文本、顶层
+              <code>ua/referer/origin/cookie</code> 便捷字段、数组与 <code>list/data/result</code> 列表（取首个可用条目）；
+              当 JSON 中出现远程度标记（键名或 url 值含 <code>/ku9-json/</code>）时继续取其指向的远端 JSON，最多 3 跳。
+              任一步失败回退原始地址。
+            </td>
           </tr>
           <tr>
             <td>其它（无前缀）</td>

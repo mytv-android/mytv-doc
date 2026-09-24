@@ -221,11 +221,6 @@ import { DocCallout } from '../../shared/doc-callout';
             </td>
           </tr>
           <tr>
-            <td>Media3 音频软解</td>
-            <td><code>videoPlayerExoAudioSoft</code> = <code>false</code></td>
-            <td>强制音频走软解，部分设备可解决无声音问题。</td>
-          </tr>
-          <tr>
             <td>起播缓冲（毫秒）</td>
             <td><code>videoPlayerExoBufferPlaybackMs</code> = <code>2500</code></td>
             <td>Media3：开始播放前需要缓冲的最小时长。</td>
@@ -554,7 +549,6 @@ import { DocCallout } from '../../shared/doc-callout';
           <tr><td>IJK 去隔行</td><td>下拉</td><td>关闭 / GL 自动 / GL 强制</td></tr>
           <tr><td>IJK 音频软解</td><td>开关</td><td>—</td></tr>
           <tr><td>Media3 隧道模式</td><td>开关</td><td>硬件直解直出，部分设备黑屏无声</td></tr>
-          <tr><td>Media3 音频软解</td><td>开关</td><td>—</td></tr>
           <tr><td>Media3 起播缓冲（毫秒）</td><td>数字输入</td><td>默认 2500</td></tr>
           <tr><td>Media3 边播缓存（毫秒）</td><td>数字输入</td><td>默认 -1（关闭）</td></tr>
         </tbody>

@@ -204,7 +204,7 @@ export const SEARCH_INDEX: SearchIndexEntry[] = [
     title: '订阅源（IPTV）',
     anchor: '',
     section: '订阅源类型',
-    keywords: '订阅源类型 sourceType 网络 m3u txt 本地文件 Xtream Codes Stalker Portal get.php handshake 必填字段 gz GZIP',
+    keywords: '订阅源类型 sourceType 网络 m3u txt 本地文件 Xtream Codes Stalker Portal get.php handshake 必填字段 gz GZIP FTP FTPS SMB smb2 cifs WebDAV webdavs dav 协议 端口 共享名 NTLM Basic 认证 PASV EPSV smbj user:pass@ Scheme鉴权自动识别 protocol',
   },
   {
     path: '/sources',
@@ -246,7 +246,7 @@ export const SEARCH_INDEX: SearchIndexEntry[] = [
     title: '订阅源（IPTV）',
     anchor: '',
     section: 'URL 前缀（混合源协议）',
-    keywords: 'URL前缀 webview:// video:// javascript:// hybridType 混合源协议 QuickJS',
+    keywords: 'URL前缀 webview:// video:// javascript:// hybridType 混合源协议 QuickJS ku9-json:// 内嵌JSON 请求头 远程度标记',
   },
   {
     path: '/sources',
