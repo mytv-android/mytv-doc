@@ -463,7 +463,7 @@ export const SEARCH_INDEX: SearchIndexEntry[] = [
     title: '播放器与字幕设置',
     anchor: '',
     section: '缓冲与超时',
-    keywords: '加载超时 1 2 3 4 5 10 15 20 25 30 45 60秒 超时换源 断线重连 弱网 误判 播放缓冲 0 帧 Media3 VLC 秒 IJK 帧 30帧 双单位 SeekTo方式 重载URL跳转 startAt 播放器seekTo跳转 已缓冲 RTSP传输方式 TCP UDP 稳定 丢包 延迟',
+    keywords: '加载超时 1 2 3 4 5 10 15 20 25 30 45 60秒 超时换源 断线重连 弱网 误判 播放缓冲 0 帧 Media3 VLC 秒 IJK 帧 30帧 双单位 停滞重试 关闭 3 5 8 10 15 20 30 45 60秒 播放位置不变 自动重试当前线路 SeekTo方式 重载URL跳转 startAt 播放器seekTo跳转 已缓冲 RTSP传输方式 TCP UDP 稳定 丢包 延迟',
   },
   {
     path: '/player-settings',
@@ -512,7 +512,7 @@ export const SEARCH_INDEX: SearchIndexEntry[] = [
     title: '播放器与字幕设置',
     anchor: '',
     section: '10591 面板（/player）的全部可配置项',
-    keywords: '面板播放器 视频播放器内核 渲染方式 记忆配置 强制软解 软解仅用于音频 适配帧率 更好探测 提取Header 全局显示模式 SeekTo 加载超时 毫秒 10000 播放缓冲 秒帧 0 RTSP 音量平衡 正则解码配置 代理规则 ASR凭据 识别模型 占位 /storage/emulated/0 暂未实现 领先字幕提前量 断句静音阈值 翻译引擎按钮组 目标语言文本框 腾讯SecretId密码框 百度APIKey MTranServer服务器地址 全局UA 自定义headers Name:Value 自定义DNS 代理 保存按钮',
+    keywords: '面板播放器 视频播放器内核 渲染方式 记忆配置 强制软解 软解仅用于音频 适配帧率 更好探测 提取Header 全局显示模式 SeekTo 加载超时 毫秒 10000 播放缓冲 秒帧 0 停滞重试 毫秒 默认关闭 RTSP 音量平衡 正则解码配置 代理规则 ASR凭据 识别模型 占位 /storage/emulated/0 暂未实现 领先字幕提前量 断句静音阈值 翻译引擎按钮组 目标语言文本框 腾讯SecretId密码框 百度APIKey MTranServer服务器地址 全局UA 自定义headers Name:Value 自定义DNS 代理 保存按钮',
   },
   {
     path: '/player-settings',

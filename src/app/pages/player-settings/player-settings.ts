@@ -258,6 +258,14 @@ import { DocCallout } from '../../shared/doc-callout';
             </td>
           </tr>
           <tr>
+            <td>停滞重试</td>
+            <td>关闭</td>
+            <td>
+              预设：<b>关闭 / 3 / 5 / 8 / 10 / 15 / 20 / 30 / 45 / 60</b> 秒。
+              播放位置长时间不变时，自动重试当前线路；默认关闭。
+            </td>
+          </tr>
+          <tr>
             <td>SeekTo 方式</td>
             <td>重载URL跳转</td>
             <td>
@@ -529,6 +537,7 @@ import { DocCallout } from '../../shared/doc-callout';
           <tr><td>SeekTo 方式</td><td>下拉</td><td>重载URL跳转 / 播放器 seekTo 跳转</td></tr>
           <tr><td>加载超时</td><td>数字输入</td><td>单位毫秒（默认 10000）</td></tr>
           <tr><td>播放缓冲</td><td>数字输入</td><td>Media3 / VLC 秒、IJK 帧（默认 0）</td></tr>
+          <tr><td>停滞重试</td><td>数字输入</td><td>单位毫秒（默认 0，0 = 关闭）</td></tr>
           <tr><td>RTSP 传输方式</td><td>下拉</td><td>TCP / UDP</td></tr>
           <tr><td>音量平衡</td><td>下拉</td><td>关闭 / 低 / 中 / 高；仅 Media3</td></tr>
           <tr><td>音频屏保</td><td>开关</td><td>纯音频流显示固定背景</td></tr>
