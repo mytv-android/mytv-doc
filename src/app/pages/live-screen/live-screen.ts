@@ -92,7 +92,7 @@ import { DocPageHeader } from '../../shared/doc-page-header';
           <tr><td>节目进度</td><td>开</td><td>在频道底部显示当前节目进度条</td><td><code>uiShowEpgProgrammeProgress</code></td></tr>
           <tr><td>常驻节目进度</td><td>关</td><td>在播放器底部显示当前节目进度条</td><td><code>uiShowEpgProgrammePermanentProgress</code></td></tr>
           <tr><td>台标显示</td><td>开</td><td>—</td><td><code>uiShowChannelLogo</code></td></tr>
-          <tr><td>显示回放标志</td><td>开</td><td>回看节目时在播放器左上角显示回放标志</td><td><code>uiShowReplayBadge</code></td></tr>
+          <tr><td>显示回放标志</td><td>开</td><td>回看节目时在播放器左下角显示回放标志</td><td><code>uiShowReplayBadge</code></td></tr>
           <tr><td>频道预览</td><td>开</td><td>显示频道预览首帧</td><td><code>uiShowChannelPreview</code></td></tr>
           <tr><td>频道预览并行数</td><td>1</td><td>同时抓取频道预览首帧的数量，过大可能导致网络卡顿</td><td><code>channelPreviewParallelCount</code>，1–10 整数</td></tr>
           <tr><td>列表项动画</td><td>开</td><td>频道列表重排时的过渡动画</td><td><code>uiListAnimation</code></td></tr>
