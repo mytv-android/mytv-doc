@@ -43,8 +43,8 @@ import { DocCallout } from '../../shared/doc-callout';
           <tr><td>后一频道</td><td><code>ChangeCurrentChannelToNext</code></td><td>切换到下一个频道</td></tr>
           <tr><td>前一线路</td><td><code>ChangeCurrentChannelLineIdxToPrev</code></td><td>切换到上一个线路</td></tr>
           <tr><td>后一线路</td><td><code>ChangeCurrentChannelLineIdxToNext</code></td><td>切换到下一个线路</td></tr>
-          <tr><td>快进</td><td><code>SeekForward</code></td><td>每次 +10 秒</td></tr>
-          <tr><td>快退</td><td><code>SeekBackward</code></td><td>每次 -10 秒</td></tr>
+          <tr><td>快进</td><td><code>SeekForward</code></td><td>单次 +10 秒；长按连发每步 +1 分钟，提示显示本次长按累计时长</td></tr>
+          <tr><td>快退</td><td><code>SeekBackward</code></td><td>单次 -10 秒；长按连发每步 -1 分钟，提示显示本次长按累计时长</td></tr>
           <tr><td>管理订阅源</td><td><code>ToIptvSourceScreen</code></td><td>打开订阅源管理</td></tr>
           <tr><td>频道列表</td><td><code>ToChannelScreen</code></td><td>打开频道列表</td></tr>
           <tr><td>快捷设置</td><td><code>ToQuickOpScreen</code></td><td>打开快捷设置面板</td></tr>
@@ -96,9 +96,11 @@ import { DocCallout } from '../../shared/doc-callout';
 
       <h2>5. 快进 / 快退</h2>
       <ul>
-        <li>默认每次 ±10 秒。</li>
+        <li>单次触发（映射为快进/快退的按键单击、媒体快进 / 快退键）默认每次 ±10 秒。</li>
+        <li>长按方向键连发时每步 ±1 分钟，屏幕上方的提示显示本次长按累计的时长（如「+3分钟」），松手后重新计数。</li>
+        <li>播放控制面板的进度条上按左右方向键：单次 ±5 秒，长按连发每步 ±1 分钟。</li>
         <li>当 <b>SeekTo 方式 = 重载URL跳转</b> 且当前节目支持回看时，通过重载 URL 改变节目开始时间；否则直接调用 <code>seekTo</code>。</li>
-        <li>持续长按方向键 / OK 仅在配置为快进/快退（<code>SeekForward</code> / <code>SeekBackward</code>）时持续触发。</li>
+        <li>持续长按方向键 / OK 仅在配置为快进/快退（<code>SeekForward</code> / <code>SeekBackward</code>）时持续触发；其中长按 OK 的连发仍为每次 ±10 秒。</li>
         <li>直播最多可回退 48 小时。</li>
       </ul>
 

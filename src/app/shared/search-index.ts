@@ -85,7 +85,7 @@ export const SEARCH_INDEX: SearchIndexEntry[] = [
     title: '遥控器与触屏',
     anchor: '',
     section: 'TV 应用内设置项',
-    keywords: '控制设置 频道切换跨分组 iptvChannelChangeCrossGroup 频道列表首尾循环 iptvChannelChangeListLoop 数字选台 iptvChannelNoSelectEnable 长按OK 按键行为 跨组切换 keyDownEventUp keyDownEventDown keyDownEventLeft keyDownEventRight keyDownEventSelect keyDownEventLongUp keyDownEventLongDown keyDownEventLongLeft keyDownEventLongRight keyDownEventLongSelect 前一频道 后一频道 前一线路 后一线路 快进 快退 管理订阅源 频道列表 快捷设置 节目单 线路列表 播放控制 无操作 13种行为',
+    keywords: '控制设置 频道切换跨分组 iptvChannelChangeCrossGroup 频道列表首尾循环 iptvChannelChangeListLoop 数字选台 iptvChannelNoSelectEnable 长按OK 按键行为 跨组切换 keyDownEventUp keyDownEventDown keyDownEventLeft keyDownEventRight keyDownEventSelect keyDownEventLongUp keyDownEventLongDown keyDownEventLongLeft keyDownEventLongRight keyDownEventLongSelect 前一频道 后一频道 前一线路 后一线路 快进 快退 长按连发1分钟 累计时长提示 进度条5秒 管理订阅源 频道列表 快捷设置 节目单 线路列表 播放控制 无操作 13种行为',
   },
   {
     path: '/live-screen',
