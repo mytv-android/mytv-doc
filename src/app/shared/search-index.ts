@@ -504,15 +504,15 @@ export const SEARCH_INDEX: SearchIndexEntry[] = [
     path: '/player-settings',
     title: '播放器与字幕设置',
     anchor: '',
-    section: 'ASR 实时翻译（Beta）',
-    keywords: 'ASR实时翻译 翻译引擎 未配置 腾讯翻译 百度翻译 MTranServer 自托管 腾讯SecretId SecretKey 百度APIKey 密钥 服务器地址 http://192.168.1.100:8989 API Token 无认证 目标语言 en zh ja ko fr de es ru pt it th vi id ms ar yue粤语 默认en 已配置 未配置 TV只读',
+    section: '字幕翻译（Beta）',
+    keywords: '字幕翻译 ASR实时翻译 字幕轨翻译 译文显示在原文上方 避让堆叠 翻译引擎 未配置 腾讯翻译 百度翻译 MTranServer 自托管 腾讯SecretId SecretKey 百度APIKey 密钥 服务器地址 http://192.168.1.100:8989 API Token 无认证 目标语言 en zh ja ko fr de es ru pt it th vi id ms ar yue粤语 默认en 译文大小 ×1.0 0.5 1.5 字号比例 已配置 未配置 TV只读',
   },
   {
     path: '/player-settings',
     title: '播放器与字幕设置',
     anchor: '',
     section: '10591 面板（/player）的全部可配置项',
-    keywords: '面板播放器 视频播放器内核 渲染方式 记忆配置 强制软解 软解仅用于音频 适配帧率 更好探测 提取Header 全局显示模式 SeekTo 加载超时 毫秒 10000 播放缓冲 秒帧 0 停滞重试 毫秒 默认关闭 RTSP 音量平衡 正则解码配置 代理规则 ASR凭据 识别模型 占位 /storage/emulated/0 暂未实现 领先字幕提前量 断句静音阈值 翻译引擎按钮组 目标语言文本框 腾讯SecretId密码框 百度APIKey MTranServer服务器地址 全局UA 自定义headers Name:Value 自定义DNS 代理 保存按钮',
+    keywords: '面板播放器 视频播放器内核 渲染方式 记忆配置 强制软解 软解仅用于音频 适配帧率 更好探测 提取Header 全局显示模式 SeekTo 加载超时 毫秒 10000 播放缓冲 秒帧 0 停滞重试 毫秒 默认关闭 RTSP 音量平衡 正则解码配置 代理规则 ASR凭据 识别模型 占位 /storage/emulated/0 暂未实现 领先字幕提前量 断句静音阈值 翻译引擎按钮组 目标语言文本框 译文大小数字输入 0.5 2.0 腾讯SecretId密码框 百度APIKey MTranServer服务器地址 字幕翻译独立卡片 全局UA 自定义headers Name:Value 自定义DNS 代理 保存按钮',
   },
   {
     path: '/player-settings',

@@ -11,7 +11,7 @@ import { DocCallout } from '../../shared/doc-callout';
     <div class="doc-page">
       <doc-page-header
         title="播放器与字幕设置"
-        lead="视频播放器内核、解码、渲染、缓冲、字幕样式、ASR 实时字幕、实时翻译的完整说明。本页同时覆盖 TV 应用内设置与 10591 面板配置。"
+        lead="视频播放器内核、解码、渲染、缓冲、字幕样式、ASR 实时字幕、字幕翻译的完整说明。本页同时覆盖 TV 应用内设置与 10591 面板配置。"
       />
 
       <h2>1. 视频播放器内核</h2>
@@ -480,8 +480,11 @@ import { DocCallout } from '../../shared/doc-callout';
         <b>Gemini 端点</b>（留空使用官方默认端点）。这两个字段在 TV 端只读，请到 10591 面板配置。
       </doc-callout>
 
-      <h2>5. ASR 实时翻译（Beta）</h2>
-      <p>在 ASR 字幕基础上，可再接一层实时翻译，将识别结果翻译为目标语言。</p>
+      <h2>5. 字幕翻译（Beta）</h2>
+      <p>
+        将实时字幕（ASR）和已选字幕轨翻译为目标语言。带字幕轨的播放源优先翻译字幕轨：译文显示在原文<b>上方</b>，
+        同一字幕视图内自底向上避让堆叠，不再与原文重叠。
+      </p>
       <table>
         <thead>
           <tr><th>设置</th><th>默认</th><th>取值 / 说明</th></tr>
@@ -503,6 +506,14 @@ import { DocCallout } from '../../shared/doc-callout';
             <td>
               en / zh / ja / ko / fr / de / es / ru / pt / it / th / vi / id / ms / ar / yue（粤语）。
               翻译的目标语言代码。
+            </td>
+          </tr>
+          <tr>
+            <td>译文大小</td>
+            <td>×1.0</td>
+            <td>
+              翻译字幕相对原文字幕的字号比例，TV 端可选 ×0.5 ~ ×1.5（面板可输入 0.5 ~ 2.0）。
+              原文大小仍由「字幕设置」的字号控制；关闭「应用内嵌样式」时译文与原文使用同一字号。
             </td>
           </tr>
         </tbody>
@@ -572,26 +583,27 @@ import { DocCallout } from '../../shared/doc-callout';
         可添加 / 删除多条；按顺序匹配，命中即用。
       </p>
 
-      <h3>ASR 与翻译（面板专属凭据）</h3>
+      <h3>实时字幕 (ASR) 与 字幕翻译（面板专属凭据）</h3>
       <table>
         <thead>
           <tr><th>面板字段</th><th>类型</th><th>说明</th></tr>
         </thead>
         <tbody>
-          <tr><td>实时字幕 (ASR)</td><td>开关</td><td>关闭时下面所有 ASR 子项隐藏</td></tr>
+          <tr><td>实时字幕 (ASR)</td><td>开关</td><td>关闭时下面的 ASR 子项（识别模型 / 领先字幕 / 断句阈值等）隐藏；字幕翻译为独立卡片，不受此开关影响</td></tr>
           <tr><td>识别模型</td><td>文本框</td><td>占位 <code>/storage/emulated/0/sherpa-onnx-...</code>；当前标注「暂未实现，敬请期待」</td></tr>
           <tr><td>实验性领先字幕（HLS）</td><td>下拉</td><td>标准（渲染器）/ 实验性领先（HLS）</td></tr>
           <tr><td>领先字幕提前量</td><td>数字输入</td><td>默认 500，单位 ms</td></tr>
           <tr><td>断句静音阈值</td><td>数字输入</td><td>默认 650，单位 ms</td></tr>
           <tr><td>翻译引擎</td><td>按钮组</td><td>不翻译 / 腾讯翻译 / 百度翻译 / MTranServer（自托管）</td></tr>
           <tr><td>目标语言</td><td>文本框</td><td>如 <code>en</code>；仅在选了翻译引擎时显示</td></tr>
+          <tr><td>译文大小</td><td>数字输入</td><td>0.5 ~ 2.0，默认 1.0；翻译字幕相对原文字幕的字号比例</td></tr>
           <tr><td>腾讯云 SecretId / SecretKey</td><td>密码框</td><td>仅腾讯翻译时显示</td></tr>
           <tr><td>百度翻译 API Key / 密钥</td><td>文本框 / 密码框</td><td>仅百度翻译时显示</td></tr>
           <tr><td>MTranServer 服务器地址 / API Token</td><td>文本框 / 密码框</td><td>仅 MTranServer 时显示</td></tr>
         </tbody>
       </table>
       <p>
-        <b>注意</b>：ASR 子区所有控件修改后必须点页面上的<b>保存</b>按钮才会提交到 TV。
+        <b>注意</b>：ASR 卡片与字幕翻译卡片各有自己的<b>保存</b>按钮，修改后必须点击保存才会提交到 TV。
       </p>
 
       <h3>请求与代理</h3>
