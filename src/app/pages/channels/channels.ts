@@ -136,7 +136,7 @@ import { DocPageHeader } from '../../shared/doc-page-header';
         让多个名字映射到同一逻辑频道。配置项 <code>iptvChannelNameAlias</code>（JSON 字符串，默认值为 <code>R.raw.channel_name_alias</code> 的内容；为空时回退到内置资源），
         参与云同步，TV 端只读（<code>remoteConfig=true</code>），列表头显示「共 N 个频道，M 个别名」。
         配合 <b>设置 → 订阅源 → 相似频道合并</b>（相同频道别名将进行合并，默认开，配置项 <code>iptvSimilarChannelMerge</code>），
-        相同别名的频道会合并显示。
+        相同别名的频道会合并显示。编辑框最高显示 <b>10</b> 行，超出部分在框内滚动，不影响保存完整内容。
       </p>
       <p>别名配置示例：</p>
       <pre><code>&#123;
