@@ -435,7 +435,7 @@ export const SEARCH_INDEX: SearchIndexEntry[] = [
     title: '播放器与字幕设置',
     anchor: '',
     section: '视频播放器内核',
-    keywords: '播放器内核 Media3 ExoPlayer IjkPlayer FFmpeg VLC 在线下发 组件管理 下载 删除 未下载 下载中 校验中 解压中 已安装 下载失败 label 枚举 默认MEDIA3 RTSP单播',
+    keywords: '播放器内核 Media3 ExoPlayer IjkPlayer FFmpeg VLC 在线下发 组件管理 组件下载 下载 删除 未下载 下载中 校验中 解压中 已安装 下载失败 label 枚举 默认MEDIA3 RTSP单播',
   },
   {
     path: '/player-settings',

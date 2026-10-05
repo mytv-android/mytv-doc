@@ -70,7 +70,7 @@ import { DocPageHeader } from '../../shared/doc-page-header';
 
       <h3>Q：IJK / VLC 内核显示「未下载」？</h3>
       <p>
-        IJK 和 VLC 是在线下发组件。到 <b>设置 → 播放器 → 播放器组件管理</b> 下载对应组件，然后切换内核才生效。
+        IJK 和 VLC 是在线下发组件。到 <b>设置 → 组件下载</b> 下载对应组件，然后切换内核才生效。
       </p>
 
       <h3>Q：触摸设备上某些场景闪退？</h3>

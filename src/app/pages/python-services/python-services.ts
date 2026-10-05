@@ -42,12 +42,12 @@ import { DocCallout } from '../../shared/doc-callout';
 
       <h2 id="install">第一步：下载 Python 运行环境</h2>
       <ol>
-        <li>打开网页面板，进入 <b>服务</b> 页（<code>/services</code>），或电视端：<b>设置 → 订阅源 → Python 服务</b>。</li>
-        <li>点击 <b>下载运行环境</b>，等待“校验中 / 解压中”结束，状态变为<b>已安装 v3.11.14</b>。</li>
+        <li>电视端：<b>设置 → 组件下载 → Python 运行环境</b>；也可在网页面板「服务」页（<code>/services</code>）下载。</li>
+        <li>点击进入后开始下载，等待“校验中 / 解压中”结束，状态变为<b>已安装</b>。</li>
         <li>安装完成后可点击 <b>运行自检</b> 确认：会输出 Python 版本、OpenSSL、SQLite、CA 证书与本地端口绑定是否正常。</li>
       </ol>
       <doc-callout kind="info" title="环境可随时删除" icon="info">
-        删除运行环境不会删除已添加的服务脚本，重新下载后可继续使用；“设置 → 订阅源 → Python 服务”中长按运行环境条目也可删除。
+        删除运行环境不会删除已添加的服务脚本，重新下载后可继续使用；在「组件下载」中长按运行环境条目可删除。
       </doc-callout>
 
       <h2 id="add">第二步：添加服务（网页面板）</h2>
