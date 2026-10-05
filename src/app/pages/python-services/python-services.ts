@@ -91,7 +91,7 @@ import { DocCallout } from '../../shared/doc-callout';
               注意环境变量是解释器级的，多个服务共用一份）
             </td>
           </tr>
-          <tr><td><b>附加启动参数</b></td><td>追加在端口与 <code>--bind</code> 之后，例如参考脚本的 <code>--no-4k</code></td></tr>
+          <tr><td><b>附加启动参数</b></td><td>追加在端口之后，例如参考脚本的 <code>--no-4k</code></td></tr>
           <tr><td><b>环境变量</b></td><td>每行一条 <code>KEY=VALUE</code>，脚本用 <code>os.environ</code> 读取（如 TOKEN）</td></tr>
           <tr><td><b>脚本退出后自动重启</b></td><td>脚本自行退出（含异常）后自动重启；连续 3 次启动即退出会停止重试并提示</td></tr>
         </tbody>
@@ -115,8 +115,9 @@ import { DocCallout } from '../../shared/doc-callout';
           <a [routerLink]="'/sources'">订阅源</a>页手动添加）。
         </li>
         <li>
-          <b>局域网共享</b>：关闭时脚本只绑定 <code>127.0.0.1</code>（仅本机可用）；开启后绑定
-          <code>0.0.0.0</code>，局域网内其他设备可访问。修改后服务会自动重启生效。
+          <b>局域网共享</b>：应用把绑定地址通过环境变量 <code>MYTV_BIND</code>（<code>127.0.0.1</code>
+          或 <code>0.0.0.0</code>）告诉脚本，脚本可用 <code>os.environ['MYTV_BIND']</code> 读取；
+          不读取该变量的脚本按自身默认绑定（不少脚本固定 <code>0.0.0.0</code>）。修改后服务会自动重启生效。
         </li>
       </ul>
 
