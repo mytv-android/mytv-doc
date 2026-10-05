@@ -29,6 +29,7 @@ export const NAV_ENTRIES: NavEntry[] = [
   { path: '/epg', label: 'EPG 节目单', icon: 'calendar_month', group: '功能' },
   { path: '/webview-player', label: 'WebView 播放器', icon: 'web', group: '功能' },
   { path: '/remote-panel', label: '远程配置面板', icon: 'settings_remote', group: '功能' },
+  { path: '/python-services', label: 'Python 服务', icon: 'terminal', group: '功能' },
   { path: '/sync', label: '云同步与备份', icon: 'cloud_sync', group: '功能' },
 
   { path: '/player-settings', label: '播放器与字幕', icon: 'tune', group: '设置' },

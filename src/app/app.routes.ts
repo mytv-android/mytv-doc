@@ -62,6 +62,14 @@ export const routes: Routes = [
     title: '远程配置面板（10591）· 电视直播 使用文档',
   },
   {
+    path: 'python-services',
+    loadComponent: () =>
+      import('./pages/python-services/python-services').then(
+        (m) => m.PythonServicesPage,
+      ),
+    title: 'Python 服务 · 电视直播 使用文档',
+  },
+  {
     path: 'player-settings',
     loadComponent: () =>
       import('./pages/player-settings/player-settings').then(

@@ -33,6 +33,7 @@ import { DocCallout } from '../../shared/doc-callout';
           <tr><td><code>/</code></td><td>首页</td><td>快速添加订阅源 / EPG / 别名 / 云同步 / 推 APK / 关于</td><td>本页 §3</td></tr>
           <tr><td><code>/general</code></td><td>通用</td><td>开机自启、启动页、画中画</td><td><a [routerLink]="'/settings'">设置项总览 §1</a></td></tr>
           <tr><td><code>/sources</code></td><td>订阅源</td><td>订阅源列表管理、隐藏规则、别名、混合源、PLTV</td><td><a [routerLink]="'/sources'">订阅源</a></td></tr>
+          <tr><td><code>/services</code></td><td>服务</td><td>Python 运行环境下载与服务管理（加载 / 检查代码、开关、地址复制、日志）</td><td><a [routerLink]="'/python-services'">Python 服务</a></td></tr>
           <tr><td><code>/epg</code></td><td>节目单</td><td>EPG 源管理、刷新阈值、跟随订阅源</td><td><a [routerLink]="'/epg'">EPG</a></td></tr>
           <tr><td><code>/ui</code></td><td>界面</td><td>进度条、台标、回放标志、预览、缩放、收藏、历史</td><td><a [routerLink]="'/settings'">设置项总览 §4</a></td></tr>
           <tr><td><code>/theme</code></td><td>主题</td><td>颜色模式、配色方案、自定义主题</td><td><a [routerLink]="'/settings'">设置项总览 §5</a></td></tr>
@@ -205,6 +206,27 @@ import { DocCallout } from '../../shared/doc-callout';
         </tbody>
       </table>
 
+      <h3>Python 服务</h3>
+      <p>
+        面板「服务」页（<code>/services</code>）背后的接口：运行环境（CPython）按需下载，
+        服务脚本由应用在本机运行并对外提供订阅地址。完整用法见
+        <a [routerLink]="'/python-services'">Python 服务</a>。
+      </p>
+      <table>
+        <thead>
+          <tr><th>端点</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>GET /api/python/status</code></td><td>运行环境状态 + 服务列表（状态 / 地址 / 错误）</td></tr>
+          <tr><td><code>POST /api/python/runtime/download</code> / <code>POST /api/python/runtime/delete</code></td><td>下载 / 删除 Python 运行环境</td></tr>
+          <tr><td><code>POST /api/python/selftest</code></td><td>运行时自检（版本 / OpenSSL / SQLite / CA / 端口绑定）</td></tr>
+          <tr><td><code>POST /api/python/fetch-code</code></td><td>由设备端拉取远程脚本，body <code>&#123;"url":"…"&#125;</code></td></tr>
+          <tr><td><code>POST /api/python/check</code></td><td>静态检查，body <code>&#123;"id":"…"&#125;</code> 或 <code>&#123;"code":"…"&#125;</code></td></tr>
+          <tr><td><code>POST /api/python/service/save</code> / <code>delete</code> / <code>start</code> / <code>stop</code></td><td>服务的新增 / 更新、删除、启动、停止</td></tr>
+          <tr><td><code>GET /api/python/service/log?id=…</code> / <code>GET /api/python/service/code?id=…</code></td><td>服务日志 / 已保存脚本内容（text）</td></tr>
+        </tbody>
+      </table>
+
       <h2>典型用法</h2>
       <h3>1. 推一个新订阅源</h3>
       <pre><code>curl -X POST http://192.168.1.100:10591/api/iptv-source/push \\
@@ -240,7 +262,9 @@ curl -X POST http://192.168.1.100:10591/api/backup/restore \\
       <h2>安全说明</h2>
       <doc-callout kind="warn" title="仅限局域网" icon="warning">
         10591 端口<b>没有鉴权</b>，CORS 全开。请只在家庭局域网内使用，<b>切勿</b>把端口映射到公网或不可信网络，
-        否则任何人都能读取你的设置、改写全部配置、推送任意 APK、篡改沙箱内的文件或用备份覆盖你的数据。
+        否则任何人都能读取你的设置、改写全部配置、推送任意 APK、篡改沙箱内的文件、用备份覆盖你的数据，
+        或通过「服务」页下发并运行 Python 脚本（等于在你设备上执行任意代码）。详见
+        <a [routerLink]="'/python-services'">Python 服务</a>的安全说明。
       </doc-callout>
     </div>
   `,
