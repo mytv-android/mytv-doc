@@ -171,6 +171,13 @@ import { DocCallout } from '../../shared/doc-callout';
         PyEval_SaveThread → 每个服务一个线程 PyGILState_Ensure/Release），脚本侧引导模块
         <code>assets/python/mytv_service.py</code> 负责日志分流、socketserver 注册与状态落盘。
       </p>
+      <p>
+        打包时会对 <code>lib-dynload</code> 的扩展模块做一处 ELF 改写：Chaquopy 的 libpython
+        没有 <code>DT_SONAME</code>、也不在 APK 的 lib 目录（运行时下载到应用私有目录），
+        bionic 无法按名字解析扩展模块 <code>DT_NEEDED libpython3.11.so</code>；因此把这些
+        NEEDED 等长改写为系统库，并在应用侧以 <code>RTLD_GLOBAL</code> 加载 libpython，
+        Python C API 符号从全局作用域解析（Android 12 模拟器实测验证）。
+      </p>
     </div>
   `,
 })
