@@ -448,8 +448,8 @@ export const SEARCH_INDEX: SearchIndexEntry[] = [
     path: '/player-settings',
     title: '播放器与字幕设置',
     anchor: '',
-    section: '解码参数（IJK / EXO）',
-    keywords: '解码参数 IJK EXO Media3 analyzeduration probesize 缓存 去隔行 GL自动 GL强制 音频软解 隧道模式 起播缓冲 边播缓冲 恢复默认 按Host URL 设备 记忆解码',
+    section: '解码参数（IJK / Media3）',
+    keywords: '解码参数 IJK Media3 analyzeduration probesize 缓存 音频软解 隧道模式 隧道解码 起播缓冲 边播缓冲 按Host URL 设备 记忆解码',
   },
   {
     path: '/player-settings',

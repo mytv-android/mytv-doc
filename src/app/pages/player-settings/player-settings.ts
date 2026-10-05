@@ -177,10 +177,10 @@ import { DocCallout } from '../../shared/doc-callout';
         </tbody>
       </table>
 
-      <h3>解码参数（IJK / EXO）</h3>
+      <h3>解码参数（IJK / Media3）</h3>
       <p>
-        <b>设置 → 播放器 → 解码参数</b>：统一设置 IJK 与 Media3（EXO）的解码参数，保存后立即生效。
-        页面分「IJK 解码参数」「Media3 解码参数」两组，底部「恢复默认」可将全部解码参数恢复为默认值。
+        <b>设置 → 播放器 → 解码参数</b>：统一设置 IJK 与 Media3 的解码参数，保存后立即生效。
+        页面分「IJK 解码参数」「Media3 解码参数」两组。
       </p>
       <p>
         优先级：<b>按 Host / URL / 设备 记忆的解码配置</b> &gt; <b>分组级参数</b>（<code>IJKAD</code> / <code>EXOBM</code>，见
@@ -214,20 +214,20 @@ import { DocCallout } from '../../shared/doc-callout';
           </tr>
           <tr>
             <td>隧道模式</td>
-            <td><code>videoPlayerExoTunneled</code> = <code>false</code></td>
+            <td><code>videoPlayerMedia3Tunneled</code> = <code>false</code></td>
             <td>
               Media3：开启后音视频由设备硬件直接解码输出，可降低功耗与延迟；
-              部分设备不兼容会黑屏无声。
+              部分设备不兼容会花屏或无声，属设备本地设置，不参与云同步。
             </td>
           </tr>
           <tr>
             <td>起播缓冲（毫秒）</td>
-            <td><code>videoPlayerExoBufferPlaybackMs</code> = <code>2500</code></td>
+            <td><code>videoPlayerMedia3BufferPlaybackMs</code> = <code>2500</code></td>
             <td>Media3：开始播放前需要缓冲的最小时长。</td>
           </tr>
           <tr>
             <td>边播缓存（毫秒）</td>
-            <td><code>videoPlayerExoBufferRebufferMs</code> = <code>-1</code>（关闭）</td>
+            <td><code>videoPlayerMedia3BufferRebufferMs</code> = <code>-1</code>（关闭）</td>
             <td>Media3：播放中重新缓冲的最小时长。<code>-1</code> 为关闭。</td>
           </tr>
         </tbody>
@@ -322,7 +322,7 @@ import { DocCallout } from '../../shared/doc-callout';
           <tr>
             <td>代理</td>
             <td>空</td>
-            <td>全局代理。支持 <code>http://</code> / <code>socks5://</code>。TV 端只读；编辑请到面板。</td>
+            <td>全局代理。支持 <code>http://</code> / <code>socks5://</code>，可带认证 <code>user:pass@host:port</code>（IJK/VLC 内核的 SOCKS 认证支持有限）。TV 端只读；编辑请到面板。</td>
           </tr>
           <tr>
             <td>代理规则</td>
@@ -557,7 +557,7 @@ import { DocCallout } from '../../shared/doc-callout';
         </tbody>
       </table>
 
-      <h3>解码参数（IJK / EXO）</h3>
+      <h3>解码参数（IJK / Media3）</h3>
       <table>
         <thead>
           <tr><th>面板字段</th><th>类型</th><th>说明</th></tr>
@@ -566,15 +566,14 @@ import { DocCallout } from '../../shared/doc-callout';
           <tr><td>IJK analyzeduration（微秒）</td><td>数字输入</td><td>默认 2000000</td></tr>
           <tr><td>IJK probesize（字节）</td><td>数字输入</td><td>默认 5000000</td></tr>
           <tr><td>IJK 缓存（毫秒）</td><td>数字输入</td><td>默认 -1（关闭）</td></tr>
-          <tr><td>IJK 去隔行</td><td>下拉</td><td>关闭 / GL 自动 / GL 强制</td></tr>
           <tr><td>IJK 音频软解</td><td>开关</td><td>—</td></tr>
-          <tr><td>Media3 隧道模式</td><td>开关</td><td>硬件直解直出，部分设备黑屏无声</td></tr>
+          <tr><td>Media3 隧道模式</td><td>开关</td><td>硬件直解直出，部分设备花屏无声</td></tr>
           <tr><td>Media3 起播缓冲（毫秒）</td><td>数字输入</td><td>默认 2500</td></tr>
           <tr><td>Media3 边播缓存（毫秒）</td><td>数字输入</td><td>默认 -1（关闭）</td></tr>
         </tbody>
       </table>
       <p>
-        保存后立即生效；面板同样提供「恢复默认」，将所有解码参数恢复为默认值。
+        保存后立即生效。
       </p>
 
       <h3>正则解码配置（面板专属）</h3>
@@ -615,7 +614,7 @@ import { DocCallout } from '../../shared/doc-callout';
           <tr><td>全局 UA</td><td>单行文本</td><td>—</td></tr>
           <tr><td>自定义 headers</td><td>多行文本</td><td>每行 <code>Name: Value</code></td></tr>
           <tr><td>自定义 DNS</td><td>单行文本</td><td>仅 Media3 内核生效</td></tr>
-          <tr><td>代理</td><td>单行文本</td><td>支持 <code>http://</code> / <code>socks5://</code></td></tr>
+          <tr><td>代理</td><td>单行文本</td><td>支持 <code>http://</code> / <code>socks5://</code>，可带认证 <code>user:pass@host:port</code></td></tr>
           <tr><td>代理规则</td><td>动态列表</td><td>每项：正则规则 + 代理；可添加 / 删除多条</td></tr>
         </tbody>
       </table>

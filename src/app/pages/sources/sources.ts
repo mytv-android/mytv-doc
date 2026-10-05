@@ -464,7 +464,7 @@ import { DocCallout } from '../../shared/doc-callout';
             <td>
               <p>单源级代理（<code>httpProxy</code>）。所有类型（含本地源）均显示。</p>
               <p>播放器解析有效代理的优先级：<b>播放器代理规则列表</b>（正则匹配）&gt; <b>当前订阅源的 httpProxy</b> &gt; <b>播放器全局代理</b>。</p>
-              <p>格式：<code>http://host:port</code> 或 <code>socks5://host:port</code>。</p>
+              <p>格式：<code>http://host:port</code> 或 <code>socks5://host:port</code>，可带认证 <code>user:pass@host:port</code>。</p>
             </td>
           </tr>
           <tr>
