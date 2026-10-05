@@ -706,6 +706,20 @@ export const SEARCH_INDEX: SearchIndexEntry[] = [
   {
     path: '/python-services',
     title: 'Python 服务',
+    anchor: '#auto-update',
+    section: '脚本自动更新',
+    keywords: '自动更新 后台拉取 更新间隔 立即更新 本地文件 远程链接 内容变化 重启 拉取失败 保留旧脚本',
+  },
+  {
+    path: '/python-services',
+    title: 'Python 服务',
+    anchor: '#advanced',
+    section: '高级选项（每个服务单独配置）',
+    keywords: 'User-Agent UA 代理 socks5 HTTP_PROXY 附加启动参数 --no-4k 环境变量 KEY=VALUE os.environ 自动重启 秒退保护',
+  },
+  {
+    path: '/python-services',
+    title: 'Python 服务',
     anchor: '#api',
     section: 'HTTP API（高级）',
     keywords: 'API /api/python/status runtime download delete selftest fetch-code check service save delete start stop log code pythonServiceList 云同步 备份',

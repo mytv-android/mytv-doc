@@ -56,17 +56,46 @@ import { DocCallout } from '../../shared/doc-callout';
         <li>面板 <b>服务</b> 页 → 右上角 <b>添加服务</b>。</li>
         <li>填写 <b>服务名称</b>（如「央视频直播」）、<b>端口</b>（默认 8767）。</li>
         <li>
-          <b>代码来源</b> 填写远程链接（如
-          <code>https://example.com/others/ysp-live.py</code>），点击 <b>加载代码</b>；
-          也可以在「脚本代码」文本框中直接粘贴代码。
+          <b>代码来源</b> 选择 <b>远程链接</b>（如
+          <code>https://example.com/others/ysp-live.py</code>）或 <b>本地文件</b>（设备上的脚本路径，
+          可先在面板「文件」页上传、用「使用」按钮复制路径）；也可直接粘贴代码。
         </li>
+        <li>设置 <b>自动更新间隔</b>（小时，0 = 不自动更新）。</li>
         <li>点击 <b>检查代码</b>，查看语法检查与依赖提示（缺失的第三方依赖、Android 上受限的模块等）。</li>
-        <li>按需打开 <b>局域网共享</b>（见下文）与 <b>启用</b>，点击 <b>添加服务</b> 保存。</li>
+        <li>按需打开 <b>局域网共享</b> 与 <b>启用</b>，点击 <b>添加服务</b> 保存。</li>
       </ol>
       <p>
         保存后服务会立即按启用状态启动；启用过的服务在<b>应用启动时自动运行</b>。列表每 3 秒刷新一次状态，
-        行内可直接开关启用、启动 / 停止、查看日志、编辑或删除。
+        行内可直接开关启用、启动 / 停止、立即更新脚本、查看日志、编辑或删除。
       </p>
+
+      <h3 id="auto-update">脚本自动更新</h3>
+      <p>
+        应用会在后台按每个服务的 <b>更新间隔</b> 自动拉取脚本（无需在面板里手动点加载）：
+        远程脚本到期时自动下载，内容有变化则替换并重启服务；<b>本地文件</b>每次启动与检查时按内容变化同步。
+        面板服务的菜单里还有 <b>立即更新脚本</b>，可随时强制拉取一次。拉取失败时保留现有脚本并在列表显示错误。
+      </p>
+
+      <h3 id="advanced">高级选项（每个服务单独配置）</h3>
+      <table>
+        <thead>
+          <tr><th>设置</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><b>User-Agent</b></td><td>拉取脚本时使用的 UA（留空用内置默认值，部分站点会拒绝空 UA）</td></tr>
+          <tr>
+            <td><b>代理</b></td>
+            <td>
+              <code>http://host:port</code> 或 <code>socks5://host:port</code>：既用于拉取脚本，
+              也通过 <code>HTTP(S)_PROXY</code> 注入给脚本自身（<code>urllib</code> 等标准库会读取；
+              注意环境变量是解释器级的，多个服务共用一份）
+            </td>
+          </tr>
+          <tr><td><b>附加启动参数</b></td><td>追加在端口与 <code>--bind</code> 之后，例如参考脚本的 <code>--no-4k</code></td></tr>
+          <tr><td><b>环境变量</b></td><td>每行一条 <code>KEY=VALUE</code>，脚本用 <code>os.environ</code> 读取（如 TOKEN）</td></tr>
+          <tr><td><b>脚本退出后自动重启</b></td><td>脚本自行退出（含异常）后自动重启；连续 3 次启动即退出会停止重试并提示</td></tr>
+        </tbody>
+      </table>
 
       <h2 id="address">第三步：订阅地址</h2>
       <table>
@@ -105,6 +134,8 @@ import { DocCallout } from '../../shared/doc-callout';
         <li><b>无法主动停止不使用 http.server 的脚本</b>：停止依赖脚本创建的 socketserver；纯 socket / asyncio 脚本只能等其自行退出。</li>
         <li><b>Android 限制</b>：<code>multiprocessing</code>、<code>ctypes</code> 加载系统库、<code>subprocess</code> 运行应用目录内可执行文件等能力不可用或受限；脚本应避免使用。</li>
         <li><b>时区数据</b>：不含 tzdata，<code>zoneinfo</code> 需要系统时区支持（多数场景不受影响）。</li>
+        <li><b>代理与环境变量按解释器生效</b>：多个服务共用同一 Python 解释器，注入的 <code>HTTP(S)_PROXY</code> 等为进程级。</li>
+        <li><b>日志上限</b>：单个服务日志超过 2 MB 会清空重来，避免长期运行写满存储。</li>
         <li><b>同解释器多服务</b>：多个服务共享一个 Python 解释器，脚本的 <code>sys.argv</code> 与工作目录为进程级状态，应用会依次启动以避免互相干扰，脚本应使用 <code>__file__</code> 定位自身目录。</li>
         <li><b>脚本能力等于应用权限</b>：Python 脚本在应用进程内执行，段错误等原生崩溃会连带应用退出；请只添加可信来源的脚本。</li>
       </ul>
@@ -125,14 +156,21 @@ import { DocCallout } from '../../shared/doc-callout';
           <tr><td><code>GET /api/python/status</code></td><td>运行环境状态 + 服务列表（状态 / 地址 / 错误）</td></tr>
           <tr><td><code>POST /api/python/runtime/download</code> / <code>POST /api/python/runtime/delete</code></td><td>下载 / 删除 Python 运行环境</td></tr>
           <tr><td><code>POST /api/python/selftest</code></td><td>运行时自检（版本 / OpenSSL / SQLite / CA / 端口绑定）</td></tr>
-          <tr><td><code>POST /api/python/fetch-code</code></td><td>由设备端拉取远程脚本，body <code>&#123;"url":"…"&#125;</code></td></tr>
+          <tr><td><code>POST /api/python/fetch-code</code></td><td>由设备端拉取远程脚本，body <code>&#123;"url":"…","httpUserAgent":"…","httpProxy":"…"&#125;</code>（UA/代理可选）</td></tr>
           <tr><td><code>POST /api/python/check</code></td><td>静态检查，body <code>&#123;"id":"…"&#125;</code> 或 <code>&#123;"code":"…"&#125;</code></td></tr>
           <tr>
             <td><code>POST /api/python/service/save</code></td>
             <td>
               新增 / 更新服务，body：<code>id</code>（可选）、<code>name</code>、<code>port</code>、
-              <code>lanShare</code>、<code>enabled</code>、<code>codeUrl</code>、<code>code</code>
+              <code>lanShare</code>、<code>enabled</code>、<code>codeSource</code>（0 远程 / 1 本地）、
+              <code>codeUrl</code>、<code>httpUserAgent</code>、<code>httpProxy</code>、
+              <code>refreshIntervalHours</code>、<code>extraArgs</code>、<code>envVars</code>、
+              <code>autoRestart</code>、<code>code</code>（可选，留空则自动拉取/同步）
             </td>
+          </tr>
+          <tr>
+            <td><code>POST /api/python/service/refresh</code></td>
+            <td>立即拉取 / 同步脚本（不受更新间隔限制），脚本有变化且服务在运行时自动重启。body <code>&#123;"id":"…"&#125;</code></td>
           </tr>
           <tr><td><code>POST /api/python/service/delete</code></td><td>删除服务（脚本与日志一并删除）</td></tr>
           <tr><td><code>POST /api/python/service/start</code> / <code>POST /api/python/service/stop</code></td><td>启动 / 停止服务</td></tr>
