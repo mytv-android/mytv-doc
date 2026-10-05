@@ -16,7 +16,7 @@ import { DocCallout } from '../../shared/doc-callout';
 
       <h2 id="what">这是什么</h2>
       <p>
-        应用内「设置 → 订阅源 → 服务」允许你添加一个 Python 脚本（多数是为 <b>APTV</b> 等播放器编写的
+        应用内「设置 → 服务」允许你添加一个 Python 脚本（多数是为 <b>APTV</b> 等播放器编写的
         “服务脚本”，例如 <code>ysp-live.py</code>）。应用会在本机把脚本作为一个小型 HTTP
         服务运行起来，脚本对外提供 <code>m3u</code> 播放列表，随后就可以像普通订阅源一样使用，
         也可以分享给局域网内的其他播放器（APTV / 电脑播放器等）。
