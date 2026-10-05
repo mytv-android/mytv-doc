@@ -448,8 +448,8 @@ export const SEARCH_INDEX: SearchIndexEntry[] = [
     path: '/player-settings',
     title: '播放器与字幕设置',
     anchor: '',
-    section: '解码参数（IJK / Media3）',
-    keywords: '解码参数 IJK Media3 analyzeduration probesize 缓存 音频软解 隧道模式 隧道解码 起播缓冲 边播缓冲 按Host URL 设备 记忆解码',
+    section: '隧道模式（Media3，面板专属）',
+    keywords: '隧道模式 隧道解码 videoPlayerMedia3Tunneled Media3 硬件直解 功耗 延迟 花屏 无声 不参与云同步 分组级参数 IJKAD EXOBM analyzeduration probesize 起播缓冲 播放缓冲 更好的视频探测 不提供全局设置',
   },
   {
     path: '/player-settings',

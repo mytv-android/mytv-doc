@@ -177,61 +177,17 @@ import { DocCallout } from '../../shared/doc-callout';
         </tbody>
       </table>
 
-      <h3>解码参数（IJK / Media3）</h3>
+      <h3>隧道模式（Media3，面板专属）</h3>
       <p>
-        <b>设置 → 播放器 → 解码参数</b>：统一设置 IJK 与 Media3 的解码参数，保存后立即生效。
-        页面分「IJK 解码参数」「Media3 解码参数」两组。
+        面板<b>播放器</b>页提供 <b>Media3 隧道解码</b> 开关（<code>videoPlayerMedia3Tunneled</code>）：
+        开启后音视频由设备硬件直接解码输出，可降低功耗与延迟；部分设备不兼容会花屏或无声。
+        属设备本地设置，不参与云同步；保存后立即生效。
       </p>
       <p>
-        优先级：<b>按 Host / URL / 设备 记忆的解码配置</b> &gt; <b>分组级参数</b>（<code>IJKAD</code> / <code>EXOBM</code>，见
-        <a [routerLink]="'/sources'">订阅源</a>）&gt; <b>此处设置的全局值</b>。
-        分组级参数只对当前频道生效，不写入 SharedPreferences。
+        IJK 探测（analyzeduration / probesize）与缓冲类参数<b>不提供全局设置</b>：全局行为由「更好的视频探测」
+        「播放缓冲」控制（见上文）；需要按源微调时使用<b>分组级参数</b>（<code>IJKAD</code> / <code>EXOBM</code>，见
+        <a [routerLink]="'/sources'">订阅源</a>），只对当前频道生效，不写入 SharedPreferences。
       </p>
-      <table>
-        <thead>
-          <tr><th>设置</th><th>字段 / 默认值</th><th>取值 / 说明</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>analyzeduration（微秒）</td>
-            <td><code>videoPlayerIjkAnalyzeduration</code> = <code>2000000</code></td>
-            <td>IJK：播放前分析流的时长。数值越小起播越快，过大可能导致起播变慢。</td>
-          </tr>
-          <tr>
-            <td>probesize（字节）</td>
-            <td><code>videoPlayerIjkProbesize</code> = <code>5000000</code></td>
-            <td>IJK：探测数据大小。数值越小起播越快。</td>
-          </tr>
-          <tr>
-            <td>缓存（毫秒）</td>
-            <td><code>videoPlayerIjkCacheMs</code> = <code>-1</code>（关闭）</td>
-            <td>IJK 播放器缓存时长。<code>-1</code> 为关闭。</td>
-          </tr>
-          <tr>
-            <td>IJK 音频软解</td>
-            <td><code>videoPlayerIjkAudioSoft</code> = <code>false</code></td>
-            <td>强制音频走软解，部分设备可解决无声音问题。</td>
-          </tr>
-          <tr>
-            <td>隧道模式</td>
-            <td><code>videoPlayerMedia3Tunneled</code> = <code>false</code></td>
-            <td>
-              Media3：开启后音视频由设备硬件直接解码输出，可降低功耗与延迟；
-              部分设备不兼容会花屏或无声，属设备本地设置，不参与云同步。
-            </td>
-          </tr>
-          <tr>
-            <td>起播缓冲（毫秒）</td>
-            <td><code>videoPlayerMedia3BufferPlaybackMs</code> = <code>2500</code></td>
-            <td>Media3：开始播放前需要缓冲的最小时长。</td>
-          </tr>
-          <tr>
-            <td>边播缓存（毫秒）</td>
-            <td><code>videoPlayerMedia3BufferRebufferMs</code> = <code>-1</code>（关闭）</td>
-            <td>Media3：播放中重新缓冲的最小时长。<code>-1</code> 为关闭。</td>
-          </tr>
-        </tbody>
-      </table>
 
       <h3>缓冲与超时</h3>
       <table>
@@ -554,27 +510,9 @@ import { DocCallout } from '../../shared/doc-callout';
           <tr><td>音频屏保</td><td>开关</td><td>纯音频流显示固定背景</td></tr>
           <tr><td>画面锁定</td><td>开关</td><td>切源保留最后一帧</td></tr>
           <tr><td>AAC 音轨优先</td><td>开关</td><td>多音轨时默认选 AAC</td></tr>
-        </tbody>
-      </table>
-
-      <h3>解码参数（IJK / Media3）</h3>
-      <table>
-        <thead>
-          <tr><th>面板字段</th><th>类型</th><th>说明</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>IJK analyzeduration（微秒）</td><td>数字输入</td><td>默认 2000000</td></tr>
-          <tr><td>IJK probesize（字节）</td><td>数字输入</td><td>默认 5000000</td></tr>
-          <tr><td>IJK 缓存（毫秒）</td><td>数字输入</td><td>默认 -1（关闭）</td></tr>
-          <tr><td>IJK 音频软解</td><td>开关</td><td>—</td></tr>
           <tr><td>Media3 隧道模式</td><td>开关</td><td>硬件直解直出，部分设备花屏无声</td></tr>
-          <tr><td>Media3 起播缓冲（毫秒）</td><td>数字输入</td><td>默认 2500</td></tr>
-          <tr><td>Media3 边播缓存（毫秒）</td><td>数字输入</td><td>默认 -1（关闭）</td></tr>
         </tbody>
       </table>
-      <p>
-        保存后立即生效。
-      </p>
 
       <h3>正则解码配置（面板专属）</h3>
       <p>
