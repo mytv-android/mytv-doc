@@ -10,566 +10,491 @@ import { DocCallout } from '../../shared/doc-callout';
   template: `
     <div class="doc-page">
       <doc-page-header
-        title="播放器与字幕设置"
-        lead="视频播放器内核、解码、渲染、缓冲、字幕样式、ASR 实时字幕、字幕翻译的完整说明。本页同时覆盖 TV 应用内设置与 10591 面板配置。"
+        title="播放器与字幕"
+        lead="播放内核、解码渲染、超分插帧、缓冲、画面声音、网络请求与字幕的全部设置。播放出问题，先从「内核与组件」「解码与渲染」两节入手。"
       />
 
-      <h2>1. 视频播放器内核</h2>
+      <h2 id="core">内核与组件下载</h2>
       <p>
-        <b>电视直播</b>提供三种视频播放器内核，在 <b>设置 → 播放器 → 视频播放器内核</b> 中切换。
+        电视端 <b>设置 → 播放器 → 视频播放器内核</b> 切换全局默认内核；播放中也可以在快捷设置面板里临时切换。
       </p>
       <table>
         <thead>
-          <tr><th>内核</th><th>label</th><th>默认</th><th>说明</th></tr>
+          <tr><th>内核</th><th>说明</th></tr>
         </thead>
         <tbody>
           <tr>
-            <td><b>Media3</b></td>
-            <td><code>Media3</code></td>
-            <td>是</td>
-            <td>ExoPlayer 系。除 RTSP 单播以外基本支持全部功能。无需额外下载。</td>
+            <td><b>Media3</b>（默认）</td>
+            <td>除 RTSP 单播以外基本支持全部功能，随 App 内置、无需下载。绝大多数情况用它。</td>
           </tr>
           <tr>
             <td><b>IjkPlayer</b></td>
-            <td><code>IjkPlayer</code></td>
-            <td>—</td>
-            <td>基于 FFmpeg。部分视频（如加密的 dash）可能无法正常使用。<b>需先在「组件下载」在线下载</b>。</td>
+            <td>基于 FFmpeg。部分视频（如加密的 DASH）可能无法正常使用。<b>需先在组件下载中安装 IJK播放组件</b>。</td>
           </tr>
           <tr>
             <td><b>VLC</b></td>
-            <td><code>VLC</code></td>
-            <td>—</td>
-            <td>支持更多字幕格式。<b>需先在「组件下载」在线下载</b>。</td>
+            <td>支持更多的字幕格式。<b>需先在组件下载中安装 VLC播放组件</b>。</td>
           </tr>
         </tbody>
       </table>
+      <p>未下载的内核在内核选择页会显示「未下载，请先到「组件下载」中下载」。</p>
+
+      <h3 id="components">组件下载（设置 → 组件下载）</h3>
       <p>
-        IJK / VLC 是<b>在线下发组件</b>：在 <b>设置 → 组件下载</b> 中点击下载，长按可删除已下载的组件。
-        未下载时内核选择项和播放界面抽屉中会显示「未下载，请先到「组件下载」中下载」提示；组件状态包括
-        <b>未下载 / 下载中（带百分比）/ 校验中 / 解压中 / 已安装 / 下载失败</b>。
+        所有需要在线下载的组件统一在 <b>设置 → 组件下载</b> 管理：点击（OK）下载，
+        已安装的<b>长按可删除</b>（删除后需重新下载）。状态包括：
+        未下载 / 下载中（带百分比）/ 校验中 / 解压中 / 已安装 / 下载失败。
       </p>
-
-      <h2>2. TV 应用内设置项（设置 → 播放器）</h2>
-
-      <h3>解码与渲染</h3>
       <table>
         <thead>
-          <tr><th>设置</th><th>默认</th><th>取值 / 说明</th></tr>
+          <tr><th>组件</th><th>用途</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Python 运行环境</td><td>CPython 3.11 + 标准库（约 7 MB，需 Android 7.0 及以上），供「服务」使用，见 <a [routerLink]="'/python-services'">服务（Python / PHP）</a></td></tr>
+          <tr><td>PHP 运行环境</td><td>PHP 8.4 + 常用扩展，供 PHP 语言的服务使用</td></tr>
+          <tr><td>语音识别运行库（sherpa-onnx）</td><td>实时字幕（ASR）的识别引擎</td></tr>
+          <tr><td>AI Lite ONNX运行库 + AI 模型</td><td>AI Lite 超分（运行库与模型一起下载）</td></tr>
+          <tr><td>RIFE 补帧运行库</td><td>RIFE Vulkan 插帧</td></tr>
+          <tr><td>Real-ESRGAN 超分运行库</td><td>Real-ESRGAN Vulkan 超分</td></tr>
+          <tr><td>VLC播放组件 / IJK播放组件</td><td>VLC / IjkPlayer 播放内核</td></tr>
+          <tr>
+            <td>语音识别模型</td>
+            <td>
+              按 云端 / 中文 / 英文 / 多语言 / 其他语言 分组列出，显示语言与大小；
+              标注「云端」的模型无需下载，本地模型点击下载、长按删除。与 ASR 子页里的模型列表是同一份。
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 id="decode">解码与渲染</h2>
+      <p>
+        本节中标注「仅面板」的条目只能在远程配置面板（下称面板，见
+        <a [routerLink]="'/remote-panel'">远程配置面板</a>）的 <b>播放器</b> 页修改，电视端没有入口。
+      </p>
+      <table>
+        <thead>
+          <tr><th>设置项</th><th>说明</th></tr>
         </thead>
         <tbody>
           <tr>
             <td>渲染方式</td>
-            <td>SurfaceView</td>
             <td>
-              <b>SurfaceView</b>（默认，性能更好）/ <b>TextureView</b>（支持动画、截图等场景）。
-              <b>适配视频内容帧率</b>需要使用 SurfaceView。
+              <b>SurfaceView</b>（默认，性能更好）/ <b>TextureView</b>。
+              「适配视频内容帧率」需要使用 SurfaceView；画面异常时可在两者之间互换排查。
             </td>
           </tr>
           <tr>
             <td>强制软解</td>
-            <td>关</td>
             <td>
-              开启后：<b>Media3</b> 使用设备和扩展软解码器；<b>IJK / VLC</b> 禁用 MediaCodec 解码，改用 FFmpeg。
-              适合硬解异常或花屏时排查，会增加 CPU 占用与功耗。
+              开 / 关（默认）。Media3 使用设备和扩展软解码器；IJK / VLC 禁用 MediaCodec、改用 FFmpeg。
+              硬解异常（花屏、绿屏、无声）时的排查手段，会增加 CPU 占用与功耗。
             </td>
           </tr>
           <tr>
             <td>软解仅用于音频</td>
-            <td>关</td>
             <td>
-              仅对 <b>Media3</b> 内核生效：开启后「强制软解」只作用于音频解码，视频仍保持硬解。
-              适合音频硬解异常（无声、杂音、音画不同步）但视频硬解正常的设备。
-              <b>IJK / VLC</b> 的音频始终使用 FFmpeg 解码，无需此开关。
-            </td>
-          </tr>
-          <tr>
-            <td>超分路径</td>
-            <td>选项</td>
-            <td>
-              在设置页选择实时超分路径，QuickOP 通过弹出面板选择。GPU 空间增强、Anime4K Shader 和 FSR/CAS 风格 GLES 路径直接在解码后处理画面；AI Lite 按需下载轻量 ONNX 模型，在独立线程限频处理视频帧；Real-ESRGAN Vulkan 预留在线运行库和模型包接口，运行库准备期间使用 GPU FSR/CAS 输出。
-            </td>
-          </tr>
-          <tr>
-            <td>插帧路径</td>
-            <td>选项</td>
-            <td>
-              在设置页选择实时插帧路径，QuickOP 通过弹出面板选择。GPU 帧混合在解码后生成中间显示帧；RIFE Vulkan 预留在线运行库和模型包接口，运行库准备期间使用 GPU 帧混合输出。
-            </td>
-          </tr>
-          <tr>
-            <td>插帧目标帧率</td>
-            <td>选项</td>
-            <td>
-              可选自动、30、50、60、120 FPS。固定值会为增强输出 Surface 请求对应刷新率，GPU 帧混合会根据解码帧时间戳连续更新，设备刷新率和处理性能决定最终输出。
-            </td>
-          </tr>
-          <tr>
-            <td>AI 超分执行后端</td>
-            <td>选项</td>
-            <td>
-              AI Lite 可选择自动、NNAPI 设备加速或 CPU。自动模式优先尝试 NNAPI，NNAPI 可由系统选择 GPU、NPU 或其他设备加速实现。
-            </td>
-          </tr>
-          <tr>
-            <td>停止上一媒体项</td>
-            <td>关</td>
-            <td>换台时是否停止上一个流。关闭时换台更快，但部分设备可能出现短暂双流。</td>
-          </tr>
-          <tr>
-            <td>适配视频内容帧率</td>
-            <td>关</td>
-            <td>
-              开启后，播放视频时会根据检测到的场率或帧率请求系统切换显示刷新率，以减少因刷新率不匹配造成的卡顿。
-              <b>需要使用 SurfaceView 渲染模式</b>。切换期间可能短暂黑屏或闪烁。若无法检测到有效场率或帧率，将使用「兜底刷新率」。
-            </td>
-          </tr>
-          <tr>
-            <td>使用兜底刷新率</td>
-            <td>系统默认刷新率</td>
-            <td>
-              仅在「适配视频内容帧率」开启时出现。可选：
-              <b>系统默认刷新率</b>（不使用兜底，保持系统默认）/
-              <b>50 Hz</b>（中国、英国、德国、法国、澳大利亚等 PAL/50Hz 制式）/
-              <b>59.94 Hz</b>（美国、日本、韩国、加拿大等 NTSC/59.94Hz 制式）/
-              <b>60 Hz</b>（互联网视频流、部分直播源，或不确定制式时建议）。
-            </td>
-          </tr>
-          <tr>
-            <td>更好的视频探测</td>
-            <td>开</td>
-            <td>
-              开启后播放器将尝试更准确地探测视频格式，<b>可能会增加起播时间</b>：
-              <b>Media3</b> 支持缺少 AUD/IDR 的 TS 文件，并禁用 HLS 无块准备；
-              <b>IJK</b> 增大探测大小和分析时长，并开启环路过滤和精确跳转；
-              <b>VLC</b> 启用 android-opaque 输出。
+              开 / 关（默认），<b>仅 Media3 生效</b>：开启后强制软解只作用于音频，视频仍硬解。
+              适合音频硬解异常（无声、杂音、音画不同步）但视频正常的设备。
+              IJK / VLC 的音频始终用 FFmpeg 解码，无需此开关。
             </td>
           </tr>
           <tr>
             <td>记忆播放器和解码配置</td>
-            <td>无</td>
             <td>
-              <b>无 / Host / URL</b>。按线路 Host 或完整 URL 记忆「内核 / 渲染 / 软解」配置，换台回来时自动应用。
-              切换模式<b>会清空现有记忆设置</b>，请谨慎切换。
+              <b>无</b>（默认，不记忆）/ <b>Host</b>（按源的主机名记忆）/ <b>URL</b>（按源的完整链接记忆）。
+              记忆后，给某个频道临时换过的内核、软解配置在换台回来时自动应用。
+              <b>更改选项会清空现有记忆</b>，请谨慎切换。
             </td>
           </tr>
           <tr>
-            <td>音频屏保</td>
-            <td>关</td>
+            <td>正则解码配置（仅面板）</td>
             <td>
-              开启后纯音频流播放时显示固定背景，避免黑屏（<code>videoPlayerAudioScreensaver</code>）。
+              面板的 播放器 页可增删多条规则：正则规则 + 内核 + 强制软解。按顺序匹配线路 URL，
+              命中即用——例如给某个总是花屏的源单独指定内核和软解，不影响全局设置。电视端无此入口。
             </td>
           </tr>
           <tr>
-            <td>画面锁定（护眼）</td>
-            <td>关</td>
+            <td>Media3 隧道解码（仅面板）</td>
             <td>
-              开启后切换频道或线路时保留最后一帧画面，新源就绪后再切换，避免中间黑屏
-              （<code>videoPlayerKeepLastFrame</code>）。
-            </td>
-          </tr>
-          <tr>
-            <td>AAC 音轨优先</td>
-            <td>关</td>
-            <td>
-              存在多路音轨时默认选择 AAC；已手动选择的音轨优先（<code>videoPlayerAacPrefer</code>）。
+              开 / 关（默认）。开启后音视频由设备硬件直接解码输出，可降低功耗与延迟；
+              部分设备不兼容，会花屏或无声，遇到即关回。属设备本地设置，不参与云同步；保存后立即生效。
             </td>
           </tr>
         </tbody>
       </table>
 
-      <h3>隧道模式（Media3，面板专属）</h3>
+      <h2 id="enhancement">视频增强与插帧（实验性）</h2>
       <p>
-        面板<b>播放器</b>页提供 <b>Media3 隧道解码</b> 开关（<code>videoPlayerMedia3Tunneled</code>）：
-        开启后音视频由设备硬件直接解码输出，可降低功耗与延迟；部分设备不兼容会花屏或无声。
-        属设备本地设置，不参与云同步；保存后立即生效。
+        入口：<b>设置 → 播放器 → 视频增强与插帧</b>（带 Beta 标记）。页面顶部有红字警告：
+        「相关模式涉及底层调用，不兼容的设备可能导致应用退出，请确认设备支持后使用。」
+        播放中也可在快捷设置面板里临时切换超分与插帧。
       </p>
-      <p>
-        IJK 探测（analyzeduration / probesize）与缓冲类参数<b>不提供全局设置</b>：全局行为由「更好的视频探测」
-        「播放缓冲」控制（见上文）；需要按源微调时使用<b>分组级参数</b>（<code>IJKAD</code> / <code>EXOBM</code>，见
-        <a [routerLink]="'/sources'">订阅源</a>），只对当前频道生效，不写入 SharedPreferences。
-      </p>
-
-      <h3>缓冲与超时</h3>
       <table>
         <thead>
-          <tr><th>设置</th><th>默认</th><th>取值 / 说明</th></tr>
+          <tr><th>设置项</th><th>说明</th></tr>
         </thead>
         <tbody>
           <tr>
-            <td>加载超时</td>
-            <td>10 秒</td>
+            <td>视频超分</td>
             <td>
-              预设：<b>1 / 2 / 3 / 4 / 5 / 10 / 15 / 20 / 25 / 30 / 45 / 60</b> 秒。
-              影响超时换源、断线重连的触发时机；值越小换源越快，但弱网下可能误判。
+              关闭超分（默认）/ Anime4K Shader（实时，适合 720p / 1080p 动漫内容）/ AMD FSR 1（EASU + RCAS）/
+              SGSR1（实时，优先适合 Adreno，其他设备也可尝试）/ SGSR2（无运动矢量回退，动态画面可能拖影）/
+              Arm ASR（无运动矢量回退，运动场景效果下降）/ <b>AI Lite 超分</b>（需在组件下载安装 ONNX 运行库 + 模型）/
+              <b>Real-ESRGAN Vulkan</b>（需在组件下载安装运行库，准备期间先用 AMD FSR 1 输出）。
+            </td>
+          </tr>
+          <tr>
+            <td>视频插帧</td>
+            <td>
+              关闭插帧（默认）/ GPU 帧混合（实时，运动场景可能有混合拖影）/
+              <b>RIFE Vulkan</b>（需在组件下载安装运行库，准备期间先用 GPU 帧混合）。
+            </td>
+          </tr>
+          <tr>
+            <td>插帧目标帧率</td>
+            <td>
+              自动跟随源帧率（默认）/ 目标 30 / 50 / 60 / 120 FPS。
+              固定值会为增强输出请求对应刷新率；实际输出受设备刷新率、源帧率和处理性能影响。
+            </td>
+          </tr>
+          <tr>
+            <td>AI 超分执行后端</td>
+            <td>
+              自动选择（默认，优先 NNAPI，失败回退 CPU）/ NNAPI 设备加速（由系统选择 GPU、NPU 等加速实现）/
+              CPU（兼容性较高，速度取决于设备 CPU）。仅对 AI Lite 超分生效。
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        不兼容的设备开启后可能花屏、卡顿甚至闪退：出问题回本页把「视频超分」「视频插帧」都关回「关闭」即可；
+        想继续尝试就一次只开一项、目标帧率先选 30。详见
+        <a [routerLink]="'/faq'" fragment="enhancement-crash">常见问题</a>。
+      </p>
+
+      <h2 id="smooth">流畅度与缓冲</h2>
+      <table>
+        <thead>
+          <tr><th>设置项</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>适配视频内容帧率</td>
+            <td>
+              开 / 关（默认）。按检测到的场率 / 帧率请求系统切换显示刷新率，减少刷新率不匹配造成的卡顿。
+              <b>需 SurfaceView 渲染模式</b>（Android 11 及以上）；切换期间可能短暂黑屏或闪烁。
+            </td>
+          </tr>
+          <tr>
+            <td>使用兜底刷新率</td>
+            <td>
+              仅在「适配视频内容帧率」开启后显示，检测不到有效帧率时使用：
+              系统默认刷新率（默认，不使用兜底）/ 50 Hz（中国、欧洲、澳洲等 PAL 制式地区）/
+              59.94 Hz（美、日、韩等 NTSC 制式地区）/ 60 Hz（互联网视频，或不确定制式时建议）。
+            </td>
+          </tr>
+          <tr>
+            <td>更好的视频探测</td>
+            <td>开（默认）/ 关。更准确地探测视频格式（对三种内核分别启用不同优化），但可能增加起播时间。</td>
+          </tr>
+          <tr>
+            <td>停止上一媒体项</td>
+            <td>开 / 关（默认）。开启后换台前先停止上一个流；关闭时换台更快，但部分设备可能出现短暂双流。</td>
+          </tr>
+          <tr>
+            <td>加载超时</td>
+            <td>
+              可选 1 / 2 / 3 / 4 / 5 / <b>10（默认）</b> / 15 / 20 / 25 / 30 / 45 / 60 秒。
+              影响超时换源与断线重连的触发时机：调小换源更快，但弱网下可能误判。
             </td>
           </tr>
           <tr>
             <td>播放缓冲</td>
-            <td>0</td>
             <td>
-              预设：<b>0 / 1 / 2 / 3 / 4 / 5 / 6 / 7 / 8 / 9 / 10 / 15 / 20 / 25 / 30 / 45 / 60</b>。
-              <b>Media3 / VLC</b>：单位为<b>秒</b>（播放前的最小缓存加载时间）；
-              <b>IJK</b>：单位为<b>帧</b>（播放前的最小缓存加载帧数，约 1 秒 ≈ 30 帧）。
-              列表中展示形如 <code>10 s | 300f</code> 的「秒 | 帧」双单位值。
+              播放前的最小缓存加载量，预设 0～60 多档，默认 0。
+              <b>Media3 / VLC 单位为秒，IJK 单位为帧</b>（列表以「秒 | 帧」形式展示，如 10 s | 300f）。
+              经常卡顿可调到 3～5 秒。
             </td>
           </tr>
           <tr>
             <td>停滞重试</td>
-            <td>关闭</td>
             <td>
-              预设：<b>关闭 / 3 / 5 / 8 / 10 / 15 / 20 / 30 / 45 / 60</b> 秒。
-              播放位置长时间不变时，自动重试当前线路；默认关闭。
+              关闭（默认）/ 3 / 5 / 8 / 10 / 15 / 20 / 30 / 45 / 60 秒。
+              播放位置长时间不变时，自动重试当前线路。
             </td>
           </tr>
           <tr>
-            <td>SeekTo 方式</td>
-            <td>重载URL跳转</td>
+            <td>SeekTo方式</td>
             <td>
-              <b>重载URL跳转</b>（默认）：回看节目时通过修改 URL 的 <code>startAt</code> 参数重新请求；
-              <b>播放器 seekTo 跳转</b>：使用播放器原生 seekTo，依赖已缓冲内容。
+              <b>重载URL跳转</b>（默认）：回看时通过修改 URL 的 startAt 参数重新请求；
+              <b>播放器seekTo跳转</b>：使用播放器原生跳转，依赖已缓冲内容。与回看相关，见
+              <a [routerLink]="'/epg'">节目单</a>。
             </td>
           </tr>
           <tr>
             <td>RTSP 传输方式</td>
-            <td>TCP</td>
             <td><b>TCP</b>（默认，更稳定）/ <b>UDP</b>（延迟更低，但易丢包）。仅对 RTSP 源生效。</td>
           </tr>
         </tbody>
       </table>
 
-      <h3>显示模式</h3>
-      <p>
-        <b>设置 → 播放器 → 全局显示模式</b>，可选：
-        <b>原始 / 填充 / 裁剪 / 4:3 / 16:9（默认）/ 2.35:1</b>。
-        原始保留视频原始比例；填充拉伸铺满；裁剪等比裁剪铺满；4:3、16:9、2.35:1 按指定比例适配屏幕。
-      </p>
-
-      <h3>请求与网络</h3>
+      <h2 id="av">画面与声音</h2>
       <table>
         <thead>
-          <tr><th>设置</th><th>默认</th><th>说明</th></tr>
+          <tr><th>设置项</th><th>说明</th></tr>
         </thead>
         <tbody>
           <tr>
-            <td>在链接中提取 Header</td>
-            <td>关</td>
+            <td>全局显示模式</td>
             <td>
-              解析 <code>url|Header1=v1&amp;Header2=v2</code> 格式，以 <code>|</code> 分隔的 Header 会作为请求头附加。
-              适合需要单独给某条线路加 Referer / Origin 的场景。
+              <b>16:9</b>（默认）/ 原始 / 填充 / 裁剪 / 4:3 / 2.35:1。
+              播放中也可在快捷设置面板里临时切换显示模式，并可「应用到全局」（等同修改本项）。
             </td>
           </tr>
           <tr>
-            <td>全局 UA</td>
-            <td><code>Mytv.Android</code></td>
-            <td>全局 User-Agent。TV 端<b>只读</b>，编辑请到 10591 面板。</td>
-          </tr>
-          <tr>
-            <td>自定义 headers</td>
-            <td>空</td>
+            <td>音量平衡</td>
             <td>
-              TV 端<b>只读</b>，无效时显示错误图标；编辑请到面板。面板格式为每行 <code>Name: Value</code>。
+              关闭（默认）/ 低 / 中 / 高。统一均衡各频道音量，解决不同频道音量大小不一的问题；
+              日常推荐「中」。<b>仅 Media3 播放器生效</b>。
             </td>
           </tr>
           <tr>
-            <td>自定义 DNS</td>
-            <td>空</td>
-            <td>自定义 DNS 服务器，<b>仅 Media3 内核生效</b>。TV 端只读；编辑请到面板。</td>
+            <td>音频屏保（仅面板）</td>
+            <td>
+              开 / 关（默认）。开启后，没有视频轨的纯音频频道（如广播）隐藏画面、改显当前主题背景，音频照常播放；
+              切回带画面的频道自动恢复。轨道还没探测出来时不会误触发。
+            </td>
+          </tr>
+          <tr>
+            <td>AAC 优先（仅面板）</td>
+            <td>
+              开 / 关（默认）。多音轨时优先选择 AAC。<b>Media3、IJK 生效</b>；
+              VLC 的轨道信息不带编码，无法判断，保持播放器默认选择。
+              手动选过音轨的频道以记忆为准，本项不覆盖。
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 id="network">网络请求（仅网页面板可改）</h2>
+      <p>
+        以下条目影响播放器发起网络请求的方式。电视端只读（「自定义headers」格式非法时会显示错误图标，
+        「代理规则」显示「共N条规则」），编辑一律在面板的 <b>播放器</b> 页（部分也可在面板首页快捷卡片修改），改动即保存。
+      </p>
+      <table>
+        <thead>
+          <tr><th>设置项</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>全局UA</td>
+            <td>播放器网络请求的 User-Agent，默认 <code>Mytv.Android</code>。个别源站校验 UA 时才需要改。</td>
+          </tr>
+          <tr>
+            <td>自定义headers</td>
+            <td>附加到播放器请求的 HTTP 头，面板中每行一条 <code>Name: Value</code>。</td>
+          </tr>
+          <tr>
+            <td>自定义DNS</td>
+            <td>播放器域名解析使用的 DNS 服务器，<b>仅 Media3 内核生效</b>。</td>
           </tr>
           <tr>
             <td>代理</td>
-            <td>空</td>
-            <td>全局代理。支持 <code>http://</code> / <code>socks5://</code>，可带认证 <code>user:pass@host:port</code>（IJK/VLC 内核的 SOCKS 认证支持有限）。TV 端只读；编辑请到面板。</td>
+            <td>
+              播放器全局代理，支持 <code>http://</code> / <code>socks5://</code>，可带认证
+              <code>user:pass@host:port</code>（IJK / VLC 内核的 SOCKS 认证支持有限）。
+            </td>
           </tr>
           <tr>
             <td>代理规则</td>
-            <td>空</td>
+            <td>按正则规则匹配 URL 选择不同代理，可添加多条，分流使用。</td>
+          </tr>
+          <tr>
+            <td>在链接中提取 Header</td>
             <td>
-              按正则规则匹配 URL 选择不同代理，可添加 / 删除多条。TV 端只读，编辑请到面板。
-              TV 端显示「共 N 条规则」。
+              开 / 关（默认）。开启后支持解析 <code>url|Header1=v1&amp;Header2=v2</code> 格式，
+              把 <code>|</code> 后的内容作为请求头附加。适合只需要给某条线路单独加 Referer 等请求头的场景。
+              <b>此项电视端可直接修改</b>（设置 → 播放器）。
             </td>
           </tr>
         </tbody>
       </table>
 
-      <h3>音量</h3>
+      <h2 id="subtitle-style">字幕样式（设置 → 界面 → 字幕设置）</h2>
       <p>
-        <b>设置 → 播放器 → 音量平衡</b>（仅 Media3）：统一均衡输出播放音量，避免不同频道音量差异过大。可选：
+        字幕样式与播放器内核无关，统一在 <b>设置 → 界面 → 字幕设置</b> 配置，页面下方带实时预览（示例文本「示例字幕」）。
       </p>
       <table>
         <thead>
-          <tr><th>等级</th><th>说明</th></tr>
-        </thead>
-        <tbody>
-          <tr><td><b>关闭</b>（默认）</td><td>不进行额外音量均衡处理；仅支持 Media3 播放器。</td></tr>
-          <tr><td><b>低</b></td><td>轻度调节，尽量保留原始动态范围；仅支持 Media3 播放器。</td></tr>
-          <tr><td><b>中</b></td><td>推荐模式，兼顾人声稳定和整体听感；仅支持 Media3 播放器。</td></tr>
-          <tr><td><b>高</b></td><td>更积极地压平音量波动，适合音量差异很大的源；仅支持 Media3 播放器。</td></tr>
-        </tbody>
-      </table>
-
-      <h2>3. 字幕样式（设置 → 界面 → 字幕设置）</h2>
-      <p>字幕样式与播放器内核无关，统一在「设置 → 界面 → 字幕设置」中配置，页面带实时预览（示例文本「示例字幕」）。</p>
-      <table>
-        <thead>
-          <tr><th>设置</th><th>默认 / 取值</th><th>说明</th></tr>
+          <tr><th>设置项</th><th>说明</th></tr>
         </thead>
         <tbody>
           <tr>
             <td>使用系统样式</td>
-            <td>关</td>
-            <td>开启后使用 Android 系统（设置 → 无障碍）中设置的字体样式，忽略下方自定义。</td>
+            <td>开 / 关（默认）。开启后使用 Android 系统（设置 → 无障碍）中的字幕样式，忽略下方自定义。</td>
           </tr>
           <tr>
             <td>跟随源嵌入样式</td>
-            <td>关</td>
-            <td>开启后使用视频源（如 MKV 内嵌字幕）自带的样式与字号。</td>
+            <td>开（默认）/ 关。开启后使用视频源（如内嵌字幕）自带的样式与字号。</td>
           </tr>
           <tr>
             <td>字体颜色</td>
-            <td>白</td>
-            <td>12 色板：红、品红、绿、蓝、青、黄、黑、深灰、灰、浅灰、白、透明。</td>
+            <td>默认白色。12 色色板：红、品红、绿、蓝、青、黄、黑、深灰、灰、浅灰、白、透明。</td>
           </tr>
           <tr>
             <td>背景颜色</td>
-            <td>黑</td>
-            <td>同上 12 色板；实际显示受「背景透明度」控制。</td>
+            <td>默认透明，同色板；实际深浅还受「背景透明度」控制。</td>
           </tr>
           <tr>
             <td>边框颜色</td>
-            <td>黑</td>
-            <td>同上 12 色板；边框类型固定为描边（OUTLINE）。</td>
+            <td>默认透明，同色板；边框为描边样式。</td>
           </tr>
           <tr>
             <td>窗口颜色</td>
-            <td>透明</td>
-            <td>同上 12 色板；窗口为字幕背后的矩形区域。</td>
+            <td>默认透明，同色板；窗口指字幕背后的整块矩形区域。</td>
           </tr>
           <tr>
             <td>字体大小</td>
-            <td>—</td>
-            <td>10 / 20 / 30 / … / 180，步进 10（共 18 档），单位 dp。</td>
+            <td>10 ～ 180，步进 10，默认 70。</td>
           </tr>
           <tr>
             <td>背景透明度</td>
-            <td>—</td>
-            <td>0–100% 滑杆，0% 为完全透明，100% 为完全不透明。</td>
+            <td>滑杆 0% ～ 100%，0% 完全透明。</td>
           </tr>
           <tr>
             <td>字幕位置</td>
-            <td>—</td>
-            <td>0–50% 滑杆，控制字幕距屏幕底部的相对位置。</td>
+            <td>滑杆 0% ～ 50%，字幕距屏幕底部的相对位置，默认 8%。</td>
           </tr>
         </tbody>
       </table>
 
-      <h2>4. ASR 实时字幕（Beta）</h2>
+      <h2 id="asr">实时字幕 ASR（Beta）</h2>
       <p>
-        对没有字幕的直播流，<b>电视直播</b>可基于 <b>Sherpa-ONNX</b> 实时生成字幕，<b>支持 Media3 和 IJK 播放器</b>。
-        首次启用会下载 Sherpa 引擎和所选模型；模型从 GitHub Releases 下载 <code>tar.bz2</code> 并解压到应用文件目录。
+        对没有字幕的直播流，在设备本地做语音识别、实时生成字幕。<b>支持 Media3 和 IJK 播放器</b>（VLC 不支持）。
+        入口：<b>设置 → 播放器 → 实时字幕 (ASR)</b>。
       </p>
-      <p><b>设置 → 播放器 → 实时字幕 (ASR)</b> 子页面提供：</p>
+      <p>启用前需要准备两样东西（都在 <a href="#components">组件下载</a> 一节）：</p>
+      <ol>
+        <li><b>语音识别运行库（sherpa-onnx）</b>：识别引擎，首次启用实时字幕时也会自动开始下载；</li>
+        <li><b>识别模型</b>：在子页模型列表或组件下载中点击下载。标注「云端」的模型无需下载，也不需要运行库。</li>
+      </ol>
+
+      <h3 id="asr-options">子页设置项</h3>
       <table>
         <thead>
-          <tr><th>设置</th><th>默认</th><th>取值 / 说明</th></tr>
+          <tr><th>设置项</th><th>说明</th></tr>
         </thead>
         <tbody>
           <tr>
             <td>启用实时字幕</td>
-            <td>关</td>
-            <td>开启后自动识别音频并生成字幕。首次启用会下载 Sherpa 引擎（下载中 / 解压中 / 加载中 / 失败）。</td>
+            <td>开 / 关（默认）。开启后自动识别音频并生成字幕。</td>
           </tr>
           <tr>
             <td>实验性领先字幕（HLS）</td>
-            <td>关</td>
             <td>
-              开启后切换为 <b>实验性领先（HLS）</b> 模式：Media3 HLS 会主动解码未来分片并提前识别；不提前显示字幕，不支持的流会自动回退。
-              关闭为 <b>标准（渲染器）</b> 模式。
+              开 / 关（默认）。开启后 Media3 HLS 会主动解码未来分片并提前识别，让字幕更接近对白时机；
+              不提前显示字幕，不支持的流自动回退为标准（渲染器）模式。
             </td>
           </tr>
           <tr>
             <td>领先字幕提前量</td>
-            <td>500 ms</td>
             <td>
-              0–10000 ms，步进 100。主动识别优先从「当前播放进度 + 该时间」的位置开始；
-              如果播放列表没有这么远的未来分片，则使用能取到的最远未来分片。
+              滑杆 0 ～ 10000 ms（步进 100），默认 500 ms。
+              主动识别从「当前播放进度 + 该时间」的位置开始；播放列表没有这么远的分片时，用能取到的最远分片。
             </td>
           </tr>
           <tr>
             <td>非领先路径优先流式模型</td>
-            <td>开</td>
             <td>
-              当 HLS 主动领先不可用或失败时，优先使用已下载的流式 ASR 模型以降低字幕延迟；
-              <b>不会在播放中自动下载模型</b>。
+              开（默认）/ 关。领先字幕不可用或失败时，优先使用已下载的流式模型以降低字幕延迟；
+              不会在播放中自动下载模型。
             </td>
           </tr>
           <tr>
             <td>VAD 类型</td>
-            <td>Silero</td>
-            <td>
-              <b>Silero</b>（默认）/ <b>TenVad</b>（中英混杂、低信噪比下更准）。语音活动检测后端。
-            </td>
+            <td>Silero（默认）/ TenVad。语音活动检测后端；TenVad 在中英混杂、低信噪比下更准。</td>
           </tr>
           <tr>
             <td>断句静音阈值</td>
-            <td>650 ms</td>
             <td>
-              100–2000 ms，步进 50。说话后静音多久触发断句。值越小断句越灵敏，但可能在短停顿时切断；
-              值越大字幕更连贯，但停顿后断句延迟更长。
-            </td>
-          </tr>
-          <tr>
-            <td>识别模型</td>
-            <td>—</td>
-            <td>
-              按<b>分类</b>分组（云端 / 中文 / 英文 / 多语言 / 其他语言），每条显示「名称 · 语言 · 大小 · 描述」。
-              状态：<b>未下载 / 下载中（带百分比）/ 解压中 / 已开启 / 点击选择</b>；
-              点击未下载模型触发下载，点击已下载模型切换为当前；
-              <b>长按可删除已下载模型</b>（云端模型不可删除）。模型类型含离线与流式（流式可作为真正的领先字幕）。
-              大陆地区 ASR 模型自动通过 GitHub 代理下载。
+              滑杆 100 ～ 2000 ms（步进 50），默认 650 ms。说话后静音多久触发断句：
+              越小断句越灵敏但可能切断短停顿，越大字幕更连贯但停顿后断句更慢。
             </td>
           </tr>
         </tbody>
       </table>
-      <doc-callout kind="warn" title="Gemini 云端模型凭据" icon="cloud">
-        当选中 <b>Gemini Live Translate（云端）</b> 模型时，子页面会额外显示
-        <b>Gemini API Key</b>（Google AI Studio 申请，仅存本机，不参与云同步）和
-        <b>Gemini 端点</b>（留空使用官方默认端点）。这两个字段在 TV 端只读，请到 10591 面板配置。
+
+      <h3 id="asr-models">识别模型</h3>
+      <p>
+        子页下半部分是模型列表，按 <b>云端 / 中文 / 英文 / 多语言 / 其他语言</b> 分组，
+        每条显示名称、语言、大小与描述：
+      </p>
+      <ul>
+        <li>点击未下载的模型开始下载（带进度百分比）；点击已下载的模型选用为当前模型，再点一次取消选用；</li>
+        <li><b>长按删除</b>已下载的本地模型（云端模型不可删除）；</li>
+        <li>同一份模型列表也在「设置 → 组件下载」中统一管理。</li>
+      </ul>
+      <doc-callout kind="info" title="云端 Gemini 模型" icon="cloud">
+        选中 <b>Gemini Live Translate（云端）</b> 模型后，子页会多出 <b>Gemini API Key</b> 与
+        <b>Gemini 端点</b> 两项（电视端只读，在面板的 播放器 页填写）：Key 在 Google AI Studio 申请，
+        仅存本机、不参与云同步；端点留空使用官方默认。该模型识别与翻译一体。
+        模型下载慢或失败的处理见 <a [routerLink]="'/faq'" fragment="asr-model-download">常见问题</a>。
       </doc-callout>
 
-      <h2>5. 字幕翻译（Beta）</h2>
+      <h2 id="translation">字幕翻译（Beta）</h2>
       <p>
-        将实时字幕（ASR）和已选字幕轨翻译为目标语言。带字幕轨的播放源优先翻译字幕轨：译文显示在原文<b>上方</b>，
-        同一字幕视图内自底向上避让堆叠，不再与原文重叠。
+        把实时字幕（ASR）或视频已选字幕轨翻译成目标语言，译文显示在原文<b>上方</b>。
+        入口：<b>设置 → 播放器 → 字幕翻译</b>。
       </p>
       <table>
         <thead>
-          <tr><th>设置</th><th>默认</th><th>取值 / 说明</th></tr>
+          <tr><th>设置项</th><th>说明</th></tr>
         </thead>
         <tbody>
           <tr>
             <td>翻译引擎</td>
-            <td>未配置</td>
             <td>
-              <b>未配置</b> / <b>腾讯翻译</b> / <b>百度翻译</b> / <b>MTranServer（自托管）</b>。<br/>
-              <b>腾讯翻译</b>：需 SecretId / SecretKey（面板填）。<br/>
-              <b>百度翻译</b>：需 API Key / 密钥（面板填）。<br/>
-              <b>MTranServer</b>：填服务器地址（如 <code>http://192.168.1.100:8989</code>）和可选 API Token（留空表示无认证服务器）。
+              未配置（默认，不翻译）/ <b>腾讯翻译</b>（需 SecretId、SecretKey）/ <b>百度翻译</b>（需 API Key、密钥）/
+              <b>MTranServer（自托管）</b>（填服务器地址，如 <code>http://192.168.1.100:8989</code>，
+              API Token 可选、留空表示无认证）。<b>凭据均在面板的 播放器 页填写</b>，电视端只显示「已配置 / 未配置」。
             </td>
           </tr>
           <tr>
             <td>目标语言</td>
-            <td>en</td>
             <td>
-              en / zh / ja / ko / fr / de / es / ru / pt / it / th / vi / id / ms / ar / yue（粤语）。
-              翻译的目标语言代码。
+              默认 English；共 16 种：英 / 中 / 日 / 韩 / 法 / 德 / 西 / 俄 / 葡 / 意 / 泰 / 越 / 印尼 / 马来 / 阿 / 粤语。
             </td>
           </tr>
           <tr>
             <td>译文大小</td>
-            <td>×1.0</td>
             <td>
-              翻译字幕相对原文字幕的字号比例，TV 端可选 ×0.5 ~ ×1.5（面板可输入 0.5 ~ 2.0）。
-              原文大小仍由「字幕设置」的字号控制；关闭「应用内嵌样式」时译文与原文使用同一字号。
+              翻译字幕相对原文字幕的字号比例，×0.5 ～ ×1.5（步进 0.1），默认 ×1.0（面板可设 0.5 ～ 2.0）。
             </td>
           </tr>
         </tbody>
       </table>
-      <p>引擎凭据（SecretId / SecretKey / API Key / 服务器地址 / Token 等）在 TV 端均<b>只读</b>，显示「已配置 / 未配置」，编辑请到 10591 面板。</p>
-
-      <h2>6. 10591 面板（<code>/player</code>）的全部可配置项</h2>
       <p>
-        面板播放器页是<b>最完整</b>的配置入口，覆盖 TV 全部字段，且额外提供「正则解码配置」「代理规则」「ASR 凭据」等 TV 没有的可视化编辑。
+        注意区分：云端 Gemini 模型是「实时字幕 (ASR)」里的识别模型（识别与翻译一体），
+        不是这里的翻译引擎；两者互不影响，可单独使用。
       </p>
 
-      <h3>基础</h3>
-      <table>
-        <thead>
-          <tr><th>面板字段</th><th>类型</th><th>说明</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>视频播放器内核</td><td>下拉</td><td>Media3 / IjkPlayer / VLC</td></tr>
-          <tr><td>渲染方式</td><td>下拉</td><td>SurfaceView / TextureView</td></tr>
-          <tr><td>记忆播放器和解码配置</td><td>下拉</td><td>无 / Host / URL；切换会清空现有记忆</td></tr>
-          <tr><td>强制软解</td><td>开关</td><td>—</td></tr>
-          <tr><td>软解仅用于音频</td><td>开关</td><td>仅 Media3 内核</td></tr>
-          <tr><td>超分模式</td><td>下拉</td><td>关闭 / GPU 空间增强（实时）/ Anime4K Shader（实时）/ GPU FSR/CAS 风格（实时）/ AI Lite 超分（在线模型）/ Real-ESRGAN Vulkan（在线运行库）</td></tr>
-          <tr><td>插帧模式</td><td>下拉</td><td>关闭 / GPU 帧混合（实时）/ RIFE Vulkan（在线运行库）</td></tr>
-          <tr><td>插帧目标帧率</td><td>下拉</td><td>自动跟随源帧率 / 30 FPS / 50 FPS / 60 FPS / 120 FPS；用于增强输出 Surface 刷新率提示</td></tr>
-          <tr><td>AI 超分执行后端</td><td>下拉</td><td>自动选择 / NNAPI 设备加速 / CPU</td></tr>
-          <tr><td>停止上一媒体项</td><td>开关</td><td>—</td></tr>
-          <tr><td>适配视频内容帧率</td><td>开关</td><td>系统 &gt; 11 且需 SurfaceView</td></tr>
-          <tr><td>更好的视频探测</td><td>开关</td><td>—</td></tr>
-          <tr><td>在链接中提取 Header</td><td>开关</td><td>以 <code>|</code> 分隔</td></tr>
-          <tr><td>全局显示模式</td><td>下拉</td><td>原始 / 填充 / 裁剪 / 4:3 / 16:9 / 2.35:1</td></tr>
-          <tr><td>SeekTo 方式</td><td>下拉</td><td>重载URL跳转 / 播放器 seekTo 跳转</td></tr>
-          <tr><td>加载超时</td><td>数字输入</td><td>单位毫秒（默认 10000）</td></tr>
-          <tr><td>播放缓冲</td><td>数字输入</td><td>Media3 / VLC 秒、IJK 帧（默认 0）</td></tr>
-          <tr><td>停滞重试</td><td>数字输入</td><td>单位毫秒（默认 0，0 = 关闭）</td></tr>
-          <tr><td>RTSP 传输方式</td><td>下拉</td><td>TCP / UDP</td></tr>
-          <tr><td>音量平衡</td><td>下拉</td><td>关闭 / 低 / 中 / 高；仅 Media3</td></tr>
-          <tr><td>音频屏保</td><td>开关</td><td>纯音频流显示固定背景</td></tr>
-          <tr><td>画面锁定</td><td>开关</td><td>切源保留最后一帧</td></tr>
-          <tr><td>AAC 音轨优先</td><td>开关</td><td>多音轨时默认选 AAC</td></tr>
-          <tr><td>Media3 隧道模式</td><td>开关</td><td>硬件直解直出，部分设备花屏无声</td></tr>
-        </tbody>
-      </table>
+      <doc-callout kind="tip" title="面板上的两张卡片要单独保存" icon="save">
+        面板的 播放器 页大部分选项改动即保存，但 <b>ASR 语音识别</b> 和 <b>字幕翻译</b> 两张卡片各有自己的
+        「保存」按钮——改完识别模型、提前量、引擎凭据等，记得点卡片内的「保存」才会推送到电视。
+      </doc-callout>
 
-      <h3>正则解码配置（面板专属）</h3>
+      <h2 id="decoder-info">解码器信息</h2>
       <p>
-        按 URL pattern 选择不同内核 / 软解策略。每条规则包含：<b>正则规则</b>、<b>内核</b>、<b>强制软解</b>。
-        可添加 / 删除多条；按顺序匹配，命中即用。
+        <b>设置 → 调试 → 解码器信息</b> 可查看设备支持的全部解码器：软硬解、最大并发实例数、颜色格式、
+        码率与帧率范围、各分辨率（360P ～ 8K）支持情况。决定换内核还是开软解之前，可以先来这里确认设备的硬解能力。
       </p>
 
-      <h3>实时字幕 (ASR) 与 字幕翻译（面板专属凭据）</h3>
-      <table>
-        <thead>
-          <tr><th>面板字段</th><th>类型</th><th>说明</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>实时字幕 (ASR)</td><td>开关</td><td>关闭时下面的 ASR 子项（识别模型 / 领先字幕 / 断句阈值等）隐藏；字幕翻译为独立卡片，不受此开关影响</td></tr>
-          <tr><td>识别模型</td><td>文本框</td><td>占位 <code>/storage/emulated/0/sherpa-onnx-...</code>；当前标注「暂未实现，敬请期待」</td></tr>
-          <tr><td>实验性领先字幕（HLS）</td><td>下拉</td><td>标准（渲染器）/ 实验性领先（HLS）</td></tr>
-          <tr><td>领先字幕提前量</td><td>数字输入</td><td>默认 500，单位 ms</td></tr>
-          <tr><td>断句静音阈值</td><td>数字输入</td><td>默认 650，单位 ms</td></tr>
-          <tr><td>翻译引擎</td><td>按钮组</td><td>不翻译 / 腾讯翻译 / 百度翻译 / MTranServer（自托管）</td></tr>
-          <tr><td>目标语言</td><td>文本框</td><td>如 <code>en</code>；仅在选了翻译引擎时显示</td></tr>
-          <tr><td>译文大小</td><td>数字输入</td><td>0.5 ~ 2.0，默认 1.0；翻译字幕相对原文字幕的字号比例</td></tr>
-          <tr><td>腾讯云 SecretId / SecretKey</td><td>密码框</td><td>仅腾讯翻译时显示</td></tr>
-          <tr><td>百度翻译 API Key / 密钥</td><td>文本框 / 密码框</td><td>仅百度翻译时显示</td></tr>
-          <tr><td>MTranServer 服务器地址 / API Token</td><td>文本框 / 密码框</td><td>仅 MTranServer 时显示</td></tr>
-        </tbody>
-      </table>
-      <p>
-        <b>注意</b>：ASR 卡片与字幕翻译卡片各有自己的<b>保存</b>按钮，修改后必须点击保存才会提交到 TV。
-      </p>
-
-      <h3>请求与代理</h3>
-      <table>
-        <thead>
-          <tr><th>面板字段</th><th>类型</th><th>说明</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>全局 UA</td><td>单行文本</td><td>—</td></tr>
-          <tr><td>自定义 headers</td><td>多行文本</td><td>每行 <code>Name: Value</code></td></tr>
-          <tr><td>自定义 DNS</td><td>单行文本</td><td>仅 Media3 内核生效</td></tr>
-          <tr><td>代理</td><td>单行文本</td><td>支持 <code>http://</code> / <code>socks5://</code>，可带认证 <code>user:pass@host:port</code></td></tr>
-          <tr><td>代理规则</td><td>动态列表</td><td>每项：正则规则 + 代理；可添加 / 删除多条</td></tr>
-        </tbody>
-      </table>
-
-      <h2>7. 解码器信息</h2>
-      <p>
-        在 <b>设置 → 调试 → 解码器信息</b> 中可查看设备支持的所有解码器，
-        左侧解码器列表 / 右侧详情：软硬解、最大并发实例、颜色格式、音频码率范围、最大视频码率、视频帧率范围，
-        支持/可实现的视频帧率按 360P / 480P / 720P / 1080P / 2K / 4K / 8K 列出。
-      </p>
-
-      <h2>8. 与其他功能的联动</h2>
-      <ul>
-        <li><b>WebView</b>：WebView 取到视频地址后，交给本节配置的「视频播放器内核」播放，两套内核独立。详见 <a [routerLink]="'/webview-player'">WebView 播放器</a>。</li>
-        <li><b>EPG 回看</b>：「SeekTo 方式 = 重载URL跳转」时回看通过修改 startAt 实现。详见 <a [routerLink]="'/epg'">EPG 节目单</a>。</li>
-        <li><b>订阅源</b>：m3u 的 <code>http-user-agent</code> / <code>http-referrer</code> / <code>#EXTVLCOPT</code> 等字段与「自定义 headers / UA」叠加生效。详见 <a [routerLink]="'/sources'">订阅源</a>。</li>
-      </ul>
+      <doc-callout kind="tip" title="播放问题三板斧" icon="build">
+        某个频道卡顿、花屏、无声时，按顺序试：
+        <b>换内核</b>（视频播放器内核）→ <b>开强制软解</b> → <b>调大播放缓冲</b>（3～5 秒）。
+        仍不行按 <a [routerLink]="'/faq'">常见问题</a> 的播放问题一节排查。
+      </doc-callout>
     </div>
   `,
 })

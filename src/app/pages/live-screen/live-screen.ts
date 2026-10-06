@@ -1,171 +1,232 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DocPageHeader } from '../../shared/doc-page-header';
+import { DocCallout } from '../../shared/doc-callout';
 
 @Component({
   selector: 'app-live-screen',
-  imports: [DocPageHeader, RouterLink],
+  imports: [DocPageHeader, DocCallout, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="doc-page">
       <doc-page-header
-        title="直播主界面（Dashboard）"
-        lead="应用启动后默认进入 Dashboard 首页，承载订阅源信息、模块入口、收藏、最近观看。本页介绍组成与全部界面相关设置。"
+        title="直播主界面与首页"
+        lead="首页各模块、直播画面上的信息与面板、两种选台界面，以及「设置 → 界面」的全部选项。"
       />
 
-      <h2>1. Dashboard 组成</h2>
-      <ul>
-        <li>
-          <b>顶部 Header</b>：
-          <ul>
-            <li>左侧：当前订阅源名（点击进入订阅源设置；<b>长按</b>清除该源缓存）。</li>
-            <li>右侧：时钟，格式 <code>MM/dd EEE HH:mm:ss</code>，每秒刷新。</li>
-          </ul>
-        </li>
-        <li>
-          <b>导航模块网格（3 列）</b>：
-          直播 / 全部频道 / 收藏（可关）/ 节目单（BETA）/ 搜索 / 设置 / 多屏同播 / 推送 / 关于。
-        </li>
-        <li><b>收藏区</b>：横向滚动的收藏频道卡片。</li>
-        <li><b>最近观看区</b>：仅当「启用最近观看」开启时显示，最多保留 15 条历史。</li>
-        <li>
-          <b>关于页</b>：应用信息（applicationId / 版本 / 仓库 / Telegram / 检查更新）之外，还显示
-          <b>系统信息</b>：系统版本、设备品牌、设备型号、SDK 版本、网络名称（WiFi SSID / 以太网）、
-          网络类型（WIFI / 以太网 / 蜂窝网络 / 无网络）、网络状态（已连接 / 未连接）、IP 地址。
-          该页由 Dashboard「关于」模块与设置页共同入口进入。
-        </li>
-      </ul>
+      <h2 id="structure">应用结构</h2>
+      <p>
+        应用分两类界面：<b>主界面</b>（首页、全部频道、收藏、搜索、节目单（EPG）、推送、多屏同播、设置等页面在同一窗口内切换）
+        和<b>全屏直播界面</b>（选中频道即进入，横屏常亮）。
+        直播界面里可以叠加打开设置和节目单指南页，按返回键直接回到直播画面，不经过首页。
+      </p>
+      <p>
+        打开应用后先进哪个页面，可在 <b>设置 → 通用 → 启动页面</b> 修改：
+        首页（默认）/ 直播 / 节目单 / 全部频道 / 收藏 / 搜索 / 多屏同播。
+      </p>
+      <doc-callout kind="tip" title="开机直接看" icon="power_settings_new">
+        把「启动页面」设为「直播」，打开应用就直接播放上次观看的频道；此时在直播画面按返回键直接退出应用。
+      </doc-callout>
+      <p>多屏同播（一屏同时播放多个频道）玩法独立，见 <a [routerLink]="'/multiview'">多屏同播</a>。</p>
 
-      <h2>2. 直播播放器界面</h2>
-      <p>
-        点击「直播」或上次观看的频道卡片即进入 PlayerActivity 主界面，所有按键行为见
-        <a [routerLink]="'/controls'">遥控器与触屏</a>。换台 / 切线时屏幕底部会显示<b>频道信息条</b>，包含：
-      </p>
-      <ul>
-        <li>频道号、频道名、当前线路名（含混合源 tag，如「央视网」「央视频」「官网」）。</li>
-        <li>当前 / 下一个 EPG 节目与进度条。</li>
-        <li>台标 Logo（来自 m3u 的 <code>tvg-logo</code>，或自定义图标提供方）。</li>
-        <li>回放标志（回看节目时显示，角标位置由「显示回放标志」开关控制）。</li>
-      </ul>
-      <p>换台时是否弹出底部信息条由「换台时显示频道信息」开关控制（默认开，配置项 <code>iptvChannelChangeShowInfoPanel</code>，说明：换台时在屏幕底部显示当前频道的详细信息）。</p>
-
-      <h3>2.1 选台界面与分组</h3>
-      <p>呼出选台界面后，频道按订阅源分组展示。当「启用收藏」「启用最近观看」开启时，会在普通分组上方额外插入<b>收藏分组</b>与<b>最近观看分组</b>（最近观看位于收藏下方），两者均为独立分组，支持上下键跨组导航：</p>
-      <ul>
-        <li><b>收藏分组</b>：来自 <code>iptvChannelFavoriteList</code>，可见性由 <code>iptvChannelFavoriteListVisible</code> 控制，跨屏记忆。</li>
-        <li><b>最近观看分组</b>：来自 <code>iptvChannelHistoryList</code>（最多 15 条，最新在前），可见性由 <code>iptvChannelHistoryListVisible</code> 控制，跨屏记忆，并纳入云同步。</li>
-      </ul>
-      <p>经典选台界面（<code>uiUseClassicPanelScreen</code>）为三段式结构，分组列于最左；非经典模式为覆盖式网格，向上键从普通分组切换到收藏 / 最近观看分组。</p>
-      <p>
-        分组的展示形态由 <b>设置 → 订阅源 → 列表风格</b>（<code>uiGroupParsStyle</code>，传统分组 / 列表分组 / 二级分组1 / 二级分组2，面板 <code>/sources</code>）控制；
-        <b>序号缩写模式</b>（<code>iptvChannelNoAbbrev</code>）与 <b>图标首字</b>（<code>iptvChannelLogoInitial</code>）同样位于「设置 → 订阅源」。
-        详见 <a [routerLink]="'/channels'">频道、收藏与搜索</a> §1.1。
-      </p>
-
-      <h3>2.2 频道序号与台标的显示规则</h3>
-      <p>
-        <b>序号缩写模式</b>（<code>iptvChannelNoAbbrev</code>，默认关）：开启后超过两位的频道号只保留后两位，
-        例如 <code>102</code> 显示为 <code>02</code>，让序号在频道列表、经典选台、频道信息面板与数字选台各处宽度一致；关闭时原样显示。
-      </p>
-      <p>
-        <b>图标首字</b>（<code>iptvChannelLogoInitial</code>，默认关）：当频道既拿不到订阅源的 <code>tvg-logo</code>、
-        也拿不到「频道图标提供」模板图标时，用频道名首字加底色代替占位图。底色由频道名稳定派生，同一频道每次显示颜色一致。
-        「台标显示」（<code>uiShowChannelLogo</code>）关闭时不加载任何台标，只剩序号或图标首字。
-      </p>
-      <p><b>m3u 台标优先</b>（<code>iptvM3uLogoPriority</code>，默认关）决定两个台标来源谁先：</p>
-      <ul>
-        <li><b>关闭</b>（默认）：「频道图标覆盖」开启（默认）或频道没有 <code>tvg-logo</code> 时，用「频道图标提供」模板按标准名拼接；否则用订阅源的 <code>tvg-logo</code>。</li>
-        <li><b>开启</b>：只要频道带了 <code>tvg-logo</code> 就优先用它，「频道图标提供」模板退居兜底。</li>
-      </ul>
-      <p>
-        两个来源都取不到时才走「图标首字」占位。非 <code>http(s)://</code> / <code>file://</code> / <code>content://</code> / <code>data:</code>
-        开头的台标地址会被直接忽略并回落占位，避免换台时因非法地址崩溃。
-      </p>
-
-      <h2>3. TV 应用内设置项（设置 → 界面）</h2>
-      <p>以下设置均在 <b>设置 → 界面</b> 下，对应面板 <code>/ui</code> 字段。说明文案取自 Android <code>strings.xml</code>。</p>
+      <h2 id="dashboard">首页（Dashboard）</h2>
       <table>
         <thead>
-          <tr><th>设置</th><th>默认</th><th>说明</th><th>配置项 / 取值</th></tr>
+          <tr><th>模块</th><th>说明</th></tr>
         </thead>
         <tbody>
-          <tr><td>节目进度</td><td>开</td><td>在频道底部显示当前节目进度条</td><td><code>uiShowEpgProgrammeProgress</code></td></tr>
-          <tr><td>常驻节目进度</td><td>关</td><td>在播放器底部显示当前节目进度条</td><td><code>uiShowEpgProgrammePermanentProgress</code></td></tr>
-          <tr><td>台标显示</td><td>开</td><td>—</td><td><code>uiShowChannelLogo</code></td></tr>
-          <tr><td>显示回放标志</td><td>开</td><td>回看节目时在播放器左下角显示回放标志</td><td><code>uiShowReplayBadge</code></td></tr>
-          <tr><td>频道预览</td><td>开</td><td>显示频道预览首帧</td><td><code>uiShowChannelPreview</code></td></tr>
-          <tr><td>频道预览并行数</td><td>1</td><td>同时抓取频道预览首帧的数量，过大可能导致网络卡顿</td><td><code>channelPreviewParallelCount</code>，1–10 整数</td></tr>
-          <tr><td>列表项动画</td><td>开</td><td>频道列表重排时的过渡动画</td><td><code>uiListAnimation</code></td></tr>
-          <tr><td>列表懒渲染</td><td>关</td><td>开启后预览抓帧按间隔分批节流，减少滚动时的网络/解码尖峰</td><td><code>uiLazyRender</code>；开启后才会出现下两项</td></tr>
-          <tr><td>懒渲染每批并行数</td><td>1</td><td>每个间隔窗口内放行的抓帧请求数</td><td><code>uiLazyRenderParallelCount</code>，1–10 整数</td></tr>
-          <tr><td>懒渲染间隔</td><td>关闭（-1）</td><td>每个放行窗口的间隔毫秒，关闭表示不限速</td><td><code>uiLazyRenderInterval</code>，取值 -1 / 50 / 100 / 200 / 300 / 500 / 1000 / 2000 ms</td></tr>
-          <tr><td>经典选台界面</td><td>开</td><td>将选台界面替换为经典三段式结构</td><td><code>uiUseClassicPanelScreen</code></td></tr>
-          <tr><td>经典-显示订阅源列表</td><td>开</td><td>在经典选台界面中启用"向左查看订阅源"功能</td><td><code>uiClassicShowSourceList</code></td></tr>
-          <tr><td>经典-显示频道信息</td><td>关</td><td>在经典选台界面中显示当前频道的详细信息</td><td><code>uiClassicShowChannelInfo</code></td></tr>
-          <tr><td>经典-单独显示频道号</td><td>关</td><td>开启时同时显示频道号和台标；没有台标则显示频道名首字</td><td><code>uiClassicShowChannelNo</code></td></tr>
-          <tr><td>经典-显示全部频道</td><td>关</td><td>是否显示当前订阅源全部频道列表</td><td><code>uiClassicShowAllChannels</code></td></tr>
-          <tr><td>换台时显示频道信息</td><td>开</td><td>换台时在屏幕底部显示当前频道的详细信息</td><td><code>iptvChannelChangeShowInfoPanel</code></td></tr>
-          <tr><td>时间显示</td><td>整点</td><td>播放器右上角时间显示模式</td><td><code>uiTimeShowMode</code>，取值 隐藏 / 常显 / 整点 / 半点；整点与半点模式在整点 / 半点前后 30 秒显示时间</td></tr>
-          <tr><td>超时自动关闭界面</td><td>15 秒</td><td>播放器界面无操作多久后自动关闭信息条</td><td><code>uiScreenAutoCloseDelay</code>，取值 5 / 10 / 15 / 20 / 25 / 30 秒 + 不关闭（<code>Long.MAX_VALUE</code>）</td></tr>
-          <tr><td>界面整体缩放比例</td><td>自适应</td><td>界面整体密度缩放，0 表示自适应</td><td><code>uiDensityScaleRatio</code>，取值 自适应（0）/ ×0.5–×2.0 步进 0.1</td></tr>
-          <tr><td>界面字体缩放比例</td><td>×1.0</td><td>字体单独缩放</td><td><code>uiFontScaleRatio</code>，取值 ×0.5–×2.0 步进 0.1</td></tr>
-          <tr><td>字幕设置</td><td>—</td><td>字幕样式调整</td><td>子页面，详见 <a [routerLink]="'/player-settings'">播放器与字幕</a></td></tr>
-          <tr><td>焦点优化</td><td>开</td><td>关闭后可解决触摸设备在部分场景下闪退</td><td><code>uiFocusOptimize</code></td></tr>
-          <tr><td>启用收藏</td><td>开</td><td>是否显示当前订阅源频道收藏列表</td><td><code>iptvChannelFavoriteEnable</code></td></tr>
-          <tr><td>启用最近观看</td><td>开</td><td>是否显示最近观看的频道列表（最多保留 15 条历史）</td><td><code>iptvChannelHistoryEnable</code></td></tr>
+          <tr>
+            <td>订阅源卡片</td>
+            <td>顶部显示当前订阅源名，右侧为时钟。按 OK 进入「设置 → 订阅源」管理页；<b>长按</b>清除当前订阅源缓存并重新加载。</td>
+          </tr>
+          <tr>
+            <td>收藏推荐轮播</td>
+            <td>有收藏频道时，每 4 秒自动轮换一张大卡片（频道号、频道名、「正在 / 接下来」节目、「立即观看」按钮）；左右键手动切换。OK 立即观看；<b>长按「立即观看」取消该频道收藏</b>。需开启「设置 → 界面 → 启用收藏」。</td>
+          </tr>
+          <tr>
+            <td>九宫格导航</td>
+            <td>直播、全部频道、收藏、节目单、搜索、设置、多屏同播、推送、关于。</td>
+          </tr>
+          <tr>
+            <td>最近观看</td>
+            <td>横向频道卡（台标、频道名、当前节目、进度条），OK 直接播放。需开启「设置 → 界面 → 启用最近观看」。</td>
+          </tr>
+        </tbody>
+      </table>
+      <ul>
+        <li>首页快捷键：蓝键 / F2 进入直播；「上一频道」键打开节目单指南页。</li>
+        <li>在首页按返回键会提示「再按一次退出」，连按两次才退出应用。</li>
+      </ul>
+
+      <h2 id="player-ui">直播画面上的信息元素</h2>
+      <p>以下元素按需浮现，相关开关集中在 <b>设置 → 界面</b>（逐项说明见下方「界面设置总表」）：</p>
+      <table>
+        <thead>
+          <tr><th>元素</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>换台信息条</td>
+            <td>
+              换台后屏幕底部浮现几秒：台标（无台标时用频道号占位）、频道名、标签行（时移、回放、线路 i/n、IPv6、
+              超分与插帧模式、分辨率与帧率、杜比视界等）、当前节目（含进度条）与下一节目、实时网速。
+              开关：设置 → 界面 → 换台时显示频道信息（默认开）。
+            </td>
+          </tr>
+          <tr><td>常驻节目进度条</td><td>播放器底部的一条细进度条，常显当前节目进度。默认关。</td></tr>
+          <tr><td>回放标志</td><td>回看节目时左下角的「回放」字样。默认开。</td></tr>
+          <tr>
+            <td>时间</td>
+            <td>右上角时钟。设置 → 界面 → 时间显示：隐藏 / 常显 / 整点（默认）/ 半点；整点、半点为该时刻前后 30 秒显示。</td>
+          </tr>
+          <tr><td>数字选台输入</td><td>按数字键时，右上角显示已输入的号码，停顿自动换台、按 OK 立即换台。</td></tr>
+          <tr><td>加载提示条</td><td>顶部的状态条：加载订阅源 / 加载中... / 就绪 / 加载失败。</td></tr>
         </tbody>
       </table>
 
-      <h2>4. 10591 面板（<code>/ui</code>）的全部可配置项</h2>
+      <h2 id="panels">抽屉面板</h2>
+      <p>
+        直播界面里可呼出以下面板（默认打开方式见下表，键位均可改绑，见
+        <a [routerLink]="'/controls'">遥控器与触屏</a>）。
+        面板无操作一段时间会自动关闭，时长在 <b>设置 → 界面 → 超时自动关闭界面</b> 调整（默认 15 秒，可设「不关闭」）。
+      </p>
       <table>
         <thead>
-          <tr><th>面板字段</th><th>类型</th><th>说明</th></tr>
+          <tr><th>面板</th><th>默认打开方式</th><th>说明</th></tr>
         </thead>
         <tbody>
-          <tr><td>节目进度</td><td>开关</td><td>—</td></tr>
-          <tr><td>常驻节目进度</td><td>开关</td><td>—</td></tr>
-          <tr><td>台标显示</td><td>开关</td><td>—</td></tr>
-          <tr><td>显示回放标志</td><td>开关</td><td>左下角「回放」角标</td></tr>
-          <tr><td>显示频道预览</td><td>开关</td><td>—</td></tr>
-          <tr><td>经典选台界面</td><td>开关</td><td>—</td></tr>
-          <tr><td>经典-显示订阅源列表</td><td>开关</td><td>仅经典模式显示</td></tr>
-          <tr><td>经典-显示频道信息</td><td>开关</td><td>仅经典模式显示</td></tr>
-          <tr><td>经典-单独显示频道号</td><td>开关</td><td>仅经典模式显示</td></tr>
-          <tr><td>经典-显示全部频道</td><td>开关</td><td>仅经典模式显示</td></tr>
-          <tr><td>时间显示</td><td>下拉</td><td>隐藏 / 常显 / 整点 / 半点</td></tr>
-          <tr><td>超时自动关闭界面</td><td>下拉</td><td>不关闭 / 5s / 10s / 15s / 30s / 1m / 5m / 10m / 30m</td></tr>
-          <tr><td>界面整体缩放比例</td><td>数字输入</td><td>step 0.1</td></tr>
-          <tr><td>字体缩放比例</td><td>数字输入</td><td>step 0.1</td></tr>
-          <tr><td>焦点优化</td><td>开关</td><td>—</td></tr>
-          <tr><td>启用频道收藏</td><td>开关</td><td>—</td></tr>
-          <tr><td>启用最近观看</td><td>开关</td><td>—</td></tr>
+          <tr>
+            <td>订阅源列表</td>
+            <td>长按上键</td>
+            <td>全部订阅源（分组数、频道数、缓存、更新时间），OK 整体切换订阅源；右上角可「刷新全部」。</td>
+          </tr>
+          <tr>
+            <td>节目单</td>
+            <td>GUIDE 键 / 长按左键</td>
+            <td>
+              当前频道的多天节目单，节目行带状态标记（正在播放 / 回放 / 预约等）与简介。
+              按 OK：已播节目 = 回看（需线路支持）、正在播 = 回直播、未播 = 预约 / 取消预约。
+              预约的节目开始时弹出提醒，可「立即前往 / 忽略」；回看播完弹出结束面板，
+              倒计时自动播放下一个节目，也可手动选「播放下一个节目 / 返回直播节目」。
+            </td>
+          </tr>
+          <tr>
+            <td>线路列表</td>
+            <td>红键 / 长按右键</td>
+            <td>当前频道的全部线路，OK 切换。</td>
+          </tr>
+          <tr>
+            <td>播放控制</td>
+            <td>长按下键</td>
+            <td>播放 / 暂停、进度条拖动（回看时按节目起止时间）、倍速加减、快进快退。</td>
+          </tr>
+          <tr>
+            <td>快捷设置</td>
+            <td>菜单键 / 长按 OK</td>
+            <td>
+              上方是完整的频道信息条，下方按钮排：订阅源、节目单、线路、播放控制、
+              显示模式（原始 / 填充 / 裁剪 / 4:3 / 16:9 / 2.35:1，可「应用到全局」）、播放器内核、
+              软解与自动解码（点按直接切换）、超分、插帧、视轨 / 音轨 / 字幕（有对应轨道时出现）、
+              清除缓存、主页、设置。
+            </td>
+          </tr>
         </tbody>
       </table>
 
-      <h2>5. 主题（设置 → 主题 / 面板 <code>/theme</code>）</h2>
+      <h2 id="channel-select">选台界面（两种形态）</h2>
+      <p>
+        直播界面按 OK 打开选台界面，有两种形态：<b>经典三段式（默认）</b>与现代面板。
+        切换开关：<b>设置 → 界面 → 经典选台界面</b>（默认开）。
+      </p>
+
+      <h3 id="classic-panel">经典三段式（默认）</h3>
+      <ul>
+        <li>
+          左中右三列：<b>分组列表 → 频道列表 → 节目单</b>。屏幕两侧常驻「向左查看订阅源 / 向右查看节目单」提示条。
+        </li>
+        <li>分组列再按左键展开<b>订阅源列表</b>：焦点移到其他源时实时预览其分组与频道，选中频道后才真正换源。</li>
+        <li>频道列按右键展开该频道的节目单，可回看、预约、回直播。</li>
+        <li>含「全部频道」「收藏」「最近观看」虚拟分组；长按 OK 收藏 / 取消收藏。</li>
+        <li>加密分组会弹数字密码框，规则见 <a [routerLink]="'/channels'">频道、收藏与搜索</a>。</li>
+        <li>
+          开启经典界面后，「设置 → 界面」下多出 4 个专用开关：显示订阅源列表（默认开）、显示频道信息、
+          单独显示频道号（同时显示频道号和台标，无台标显示频道名首字）、显示全部频道（后三项默认关）。
+        </li>
+        <li>
+          配合 <b>设置 → 节目单 → 经典选台界面节目单常显</b>：节目单列始终展开（此时频道号和时间条隐藏）。
+        </li>
+      </ul>
+
+      <h3 id="modern-panel">现代选台面板</h3>
+      <ul>
+        <li>全屏遮罩：右上角显示当前频道号与日期时间，底部是当前频道信息条和分组频道列表。</li>
+        <li>组头显示组名与频道数；频道卡显示预览图 / 台标、频道名、当前节目与进度条。</li>
+        <li>OK 换台；长按 OK 收藏 / 取消收藏（提示「已收藏 / 取消收藏」）。</li>
+        <li>在列表顶端继续按上键，可切换到「收藏」「最近观看」横列表。</li>
+      </ul>
+
+      <h2 id="ui-settings">界面设置总表</h2>
+      <p>
+        以下条目全部位于 <b>设置 → 界面</b>，默认值在说明中标注；
+        大部分也能在<a [routerLink]="'/remote-panel'">远程配置面板</a>的 <b>界面</b> 页远程修改。
+      </p>
       <table>
         <thead>
-          <tr><th>设置</th><th>默认</th><th>说明</th></tr>
+          <tr><th>设置项</th><th>说明</th></tr>
         </thead>
         <tbody>
-          <tr><td>颜色模式</td><td>跟随系统</td><td>浅色 / 深色 / 跟随系统</td></tr>
-          <tr><td>配色方案</td><td>内置颜色</td><td>内置颜色 / 基于背景颜色 / 朴素颜色</td></tr>
-          <tr><td>主题包</td><td>—</td><td>TV 上从 <code>res/raw/app_themes.json</code> 加载，分组展示；选择后下载背景图并提取主题色；「恢复默认」清除当前主题</td></tr>
-          <tr><td>面板-主题名称</td><td>—</td><td>自定义主题名</td></tr>
-          <tr><td>面板-背景</td><td>—</td><td>base64 / 网络链接 / 本地 <code>file://</code></td></tr>
-          <tr><td>面板-贴图</td><td>—</td><td>同上</td></tr>
-          <tr><td>面板-贴图透明度</td><td>0</td><td>0–1，步进 0.01</td></tr>
+          <tr><td>节目进度</td><td>频道列表中在频道条目底部显示当前节目进度条。开（默认）/ 关</td></tr>
+          <tr><td>常驻节目进度</td><td>在播放器底部常显当前节目进度条。开 / 关（默认）</td></tr>
+          <tr><td>台标显示</td><td>列表中显示频道台标。开（默认）/ 关</td></tr>
+          <tr><td>显示回放标志</td><td>回看节目时在播放器左下角显示回放标志。开（默认）/ 关</td></tr>
+          <tr><td>频道预览</td><td>频道列表中显示实时预览小窗。开（默认）/ 关</td></tr>
+          <tr><td>频道预览并行数</td><td>同时抓取频道预览首帧的数量，1（默认）～10；过大可能导致网络卡顿</td></tr>
+          <tr><td>列表项动画</td><td>频道列表重排时的过渡动画。开（默认）/ 关</td></tr>
+          <tr><td>列表懒渲染</td><td>预览抓帧按间隔分批节流，减少滚动时的网络与解码尖峰。开 / 关（默认）；开启后才显示下面两项</td></tr>
+          <tr><td>懒渲染每批并行数</td><td>每个间隔窗口内放行的抓帧请求数，1（默认）～10</td></tr>
+          <tr><td>懒渲染间隔</td><td>每个放行窗口的间隔毫秒数：关闭（默认，不限速）/ 50 / 100 / 200 / 300 / 500 / 1000 / 2000</td></tr>
+          <tr><td>经典选台界面</td><td>选台界面使用经典三段式结构。开（默认）/ 关；开启后才显示下面四项</td></tr>
+          <tr><td>显示订阅源列表</td><td>经典选台界面启用「向左查看订阅源」。开（默认）/ 关</td></tr>
+          <tr><td>显示频道信息</td><td>经典选台界面显示当前频道的详细信息。开 / 关（默认）</td></tr>
+          <tr><td>单独显示频道号</td><td>经典选台界面同时显示频道号和台标；没有台标则显示频道名首字。开 / 关（默认）</td></tr>
+          <tr><td>显示全部频道</td><td>经典选台界面显示当前订阅源的全部频道列表。开 / 关（默认）</td></tr>
+          <tr><td>换台时显示频道信息</td><td>换台时在屏幕底部显示当前频道的详细信息。开（默认）/ 关</td></tr>
+          <tr><td>时间显示</td><td>播放界面时钟显示方式：隐藏 / 常显 / 整点（默认）/ 半点；整点、半点为该时刻前后 30 秒显示</td></tr>
+          <tr><td>超时自动关闭界面</td><td>无操作后自动关闭各类面板界面：5 / 10 / 15（默认）/ 20 / 25 / 30 秒 / 不关闭</td></tr>
+          <tr><td>界面整体缩放比例</td><td>整体界面密度缩放：自适应（默认）/ ×0.5～×2.0（步进 0.1）</td></tr>
+          <tr><td>界面字体缩放比例</td><td>字体大小缩放：×0.5～×2.0（步进 0.1），默认 ×1.0</td></tr>
+          <tr>
+            <td>字幕设置</td>
+            <td>字幕样式子页（系统样式、跟随源嵌入样式、颜色、字号、位置、背景透明度，带实时预览），详见 <a [routerLink]="'/player-settings'">播放器与字幕</a></td>
+          </tr>
+          <tr>
+            <td>焦点优化</td>
+            <td>焦点记忆与恢复优化。开（默认）/ 关；触摸设备在部分场景闪退可尝试关闭，见 <a [routerLink]="'/faq'">常见问题</a></td>
+          </tr>
+          <tr><td>启用收藏</td><td>显示当前订阅源的频道收藏列表。开（默认）/ 关</td></tr>
+          <tr><td>启用最近观看</td><td>显示最近观看的频道列表。开（默认）/ 关</td></tr>
         </tbody>
       </table>
 
-      <h2>6. 画中画与启动页</h2>
+      <h2 id="system-integration">画中画、后台播放与开机自启</h2>
+      <p>三项都在 <b>设置 → 通用</b>：</p>
       <table>
         <thead>
-          <tr><th>设置</th><th>默认</th><th>说明</th></tr>
+          <tr><th>设置项</th><th>说明</th></tr>
         </thead>
         <tbody>
-          <tr><td>画中画</td><td>关</td><td>设置 → 通用；按主页键退出播放时小窗继续播放</td></tr>
-          <tr><td>启动页面</td><td>首页</td><td>设置 → 通用；首页 / 直播 / 节目单 / 全部频道 / 收藏 / 搜索 / 多屏同播</td></tr>
+          <tr>
+            <td>画中画</td>
+            <td>观看中按主页键，画面缩为小窗继续播放。开 / 关（默认）；与「后台播放」互斥，开一个会自动关另一个</td>
+          </tr>
+          <tr>
+            <td>后台播放</td>
+            <td>切到后台后继续播放声音（「听电视」），通知栏可切台：上一个频道 / 播放暂停 / 下一个频道。开 / 关（默认）；与「画中画」互斥</td>
+          </tr>
+          <tr>
+            <td>开机自启</td>
+            <td>设备开机后自动启动应用。开 / 关（默认）；需设备本身支持该功能</td>
+          </tr>
         </tbody>
       </table>
     </div>

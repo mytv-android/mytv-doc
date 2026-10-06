@@ -1,169 +1,190 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DocPageHeader } from '../../shared/doc-page-header';
+import { DocCallout } from '../../shared/doc-callout';
 
 @Component({
   selector: 'app-channels',
-  imports: [DocPageHeader, RouterLink],
+  imports: [DocPageHeader, DocCallout, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="doc-page">
       <doc-page-header
         title="频道、收藏与搜索"
-        lead="频道列表、跨组切换、加密分组、收藏夹、隐藏规则与搜索的完整说明。"
+        lead="频道来自订阅源。本页讲清全部频道、收藏、最近观看与搜索四个页面的用法，以及分组、隐藏、加密、别名合并与台标的整套规则。"
       />
 
-      <h2>1. 频道列表</h2>
+      <h2 id="from-sources">频道从哪来</h2>
       <p>
-        主界面按 <b>OK 键</b>（或单击屏幕）打开频道列表。列表上方是<b>分组条形</b>（来源于 m3u 的 <code>group-title</code>，支持 <code>;</code> 分多组），
-        下方是<b>频道网格</b>。界面有两种形态：
+        频道和分组全部由<a [routerLink]="'/sources'">订阅源</a>提供：订阅源（m3u / txt / Xtream / Stalker）下载解析后，得到分组与频道列表。
+        一个频道可以有多条<b>线路</b>（多个播放地址），播放中可随时切换，某条线路失效不影响其他线路。
       </p>
       <ul>
-        <li><b>经典选台界面</b>（默认开）：三段式结构，左侧订阅源列表 + 中间分组 + 右侧频道网格。</li>
-        <li><b>现代面板</b>：分组条 + 频道网格两栏。</li>
+        <li>管理订阅源：<b>设置 → 订阅源 → 自定义订阅源</b>，可切换当前源、刷新全部。</li>
+        <li>「相似频道合并」（默认开）会把不同来源的同名频道合并为一个，多个来源的地址变成该频道下的多条线路，见下文「频道别名与相似合并」。</li>
       </ul>
-      <p>切换：<b>设置 → 界面 → 经典选台界面</b>（将选台界面替换为经典三段式结构，默认开）。经典模式下还提供以下独立开关（均在「设置 → 界面」，仅经典模式开启时出现）：</p>
+
+      <h2 id="all-channels">全部频道</h2>
+      <p>入口：<b>首页 → 全部频道</b>（也可在 <b>设置 → 通用 → 启动页面</b> 设为开机直达）。</p>
+      <p>页面上方是<b>分组标签行</b>，下方是当前分组的<b>频道卡网格</b>。每张频道卡显示：</p>
+      <ul>
+        <li>预览图或台标、频道号、频道名；</li>
+        <li>当前节目与进度条（来自节目单（EPG）数据）；</li>
+        <li>角标：已收藏显示红心；线路多于 1 条时显示线路数；全部线路都是 IPv6 时显示 IPV6。</li>
+      </ul>
+      <p>操作：</p>
+      <ul>
+        <li><b>OK</b>：播放该频道；</li>
+        <li><b>长按 OK</b>：收藏 / 取消收藏；</li>
+        <li>滚动浏览时顶栏自动隐藏，回滚即重现，给网格让出空间。</li>
+      </ul>
+      <p>相关显示开关：</p>
       <table>
         <thead>
-          <tr><th>设置</th><th>默认</th><th>说明</th></tr>
+          <tr><th>设置项</th><th>说明</th></tr>
         </thead>
         <tbody>
-          <tr><td>显示订阅源列表</td><td>开</td><td>在经典选台界面中启用"向左查看订阅源"功能</td></tr>
-          <tr><td>显示频道信息</td><td>关</td><td>在经典选台界面中显示当前频道的详细信息</td></tr>
-          <tr><td>单独显示频道号</td><td>关</td><td>开启时同时显示频道号和台标；没有台标则显示频道名首字</td></tr>
-          <tr><td>显示全部频道</td><td>关</td><td>是否显示当前订阅源全部频道列表</td></tr>
+          <tr><td>设置 → 界面 → 台标显示</td><td>列表中是否显示台标，默认开</td></tr>
+          <tr><td>设置 → 界面 → 节目进度</td><td>频道卡底部是否显示当前节目进度条，默认开</td></tr>
+          <tr><td>设置 → 界面 → 频道预览</td><td>聚焦频道时抓取实时预览首帧，默认开；「频道预览并行数」控制同时抓帧数量，过大可能卡顿</td></tr>
+          <tr><td>设置 → 订阅源 → 序号缩写模式</td><td>频道号超过两位时只显示后两位（如 102 显示为 02），默认关</td></tr>
         </tbody>
       </table>
-      <p>面板：<code>/ui</code> 提供对应的开关字段（经典选台界面 / 经典-显示订阅源列表 / 经典-显示频道信息 / 经典-单独显示频道号 / 经典-显示全部频道），<code>remoteConfig=true</code> 的项随云同步下发。</p>
 
-      <h3>1.1 列表风格与频道项显示</h3>
+      <h2 id="favorites">收藏</h2>
+      <p><b>怎么收藏</b>：在全部频道、搜索或选台面板中，对频道卡<b>长按 OK</b> 即收藏，再长按一次取消。</p>
+      <p><b>收藏页</b>：<b>首页 → 收藏</b>。</p>
+      <ul>
+        <li>分组为「全部」+ 按来源订阅源分组，收藏记录记住自己来自哪个源；</li>
+        <li>OK 播放、长按 OK 取消收藏；</li>
+        <li>标题栏右侧「<b>清空</b>」一键清空所有收藏；</li>
+        <li>还没有收藏时，页面提示「长按频道可添加收藏」。</li>
+      </ul>
+      <p><b>首页收藏推荐区</b>：有收藏时自动轮换展示，「立即观看」直接播放；长按「立即观看」可取消该频道的收藏。</p>
+      <table>
+        <thead>
+          <tr><th>设置项</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>设置 → 界面 → 启用收藏</td><td>收藏功能总开关，默认开；关闭后首页收藏区与收藏页都不再显示</td></tr>
+        </tbody>
+      </table>
+      <p>收藏列表随<a [routerLink]="'/sync'">云同步</a>备份与恢复，换设备不丢。</p>
+
+      <h2 id="recent">最近观看</h2>
+      <p>播放过的频道自动进入「最近观看」，两个地方能看到：</p>
+      <ul>
+        <li><b>首页</b>最近观看区：横向频道卡，OK 直接播放；</li>
+        <li><b>选台面板</b>：列表顶部继续按上键，可切到「最近观看」横列表。</li>
+      </ul>
+      <table>
+        <thead>
+          <tr><th>设置项</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>设置 → 界面 → 启用最近观看</td><td>默认开；<b>关闭开关即清空全部记录</b>，再打开后从零开始记录</td></tr>
+        </tbody>
+      </table>
+      <doc-callout kind="tip" title="想清空最近观看" icon="lightbulb">
+        最近观看没有单独的清空按钮：把「设置 → 界面 → 启用最近观看」关闭一次（记录立即清空），再打开即可。
+      </doc-callout>
+
+      <h2 id="search">搜索</h2>
+      <p>入口：<b>首页 → 搜索</b>。左侧输入框配内置<b>屏幕键盘</b>（A–Z、0–9、删除、清空），右侧实时出结果，边输边搜。</p>
+      <ul>
+        <li>输入<b>中文</b>：按频道名包含匹配，如「体育」命中所有名字带「体育」的频道；</li>
+        <li>输入<b>字母 / 数字</b>：把频道名转成<b>拼音首字母</b>后匹配，如 <code>ws</code> 命中各「卫视」频道；</li>
+        <li><b>OK</b> 播放、<b>长按 OK</b> 收藏。</li>
+      </ul>
+      <p>搜索自动排除：分类隐藏的分组、隐藏频道规则命中的频道、加密分组（见下文「隐藏与加密」）。</p>
+
+      <h2 id="groups">分组体系</h2>
+      <p>分组信息来自订阅源内容本身：</p>
+      <ul>
+        <li><b>m3u</b>：频道的 <code>group-title</code> 是分组名（可用 <code>;</code> 同时进多个组），<code>category</code> 是更大的一级分类；</li>
+        <li><b>txt</b>：支持两级分组写法；</li>
+        <li>没有归组的频道自动进入「<b>其他</b>」分组。</li>
+      </ul>
       <p>
-        以下三项控制分组形态与频道项上的序号 / 图标显示，均在 <b>设置 → 订阅源</b> 下，面板对应 <code>/sources</code>：
+        源文件的具体写法见<a [routerLink]="'/sources'">订阅源</a>。分组在选台界面「怎么摆」由
+        <b>设置 → 订阅源 → 列表风格</b> 控制（选台界面本身的形态见<a [routerLink]="'/live-screen'">直播主界面</a>）：
       </p>
       <table>
         <thead>
-          <tr><th>设置</th><th>默认</th><th>配置项</th><th>说明</th></tr>
+          <tr><th>列表风格</th><th>展示形态</th></tr>
         </thead>
         <tbody>
-          <tr><td>列表风格</td><td>传统分组</td><td><code>uiGroupParsStyle</code></td><td>传统分组 / 列表分组 / 二级分组1 / 二级分组2，控制一级 / 二级分组的展示形态；<b>没有一级分组时二级两种风格退化为传统分组</b></td></tr>
-          <tr><td>序号缩写模式</td><td>关</td><td><code>iptvChannelNoAbbrev</code></td><td>开启后序号超过两位时仅显示后两位，例如 <code>102</code> 显示为 <code>02</code></td></tr>
-          <tr><td>图标首字</td><td>关</td><td><code>iptvChannelLogoInitial</code></td><td>开启后频道无台标时使用频道名首字加彩色底色代替占位图标</td></tr>
+          <tr><td>传统分组（默认）</td><td>只按分组平铺展示</td></tr>
+          <tr><td>列表分组</td><td>一级分类与分组以列表形式分级展示</td></tr>
+          <tr><td>二级分组1 / 二级分组2</td><td>一级分类下嵌套各分组；二级分组2 在某分类只有一个分组时，不再单独列出该分组</td></tr>
         </tbody>
       </table>
+      <p>源里没有任何一级分类时，两种「二级分组」风格自动退化为传统分组，界面不会破版。</p>
+
+      <h2 id="hidden">隐藏与加密</h2>
       <p>
-        一级 / 二级分组的来源写法见 <a [routerLink]="'/sources'">订阅源</a> 第 3 节「一级 / 二级分组」。
-      </p>
-      <p>
-        <b>传统分组</b>（<code>0</code>）与<b>列表分组</b>（<code>1</code>）都按二级分组平铺展示，忽略 <code>category</code>，行为与只有一级分组时代完全相同。
-        <b>二级分组1</b>（<code>2</code>）把 <code>category</code> 显示为一级分类标题，其下依次列出各二级分组；
-        <b>二级分组2</b>（<code>3</code>）排布相同，但某分类下<b>只有一个</b>子分组时不再单独显示该子分组，分类标题本身即为选中项。
-        两种二级风格在没有任何分组带 <code>category</code> 时整体退化为传统分组，界面不会破版；
-        没有 <code>category</code> 的分组在二级风格下仍按普通分组平铺，因此收藏 / 最近观看 / 全部频道等虚拟分组不受影响。
+        不想看到的内容有三层机制，开关都在 <b>设置 → 订阅源</b> 下；
+        前两层的名单也可在<a [routerLink]="'/remote-panel'">远程配置面板</a>（下称面板）的 订阅源 页编辑。
       </p>
 
-      <h2>2. 跨组切换与循环</h2>
+      <h3 id="hidden-groups">分类隐藏（整组开关）</h3>
+      <p>
+        <b>设置 → 订阅源 → 分类隐藏</b>：进入后逐组切换显示 / 隐藏，被隐藏的整组频道不再出现在任何列表中。
+        入口行显示「共 N 个分组」或「共 N 个分组，已隐藏 M 个分组」。面板对应「频道隐藏分组」。
+      </p>
+
+      <h3 id="hidden-channels">隐藏频道规则（按名字正则）</h3>
+      <p>
+        <b>设置 → 订阅源 → 隐藏频道规则</b>：频道名匹配正则表达式的频道，不出现在任何列表与搜索中。可添加多条，
+        例如 <code>.*测试.*</code> 屏蔽所有名字带「测试」的频道。面板对应「频道隐藏列表」。
+      </p>
+
+      <h3 id="encrypted-groups">加密分组</h3>
+      <p>总开关：<b>设置 → 订阅源 → 支持加密频道组</b>（默认关）。开启后，<b>分组名以「下划线 + 数字」结尾即为加密分组</b>（如 <code>成人_1234</code>）：</p>
+      <ul>
+        <li>搜索中整组不出现；</li>
+        <li>全部频道与选台界面中，分组标签照常显示（组名隐去下划线和数字），选中进入时弹出<b>数字密码框</b>；</li>
+        <li>密码就是下划线后的数字，如 <code>成人_1234</code> 的密码是 <code>1234</code>。</li>
+      </ul>
+      <doc-callout kind="info" title="密码强度有限" icon="info">
+        密码直接写在订阅源的分组名里，凡是能看到源内容的人都知道密码。它适合挡住「随手翻到」，并不是真正的内容加密。
+      </doc-callout>
+
+      <h2 id="alias-merge">频道别名与相似合并</h2>
+      <p>
+        不同订阅源对同一频道起名常不一致（「CCTV-1」与「CCTV1 综合」）。<b>频道别名</b>是一张「标准名 → 各种叫法」的映射表，
+        配合 <b>设置 → 订阅源 → 相似频道合并</b>（默认开）：
+      </p>
+      <ul>
+        <li>经别名归一后名字相同的频道<b>合并为一个频道</b>，列表里只占一格；</li>
+        <li>来自不同订阅源、不同分组的播放地址变成该频道下的<b>多条线路</b>，换源变成切线路。</li>
+      </ul>
+      <p>别名表的使用方式：</p>
+      <ul>
+        <li><b>内置默认表</b>，开箱即用，无需配置；</li>
+        <li>电视端只读：<b>设置 → 订阅源 → 频道别名</b> 仅显示「共 N 个频道，M 个别名」；</li>
+        <li>修改只能在面板的 订阅源 页（或面板首页卡片）完成，格式说明见<a [routerLink]="'/sources'">订阅源</a>；</li>
+        <li>别名表随<a [routerLink]="'/sync'">云同步</a>，多设备共用一份。</li>
+      </ul>
+
+      <h2 id="logos">台标</h2>
+      <p>台标有两个来源：订阅源内自带的台标，和按模板在线获取的台标。优先级由以下开关决定：</p>
       <table>
         <thead>
-          <tr><th>开关</th><th>默认</th><th>作用</th><th>位置</th></tr>
+          <tr><th>设置项</th><th>说明</th></tr>
         </thead>
         <tbody>
-          <tr><td>频道切换跨分组</td><td>开</td><td>启用后，上下键可在所有频道间切换；关闭则仅在当前分组内切换</td><td>设置 → 控制</td></tr>
-          <tr><td>频道列表首尾循环</td><td>开</td><td>启用后，到达列表首尾时将循环切换到另一端</td><td>设置 → 控制</td></tr>
+          <tr><td>设置 → 界面 → 台标显示</td><td>台标总开关，默认开</td></tr>
+          <tr><td>设置 → 订阅源 → 频道图标覆盖</td><td>默认开：用「频道图标提供」（在线台标模板）覆盖订阅源内自带的台标；关闭则源内台标优先，加载失败再回退在线模板</td></tr>
+          <tr><td>设置 → 订阅源 → 频道图标提供</td><td>在线台标模板地址，电视端只读，只能在面板的 订阅源 页修改</td></tr>
+          <tr><td>设置 → 订阅源 → m3u 台标优先</td><td>默认关：开启后源内台标优先于节目单提供的台标</td></tr>
+          <tr><td>设置 → 订阅源 → 图标首字</td><td>默认关：无台标时用频道名首字加彩色底色生成图标</td></tr>
         </tbody>
       </table>
-      <p>TV：设置 → 控制；面板：<code>/control</code>。两者均为 <code>Boolean</code> 开关，对应配置项 <code>iptvChannelChangeCrossGroup</code> 与 <code>iptvChannelChangeListLoop</code>。</p>
+      <p>频道没有台标时的兜底显示：经典选台界面显示频道名首字，新界面显示频道号占位。</p>
 
-      <h2>3. 加密分组</h2>
-      <p>
-        开关：<b>设置 → 订阅源 → 支持加密频道组</b>（默认关），配置项 <code>iptvChannelGroupEncrypted</code>。
-        开启后，若 m3u 中分组名以 <code>_数字</code> 结尾（例如 <code>成人_1234</code>），进入该分组时需输入密码，
-        密码即 <code>_</code> 之后的数字部分。此类加密分组<b>默认在搜索和「全部频道」中隐藏</b>，仅在选台界面切换到该分类时才弹出密码框。
-      </p>
-      <p>面板 <code>/sources</code> 同名开关可远程修改；属于 <code>remoteConfig</code>，随云同步下发。</p>
-
-      <h2>4. 收藏夹</h2>
-      <ul>
-        <li><b>切换收藏</b>：频道项上长按 OK。</li>
-        <li><b>入口</b>：Dashboard 收藏区 / 收藏页 / 频道列表顶部「收藏」分组。</li>
-        <li><b>分组</b>：收藏页内置「全部」+ 按订阅源名分组。</li>
-        <li><b>清空</b>：收藏页头部「清空」按钮。</li>
-        <li><b>开关</b>：<b>设置 → 界面 → 启用收藏</b>（是否显示当前订阅源频道收藏列表，默认开），配置项 <code>iptvChannelFavoriteEnable</code>。关闭后 Dashboard 收藏区与收藏页均不显示。</li>
-        <li><b>备份</b>：随云同步或面板 <code>/api/configs</code> 备份 / 恢复。</li>
-      </ul>
-
-      <h2>5. 隐藏频道与分组</h2>
-      <p>隐藏分为两级（均在「设置 → 订阅源」下，面板 <code>/sources</code> 同名编辑）：</p>
-      <ul>
-        <li>
-          <b>分类隐藏（按分组）</b>：<b>设置 → 订阅源 → 分类隐藏</b>。
-          TV 端进入子页面，4 列网格逐组切换可见性；未隐藏时列表头显示「共 N 个分组」，已隐藏则显示「共 N 个分组，已隐藏 M 个分组」。
-          对应配置项 <code>iptvChannelGroupHiddenList</code>（<code>Set&lt;String&gt;</code>，默认空）。面板 <code>/sources</code> 用 chips 编辑「频道隐藏分组」。
-        </li>
-        <li>
-          <b>隐藏频道规则（按频道名正则）</b>：<b>设置 → 订阅源 → 隐藏频道规则</b>。
-          频道名称匹配正则规则的频道将不会在列表中出现；支持多条正则，每条独立添加 / 删除。
-          添加时输入完整正则表达式（例如 <code>.*测试.*</code>），列表为空时显示「暂无隐藏规则，点击"添加"配置」。
-          对应配置项 <code>iptvChannelHiddenList</code>（<code>Set&lt;String&gt;</code>，默认空）。面板 <code>/sources</code> 用 chips 编辑「频道隐藏列表」。
-        </li>
-      </ul>
-
-      <h2>6. 搜索</h2>
-      <p>入口：Dashboard 搜索模块 / 主界面长按 OK → 搜索。</p>
-      <ul>
-        <li><b>输入</b>：上方文本框（关键词...），下方屏幕键盘（A–Z + 0–9 + 退格 + 清空）。</li>
-        <li><b>算法</b>：
-          <ul>
-            <li>输入含非 ASCII（中文）→ 直接 <code>contains</code> 匹配频道名。</li>
-            <li>输入 ASCII → 把频道名转<b>拼音首字母</b>后匹配。</li>
-          </ul>
-        </li>
-        <li><b>防抖</b>：200ms。</li>
-        <li><b>加密分组</b>与<b>隐藏规则</b>命中的频道不出现在搜索结果中。</li>
-      </ul>
-
-      <h2>7. 多屏同播（MultiView）</h2>
-      <ul>
-        <li>入口：Dashboard 导航「多屏同播」。</li>
-        <li>最多 <b>9</b> 路同屏播放；超出会提示「超出最大添加频道数：9」。</li>
-        <li>每路支持：添加 / 搜索添加 / 切换频道 / 删除 / 放大 / 缩小 / 暂停 / 播放 / 静音 / 切换线路 / 回看 / 移动屏幕。</li>
-        <li><b>最近四屏</b>：「操作屏幕」菜单中的选项，一键把当前多屏同播整体替换为最近观看的前 4 个频道（不足 4 个时按实际数量；无观看记录时提示）。</li>
-        <li><b>方案</b>：最多保存 <b>20</b> 套布局（新建 / 重命名 / 复制 / 删除），按更新时间排序。</li>
-      </ul>
-
-      <h2>8. 频道别名</h2>
-      <p>
-        不同订阅源对同一频道常起名不一致（"CCTV-1" vs "CCTV1 综合"）。在面板首页或 <code>/sources</code> 页编辑<b>频道别名</b>，
-        让多个名字映射到同一逻辑频道。配置项 <code>iptvChannelNameAlias</code>（JSON 字符串，默认值为 <code>R.raw.channel_name_alias</code> 的内容；为空时回退到内置资源），
-        参与云同步，TV 端只读（<code>remoteConfig=true</code>），列表头显示「共 N 个频道，M 个别名」。
-        配合 <b>设置 → 订阅源 → 相似频道合并</b>（相同频道别名将进行合并，默认开，配置项 <code>iptvSimilarChannelMerge</code>），
-        相同别名的频道会合并显示。编辑框最高显示 <b>10</b> 行，超出部分在框内滚动，不影响保存完整内容。
-      </p>
-      <p>别名配置示例：</p>
-      <pre><code>&#123;
-  "__suffix": ["高清", "超清", "HD"],
-  "CCTV1": ["CCTV-1", "CCTV 1", "央视一套"],
-  "湖南卫视": ["湖南台", "湖南台高清"]
-&#125;</code></pre>
-      <ul>
-        <li><code>__suffix</code>：归一化时剥离的后缀。</li>
-        <li>其他键：标准名 → 别名数组。</li>
-      </ul>
-
-      <h2>9. 频道图标</h2>
-      <p>
-        频道图标有两个来源：
-      </p>
-      <ul>
-        <li>m3u 中的 <code>tvg-logo</code> 字段。</li>
-        <li><b>频道图标提供</b>（配置项 <code>iptvChannelLogoProvider</code>，默认 <code>https://gitee.com/mytv-android/myTVlogo/raw/main/img/&#123;name|uppercase&#125;.png</code>）：
-          按 URL 模板拼接，变量 <code>&#123;name&#125;</code> / <code>&#123;name|lowercase&#125;</code> / <code>&#123;name|uppercase&#125;</code>。
-          自动追加 <code>_t=&lt;10天周期&gt;</code> 让缓存过期。TV 端只读（<code>remoteConfig=true</code>），在面板 <code>/sources</code> 编辑。</li>
-      </ul>
-      <p>
-        <b>频道图标覆盖</b>（使用频道图标提供覆盖订阅源中定义的频道图标，默认开，配置项 <code>iptvChannelLogoOverride</code>）：
-        开启后用「图标提供」覆盖订阅源中的 <code>tvg-logo</code>。两者都在
-        <b>设置 → 订阅源</b> 和面板 <code>/sources</code> 编辑。
-      </p>
+      <h2 id="multiview">多屏同播</h2>
+      <p>想一块屏幕同时看多个频道，见 <a [routerLink]="'/multiview'">多屏同播</a>：最多 9 路同播，支持方案保存。</p>
     </div>
   `,
 })

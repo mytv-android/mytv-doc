@@ -1,331 +1,179 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DocPageHeader } from '../../shared/doc-page-header';
+import { DocCallout } from '../../shared/doc-callout';
 
 @Component({
   selector: 'app-sync',
-  imports: [DocPageHeader, RouterLink],
+  imports: [DocPageHeader, DocCallout, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="doc-page">
       <doc-page-header
         title="云同步与备份"
-        lead="把订阅、收藏、设置同步到云端或本地文件，多设备共享同一份配置。本页介绍五种后端、TV 与面板上的配置方法、导入导出。"
+        lead="防止配置丢失、换机迁移、多台电视共享一份设置的三种做法——云同步、本地备份快照、导入导出 JSON，以及五种云同步服务商的配置步骤。"
       />
 
-      <h2>1. 五种同步后端</h2>
+      <h2 id="three-ways">三种方式怎么选</h2>
       <p>
-        云同步通过 <code>CloudSyncProvider</code> 枚举选择后端，<code>CloudSync</code> 会按当前服务商返回对应仓库实现。
-        每个后端是否支持拉取/推送见下表（来源：<code>CloudSyncProvider.supportPull / supportPush</code>）。
+        后两种方式都在<b>远程配置面板</b>（下称面板，用浏览器打开 http://电视IP:10591，见
+        <a [routerLink]="'/remote-panel'">远程配置面板</a>）上操作；云同步的凭据也只能在面板里填写。
       </p>
       <table>
         <thead>
-          <tr><th>后端</th><th>枚举值</th><th>拉取</th><th>推送</th><th>适用场景</th></tr>
+          <tr><th>方式</th><th>数据放在哪</th><th>在哪操作</th><th>适合</th></tr>
         </thead>
         <tbody>
           <tr>
-            <td><b>GitHub Gist</b>（默认）</td>
-            <td><code>GITHUB_GIST(0)</code></td>
-            <td>✓</td><td>✓</td>
-            <td>个人多设备同步，免费稳定。</td>
+            <td><b>云同步</b></td>
+            <td>推送到 Gist、WebDAV 等云端，或本地文件</td>
+            <td>电视端 设置 → 云同步 拉取 / 推送；凭据在面板的 云同步 页填</td>
+            <td>多台电视长期共享同一份配置</td>
           </tr>
           <tr>
-            <td><b>Gitee 代码片段</b></td>
-            <td><code>GITEE_GIST(1)</code></td>
-            <td>✓</td><td>✓</td>
-            <td>同 Gist，大陆访问更稳定。</td>
+            <td><b>备份管理</b></td>
+            <td>电视端本地快照</td>
+            <td>面板的 备份管理 页创建 / 恢复 / 删除</td>
+            <td>大改配置前留个还原点（恢复会覆盖当前数据，且需重启生效）</td>
           </tr>
           <tr>
-            <td><b>网络链接</b></td>
-            <td><code>NETWORK_URL(2)</code></td>
-            <td>✓</td>
-            <td>—</td>
-            <td>只读。从一个返回 sync.json 的 URL 拉配置，<code>push()</code> 直接返回 <code>false</code>，适合"管理员发配置、用户只拉"。</td>
-          </tr>
-          <tr>
-            <td><b>本地文件</b></td>
-            <td><code>LOCAL_FILE(3)</code></td>
-            <td>✓</td><td>✓</td>
-            <td>把 sync.json 写到 TV 本地路径（默认 <code>file:///storage/emulated/0/Download/</code>），适合无网环境或 U 盘备份。</td>
-          </tr>
-          <tr>
-            <td><b>WebDAV</b></td>
-            <td><code>WEBDAV(4)</code></td>
-            <td>✓</td><td>✓</td>
-            <td>自建 NAS / Nextcloud / 坚果云用户。</td>
+            <td><b>导入导出 JSON</b></td>
+            <td>一个 .json 文件，随你存放</td>
+            <td>面板的 云同步 页底部</td>
+            <td>换机一次性迁移，不依赖任何云端账号</td>
           </tr>
         </tbody>
       </table>
       <p>
-        所有后端在 TV 设置页与面板中均可切换，切换后立即生效（<code>Configs.cloudSyncProvider</code> 持久化为整型）。
+        「云同步」与「导入导出」打包的内容范围相同（见下文「同步哪些内容」）；
+        「备份管理」则是把电视端当前设置与数据原样封存，不做筛选。
       </p>
 
-      <h2>2. 同步哪些数据</h2>
+      <h2 id="cloud-sync">云同步</h2>
       <p>
-        云同步包（<code>CloudSyncData</code>）由 <code>CloudSync.getData()</code> 构造，包含以下字段：
-      </p>
-      <ul>
-        <li><code>version</code>：当前应用版本名（<code>BuildConfig.VERSION_NAME</code>）。</li>
-        <li><code>syncAt</code>：推送时间戳（<code>System.currentTimeMillis()</code>）。</li>
-        <li><code>syncFrom</code>：推送设备名（<code>Globals.deviceName</code>）。</li>
-        <li><code>description</code>：备注，Gist/WebDAV 后端会从远端读回（如 Gist 的 <code>description</code> 字段）。</li>
-        <li>
-          <code>configs</code>：<code>Configs.toPartial()</code> 生成的几乎全部字段，但<b>剔除</b>以下本地偏好与敏感字段（<code>desensitized()</code> 处理）：
-          <ul>
-            <li>云同步账号本身（gist id / token、webdav url / 用户名 / 密码 等）</li>
-            <li><code>globalVideoPlayerCore</code>、<code>webViewCore</code>、<code>replaceSystemWebView</code>、<code>globalVideoPlayerForceSoftDecode</code>、<code>globalVideoPlayerMedia3SoftDecodeAudioOnly</code>、<code>globalVideoPlayerSuperResolution</code>、<code>globalVideoPlayerSuperResolutionMode</code>、<code>globalVideoPlayerFrameInterpolation</code>、<code>globalVideoPlayerFrameInterpolationMode</code></li>
-            <li><code>iptvChannelHistoryList</code>（最近观看历史）</li>
-            <li><code>iptvSourceCurrentIdx</code>、<code>iptvChannelLastPlay</code>、<code>iptvChannelLastPlayLineIdx</code></li>
-            <li><code>iptvChannelLinePlayableHostList</code> / <code>iptvChannelLinePlayableUrlList</code>（可播放线路缓存）</li>
-            <li><code>uiFocusOptimize</code></li>
-            <li>所有 ASR / 翻译相关字段（<code>videoPlayerRealTimeASR</code>、<code>videoPlayerASRModel</code>、翻译引擎凭据等，均为设备本地配置）</li>
-          </ul>
-        </li>
-        <li>
-          <code>extraLocalIptvSourceList</code>：本地订阅源文件内容（按路径字典）。
-          仅同步 <code>sourceType == 1</code> 且 <code>url</code> 以 <code>Globals.fileDir.path</code> 开头的源文件内容，并行读取以避免串行延迟。
-        </li>
-      </ul>
-      <p>
-        应用云端数据时（<code>CloudSyncData.apply()</code>）：先 <code>Configs.fromPartial()</code> 写回设置（含频道别名 <code>iptvChannelNameAlias</code>），再把本地订阅源文件内容写回原路径，最后把别名注入 <code>ChannelAlias</code> 并刷新缓存。
-      </p>
-
-      <h2>3. TV 应用内设置项（设置 → 云同步）</h2>
-      <p>
-        对应 <code>SettingsCloudSyncScreen</code>。页面顶部右上角有「拉取云端」「推送云端」两个按钮（仅当当前服务商支持对应操作时显示），
-        下方为设置项列表。
+        把订阅源、收藏和各项设置打包推送到云端；其他电视（或重装之后）拉取同一份数据即可恢复。
+        电视端入口：<b>设置 → 云同步</b>。
       </p>
       <table>
         <thead>
-          <tr><th>设置</th><th>默认</th><th>说明</th></tr>
+          <tr><th>条目</th><th>说明</th></tr>
         </thead>
         <tbody>
           <tr>
             <td>拉取云端 / 推送云端</td>
-            <td>—</td>
-            <td>顶部两个按钮。拉取调 <code>CloudSync.pull()</code>，推送调 <code>CloudSync.push()</code>；推送成功后会自动再拉取一次刷新展示。</td>
+            <td>页面顶部的两个按钮，按当前服务商的能力显示（「网络链接」只显示拉取）。推送成功后自动重新拉取、刷新显示。</td>
           </tr>
           <tr>
             <td>云端数据</td>
-            <td>—</td>
             <td>
-              进入页面即自动拉取一次。展示「云端版本 / 推送时间（<code>yyyy-MM-dd HH:mm:ss</code>）/ 推送设备 / 备注」；
-              拉取失败或为空显示「无云端数据」。<b>长按</b>该项会调用 <code>CloudSyncData.apply()</code> 重新应用云端数据并刷新界面。
+              进入页面自动拉取一次，显示云端的<b>版本、推送时间、推送设备、备注</b>；拉取失败或从未推送过显示「无云端数据」。
+              <b>长按该条目</b> = 把云端数据应用到本机（覆盖本机设置）。
             </td>
           </tr>
           <tr>
             <td>自动拉取</td>
-            <td>关</td>
-            <td>
-              开关，对应 <code>cloudSyncAutoPull</code>。开启后应用启动时自动拉取云端并应用。
-            </td>
+            <td>默认关。开启后每次启动应用自动拉取云端数据并应用——多台设备共用配置时方便；注意启动时的应用会覆盖本机尚未推送的改动。</td>
           </tr>
           <tr>
             <td>系统备份</td>
-            <td>开</td>
-            <td>
-              开关，对应 <code>appBackupEnable</code>。允许 Android 系统备份应用数据（设置、收藏等）。
-              由 <code>MyTVBackupAgent</code> 实现，支持键值对备份与 Android 6.0+ 自动备份两种模式，
-              换机时通过系统恢复。关闭后 <code>onBackup / onFullBackup / onRestore</code> 均会跳过。
-            </td>
+            <td>默认开。允许 Android 系统级备份应用数据（设置、收藏等），换机或重装时由系统恢复；与云同步互不干扰，建议保持开启。</td>
           </tr>
           <tr>
             <td>云同步服务商</td>
-            <td>GitHub Gist</td>
-            <td>
-              跳转项，进入 <code>SettingsCloudSyncProviderScreen</code>。子页面以 6 列网格列出五种后端，
-              每项右侧标注「支持拉取 / 不支持拉取」「支持推送 / 不支持推送」，选中项打勾。
-            </td>
+            <td>进入子页选择，默认 GitHub Gist；每个服务商右侧标注是否支持拉取 / 推送。</td>
+          </tr>
+          <tr>
+            <td>各服务商凭据</td>
+            <td>选择服务商后页面下方显示对应凭据条目（Gist ID、Token、WebDAV 地址等）。电视端只读，统一在面板的 云同步 页填写。</td>
           </tr>
         </tbody>
       </table>
 
-      <h3>后端字段（按服务商动态显示，TV 端只读）</h3>
+      <h2 id="sync-scope">同步哪些内容</h2>
+      <p><b>同步</b>：</p>
+      <ul>
+        <li>订阅源列表——包括「文件」类型订阅源的文件内容，换机后不用重新拷贝 m3u 文件；</li>
+        <li>自定义节目单配置；</li>
+        <li>频道收藏、频道别名；</li>
+        <li>界面、主题、控制、播放器、网络等各项设置；</li>
+        <li>Python / PHP 服务的配置——但脚本文件本身不同步：远程来源的脚本可在新设备上用「立即更新脚本」重新拉取，本地脚本需在面板重新上传。</li>
+      </ul>
+      <p><b>不同步</b>（与设备解码能力、性能或本机状态相关，每台电视要单独设置）：</p>
+      <ul>
+        <li>播放器内核、强制软解、软解仅用于音频、Media3 隧道解码；</li>
+        <li>视频超分、插帧、插帧目标帧率、AI 超分执行后端；</li>
+        <li>WebView 内核与「替换系统 WebView」；</li>
+        <li>实时字幕（ASR）的全部设置、已选识别模型、Gemini 凭据；</li>
+        <li>字幕翻译引擎及腾讯 / 百度 / MTranServer 凭据；</li>
+        <li>最近观看记录、当前选中的订阅源、最后播放位置；</li>
+        <li>焦点优化开关、云同步服务商的选择与「自动拉取」开关。</li>
+      </ul>
+
+      <h2 id="providers">各服务商配置步骤</h2>
       <p>
-        选择不同服务商后，TV 页面下方会动态追加对应的账号字段，所有字段均标记 <code>remoteConfig = true</code>（TV 只读，编辑需在面板）。
+        凭据一律在面板的 云同步 页填写（电视端只读），保存后到电视端 <b>设置 → 云同步 → 推送云端</b> 完成首次上传。
       </p>
-      <table>
-        <thead>
-          <tr><th>服务商</th><th>显示字段（对应 Configs 字段 / 默认值）</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>GitHub Gist</td>
-            <td>
-              <code>cloudSyncGithubGistId</code>（默认 <code>""</code>）<br>
-              <code>cloudSyncGithubGistToken</code>（默认 <code>""</code>）
-            </td>
-          </tr>
-          <tr>
-            <td>Gitee 代码片段</td>
-            <td>
-              <code>cloudSyncGiteeGistId</code>（默认 <code>""</code>）<br>
-              <code>cloudSyncGiteeGistToken</code>（默认 <code>""</code>）
-            </td>
-          </tr>
-          <tr>
-            <td>网络链接</td>
-            <td><code>cloudSyncNetworkUrl</code>（默认 <code>""</code>）</td>
-          </tr>
-          <tr>
-            <td>本地文件</td>
-            <td>
-              <code>cloudSyncLocalFilePath</code>（默认 <code>Constants.DEFAULT_LOCAL_SYNC_FILE_PATH</code> = <code>file:///storage/emulated/0/Download/</code>）
-            </td>
-          </tr>
-          <tr>
-            <td>WebDAV</td>
-            <td>
-              <code>cloudSyncWebDavUrl</code>（默认 <code>""</code>）<br>
-              <code>cloudSyncWebDavUsername</code>（默认 <code>""</code>）<br>
-              <code>cloudSyncWebDavPassword</code>（默认 <code>""</code>）
-            </td>
-          </tr>
-        </tbody>
-      </table>
 
-      <h2>4. 10591 面板（<code>/sync</code>）的全部可配置项</h2>
-      <p>
-        对应 <code>BackupComponent</code>。面板用 <code>mat-button-toggle-group</code> 选服务商，
-        字段在 TV 标记为只读的账号项在面板这里可直接编辑。
-      </p>
-      <table>
-        <thead>
-          <tr><th>面板字段</th><th>控件</th><th>说明</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>自动拉取</td><td><code>mat-slide-toggle</code></td><td>同 TV，绑定 <code>cloudSyncAutoPull</code></td></tr>
-          <tr>
-            <td>服务商</td>
-            <td><code>mat-button-toggle-group</code></td>
-            <td>GitHub Gist / Gitee 代码片段 / 网络链接 / 本地文件 / WebDAV</td>
-          </tr>
-          <tr>
-            <td>GitHub Gist ID / Token</td>
-            <td>文本框</td>
-            <td>仅服务商 = <code>GITHUB_GIST</code> 时显示</td>
-          </tr>
-          <tr>
-            <td>Gitee 代码片段 ID / Token</td>
-            <td>文本框</td>
-            <td>仅服务商 = <code>GITEE_GIST</code> 时显示</td>
-          </tr>
-          <tr>
-            <td>网络链接</td>
-            <td>文本框</td>
-            <td>仅服务商 = <code>NETWORK_URL</code> 时显示；占位 <code>https://example.com/sync</code></td>
-          </tr>
-          <tr>
-            <td>本地文件路径</td>
-            <td>文本框</td>
-            <td>仅服务商 = <code>LOCAL_FILE</code> 时显示；占位 <code>file:///storage/emulated/0/Download/</code></td>
-          </tr>
-          <tr>
-            <td>WebDAV URL / 用户名 / 密码</td>
-            <td>文本框</td>
-            <td>仅服务商 = <code>WEBDAV</code> 时显示；URL 占位 <code>https://webdav.example.com/remote.php/dav/files/username/</code></td>
-          </tr>
-          <tr>
-            <td>推送</td>
-            <td>按钮</td>
-            <td>把当前面板的修改提交到 TV（<code>configsService.updateData</code>）</td>
-          </tr>
-          <tr>
-            <td>导入应用数据</td>
-            <td>跳转项</td>
-            <td>选择本机 .json 文件，调 <code>POST /api/cloud-sync/data</code>（<code>AppApi.pushCloudSyncData</code>）应用</td>
-          </tr>
-          <tr>
-            <td>导出应用数据</td>
-            <td>跳转项</td>
-            <td>下载 JSON，文件名 <code>&#123;syncFrom&#125;-v&#123;version&#125;-&#123;syncAt&#125;.json</code></td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h2>5. 各后端配置步骤</h2>
-
-      <h3>GitHub Gist</h3>
+      <h3 id="github-gist">GitHub Gist（默认）</h3>
       <ol>
-        <li>GitHub → Settings → Developer settings → Personal access tokens 创建 token，勾选 <code>gist</code> 权限。</li>
-        <li>面板 <code>/sync</code> → 服务商 选 GitHub Gist。</li>
-        <li>填 <code>GitHub Gist Token</code>；<code>GitHub Gist ID</code> 首次推送时会自动创建并回填。</li>
-        <li>面板点「推送」提交到 TV；TV 端点「推送云端」完成首次上传。</li>
-        <li>其他设备填同样的 ID + Token，点「拉取云端」即可同步。</li>
+        <li>创建 token：GitHub 网页 → 头像 → Settings → Developer settings → Personal access tokens → Tokens (classic) → Generate new token (classic)，勾选 <code>gist</code> 权限，生成后复制 token。</li>
+        <li>新建 Gist：打开 gist.github.com，内容随意（如一行说明），选 <b>Create secret gist</b> 建私有 Gist；创建后地址栏网址的最后一段就是 Gist ID。</li>
+        <li>面板的 云同步 页 → 服务商选 GitHub Gist，填 Gist ID 和 Token，点「推送」保存。</li>
+        <li>电视端 设置 → 云同步 → 推送云端。之后这个 Gist 里会出现 <code>all_configs.json</code> 文件，就是同步数据。</li>
+        <li>其他电视填同一个 Gist ID + Token，点「拉取云端」即可同步。</li>
       </ol>
+
+      <h3 id="gitee">Gitee 代码片段</h3>
       <p>
-        实现细节：<code>GithubGistSyncRepository</code> 调 <code>https://api.github.com/gists/&#123;gistId&#125;</code>，
-        带 <code>Authorization: Bearer &#123;token&#125;</code> 与 <code>X-GitHub-Api-Version: 2022-11-28</code>。
-        推送用 <code>PATCH</code>，文件名 <code>all_configs.json</code>，内容经 Base64 编码；
-        拉取时若 <code>truncated=true</code> 会从 <code>raw_url</code> 下载完整内容再解码。
+        步骤与 GitHub Gist 相同：token 在 Gitee 网页 → 头像 → 设置 → 私人令牌 中生成，勾选 <code>gists</code> 权限；
+        再新建一个私有代码片段，取网址最后一段作为 ID，面板里填 ID + Token。国内网络访问通常更稳定。
       </p>
 
-      <h3>Gitee 代码片段</h3>
-      <p>同 GitHub Gist，但 token 在 Gitee 创建（私人令牌，勾选 <code>gists</code> 权限）。</p>
-      <p>
-        实现细节：<code>GiteeGistSyncRepository</code> 调 <code>https://gitee.com/api/v5/gists/&#123;gistId&#125;</code>，
-        推送用 <code>PATCH</code> 并在 body 里带 <code>access_token</code>；拉取时把 token 拼到 URL query。
-      </p>
+      <h3 id="webdav">WebDAV</h3>
+      <p>填三项：地址、用户名、密码。</p>
+      <ul>
+        <li><b>坚果云</b>：不能用登录密码——在坚果云网页「账户信息 → 安全选项 → 第三方应用管理」生成<b>应用密码</b>；地址形如 <code>https://dav.jianguoyun.com/dav/</code>。</li>
+        <li><b>Nextcloud 及兼容服务</b>：地址形如 <code>https://服务器地址/remote.php/dav/files/用户名/</code>。</li>
+        <li>地址只填到目录时，同步数据自动保存为该目录下的 <code>all_configs.json</code>。</li>
+      </ul>
 
-      <h3>WebDAV</h3>
-      <ol>
-        <li>准备 WebDAV 服务器地址、用户名、密码（坚果云用应用密码，Nextcloud 用账号密码）。</li>
-        <li>面板 <code>/sync</code> → 服务商 选 WebDAV，填三项。</li>
-        <li>同步文件保存为你填写的 URL 对应路径。</li>
-      </ol>
-      <p>
-        实现细节：<code>WebDavSyncRepository</code> 用 HTTP Basic 认证（<code>Credentials.basic(username, password)</code>）。
-        若 URL 末段不含 <code>.</code>（即只给目录），会自动追加 <code>all_configs.json</code> 作为文件名；
-        推送 <code>PUT</code>，拉取 <code>GET</code>，内容为明文 JSON。
-      </p>
+      <h3 id="local-file">本地文件</h3>
+      <ul>
+        <li>默认路径 <code>file:///storage/emulated/0/Download/</code>（电视的「下载」目录），同步数据保存为其中的 <code>all_configs.json</code>。</li>
+        <li>路径可改到 U 盘等外部存储目录；把生成的 all_configs.json 拷到其他电视，即可离线迁移。</li>
+        <li>需要先在 设置 → 权限 授予「读取外部存储/管理全部文件」。</li>
+      </ul>
 
-      <h3>网络链接</h3>
-      <ol>
-        <li>把一份 sync.json 放到任意一个可公开访问的 URL（GitHub raw / 自建 HTTP 服务）。</li>
-        <li>面板 <code>/sync</code> → 服务商 选 网络链接，填 URL。</li>
-        <li>TV 端点「拉取云端」即从此 URL 拉取（不能推送）。</li>
-      </ol>
-      <p>
-        实现细节：<code>NetworkUrlSyncRepository.push()</code> 直接返回 <code>false</code>，<code>pull()</code> 用 <code>URL(url).readText()</code> 拉取并反序列化。
-      </p>
+      <h3 id="network-url">网络链接</h3>
+      <ul>
+        <li><b>只支持拉取、不能推送</b>：填一个能直接下载到同步文件的网址（如别人分享的 all_configs.json 直链）。</li>
+        <li>适合「家人或群主发布一份配置、大家只管用」的场景；本机的改动不会上传。</li>
+      </ul>
 
-      <h3>本地文件</h3>
-      <ol>
-        <li>面板 <code>/sync</code> → 服务商 选 本地文件，路径默认 <code>file:///storage/emulated/0/Download/</code>。</li>
-        <li>推送时把 sync.json 写到该路径；拉取时从该路径读。</li>
-        <li>把该文件拷贝到 U 盘 / 其他设备即可完成备份 / 迁移。</li>
-      </ol>
-      <p>
-        实现细节：<code>LocalFileSyncRepository</code> 判断路径末段是否含 <code>.</code>：
-        含则当作完整文件名，否则视为目录并追加 <code>all_configs.json</code>。
-        推送 / 拉取都是普通文件读写（<code>File.writeText / readText</code>）。
-      </p>
+      <doc-callout kind="warn" title="安全提示" icon="warning">
+        Gist / 代码片段务必建<b>私有</b>的——公开 Gist 任何人都能看到你的订阅源地址等全部配置。
+        token 就是账号钥匙，不要泄露，怀疑泄露立刻到 GitHub / Gitee 吊销后重建。
+        WebDAV 密码等同于网盘密码，坚果云务必用「应用密码」而不是登录密码。
+      </doc-callout>
 
-      <h2>6. 导入 / 导出应用数据</h2>
+      <h2 id="backup">备份管理（本地快照）</h2>
       <p>
-        面板 <code>/sync</code> 提供「导入应用数据」「导出应用数据」两个跳转项：
+        面板的 <b>备份管理</b> 页在电视端本机创建数据快照（设置与数据原样封存），适合大改配置前留个还原点。
       </p>
       <ul>
-        <li>
-          <b>导出</b>：调 <code>AppApi.getCloudSyncData()</code>（即 <code>CloudSync.getData()</code>）拿到当前 TV 的 CloudSyncData，
-          下载为 JSON 文件，文件名形如 <code>客厅电视-v2.2.0.1-2026-08-05.json</code>。
-        </li>
-        <li>
-          <b>导入</b>：弹出文件选择器（<code>accept=".json"</code>），读取本机 .json 文件，
-          调 <code>AppApi.pushCloudSyncData()</code>（<code>POST /api/cloud-sync/data</code>）应用到 TV。
-        </li>
+        <li><b>创建备份</b>：输入名称（可用字母、数字、点、下划线、中划线）→ 创建备份；列表显示每个快照的名称、时间、大小。</li>
+        <li><b>恢复</b>：二次确认后用快照<b>覆盖电视端当前全部设置与数据</b>，完成后需重启应用才完全生效。</li>
+        <li><b>删除</b>：二次确认后删除。</li>
       </ul>
-      <p>
-        这是<b>不依赖任何云端</b>的迁移方式：旧电视导出 → 新电视导入。
-      </p>
+      <p>快照只保存在电视端本机，不上传云端；卸载应用会一并删除，重要快照建议配合「导出应用数据」存档。</p>
 
-      <h2>7. 与其他功能的联动</h2>
+      <h2 id="import-export">导入导出 JSON</h2>
+      <p>在面板的 云同步 页底部：</p>
       <ul>
-        <li><b>10591 面板</b>：云同步的账号字段都只能在面板编辑，TV 设置页只读。详见 <a [routerLink]="'/remote-panel'">远程配置面板</a>。</li>
-        <li><b>订阅源</b>：<code>extraLocalIptvSourceList</code> 会把所有「本地文件」类型的订阅源内容一并同步，换机后无需重新拷贝 m3u 文件。详见 <a [routerLink]="'/sources'">订阅源</a>。</li>
-        <li><b>频道别名</b>：<code>iptvChannelNameAlias</code> 随配置同步，多设备共享统一命名。</li>
-        <li><b>系统备份</b>：<code>appBackupEnable</code> 默认开启，由 <code>MyTVBackupAgent</code> 接管 Android 系统备份；与云同步独立，互不影响。</li>
+        <li><b>导出应用数据</b>：把电视端当前的同步数据整包下载为 .json 文件（文件名带设备名、版本与时间），自己存档。</li>
+        <li><b>导入应用数据</b>：选择之前导出的 .json 文件，推送到电视端并立即应用。</li>
       </ul>
+      <p>这是不依赖任何云端账号的迁移方式：旧电视导出 → 新电视导入。</p>
     </div>
   `,
 })

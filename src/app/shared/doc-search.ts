@@ -16,7 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
-import { SearchIndexEntry, SEARCH_INDEX } from './search-index';
+import type { SearchIndexEntry } from './search-index';
 
 interface SearchResult {
   path: string;
@@ -201,6 +201,15 @@ export class DocSearch {
   readonly activeIndex = signal(0);
 
   private overlayRef: OverlayRef | null = null;
+  // 全量索引约 50 KB，首次打开搜索时再异步加载，不进主包
+  private searchIndex: SearchIndexEntry[] | null = null;
+
+  private async ensureIndex(): Promise<SearchIndexEntry[]> {
+    if (!this.searchIndex) {
+      this.searchIndex = (await import('./search-index')).SEARCH_INDEX;
+    }
+    return this.searchIndex;
+  }
 
   readonly panelTpl = viewChild.required<TemplateRef<unknown>>('panel');
   readonly inputEl = viewChild<ElementRef<HTMLInputElement>>('inputEl');
@@ -231,6 +240,7 @@ export class DocSearch {
     });
     this.overlayRef.attach(new TemplatePortal(this.panelTpl(), this.vcr));
     this.overlayRef.backdropClick().subscribe(() => this.close());
+    this.ensureIndex();
     setTimeout(() => this.inputEl()?.nativeElement.focus(), 50);
   }
 
@@ -251,7 +261,8 @@ export class DocSearch {
     this.inputEl()?.nativeElement.focus();
   }
 
-  onQuery() {
+  async onQuery() {
+    const index = await this.ensureIndex();
     const q = this.query().trim().toLowerCase();
     if (!q) {
       this.results.set([]);
@@ -260,7 +271,7 @@ export class DocSearch {
     }
     const terms = q.split(/\s+/).filter(Boolean);
     const matched: { entry: SearchIndexEntry; score: number }[] = [];
-    for (const entry of SEARCH_INDEX) {
+    for (const entry of index) {
       const hay = (
         entry.title +
         ' ' +

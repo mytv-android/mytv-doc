@@ -1,65 +1,84 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DocPageHeader } from '../../shared/doc-page-header';
+import { DocCallout } from '../../shared/doc-callout';
 
 @Component({
   selector: 'app-build',
-  imports: [DocPageHeader, RouterLink],
+  imports: [DocPageHeader, DocCallout, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="doc-page">
       <doc-page-header
         title="下载与更新"
-        lead="从 GitHub Release 下载安装包，或在应用内检查更新。"
+        lead="从 GitHub Release 下载安装包、在应用内检查更新，或用网页面板把 APK 推到电视安装。"
       />
 
-      <h2>1. 从 Release 下载</h2>
+      <h2 id="release-download">从 Release 下载</h2>
       <p>
         前往
         <a href="https://github.com/mytv-android/mytv-android/releases" target="_blank" rel="noopener">
           mytv-android Releases
         </a>
-        下载最新 APK。Release 通常提供多个 ABI 分包：
+        下载最新 APK。每个版本提供多个安装包，按设备的 CPU 架构（ABI）选择：
       </p>
       <table>
         <thead>
-          <tr><th>文件</th><th>适用</th></tr>
+          <tr><th>文件名包含</th><th>适用设备</th></tr>
         </thead>
         <tbody>
-          <tr><td><code>app-armeabi-v7a-release.apk</code></td><td><b>绝大多数电视 / 电视盒子（推荐）</b>。32 位 ARM，兼容性最好。</td></tr>
-          <tr><td><code>app-arm64-v8a-release.apk</code></td><td>较新的 64 位电视 / 盒子。</td></tr>
-          <tr><td><code>app-x86-release.apk</code> / <code>app-x86_64-release.apk</code></td><td>Intel / AMD 平板、模拟器。</td></tr>
-          <tr><td><code>app-universal-release.apk</code></td><td>不确定选哪个时用这个，体积最大但全平台兼容。</td></tr>
+          <tr><td><code>arm64-v8a</code></td><td><b>较新的 64 位电视 / 盒子（主流选择）</b>。</td></tr>
+          <tr><td><code>armeabi-v7a</code></td><td>较老的 32 位电视 / 盒子。</td></tr>
+          <tr><td><code>x86</code> / <code>x86_64</code></td><td>Intel / AMD 处理器的设备、模拟器。</td></tr>
+          <tr><td><code>all</code>（universal）</td><td>不确定选哪个时用它，体积最大但全平台兼容。</td></tr>
         </tbody>
       </table>
       <p>
-        普通电视用户<b>优先尝试 <code>armeabi-v7a</code></b>；装上跑不起来再换 <code>arm64-v8a</code> 或 <code>universal</code>。
+        普通电视优先 <code>arm64-v8a</code>；装上打不开再换 <code>armeabi-v7a</code> 或 <code>all</code>。
       </p>
+      <p>文件名还带三种后缀，按需选择：</p>
+      <ul>
+        <li><code>original</code>：标准版，默认选它。</li>
+        <li><code>x5offline</code>：内置腾讯 X5 内核的版本（仅 armv7 / arm64），不想在应用内联网下载 X5 内核时选它。</li>
+        <li><code>disguised</code>：应用包名不同的伪装版，功能与标准版相同，个别设备安装被拦截时备用。</li>
+      </ul>
 
-      <h2>2. 应用内更新</h2>
+      <h2 id="in-app-update">应用内更新</h2>
       <p>
-        应用启动后会按 <b>设置 → 更新 → 更新通道</b> 检查新版本：
+        应用启动时会按 <b>设置 → 更新 → 更新通道</b> 自动检查新版本，也可在 <b>首页 → 关于 → 检查更新</b> 手动检查：
       </p>
       <table>
         <thead>
-          <tr><th>通道</th><th>对应仓库</th><th>说明</th></tr>
+          <tr><th>通道</th><th>说明</th></tr>
         </thead>
         <tbody>
-          <tr><td><b>stable</b>（默认）</td><td><code>mytv-android/mytvstable</code></td><td>稳定版，问题最少。</td></tr>
-          <tr><td><b>beta</b></td><td><code>mytv-android/mytvbeta</code></td><td>预览版，新功能先试。</td></tr>
-          <tr><td><b>dev</b></td><td><code>mytv-android/mytvdev</code></td><td>开发版，可能不稳定。</td></tr>
+          <tr><td><b>稳定版本</b>（默认）</td><td>问题最少，推荐日常使用。</td></tr>
+          <tr><td><b>预览版本</b></td><td>提前体验新功能，可能有少量问题。</td></tr>
+          <tr><td><b>开发版本</b></td><td>最新改动，可能不稳定。</td></tr>
         </tbody>
       </table>
       <p>
-        「更新强提醒」开启时，检测到新版本会全屏提醒；关闭时只 Snackbar 提示。
-        下载完成后调起系统安装器（首次需授予「安装未知应用」权限）。
+        「更新强提醒」（<b>设置 → 更新</b>）：开启时检测到新版本会全屏提醒；关闭时仅消息提示。
       </p>
 
-      <h2>3. 通过 10591 面板推 APK</h2>
-      <p>
-        浏览器打开 <code>http://&lt;设备IP&gt;:10591</code>，在面板中找到「上传 APK」入口，
-        选择本机 APK 文件即可推送到电视并自动调起安装。详见 <a [routerLink]="'/remote-panel'">远程配置面板</a>。
-      </p>
+      <h3 id="update-screen">更新页</h3>
+      <p>有新版本时进入更新页：左侧显示最新版本号和可滚动的更新日志，右侧两个按钮：</p>
+      <ul>
+        <li><b>立即更新</b>：下载安装包，首次需授予「安装未知应用」权限（也可提前在 <b>设置 → 权限</b> 中开启），随后调起系统安装界面。</li>
+        <li><b>忽略并返回</b>：跳过本次提醒，该版本不再强提醒。</li>
+      </ul>
+      <p>已是最新时显示「当前为最新版本」，点击即可返回。</p>
+
+      <h2 id="push-apk">用面板把 APK 推到电视安装</h2>
+      <ol>
+        <li>浏览器打开面板 <code>http://&lt;电视IP&gt;:10591</code>。</li>
+        <li>在面板首页找到「安装 APK」卡片，选择本机的 APK 文件，点「上传并安装」。</li>
+        <li>上传完成后，电视端弹出确认窗口，确认后进入系统安装流程。</li>
+      </ol>
+      <doc-callout kind="info" title="面板的「更新」页不能推 APK" icon="info">
+        面板的「更新」页只能修改更新通道和更新强提醒。推 APK 安装请用面板首页的「安装 APK」卡片，详见
+        <a [routerLink]="'/remote-panel'">远程配置面板</a>。
+      </doc-callout>
     </div>
   `,
 })

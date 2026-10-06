@@ -52,9 +52,12 @@
   </mat-sidenav>
 
   <mat-sidenav-content class="app-content">
-    <main class="page">
-      <router-outlet />
-    </main>
+    <div class="page-row">
+      <main class="page">
+        <router-outlet />
+      </main>
+      <doc-toc />
+    </div>
     <footer class="app-footer">
       <p>
         本文档基于

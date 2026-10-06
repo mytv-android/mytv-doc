@@ -10,668 +10,245 @@ import { DocCallout } from '../../shared/doc-callout';
   template: `
     <div class="doc-page">
       <doc-page-header
-        title="订阅源（IPTV）"
-        lead="订阅源是电视直播的核心数据。本页介绍五种源类型、聚合配置、URL 前缀协议、混合源，以及 TV 应用内和 10591 面板上的全部相关设置。"
+        title="订阅源（IPTV / 混合源）"
+        lead="订阅源决定你能看哪些频道。本页介绍各类源的写法与添加方式、电视端和面板上的管理操作、缓存与刷新、回看、网页源与混合模式，以及 m3u 常见字段的含义。"
       />
 
-      <h2>1. 订阅源类型</h2>
-      <p>应用支持五种订阅源类型（<code>sourceType</code>），按内容自动识别或手动指定：</p>
+      <h2 id="types">订阅源类型</h2>
+      <p>
+        订阅源就是一份频道清单，里面写着每个频道的分组和一条或多条<b>线路</b>（播放地址）。
+        添加时按类型填写对应信息即可，其余留默认：
+      </p>
       <table>
         <thead>
-          <tr><th>类型</th><th>sourceType</th><th>说明</th><th>必填字段</th></tr>
+          <tr><th>类型</th><th>是什么</th><th>必填项</th></tr>
         </thead>
         <tbody>
           <tr>
             <td><b>网络 m3u / txt</b></td>
-            <td><code>0</code></td>
-            <td>按内容自动识别。<code>.m3u</code> 走 m3u 解析器；<code>.txt</code> 形如 <code>分组,#genre#</code> 行 + <code>频道名,url1#url2</code>。<code>.gz</code> 自动 GZIP 解压。</td>
-            <td>链接（URL）</td>
-          </tr>
-          <tr>
-            <td><b>本地文件</b></td>
-            <td><code>1</code></td>
-            <td>TV 本机 m3u / txt 路径，以 <code>/</code> 开头自动识别为本地源。不参与缓存过期（视为永久有效）。读取外部存储需授予「所有文件访问权限」。</td>
-            <td>文件路径</td>
+            <td>
+              最常见的直播源文件，m3u 与 txt 两种写法都支持，按内容自动识别；<code>.gz</code> 压缩包自动解压。
+              放在 FTP / SMB / WebDAV 服务器上的源也可以，地址带 <code>ftp://</code>、<code>smb://</code>、<code>webdav://</code> 等前缀即可。
+            </td>
+            <td>
+              链接。FTP / SMB / WebDAV 源还需账号密码：可直接写进链接（如 <code>ftp://用户名:密码@主机/路径</code>），
+              也可在面板按「协议、端口、账号、密码」字段分开填。
+            </td>
           </tr>
           <tr>
             <td><b>Xtream Codes</b></td>
-            <td><code>2</code></td>
-            <td>面板内部拼接 <code>&#123;url&#125;/get.php?username=…&amp;password=…&amp;type=…</code>。</td>
-            <td>链接、用户名、密码、输出类型</td>
+            <td>服务商发的账号式源，App 会自动拼好取数地址，不用自己拼链接。</td>
+            <td>服务器地址、用户名、密码、输出类型（<code>m3u_plus</code> 或 <code>m3u</code>）</td>
           </tr>
           <tr>
             <td><b>Stalker Portal</b></td>
-            <td><code>3</code></td>
-            <td>先 <code>portal.php?type=stb&amp;action=handshake</code> 取 token，再请求 <code>get_all_channels</code> + <code>get_genres</code>。</td>
-            <td>链接、MAC 地址</td>
+            <td>机顶盒式门户源。</td>
+            <td>服务器地址、MAC 地址（服务商提供）</td>
           </tr>
           <tr>
-            <td><b>FTP / SMB / WebDAV</b></td>
-            <td><code>0</code></td>
+            <td><b>本地文件</b></td>
             <td>
-              仍属网络 m3u / txt（<code>sourceType=0</code>），按地址 scheme 自动识别协议：
-              <code>ftp://</code> / <code>ftps://</code> 走内置 FTP 客户端（PASV/EPSV，显式 AUTH TLS，隐式 TLS 用 990 端口）；
-              <code>smb://</code> / <code>smb2://</code> / <code>cifs://</code> 走 SMB2/3（smbj，NTLM，第一个路径段为共享名；
-              账号支持 <code>域\用户</code> / <code>用户@域</code>）；
-              <code>webdav://</code> / <code>dav://</code>（默认 http）与 <code>webdavs://</code> / <code>davs://</code>（默认 https）按 WebDAV 直链 GET + Basic 认证。
-              也可在面板显式指定「协议」与「端口」，此时地址可省略 scheme。
-              账号密码取值顺序：地址中附带的 <code>user:pass@</code> &gt; 订阅源字段。代理仅对 WebDAV 生效。
+              电视本机上的 m3u / txt 文件。需要先在 设置 → 权限 中授予「读取外部存储/管理全部文件」。
             </td>
-            <td>链接（含协议/账号）或协议 + 端口 + 账号字段</td>
+            <td>文件路径</td>
+          </tr>
+          <tr>
+            <td><b>直接粘贴内容</b></td>
+            <td>
+              在面板首页「订阅源」卡片选择「本地上传」，可直接挑选电脑 / 手机上的 <code>.m3u</code> / <code>.m3u8</code> / <code>.txt</code> 文件，
+              或把内容整段粘贴进去；推送后 App 会把它存成电视上的本地文件来使用。
+            </td>
+            <td>文件或粘贴的内容</td>
           </tr>
           <tr>
             <td><b>聚合配置</b></td>
-            <td><code>4</code></td>
-            <td>
-              把多个已有订阅源打包成一个配置：同名频道的线路合并到一起，一条播不出来自动切下一条。
-              聚合自身不抓取内容，只按「名称 + 地址」引用成员源。详见下文「聚合配置」一节。
-            </td>
-            <td>至少一个成员订阅源</td>
+            <td>把多个已有订阅源合并成一个用，同名频道自动变成多条线路。见下文「聚合配置」。</td>
+            <td>至少勾选一个已有订阅源</td>
           </tr>
         </tbody>
       </table>
+      <doc-callout kind="warn" title="关于内置演示源" icon="warning">
+        新装 App 自带的演示源仅供体验，可用性不保证。请自行准备合法的订阅源。
+      </doc-callout>
 
-      <h2>2. 添加订阅源</h2>
-      <p>有三种方式：</p>
+      <h2 id="add-manage">添加与管理</h2>
+
+      <h3 id="add">添加订阅源</h3>
+      <p>电视上打字不便，添加订阅源一律通过扫码在远程配置面板（下称面板）里完成：</p>
       <ol>
-        <li>
-          <b>TV 端：设置 → 订阅源 → 自定义订阅源 → 添加其他订阅源</b>。弹二维码，扫码跳到面板添加页。
-          <ul>
-            <li>面板首页（<code>/</code>）→ 订阅源。支持 5 种类型：<code>remote</code>（网络 URL）/ <code>xtream</code> / <code>stalker</code> / <code>file</code>（TV 本地路径）/ <code>content</code>（直接粘贴 m3u / txt 内容，面板把内容写到 TV 本地文件 <code>iptv_source_local_&lt;时间戳&gt;.txt</code> 再注册为本地源）。</li>
-            <li>面板订阅源页（<code>/sources</code>）→ 新增。同首页，但走完整编辑对话框，类型中额外提供「聚合配置」。</li>
-          </ul>
-        </li>
-        <li>
-          <b>TV 端：设置 → 订阅源 → 自定义订阅源 → 添加聚合配置</b>。不扫码，直接在 TV 上输入名称并勾选要聚合的订阅源（详见
-          <b>3. 聚合配置</b>）。
-        </li>
-        <li>
-          <b>深链添加</b>：<code>mytv://add?url=&lt;订阅源地址&gt;&amp;name=&amp;user-agent=&amp;proxy=&amp;transform-js=</code>。从外部 App 唤起 TV 应用并直接写入订阅源列表。
-        </li>
-        <li>
-          <b>面板 API 推送</b>：<code>POST /api/iptv-source/push</code>，请求体字段 <code>name</code> / <code>type</code>（<code>url|file|content|xtream|stalker</code>）/ <code>url</code> / <code>filePath</code> / <code>content</code> / <code>userName</code> / <code>password</code> / <code>format</code> / <code>mac</code> / <code>httpUserAgent</code> / <code>httpProxy</code>。
-        </li>
+        <li>电视端打开 <b>设置 → 订阅源 → 自定义订阅源</b>，点底部「添加其他订阅源」，屏幕弹出二维码和地址。</li>
+        <li>用手机 / 电脑扫码（或在浏览器输入该地址）打开面板。面板的打开方式详见 <a [routerLink]="'/remote-panel'">远程配置面板</a>。</li>
+        <li>在面板首页「订阅源」卡片填好名称与链接（Xtream、Stalker、FTP 等类型会多出对应字段），点「推送订阅源」；也可以到面板的 订阅源 页点「新增」，用完整对话框添加。</li>
+        <li>回到电视，列表里就能看到新源，点按它选「设为当前」即开始使用。</li>
       </ol>
 
-      <h2>3. 聚合配置（多源同名频道合并）</h2>
+      <h3 id="manage-tv">电视端管理（设置 → 订阅源 → 自定义订阅源）</h3>
+      <ul>
+        <li>列表每条显示：名称、类型标签（本地 / Xtream / Stalker / 聚合）、单源 UA、分组数 / 频道数、缓存大小与更新时间。</li>
+        <li><b>点按某条</b>弹出操作：设为当前、删除、清除缓存；聚合条目另有「编辑聚合配置」。</li>
+        <li>页面顶部「<b>刷新全部</b>」：无视缓存时间，立即重新下载所有订阅源。</li>
+        <li>页面底部「<b>添加聚合配置</b>」：不扫码，直接在电视上勾选已有源进行合并，见下文「聚合配置」。</li>
+      </ul>
+
+      <h3 id="manage-panel">面板订阅源页</h3>
       <p>
-        <b>聚合配置</b>（<code>sourceType=4</code>）把多个已有订阅源打包成一个配置：聚合自身不抓取内容，
-        取数时逐个加载被引用的订阅源，再把<b>同名频道</b>归并为同一频道的多条线路。
-        播放时一条线路播不出来，会自动切到该频道的下一条线路。
+        面板的 订阅源 页比电视端功能更全：单选钮切换当前源，每行菜单可<b>上移 / 下移排序</b>、编辑、删除。
+        「新增 / 编辑订阅源」对话框的字段一览：
       </p>
-      <h3>创建与编辑</h3>
-      <ul>
-        <li><b>TV 端</b>：设置 → 订阅源 → 自定义订阅源 → <b>添加聚合配置</b>。输入名称、勾选要聚合的订阅源，保存后自动设为当前源。</li>
-        <li><b>面板</b>：添加 / 编辑订阅源对话框，类型选「聚合配置」，在「选择要聚合的订阅源」列表中勾选，并用上下箭头调整顺序。</li>
-        <li><b>编辑</b>：TV 端长按聚合条目 → 「编辑聚合配置」；面板直接点编辑。增删成员、调整顺序都在这里。</li>
-      </ul>
-      <h3>合并规则</h3>
-      <ul>
-        <li><b>勾选顺序 = 线路优先级</b>：越早勾选的订阅源，其线路排得越靠前，播放时越优先。</li>
-        <li><b>同名归并</b>：按「标准频道名」（经频道别名归一后的名字）跨源合并为同一频道；各源的线路按订阅源顺序拼接，URL 重复的线路只保留第一条。</li>
-        <li><b>频道信息</b>：频道名、分组取<b>最先出现</b>的订阅源；该处缺失的台标 / 节目单 ID 会用后续成员源补齐。</li>
-        <li><b>分组</b>：各源分组按首次出现的顺序合并；同名频道归入它第一次出现的分组。</li>
-        <li><b>代理</b>：线路继承其来源订阅源的单源代理（<code>httpProxy</code>），带代理的源聚合后播放仍走代理。</li>
-        <li><b>节目单</b>：EPG 设置开启「跟随订阅源」时，聚合配置的节目单地址取各成员源内嵌 EPG 地址的<b>并集</b>；聚合配置自身的「EPG 地址」字段优先。</li>
-      </ul>
-      <h3>播放与自动切换</h3>
-      <ul>
-        <li>播放报错（含加载超时）时自动切到本频道的下一条线路，逐条尝试到最后一条为止，<b>不循环回第一条</b>。</li>
-        <li>「播放超时时间」（设置 → 播放器，默认 10 秒）就是「多久没起播算失败」的阈值；聚合想更激进地换线，可调到 5 秒左右。</li>
-        <li>频道列表右上角的数字角标即该频道的备选线路数，聚合频道通常大于 1。</li>
-      </ul>
-      <doc-callout kind="info" title="聚合配置的引用方式">
-        <ul>
-          <li><b>活引用</b>：聚合按「名称 + 地址」引用成员源。面板里改过成员源的地址后聚合自动生效；成员源被删除后自动从聚合中剔除。</li>
-          <li>成员源仍保留在订阅源列表中，可以单独使用，也可以同时被多个聚合配置引用；<b>不支持聚合嵌套</b>（成员只能是普通订阅源）。</li>
-          <li>加载成员源失败时：有本地缓存则用缓存，没有则跳过该成员；全部成员都失败才报错。</li>
-          <li>「刷新全部」会连同聚合一起刷新；对聚合执行「清缓存」会清空其全部成员源的缓存。</li>
-        </ul>
+      <table>
+        <thead>
+          <tr><th>字段</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>名称 / 类型 / 链接</td><td>基本信息；类型为「文件」时链接处填电视上的文件路径</td></tr>
+          <tr><td>协议、端口、账号、密码</td><td>远程源选择 FTP / SMB / WebDAV 类协议时出现；地址里已带前缀和账号时可留空</td></tr>
+          <tr><td>用户名 / 密码 / 输出类型</td><td>仅 Xtream 类型</td></tr>
+          <tr><td>MAC 地址</td><td>仅 Stalker 类型</td></tr>
+          <tr><td>UA</td><td>按源单独设置 User-Agent：拉取该源时使用；频道没单独指定 UA 时播放也沿用</td></tr>
+          <tr><td>代理</td><td>按源单独设置代理，填 <code>http://</code> 或 <code>socks5://</code> 地址，可带账号密码</td></tr>
+          <tr><td>EPG 地址</td><td>给这个源单独指定节目单，配合节目单的「跟随订阅源」使用，见 <a [routerLink]="'/epg'">EPG 节目单</a></td></tr>
+          <tr><td>自动刷新</td><td>单位小时，0 = 关闭（默认）。设为大于 0 后，该源在使用期间每隔这么久在后台静默重新下载一次，不打断播放</td></tr>
+          <tr><td>关闭预览图 / 关闭延迟检测</td><td>该源使用中时不抓频道预览首帧、不给线路测延迟，适合响应慢或对频繁探测敏感的源</td></tr>
+          <tr><td>转换 JS</td><td>源作者向能力：下载后先用一段脚本加工频道列表。普通用户留空即可</td></tr>
+          <tr><td>文件内容</td><td>仅本地文件类型：直接在面板里查看、修改电视上的源文件内容</td></tr>
+        </tbody>
+      </table>
+
+      <h3 id="cache">缓存时间与刷新</h3>
+      <table>
+        <thead>
+          <tr><th>设置项</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>设置 → 订阅源 → 订阅源缓存时间</td>
+            <td>可选 不缓存 / 1～23 小时 / 1～15 天 / 永久，默认 <b>1 小时</b>。缓存没过期时直接用缓存，启动快；过期后重新下载，下载失败时回落到旧缓存。本地文件源没有过期一说</td>
+          </tr>
+          <tr>
+            <td>面板的 订阅源 页 → 订阅源缓存时间</td><td>同一项，按小时填，0 = 不缓存</td>
+          </tr>
+        </tbody>
+      </table>
+      <doc-callout kind="tip" title="源的内容变了，电视上还是旧的？" icon="lightbulb">
+        先在「自定义订阅源」页点顶部「刷新全部」；还不行就对那条源执行「清除缓存」再刷新。
+        依然不变多半是源本身没更新或已失效，需要联系源作者或换源。
       </doc-callout>
-      <h2>4. m3u 支持的扩展字段</h2>
-      <h3><code>#EXTM3U</code> 行（全局）</h3>
-      <ul>
-        <li><code>catchup</code> / <code>catchup-source</code>：默认回看类型与回看地址，可被 <code>#EXTINF</code> 行覆写。</li>
-        <li><code>host</code>：全局 host 覆写，形如 <code>host=old.com=new.com;old2.com=new2.com</code>，分号分隔多条。</li>
-        <li><code>x-tvg-url</code> / <code>url-tvg</code>：内嵌 EPG 地址（需在 <a [routerLink]="'/epg'">EPG</a> 页开启「跟随订阅源」）。</li>
-      </ul>
-      <h3><code>#EXTINF</code> 行（单频道）</h3>
-      <ul>
-        <li><code>tvg-id</code> / <code>tvg-name</code> / <code>tvg-logo</code> / <code>tvg-chno</code>：频道 ID / 名称 / 台标 / 频道号。</li>
-        <li><code>group-title</code>：二级分组，支持 <code>;</code> 分隔多组；缺省归入「其他」。</li>
-        <li><code>category</code>：一级分组（大分类），缺省为空串（表示无）。与 <code>group-title</code> 组成两级分组。</li>
-        <li><code>http-user-agent</code> / <code>http-referrer</code> / <code>http-origin</code> / <code>http-cookie</code> / <code>host</code>：自定义请求头与 host 覆写。</li>
-        <li><code>catchup</code> / <code>catchup-source</code>：本条线路的回看覆写。</li>
-      </ul>
-      <h3>一级 / 二级分组</h3>
+
+      <h2 id="aggregation">聚合配置（多源合并）</h2>
       <p>
-        频道分组分<b>一级分组</b>（<code>category</code>）与<b>二级分组</b>（分组名）两级，实际展示形态由
-        <b>列表风格</b>（<code>uiGroupParsStyle</code>）决定，见 <a [routerLink]="'/channels'">频道、收藏与搜索</a>。
+        <b>聚合配置</b>把多个已有订阅源合成一个：同名频道自动归并为一个频道的多条线路，
+        播放时一条线路播不出来会自动切到下一条，逐条尝试到底。
       </p>
       <ul>
-        <li><b>m3u</b>：<code>#EXTINF</code> 行的 <code>category="..."</code> 为一级分组，<code>group-title="..."</code> 为二级分组（仍支持 <code>;</code> 多组，同一频道在每个二级分组下各出现一次）。</li>
-        <li><b>txt</b>：<code>一级分组,#group#</code> 行声明一级分组；<code>分组,#genre#</code> 行声明二级分组。</li>
+        <li><b>创建</b>：电视端 设置 → 订阅源 → 自定义订阅源 → 「添加聚合配置」，输入名称并勾选要合并的源，保存后自动设为当前；<b>勾选顺序就是线路优先级</b>。面板上在订阅源编辑对话框把类型选为「聚合配置」再勾选成员，效果相同。</li>
+        <li><b>编辑</b>：电视端点按聚合条目 →「编辑聚合配置」；面板直接点编辑。增删成员、调整顺序都在这里。</li>
+        <li><b>活引用</b>：聚合存的是对成员源的引用——面板里改了成员地址自动生效，成员被删除后自动剔除；成员源仍可单独使用，也可同时被多个聚合引用。聚合不能再套聚合。</li>
+        <li><b>容错</b>：某个成员加载失败时用它的旧缓存，没有缓存就跳过；全部成员都失败才报错。</li>
+        <li><b>缓存</b>：对聚合执行「清除缓存」会清空全部成员源的缓存；「刷新全部」连同成员一起刷新。</li>
       </ul>
-      <h3>分组级参数（<code>#EXTKU9OPT</code>）</h3>
+
+      <h2 id="m3u-fields">m3u 里的常见字段</h2>
       <p>
-        为每个分组单独配置播放参数。需先开启 <b>设置 → 订阅源 → 分组级参数</b>（<code>iptvChannelGroupConfigEnable</code>，默认开）；
-        关闭时解析到的分组级参数全部不生效。分组级参数的优先级<b>低于</b>按 Host / URL / 设备记忆的解码配置。
-      </p>
-      <p>声明方式：</p>
-      <ul>
-        <li><b>m3u</b>：单独一行 <code>#EXTKU9OPT:KEY=VALUE#KEY=VALUE</code>。可放在该分组任一频道的地址之后，也可放在 <code>#EXTINF</code> 与地址之间，两种位置都生效。</li>
-        <li><b>txt</b>：直接写在 <code>#genre#</code> 行之后，即 <code>分组,#genre#,DE=1#SC=3#HEADERS=&#123;"User-Agent":"Player"&#125;#SCRIPT=js://a.js</code>。</li>
-      </ul>
-      <p>
-        多个 <code>KEY=VALUE</code> 之间用 <code>#</code> 分隔，key 统一按大写归一。
-        <b>同一分组内同 key 的第一次非空声明生效（先到先得），后续同 key 声明被忽略</b>；
-        历史写法 <code>SP</code> / <code>JS</code> / <code>PY</code> 会归一化为 <code>SCRIPT</code>。
+        m3u 源里每个频道都可以带一些附加信息。<b>这些由源作者提供，App 会自动识别，不需要你动手</b>；
+        了解含义有助于挑源和排查问题：
       </p>
       <table>
         <thead>
-          <tr><th>key</th><th>作用</th><th>取值</th></tr>
+          <tr><th>字段</th><th>作用</th></tr>
         </thead>
         <tbody>
-          <tr><td><code>DE</code></td><td>播放器内核</td><td>内核枚举值，覆盖全局内核设置</td></tr>
-          <tr><td><code>SC</code></td><td>显示模式</td><td>显示模式枚举值，覆盖全局显示模式</td></tr>
-          <tr><td><code>HEADERS</code></td><td>补齐请求头（User-Agent / Referer / Origin / Cookie）</td><td>JSON 对象，如 <code>&#123;"User-Agent":"xxx"&#125;</code>；线路自身已指定的项优先，分组只补齐缺项</td></tr>
-          <tr><td><code>SCRIPT</code></td><td>把线路改为 QuickJS 脚本线路</td><td>脚本地址，前缀拼到线路 URL 之前（与 <code>javascript://</code> 同一套机制）</td></tr>
-          <tr><td><code>PB</code></td><td>回看格式</td><td>同 <code>catchup-source</code> 的格式串</td></tr>
-          <tr><td><code>HOST</code></td><td>host 覆写</td><td><code>域名=IP;域名=IP</code> 或 JSON 对象，合并到线路已有 hosts</td></tr>
-          <tr><td><code>PBO</code></td><td>回放偏移</td><td>秒，同时加到开始与结束时间上</td></tr>
-          <tr><td><code>IJKAD</code></td><td>IJK analyzeduration</td><td>微秒；仅对当前频道生效，不写入全局设置</td></tr>
-          <tr><td><code>EXOBM</code></td><td>Media3 起播缓冲</td><td>毫秒；仅对当前频道生效，不写入全局设置</td></tr>
-          <tr><td><code>TSO</code></td><td>时移结束增量</td><td>秒，仅加到结束时间上；<code>-1</code> 表示把结束时间钳到开始时间所在日的 23:59:59</td></tr>
+          <tr><td><code>tvg-id</code> / <code>tvg-name</code></td><td>频道在节目单里的身份。节目单靠它把节目对到频道上，对不上就看不到节目信息，见 <a [routerLink]="'/epg'">EPG 节目单</a></td></tr>
+          <tr><td><code>tvg-logo</code></td><td>台标图片地址</td></tr>
+          <tr><td><code>tvg-chno</code></td><td>频道号。遥控器数字选台优先按它匹配，见 <a [routerLink]="'/controls'">遥控器与触屏操作</a></td></tr>
+          <tr><td><code>group-title</code></td><td>分组名，频道按它归入各个分组</td></tr>
+          <tr><td><code>catchup</code> / <code>catchup-source</code></td><td>回看支持标记与回看地址，决定这条线路能不能回看，见下文「回看（时移）」</td></tr>
+          <tr><td><code>http-user-agent</code> / <code>http-referrer</code></td><td>防盗链请求头。有的服务器会检查这些信息，对了才放行</td></tr>
         </tbody>
       </table>
-      <h3><code>#KODIPROP</code> 与 <code>#EXTVLCOPT</code></h3>
-      <ul>
-        <li><code>#KODIPROP:inputstream.adaptive.manifest_type</code> / <code>license_type</code> / <code>license_key</code> / <code>drm_legacy</code>：DRM 相关。</li>
-        <li><code>#KODIPROP:inputstream.adaptive.stream_headers=Cookie=…&amp;User-Agent=…&amp;Referer=…</code></li>
-        <li><code>#EXTVLCOPT:http-origin</code> / <code>http-referrer</code> / <code>http-user-agent</code> / <code>http-cookie</code> / <code>host</code></li>
-      </ul>
-      <h3>回看类型</h3>
       <p>
-        <code>catchup</code> 字段取值（解析时按 <code>lowercase</code> 归一）：
+        txt 源的写法更简单：一行「<code>分组,#genre#</code>」声明分组，下面每行「<code>频道名,地址</code>」，
+        同一频道的多个地址用 <code>#</code> 分隔，即多条线路。
       </p>
+
+      <h2 id="catchup">回看（时移）</h2>
+      <p>哪些线路能回看：</p>
+      <ul>
+        <li>源里带 <code>catchup</code> 参数的线路；</li>
+        <li>运营商的 PLTV 线路——「<b>PLTV转TVOD</b>」开关（设置 → 订阅源，默认开）会自动把这类地址转换成可回看的形式，一般无需理会。</li>
+      </ul>
+      <p>怎么看回看：</p>
+      <ol>
+        <li>打开节目单（直播界面按 GUIDE 键，或长按左键），找到已播出的节目；</li>
+        <li>按 OK 即开始回看。选台界面和节目单指南页里操作相同，详见 <a [routerLink]="'/epg'">EPG 节目单</a>。</li>
+      </ol>
+      <p>
+        直播画面中按快退键可沿当前节目的时间轴回退（时移），最多回退 48 小时；回看时左下角会显示「回放」标志。
+        相关操作与设置见 <a [routerLink]="'/live-screen'">直播主界面</a> 与 <a [routerLink]="'/player-settings'">播放器与字幕设置</a>。
+      </p>
+
+      <h2 id="url-prefix">URL 前缀（混合源线路）</h2>
+      <p>有些源里的线路地址带特殊前缀，表示这条线路不走普通播放器：</p>
       <table>
         <thead>
-          <tr><th>字符串</th><th>内部值</th><th>说明</th></tr>
+          <tr><th>前缀</th><th>含义</th></tr>
         </thead>
         <tbody>
-          <tr><td><code>default</code></td><td><code>0</code></td><td>默认回看</td></tr>
-          <tr><td><code>append</code></td><td><code>1</code></td><td>追加参数式</td></tr>
-          <tr><td><code>timeshift</code> / <code>shift</code></td><td><code>2</code></td><td>时移式</td></tr>
-          <tr><td><code>flussonic</code></td><td><code>3</code></td><td>Flussonic 风格</td></tr>
-          <tr><td><code>xtream codes</code></td><td><code>4</code></td><td>Xtream Codes 风格</td></tr>
-          <tr><td><code>disabled</code></td><td><code>null</code></td><td>禁用回看</td></tr>
+          <tr><td><code>webview://</code>、<code>video://</code></td><td>走网页播放：App 用内置浏览器内核打开页面、取出其中的视频流。央视频、各卫视官网的线路都是这种，详见 <a [routerLink]="'/webview-player'">WebView 播放器</a></td></tr>
+          <tr><td><code>javascript://</code></td><td>源作者写的脚本线路，播放前实时计算出真实地址</td></tr>
         </tbody>
       </table>
+      <p>普通用户只需知道：这些线路来自网页，加载通常比直接流慢一些；能不能用完全取决于源作者。</p>
 
-      <h2>5. URL 前缀（混合源协议）</h2>
+      <h2 id="hybrid">自动添加网页源（混合模式）</h2>
       <p>
-        每条线路的 URL 可以加前缀改变播放器行为。前缀决定 <code>hybridType</code>，影响线路被切到时的处理方式。
+        开启后，App 自动为订阅源里对得上的频道附加官网网页线路——央视网、央视频，以及北京、江苏、浙江、湖南等各卫视官网。
+        源内线路失效时多一条兜底。
       </p>
       <table>
         <thead>
-          <tr><th>前缀</th><th>行为</th></tr>
+          <tr><th>设置项</th><th>说明</th></tr>
         </thead>
         <tbody>
           <tr>
-            <td><code>webview://https://…</code></td>
-            <td>用 WebView 加载页面，注入 JS 提取 <code>&lt;video&gt;</code> 流。详见 <a [routerLink]="'/webview-player'">WebView 播放器</a>。</td>
+            <td>设置 → 订阅源 → 自动添加网页源</td>
+            <td>三选一：<b>禁用</b> / <b>订阅源优先</b>（默认，网页线路排在源内线路之后）/ <b>网页源优先</b>（网页线路排在前）</td>
           </tr>
           <tr>
-            <td><code>video://https://…</code></td>
-            <td>同样走 WebView，但视为纯视频流（不主动提取）。适用于页面本身就是裸视频地址的场景。</td>
-          </tr>
-          <tr>
-            <td><code>javascript://…</code></td>
-            <td>走 QuickJS 引擎执行代码，脚本 <code>return</code> 的字符串就是真正的播放地址。详见下方「javascript:// 源」。</td>
-          </tr>
-          <tr>
-            <td><code>ku9-json://https://…</code></td>
+            <td>设置 → 订阅源 → 网页源央视频Cookie</td>
             <td>
-              播放前去取该 JSON，直接取其中的可播放地址与请求头，<b>不执行任何脚本</b>。
-              支持形态：<code>&#123;"url":"…","headers":&#123;…&#125;&#125;</code>、headers 文本、顶层
-              <code>ua/referer/origin/cookie</code> 便捷字段、数组与 <code>list/data/result</code> 列表（取首个可用条目）；
-              当 JSON 中出现远程度标记（键名或 url 值含 <code>/ku9-json/</code>）时继续取其指向的远端 JSON，最多 3 跳。
-              任一步失败回退原始地址。
-            </td>
-          </tr>
-          <tr>
-            <td>其它（无前缀）</td>
-            <td>当作常规直播流（m3u8 / flv / ts / rtsp 等）交给视频播放器。</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h2>6. javascript:// 源</h2>
-      <p>
-        把订阅源某条线路的 URL 写成 <code>javascript://</code> 开头，播放器切到这条线路时不会直接请求网络，
-        而是把整段 URL 交给内置的 <b>QuickJS</b> 引擎执行。脚本 <code>return</code> 的字符串就是真正的播放地址（m3u8 / mp4 等）。
-      </p>
-      <p>典型用途：</p>
-      <ul>
-        <li><b>动态拼接</b>：根据当前时间戳、设备指纹等动态生成播放地址。</li>
-        <li><b>一次额外请求</b>：脚本里发起一次 HTTP 请求拿到真实地址再返回。</li>
-        <li><b>解密</b>：对源站返回的加密地址做本地解密。</li>
-      </ul>
-      <p>注意事项：</p>
-      <ul>
-        <li>脚本运行在 QuickJS（不是浏览器），没有 <code>window</code> / <code>document</code>，只能用引擎提供的 API。</li>
-        <li>整条 URL 都会作为脚本源码执行，所以脚本里不能含未转义的换行；一般写成单行。</li>
-        <li>调试需要打开「开发者模式」（见 <a [routerLink]="'/remote-panel'">远程配置面板</a> → <code>/ku9/js/*</code> 端点）。</li>
-      </ul>
-
-      <h2>7. 混合源（自动添加网页源）</h2>
-      <p>
-        <b>电视直播</b>内置<b>混合源</b>能力：自动为订阅源中的频道追加官网 / 央视网 / 央视频等网页源线路，作为内置源失效时的兜底。
-      </p>
-      <p>
-        线路在播放器底部信息条会用 tag 标记来源。判定依据是 URL 的 host：
-      </p>
-      <ul>
-        <li><code>央视网</code>：<code>cctv.com</code></li>
-        <li><code>央视频</code>：<code>yangshipin.cn</code></li>
-        <li><code>官网</code>：命中小表的地方台官网（北京 <code>brtn.cn</code> / 江苏 <code>jstv.com</code> / 看看新闻 <code>kankanews.com</code> / 浙江 <code>cztv.com</code> / 河北 <code>hebtv.com</code> / 广东 <code>gdtv.cn</code> / 广西 <code>gxtv.cn</code> / 黑龙江 <code>hljtv.com</code> / 河南 <code>hnntv.cn</code> / 湖南 <code>hntv.tv</code> / 福建 <code>fjtv.net</code> / 贵州 <code>gzstv.com</code> / 江西 <code>jxntv.cn</code> / 安徽 <code>ahtv.cn</code> / 齐鲁 <code>iqilu.com</code> / 吉林 / 山西 / 甘肃 / 宁夏 / 内蒙古 / 云南 / 陕西 / 青海 / 西藏 / 新疆 等）</li>
-        <li><code>其它</code>：未命中以上任一。</li>
-      </ul>
-      <p>
-        央视频线路属于 WebView 源，付费频道需要配合「网页源央视频 Cookie」。
-      </p>
-
-      <h2>8. TV 应用内设置项（设置 → 订阅源）</h2>
-      <p>入口：<b>设置 → 订阅源</b>。下列表格按 TV 设置页的顺序排列，「默认」列来自源码中的常量初始值。</p>
-      <table>
-        <thead>
-          <tr><th>设置</th><th>默认</th><th>作用 / 取值 / 操作方式</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><b>自定义订阅源</b></td>
-            <td>WebView测试源</td>
-            <td>
-              <p>子页面管理全部订阅源。</p>
-              <p>列表项显示：名称 + 类型徽标（<code>本地</code> / <code>XTREAM</code> / <code>STALKER PORTAL</code> / <code>聚合</code>，网络源无徽标）+ 转换JS 徽标 + 链接 + 单源 UA + 缓存信息（分组数 / 频道数 / 缓存大小 / 更新时间）；聚合条目显示成员源名称（<code>聚合：源1、源2</code>）代替链接。</p>
-              <p>单项操作：设为当前 / 删除 / 清除缓存；聚合条目另有<b>编辑聚合配置</b>。页面顶部「刷新全部」重新拉取所有源并显示加载 / 错误状态。</p>
-              <p>页面底部还有<b>添加其他订阅源</b>（二维码）与<b>添加聚合配置</b>（TV 内多选创建）两个入口。</p>
-              <p>默认演示源：<code>https://gitee.com/mytv-android/iptv-api/raw/master/output/webview_demo.m3u</code>。</p>
-            </td>
-          </tr>
-          <tr>
-            <td><b>订阅源缓存时间</b></td>
-            <td>1 小时</td>
-            <td>
-              <p>网络源缓存有效期。本地文件（sourceType=1）固定为永久，不参与过期。</p>
-              <p>缓存失效后会重新下载；下载失败回落到旧缓存（缓存文件大小 &gt; 0 才视为有效）。</p>
-              <p>子页面 6 列网格选择，可选值：</p>
-              <ul>
-                <li><code>不缓存</code>（0）</li>
-                <li>1 小时 – 23 小时（步进 1 小时）</li>
-                <li>1 天 – 15 天（步进 1 天）</li>
-                <li><code>永久</code>（Long.MAX_VALUE）</li>
-              </ul>
-              <p>源码默认 <code>Constants.IPTV_SOURCE_CACHE_TIME = 1000*60*60</code>（1 小时）。<code>.gz</code> 响应自动 GZIP 解压。</p>
-            </td>
-          </tr>
-          <tr>
-            <td><b>分类隐藏</b></td>
-            <td>空</td>
-            <td>
-              <p>按分组隐藏频道。子页面 4 列网格逐组切换可见性，命中隐藏的分组不会出现在频道列表。</p>
-              <p>右侧显示「共 N 个分组」或「共 N 个分组，已隐藏 M 个分组」。</p>
-              <p>面板用 chips 编辑，直接修改字符串集合。</p>
-            </td>
-          </tr>
-          <tr>
-            <td><b>隐藏频道规则</b></td>
-            <td>空</td>
-            <td>
-              <p>按频道名<b>正则</b>匹配；命中的频道不会出现在列表 / 搜索中。支持多条正则。</p>
-              <p>添加规则时输入正则表达式，示例：<code>.*测试.*</code>。</p>
-              <p>右侧显示「暂无隐藏规则」或规则数量。面板用 chips 编辑。</p>
-            </td>
-          </tr>
-          <tr>
-            <td><b>支持加密频道组</b></td>
-            <td>关</td>
-            <td>
-              <p>开启后，分组名以 <code>_数字</code> 结尾（正则 <code>.*_\\d+$</code>）时：</p>
-              <ul>
-                <li>在搜索结果与「全部频道」中默认隐藏；</li>
-                <li>选台界面切换到此分组时弹出输入框，密码即 <code>_</code> 之后的数字部分（例：<code>成人_1234</code> → 密码 <code>1234</code>）。</li>
-              </ul>
-              <p>示例分组名：<code>付费_8888</code>。</p>
-            </td>
-          </tr>
-          <tr>
-            <td><b>频道别名</b></td>
-            <td>—</td>
-            <td>
-              <p>只读显示，右侧显示「共 N 个频道，M 个别名」。编辑在面板（<code>/sources</code> 或 <code>/api/channel-alias</code>），对应配置项 <code>iptvChannelNameAlias</code>（JSON 字符串，默认值为 <code>R.raw.channel_name_alias</code> 的内容；为空时回退到内置资源）。</p>
-              <p>格式：<code>&#123;"__suffix":[...], "CCTV1":["央视一套","cctv-1"]&#125;</code>。</p>
-              <p><code>__suffix</code> 是频道名后缀剥离规则（如 <code>-HD</code> / <code>+高清</code>），剥离后再查别名表，实现「CCTV1-HD」归并到「CCTV1」。</p>
-              <p>参与云同步，多设备共享同一份别名配置。</p>
-            </td>
-          </tr>
-          <tr>
-            <td><b>相似频道合并</b></td>
-            <td>开</td>
-            <td>
-              <p>开启后，经别名标准化后<b>名字相同</b>的频道（可能来自不同订阅源或不同分组）合并为一个频道，其线路合并到同一频道下。</p>
-              <p>配合「频道别名」可让「CCTV1」「CCTV-1」「央视一套」合并显示。</p>
-              <p>TV 开关项，面板为开关。</p>
-            </td>
-          </tr>
-          <tr>
-            <td><b>频道图标提供</b></td>
-            <td>gitee myTVlogo</td>
-            <td>
-              <p>台标 URL 模板。只读显示，编辑在面板。</p>
-              <p>默认值：<code>https://gitee.com/mytv-android/myTVlogo/raw/main/img/&#123;name|uppercase&#125;.png</code>。</p>
-              <p>变量：<code>&#123;name&#125;</code> / <code>&#123;name|lowercase&#125;</code> / <code>&#123;name|uppercase&#125;</code>（频道标准名替换）。</p>
-              <p>解析时自动追加 <code>&amp;_t=</code> 10 天周期参数，让 Coil 磁盘缓存 key 每 10 天变化，避免服务器图片更新后本地缓存永不过期。</p>
-            </td>
-          </tr>
-          <tr>
-            <td><b>频道图标覆盖</b></td>
-            <td>开</td>
-            <td>
-              <p>开启后用「频道图标提供」返回的图标覆盖订阅源 <code>tvg-logo</code> 中定义的图标。</p>
-              <p>关闭则保留订阅源自带的 <code>tvg-logo</code>。TV 开关项，面板为开关。</p>
-            </td>
-          </tr>
-          <tr>
-            <td><b>PLTV 转 TVOD</b></td>
-            <td>开</td>
-            <td>
-              <p>仅对 <code>rtsp://</code> 且 URL 含 <code>pltv</code> 或 <code>tvod</code> 的线路生效。回看时把 URL 中的 <code>pltv</code> 替换为 <code>tvod</code>（大小写不敏感）以支持回看。</p>
-              <p>回看 URL 还会追加 <code>?playseek=yyyyMMddHHmmss-yyyyMMddHHmmss</code>（起止时间）。</p>
-              <p>TV 开关项，面板为开关。</p>
-            </td>
-          </tr>
-          <tr>
-            <td><b>自动添加网页源</b></td>
-            <td>订阅源优先</td>
-            <td>
-              <p>混合源模式。子页面三选一，决定是否为订阅源频道追加网页源线路及排列顺序：</p>
-              <ul>
-                <li><b>禁用</b>（<code>DISABLE=0</code>）：不追加任何网页源线路。</li>
-                <li><b>订阅源优先</b>（<code>IPTV_FIRST=1</code>）：追加，但网页源排在订阅源线路<b>之后</b>。</li>
-                <li><b>网页源优先</b>（<code>HYBRID_FIRST=2</code>）：追加，且网页源排在订阅源线路<b>之前</b>。</li>
-              </ul>
-              <p>源码默认 <code>IptvHybridMode.IPTV_FIRST</code>。</p>
-            </td>
-          </tr>
-          <tr>
-            <td><b>网页源央视频 Cookie</b></td>
-            <td>空</td>
-            <td>
-              <p>只读显示（取前 50 字符 + <code>…</code>），编辑在面板。用于央视频 WebView 线路收看付费频道。</p>
-              <p>获取方式：浏览器登录央视频（<code>yangshipin.cn</code>）后，复制全部 Cookie 粘贴到面板。</p>
-              <p>源码默认空字符串。</p>
-            </td>
-          </tr>
-          <tr>
-            <td><b>列表风格</b></td>
-            <td>传统分组</td>
-            <td>
-              <p>频道列表与选台界面的分组展示形态（<code>uiGroupParsStyle</code>）。子页面四选一：</p>
-              <ul>
-                <li><b>传统分组</b>（<code>0</code>，默认）：只按二级分组展示。</li>
-                <li><b>列表分组</b>（<code>1</code>）：一级 / 二级分组以列表形式分级展示。</li>
-                <li><b>二级分组1</b>（<code>2</code>）：一级分组内嵌二级分组的第一种排布。</li>
-                <li><b>二级分组2</b>（<code>3</code>）：一级分组内嵌二级分组的第二种排布。</li>
-              </ul>
-              <p>两级分组来源见第 3 节「一级 / 二级分组」。</p>
-            </td>
-          </tr>
-          <tr>
-            <td><b>序号缩写模式</b></td>
-            <td>关</td>
-            <td>
-              <p>开启后频道序号超过两位时仅显示后两位，例如 <code>102</code> 显示为 <code>02</code>（<code>iptvChannelNoAbbrev</code>）。</p>
-            </td>
-          </tr>
-          <tr>
-            <td><b>图标首字</b></td>
-            <td>关</td>
-            <td>
-              <p>开启后频道无台标时使用频道名首字加彩色底色代替占位图标（<code>iptvChannelLogoInitial</code>）。</p>
-            </td>
-          </tr>
-          <tr>
-            <td><b>m3u 台标优先</b></td>
-            <td>关</td>
-            <td>
-              <p>开启后订阅源（m3u）中的 <code>tvg-logo</code> 优先于节目单（EPG）源提供的台标（<code>iptvM3uLogoPriority</code>）。</p>
-              <p>与「频道图标覆盖」（<code>iptvChannelLogoOverride</code>，图标提供方覆盖 <code>tvg-logo</code>）是两层独立的优先级控制。</p>
-            </td>
-          </tr>
-          <tr>
-            <td><b>分组级参数</b></td>
-            <td>开</td>
-            <td>
-              <p>开启后使用分组中配置的解码、回看等参数（<code>iptvChannelGroupConfigEnable</code>），优先级低于按 Host / URL 记忆的配置。</p>
-              <p>写法见第 3 节「分组级参数（<code>#EXTKU9OPT</code>）」。</p>
+              央视频的付费频道需要登录才能看：用浏览器登录央视频官网后复制全部 Cookie，粘贴到面板的「网页源央视频 Cookie」。
+              电视端这一项只读显示，只能在面板改。看不了付费频道时的排查见 <a [routerLink]="'/faq'">常见问题</a>
             </td>
           </tr>
         </tbody>
       </table>
+      <p>
+        附加的网页线路走 WebView 播放（见 <a [routerLink]="'/webview-player'">WebView 播放器</a>），
+        换台信息条上会带「央视网」「央视频」「官网」来源标签。
+      </p>
 
-      <h2>9. 10591 面板（<code>/sources</code>）的全部可配置项</h2>
-      <p>面板订阅源页比 TV 多了排序、转换JS、单源 UA / 代理、EPG 地址、自动刷新、预览 / 延迟检测开关、别名编辑、文件内容直接编辑等能力。所有字段通过 <code>POST /api/configs</code> 写回；别名编辑绑定 <code>configs.iptvChannelNameAlias</code>，随 <code>/api/configs</code> 一起下发，也可单独通过 <code>POST /api/channel-alias</code> 写回（两条路径都会自动刷新别名并清空 IPTV / EPG 缓存）。</p>
-      <table>
-        <thead>
-          <tr><th>面板字段</th><th>类型</th><th>说明 / 默认 / 取值</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>订阅源列表</td>
-            <td>列表 + 分页</td>
-            <td>新增 / 编辑 / 删除 / 上移 / 下移 / 设为当前；分页 5 / 10 / 25 / 100；每项带 sourceType 徽标。</td>
-          </tr>
-          <tr>
-            <td>编辑对话框 - 名称</td>
-            <td>文本框</td>
-            <td>订阅源显示名，必填。</td>
-          </tr>
-          <tr>
-            <td>编辑对话框 - 类型</td>
-            <td>下拉</td>
-            <td><code>remote</code>（sourceType 0）/ <code>file</code>（1）/ <code>xtream</code>（2）/ <code>stalker</code>（3）/ <code>聚合配置</code>（4）。</td>
-          </tr>
-          <tr>
-            <td>编辑对话框 - 聚合成员</td>
-            <td>复选列表 + 排序</td>
-            <td>
-              仅「聚合配置」类型显示，代替链接字段。勾选要聚合的订阅源，勾选顺序即线路优先级，可用上下箭头调整，至少勾选一个。
-              列表只含普通订阅源（聚合配置不参与嵌套）。
-            </td>
-          </tr>
-          <tr>
-            <td>编辑对话框 - 链接 / 文件路径</td>
-            <td>文本框</td>
-            <td>网络源 URL 或本地文件路径（<code>/</code> 开头）。xtream / stalker 填服务器根地址。聚合配置类型不显示（地址由成员源决定）。</td>
-          </tr>
-          <tr>
-            <td>编辑对话框 - 用户名 / 密码</td>
-            <td>文本框</td>
-            <td>仅 <code>xtream</code> 类型显示。用于拼接 <code>get.php?username=…&amp;password=…</code>。</td>
-          </tr>
-          <tr>
-            <td>编辑对话框 - 输出类型</td>
-            <td>下拉</td>
-            <td>仅 <code>xtream</code> 类型显示。填 <code>m3u_plus</code> / <code>m3u</code> 等，作为 <code>&amp;type=</code> 参数；留空则不追加 <code>type</code>。</td>
-          </tr>
-          <tr>
-            <td>编辑对话框 - MAC 地址</td>
-            <td>文本框</td>
-            <td>仅 <code>stalker</code> 类型显示。形如 <code>00:1A:79:xx:xx:xx</code>。</td>
-          </tr>
-          <tr>
-            <td>编辑对话框 - 全局 UA</td>
-            <td>文本框</td>
-            <td>单源级 UA（<code>httpUserAgent</code>）。非 <code>file</code> 类型显示。请求订阅源时作为 <code>User-Agent</code> 头；若频道未单独指定 UA，则播放时也继承此 UA。</td>
-          </tr>
-          <tr>
-            <td>编辑对话框 - 代理</td>
-            <td>文本框</td>
-            <td>
-              <p>单源级代理（<code>httpProxy</code>）。所有类型（含本地源）均显示。</p>
-              <p>播放器解析有效代理的优先级：<b>播放器代理规则列表</b>（正则匹配）&gt; <b>线路级代理</b>（聚合配置的线路继承来源成员源的 httpProxy）&gt; <b>当前订阅源的 httpProxy</b> &gt; <b>播放器全局代理</b>。</p>
-              <p>格式：<code>http://host:port</code> 或 <code>socks5://host:port</code>，可带认证 <code>user:pass@host:port</code>。</p>
-            </td>
-          </tr>
-          <tr>
-            <td>编辑对话框 - EPG 地址</td>
-            <td>文本框</td>
-            <td>
-              <p>源级自定义节目单地址（<code>epg</code>）。所有类型均显示，支持 xml / xml.gz。</p>
-              <p>仅在 EPG 设置开启<b>「跟随订阅源」</b>时生效，且<b>优先</b>于源内容内嵌的 <code>x-tvg-url</code> / <code>url-tvg</code>；留空则回落到内嵌地址。</p>
-              <p>不需要修改订阅源内容即可为单个源指定节目单；参与云同步。</p>
-            </td>
-          </tr>
-          <tr>
-            <td>编辑对话框 - 自动刷新</td>
-            <td>数字输入</td>
-            <td>
-              <p>源级自动刷新间隔，单位小时（<code>autoRefresh</code>）。<code>0</code> = 关闭（默认）。</p>
-              <p>大于 0 时，应用运行期间每隔该时间<b>静默强制重新下载</b>当前使用的源（忽略订阅源缓存时间），并随之更新频道列表与节目单；不显示加载界面、不打断播放，失败仅记日志。</p>
-              <p>切换订阅源或修改配置后计时重置。刷新的是「当前源」——为多个源设置后，只有当该源被使用时才会按其间隔刷新。</p>
-            </td>
-          </tr>
-          <tr>
-            <td>编辑对话框 - 关闭预览图</td>
-            <td>开关</td>
-            <td>
-              <p>源级开关（<code>disableChannelPreview</code>），默认关。</p>
-              <p>开启后，当前源处于使用中时不抓取频道列表的预览首帧（与界面「显示频道预览」全局开关叠加，本开关优先关闭）。</p>
-              <p>适合流响应慢或不希望被预览抓帧探测的源，减少频道列表的额外请求。</p>
-            </td>
-          </tr>
-          <tr>
-            <td>编辑对话框 - 关闭延迟检测</td>
-            <td>开关</td>
-            <td>
-              <p>源级开关（<code>disableDelayDetection</code>），默认关。</p>
-              <p>开启后，线路选择界面不再对每条线路发起测延迟请求，不显示 <code>xx ms</code> / 超时标签。</p>
-              <p>适合线路多、源站对频繁探测敏感或测延迟导致卡顿的源。</p>
-            </td>
-          </tr>
-          <tr>
-            <td>编辑对话框 - 转换 JS</td>
-            <td>多行文本</td>
-            <td>
-              <p>订阅源级转换脚本（<code>transformJs</code>）。订阅源下载并解析完成后，用 QuickJS 执行脚本对频道列表二次处理。</p>
-              <p>脚本需定义 <code>function main(channelList) &#123; ... return channelList; &#125;</code>，参数和返回值都是 JSON 数组。</p>
-              <p>执行失败时回退到原始列表。列表项带「转换JS」徽标。</p>
-            </td>
-          </tr>
-          <tr>
-            <td>编辑对话框 - 文件内容</td>
-            <td>多行文本</td>
-            <td>仅 <code>file</code> 类型显示，位于其他设置项下方。直接编辑 TV 本地文件内容（<code>POST /api/file/content</code>）。</td>
-          </tr>
-          <tr>
-            <td>订阅源缓存时间（小时）</td>
-            <td>数字输入</td>
-            <td>同 TV 的「订阅源缓存时间」，单位小时。<code>0</code> = 不缓存。本地源固定永久。</td>
-          </tr>
-          <tr>
-            <td>频道隐藏分组</td>
-            <td>chips 编辑</td>
-            <td>同 TV 的「分类隐藏」。点击 chip 直接编辑字符串。</td>
-          </tr>
-          <tr>
-            <td>频道隐藏列表</td>
-            <td>chips 编辑</td>
-            <td>同 TV 的「隐藏频道规则」。按正则，多条。</td>
-          </tr>
-          <tr>
-            <td>频道别名</td>
-            <td>多行文本</td>
-            <td>
-              <p>直接编辑 <code>configs.iptvChannelNameAlias</code>（JSON 字符串，默认值为 <code>R.raw.channel_name_alias</code> 的内容；为空时回退到内置资源）。示例：</p>
-              <pre><code>&#123;
-  "__suffix": ["-HD", "+高清"],
-  "CCTV1": ["央视一套", "cctv-1"]
-&#125;</code></pre>
-              <p>编辑后随 <code>POST /api/configs</code> 一起下发（也可单独走 <code>POST /api/channel-alias</code>），两条路径都会自动刷新别名并清空 IPTV / EPG 全部缓存（<code>IptvRepository.clearAllCache()</code> + <code>EpgRepository.clearAllCache()</code>）。</p>
-            </td>
-          </tr>
-          <tr>
-            <td>相似频道合并</td>
-            <td>开关</td>
-            <td>同 TV，默认开。</td>
-          </tr>
-          <tr>
-            <td>频道图标提供</td>
-            <td>单行文本</td>
-            <td>同 TV，默认 <code>https://gitee.com/mytv-android/myTVlogo/raw/main/img/&#123;name|uppercase&#125;.png</code>。</td>
-          </tr>
-          <tr>
-            <td>频道图标覆盖</td>
-            <td>开关</td>
-            <td>同 TV，默认开。</td>
-          </tr>
-          <tr>
-            <td>PLTV 转 TVOD</td>
-            <td>开关</td>
-            <td>同 TV，默认开。</td>
-          </tr>
-          <tr>
-            <td>自动添加网页源</td>
-            <td>下拉</td>
-            <td>同 TV：<code>禁用</code> / <code>IPTV 优先</code> / <code>网页源优先</code>。</td>
-          </tr>
-          <tr>
-            <td>网页源央视频 Cookie</td>
-            <td>多行文本</td>
-            <td>从浏览器登录央视频（<code>yangshipin.cn</code>）后复制所有 Cookie 粘贴。</td>
-          </tr>
-          <tr>
-            <td>列表风格</td>
-            <td>下拉</td>
-            <td>同 TV：<code>传统分组</code> / <code>列表分组</code> / <code>二级分组1</code> / <code>二级分组2</code>。</td>
-          </tr>
-          <tr>
-            <td>序号缩写模式</td>
-            <td>开关</td>
-            <td>同 TV，默认关。</td>
-          </tr>
-          <tr>
-            <td>图标首字</td>
-            <td>开关</td>
-            <td>同 TV，默认关。</td>
-          </tr>
-          <tr>
-            <td>m3u 台标优先</td>
-            <td>开关</td>
-            <td>同 TV，默认关。</td>
-          </tr>
-          <tr>
-            <td>分组级参数</td>
-            <td>开关</td>
-            <td>同 TV，默认开。关闭后全部分组级参数不生效。</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h2>10. 与其他功能的联动</h2>
+      <h2 id="channel-rules">频道层面的规则</h2>
+      <p>
+        以下设置都在 设置 → 订阅源 里，管的是「源解析出来的频道怎么显示」。详细用法见
+        <a [routerLink]="'/channels'">频道、收藏与搜索</a>，这里只列个大概：
+      </p>
       <ul>
-        <li><b>EPG</b>：「跟随订阅源」开启时，编辑对话框中的<b>「EPG 地址」</b>（<code>epg</code>）优先作为节目单来源，其次为源内容内嵌的 <code>x-tvg-url</code> / <code>url-tvg</code>。详见 <a [routerLink]="'/epg'">EPG 节目单</a>。</li>
-        <li><b>WebView 播放器</b>：<code>webview://</code> 前缀触发 WebView 内核加载。详见 <a [routerLink]="'/webview-player'">WebView 播放器</a>。</li>
-        <li><b>加密分组</b>：开启后列表 / 搜索都需密码。详见 <a [routerLink]="'/channels'">频道、收藏与搜索</a>。</li>
-        <li><b>频道别名</b>：配合「相似频道合并」让多源同名频道合并显示。详见 <a [routerLink]="'/channels'">频道、收藏与搜索</a>。</li>
-        <li><b>云同步</b>：订阅源列表、缓存时间、混合源、别名等随云同步备份。详见 <a [routerLink]="'/sync'">云同步与备份</a>。</li>
-        <li><b>深链播放</b>：<code>mytv://play?url=…</code> / <code>nanotv://play?url=…</code> / <code>https://play.aptv.app/&lt;url&gt;</code> 可直接播放一条媒体地址，不走订阅源列表。</li>
+        <li><b>分类隐藏</b>：按分组整组隐藏 / 恢复。</li>
+        <li><b>隐藏频道规则</b>：频道名命中规则的（如含「测试」）不进列表。</li>
+        <li><b>支持加密频道组</b>：分组名以 <code>_数字</code> 结尾的分组要输密码才能进入，默认关。</li>
+        <li><b>频道别名 + 相似频道合并</b>（默认开）：把不同写法的同名频道合并成一个频道的多条线路。</li>
+        <li><b>频道图标提供 / 覆盖</b>（默认开）：用在线台标模板统一补台标，并覆盖源内自带台标。</li>
       </ul>
 
-      <doc-callout kind="warn" title="关于内置演示源" icon="warning">
-        仓库自带演示地址 <code>https://gitee.com/mytv-android/iptv-api/raw/master/output/webview_demo.m3u</code> 仅供测试，可用性不保证。请自行准备合法的 IPTV 订阅。
-      </doc-callout>
+      <h2 id="group-params">分组级参数</h2>
+      <p>
+        「设置 → 订阅源 → 分组级参数」（默认开）允许源作者在源里按分组指定播放参数——
+        比如某个分组用什么解码方式、带什么请求头。
+      </p>
+      <p>
+        普通用户不需要任何操作；只有当你用的源在说明里提到「分组级参数」时，
+        知道有这回事、确认开关是开的即可。关闭后，源里的分组级参数全部不生效。
+      </p>
     </div>
   `,
 })

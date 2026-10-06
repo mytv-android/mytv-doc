@@ -7,9 +7,16 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { map } from 'rxjs/operators';
+import {
+  NavigationEnd,
+  Router,
+  RouterLink,
+  RouterLinkActive,
+  RouterOutlet,
+} from '@angular/router';
+import { filter, map } from 'rxjs/operators';
 import { DocSearch } from './shared/doc-search';
+import { DocToc } from './shared/doc-toc';
 
 export interface NavEntry {
   path: string;
@@ -25,11 +32,12 @@ export const NAV_ENTRIES: NavEntry[] = [
   { path: '/live-screen', label: '直播主界面', icon: 'live_tv', group: '使用' },
 
   { path: '/channels', label: '频道 · 收藏 · 搜索', icon: 'list', group: '功能' },
+  { path: '/multiview', label: '多屏同播', icon: 'grid_view', group: '功能' },
   { path: '/sources', label: '订阅源（IPTV）', icon: 'rss_feed', group: '功能' },
   { path: '/epg', label: 'EPG 节目单', icon: 'calendar_month', group: '功能' },
   { path: '/webview-player', label: 'WebView 播放器', icon: 'web', group: '功能' },
   { path: '/remote-panel', label: '远程配置面板', icon: 'settings_remote', group: '功能' },
-  { path: '/python-services', label: 'Python 服务', icon: 'terminal', group: '功能' },
+  { path: '/python-services', label: '服务（Python / PHP）', icon: 'terminal', group: '功能' },
   { path: '/sync', label: '云同步与备份', icon: 'cloud_sync', group: '功能' },
 
   { path: '/player-settings', label: '播放器与字幕', icon: 'tune', group: '设置' },
@@ -52,12 +60,14 @@ export const NAV_ENTRIES: NavEntry[] = [
     MatButtonModule,
     MatTooltipModule,
     DocSearch,
+    DocToc,
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
 export class App {
   private breakpointObserver = inject(BreakpointObserver);
+  private router = inject(Router);
 
   protected readonly isHandset = toSignal(
     this.breakpointObserver
@@ -81,6 +91,24 @@ export class App {
     const saved = localStorage.getItem('mytv-doc-theme');
     const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
     this.setDark(saved ? saved === 'dark' : !!prefersDark);
+
+    // 页面滚动发生在 mat-sidenav-content 而非 window，
+    // 路由的 scrollPositionRestoration 管不到它，这里手动处理：
+    // 带锚点跳到对应小节，否则回到顶部。
+    this.router.events
+      .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
+      .subscribe(() => {
+        const fragment = this.router.parseUrl(this.router.url).fragment;
+        setTimeout(() => {
+          if (fragment) {
+            document.getElementById(fragment)?.scrollIntoView({ block: 'start' });
+          } else {
+            document
+              .querySelector<HTMLElement>('.app-content')
+              ?.scrollTo({ top: 0 });
+          }
+        }, 60);
+      });
   }
 
   toggleSidenav() {

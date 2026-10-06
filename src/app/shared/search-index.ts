@@ -15,727 +15,1164 @@ export interface SearchIndexEntry {
  * 文档站点的全量搜索索引。
  * 每条记录对应某个页面中一个章节（h2/h3）。
  * 章节内的正文已被抽取为纯文本关键词串，便于做包含匹配。
+ *
+ * 本文件由 scripts/build-search-index.mjs 自动生成，请勿手工编辑；
+ * 页面内容变更后运行 `node scripts/build-search-index.mjs` 重新生成。
  */
 export const SEARCH_INDEX: SearchIndexEntry[] = [
   {
     path: '/home',
     title: '首页',
     anchor: '',
-    section: '这是什么？',
-    keywords: '电视直播 mytv-android Android TV 电视直播应用 Kotlin Jetpack Compose 订阅源 m3u Xtream Stalker 本地文件 EPG 节目单 XML DIYP LOVETV WebView 播放器 多屏同播 云同步 Gist WebDAV Gitee ASR 实时字幕 翻译',
+    section: '首页',
+    keywords: '基于天光云影 3.3.9 的 Android TV 电视直播应用 · 支持 Android 6.0 及以上 · 仅横屏'
   },
   {
     path: '/home',
     title: '首页',
-    anchor: '',
+    anchor: '#what',
+    section: '这是什么？',
+    keywords: '电视直播 （GitHub 仓库名 mytv-android）是一款 Android 电视直播应用， 支持自定义订阅源（m3u / txt / Xtream Codes / Stalker Portal / 本地文件）、EPG 节目单、 WebView 网页源、多屏同播（最多 9 路）、视频超分与插帧、ASR 实时字幕与字幕翻译、 Python / PHP 服务、云同步等能力。本文档面向 最终用户 ，介绍电视端应用和内置网页面板 （ http:// 电视IP :10591 ）的使用方法，不涉及源码与二次开发内容。'
+  },
+  {
+    path: '/home',
+    title: '首页',
+    anchor: '#start',
+    section: '从哪儿开始？',
+    keywords: 'c of cards; track c.path'
+  },
+  {
+    path: '/home',
+    title: '首页',
+    anchor: '#features',
     section: '主要特性速览',
-    keywords: '多种订阅源 m3u txt Xtream Codes Stalker Portal webView:// video:// javascript:// 混合源 CCTV CETV 省级卫视 央视频 官网 EPG 回看 远程配置面板 10591 多屏同播 云同步 GitHub Gist Gitee WebDAV 网络链接 本地文件 ASR 实时字幕 翻译 加密分组 隐藏规则 画中画 开机自启 启动页',
+    keywords: '多种订阅源 ：m3u / txt / Xtream Codes / Stalker Portal / 本地文件，远程链接支持 FTP / SMB / WebDAV 协议；线路支持 webview:// 、 video:// 、 javascript:// 特殊前缀。 自动添加网页源 ：为订阅源频道附加央视、央视频、卫视官网等网页线路，主源失效仍可切换观看；央视频付费频道支持配置 Cookie。 EPG 节目单 ：支持 XML（XMLTV）、DIYP 等多种来源格式；节目单指南页支持节目回看与预约提醒。 远程配置面板 ：电视启动应用后，浏览器访问 http:// 电视IP :10591 即可推送订阅源、整包改设置（改动即保存）、管理文件与备份、推 APK、看日志。 WebView 播放器 ：把网页当作视频源，支持切换腾讯 X5 内核。 多屏同播 ：最多 9 路同屏播放，可保存最多 20 套频道组合方案。 视频超分与插帧 ：Anime4K、AMD FSR 1、Real-ESRGAN 等多种超分路径，GPU 帧混合 / RIFE 插帧，目标帧率最高 120 FPS。 脚本服务（Python '
+  },
+  {
+    path: '/home',
+    title: '首页',
+    anchor: '#conventions',
+    section: '文档约定',
+    keywords: '本文档以应用当前版本为准，界面文字以 App 内实际显示为准。 「设置 → X → Y」指电视端应用内的路径。 「面板」指应用内置的远程配置面板（ http:// 电视IP :10591 ），详见 远程配置面板 。'
   },
   {
     path: '/getting-started',
     title: '快速上手',
     anchor: '',
-    section: '安装',
-    keywords: '安装 APK 下载 Android 6.0 API 23 横屏 安装未知应用 权限',
+    section: '快速上手',
+    keywords: '从安装到看上自己的频道：装 APK、同意使用须知、推送一个订阅源，全程约 5 分钟。'
   },
   {
     path: '/getting-started',
     title: '快速上手',
-    anchor: '',
+    anchor: '#requirements',
+    section: '系统要求',
+    keywords: '系统：Android 6.0 及以上，仅横屏（电视、电视盒子、投影仪）。 个别功能要求更高：服务（Python / PHP，含各自运行环境）需 Android 7.0 及以上。 网络：家庭局域网，有线连接更稳定；订阅源与节目单需要联网获取。 操作：遥控器，或触屏 / 鼠标。'
+  },
+  {
+    path: '/getting-started',
+    title: '快速上手',
+    anchor: '#install',
+    section: '安装应用',
+    keywords: '在电脑或手机上打开 GitHub Releases 下载最新 APK。一个版本有多个安装包，按 CPU 架构选择，对照表见 下载与更新 （普通电视优先 arm64-v8a，装不上再换 armeabi-v7a 或 universal）。 用 U 盘把 APK 拷到电视上安装；首次在电视上安装第三方应用时，按系统提示允许「安装未知应用」。 安装完成后打开应用。'
+  },
+  {
+    path: '/getting-started',
+    title: '快速上手',
+    anchor: '#first-launch',
     section: '首次启动',
-    keywords: '首次启动 演示源 订阅源 引导 设置',
+    keywords: '首次打开会显示「使用须知」（4 条声明），阅读后按「已阅读并同意」进入；选「退出应用」则直接退出。 应用自动加载内置的演示订阅源和默认节目单，网络正常时几秒后进入首页。 首页包含直播、全部频道、收藏、节目单、搜索、多屏同播、推送、设置、关于等入口。 内置演示源只用于验证应用能正常工作，频道随时可能失效。请尽快按下文添加自己的订阅源。'
   },
   {
     path: '/getting-started',
     title: '快速上手',
-    anchor: '',
-    section: '配置订阅源',
-    keywords: '配置订阅源 添加订阅 二维码 面板 推送 m3u URL',
+    anchor: '#add-source',
+    section: '添加自己的订阅源',
+    keywords: '订阅源是频道列表的来源（通常是 m3u 链接或文件）。推荐通过网页面板推送，比在电视上逐个字母输地址快得多。 以下两种方式打开的是同一个面板。'
+  },
+  {
+    path: '/getting-started',
+    title: '快速上手',
+    anchor: '#add-source-tv',
+    section: '方式一：电视端扫码推送',
+    keywords: '电视端进入 设置 → 订阅源 → 自定义订阅源 。 选择「添加其他订阅源」，屏幕弹出二维码和面板地址。 用手机扫码（或在电脑浏览器输入该地址）打开网页面板。 在面板首页的「订阅源」卡片里填名称和链接，点「推送订阅源」，推送成功后回到电视即可看到新源。'
+  },
+  {
+    path: '/getting-started',
+    title: '快速上手',
+    anchor: '#add-source-panel',
+    section: '方式二：直接打开网页面板',
+    keywords: '确认手机 / 电脑与电视在同一局域网。 浏览器打开 http:// 电视IP :10591 。 电视 IP 可在 首页 → 关于 中查看； 首页 → 推送 页也会直接显示完整面板地址和二维码。 在面板首页的「订阅源」卡片填名称和链接，点「推送订阅源」。 面板支持远程链接（含 FTP / SMB / WebDAV）、Xtream Codes、Stalker Portal、本地文件上传等类型， 详见 订阅源 。'
+  },
+  {
+    path: '/getting-started',
+    title: '快速上手',
+    anchor: '#next-steps',
+    section: '常用下一步',
+    keywords: 'c of nextSteps; track c.path 面板里所有设置页都是改动即保存，手机和电脑随时能改，不必守在电视前。'
   },
   {
     path: '/controls',
-    title: '遥控器与触屏',
+    title: '遥控器与触屏操作',
     anchor: '',
-    section: '遥控器按键',
-    keywords: '遥控器按键 OK 方向键 菜单键 返回键 主页键 数字键 快捷键 映射 KeyDownAction ChangeCurrentChannelToPrev ChangeCurrentChannelToNext ChangeCurrentChannelLineIdxToPrev ChangeCurrentChannelLineIdxToNext ToChannelScreen ToQuickOpScreen ToIptvSourceScreen ToVideoPlayerControllerScreen ToEpgScreen ToChannelLineScreen',
+    section: '遥控器与触屏操作',
+    keywords: '直播界面每个键的默认作用、改键方法，以及数字选台、触屏手势和语音换台。'
   },
   {
     path: '/controls',
-    title: '遥控器与触屏',
-    anchor: '',
+    title: '遥控器与触屏操作',
+    anchor: '#default-keys',
+    section: '直播界面默认键位',
+    keywords: '下表是直播界面的默认键位，均可按下一节的方法改绑。 遥控器的 频道±、翻页±、小键盘± 键与上 / 下方向键等效，小键盘确认键与 OK 等效。 按键 默认动作 上 / 下键 前一 / 后一频道 左 / 右键 前一 / 后一线路 OK（选择键） 打开选台面板 长按 OK 快捷设置 长按上 / 下 / 左 / 右 管理订阅源 / 播放控制 / 节目单 / 线路列表 菜单键（部分遥控器标为设置、帮助） 快捷设置 数字键 0–9 数字选台 彩色键与功能键为固定用途，不参与改绑： 按键 作用 红键 线路列表 绿键 / 音轨键 音轨选择 黄键 / 字幕键 字幕选择 蓝键 / F2 回首页 INFO 键 显示 / 隐藏播放器信息（编码、解码器等） GUIDE 键 当前频道节目单 「上一频道」键 打开节目单指南页（自动定位到当前频道） 快进 / 快退键 快进 / 快退 10 秒 把方向键改绑为快进 / 快退后：单击每次 ±10 秒；长按每步 ±1 分钟， 屏幕上方会提示本次长按累计的位移（如「+3分钟」），松手后重新计数。'
+  },
+  {
+    path: '/controls',
+    title: '遥控器与触屏操作',
+    anchor: '#remap',
+    section: '改键：按键（手势）行为',
+    keywords: '入口： 设置 → 控制 → 按键（手势）行为 。共 10 个按键 / 手势可逐项改绑， 方向键与同方向的滑动手势是同一项配置，改一处两边同时生效： 按键 / 手势 默认动作 上键 / 上滑 前一频道 下键 / 下滑 后一频道 左键 / 左滑 前一线路 右键 / 右滑 后一线路 选择键 频道列表 长按选择键 快捷设置 长按上键 管理订阅源 长按下键 播放控制 长按左键 节目单 长按右键 线路列表 每个按键可指派以下 13 种动作之一：前一频道、后一频道、前一线路、后一线路、快进、快退、 管理订阅源、频道列表、快捷设置、节目单、线路列表、播放控制、无操作。 用电脑或手机浏览器打开 远程配置面板 （下称面板）的 控制 页，也能改这些键位。 把容易误按的键（例如长按方向键）设为「无操作」，按下就不会有反应，其余键不受影响。'
+  },
+  {
+    path: '/controls',
+    title: '遥控器与触屏操作',
+    anchor: '#channel-switch',
+    section: '换台行为',
+    keywords: '数字选台 ：直接按数字键输入号码，屏幕右上角实时显示已输入的数字； 停顿片刻自动换台（输入的位数越多停顿越短），按 OK 立即换台，按返回键取消输入。 号码优先匹配订阅源里定义的频道号，其次匹配列表中的排列序号。 其余换台行为在 设置 → 控制 （面板的 控制 页同步可改）： 设置项 说明 数字选台 用遥控器数字键直接选台。开（默认）/ 关 频道列表首尾循环 上下键切到列表首尾时循环到另一端。开（默认）/ 关 频道切换跨分组 上下键在所有频道间切换；关闭后只在当前分组内上下切换。开（默认）/ 关'
+  },
+  {
+    path: '/controls',
+    title: '遥控器与触屏操作',
+    anchor: '#touch',
     section: '触屏手势',
-    keywords: '触屏 手势 单击 双击 长按 滑动 缩放 上键/上滑 下键/下滑 左键/左滑 右键/右滑 选择键 长按选择键 长按上键 长按下键 长按左键 长按右键',
+    keywords: '手势 等效操作 上 / 下 / 左 / 右滑动 上 / 下 / 左 / 右方向键（跟随改绑动作） 单击屏幕 OK 键（默认打开选台面板） 长按屏幕 长按 OK（默认打开快捷设置） 应用面向遥控器设计。在触摸屏设备上若遇到闪退，到 设置 → 界面 关闭「焦点优化」， 详见 常见问题 。'
   },
   {
     path: '/controls',
-    title: '遥控器与触屏',
-    anchor: '',
-    section: '数字换台',
-    keywords: '数字换台 数字键 频道号 输入 跳转 iptvChannelNoSelectEnable 数字选台 通过数字键选择频道',
+    title: '遥控器与触屏操作',
+    anchor: '#voice',
+    section: '语音换台',
+    keywords: '安装「夏杰语音」App 后自动生效，无需任何设置：说出频道名即可换台。 匹配时先精确后包含，避免说「CCTV1」却切到「CCTV10」。 成功提示「已为您切换至：频道名」，找不到时提示「未找到频道」。'
   },
   {
     path: '/controls',
-    title: '遥控器与触屏',
-    anchor: '',
-    section: '防误触',
-    keywords: '防误触 按键间隔 连按 屏蔽 无操作 NoAction',
-  },
-  {
-    path: '/controls',
-    title: '遥控器与触屏',
-    anchor: '',
-    section: 'TV 应用内设置项',
-    keywords: '控制设置 频道切换跨分组 iptvChannelChangeCrossGroup 频道列表首尾循环 iptvChannelChangeListLoop 数字选台 iptvChannelNoSelectEnable 长按OK 按键行为 跨组切换 keyDownEventUp keyDownEventDown keyDownEventLeft keyDownEventRight keyDownEventSelect keyDownEventLongUp keyDownEventLongDown keyDownEventLongLeft keyDownEventLongRight keyDownEventLongSelect 前一频道 后一频道 前一线路 后一线路 快进 快退 长按连发1分钟 累计时长提示 进度条5秒 管理订阅源 频道列表 快捷设置 节目单 线路列表 播放控制 无操作 13种行为',
+    title: '遥控器与触屏操作',
+    anchor: '#related-settings',
+    section: '相关设置入口',
+    keywords: '换台时屏幕底部是否显示频道信息条： 设置 → 界面 → 换台时显示频道信息 ，见 直播主界面与首页 。 各类面板无操作后自动关闭的时长： 设置 → 界面 → 超时自动关闭界面 。 回看时快进快退的跳转方式： 设置 → 播放器 → SeekTo方式 ，见 播放器与字幕 。'
   },
   {
     path: '/live-screen',
     title: '直播主界面',
     anchor: '',
-    section: 'Dashboard 组成',
-    keywords: 'Dashboard Header 订阅源名 时钟 MM/dd EEE HH:mm:ss 导航模块 收藏区 最近观看 模块网格 3列 直播 全部频道 收藏 节目单 搜索 设置 多屏同播 推送 关于',
+    section: '直播主界面',
+    keywords: '首页各模块、直播画面上的信息与面板、两种选台界面，以及「设置 → 界面」的全部选项。'
   },
   {
     path: '/live-screen',
     title: '直播主界面',
-    anchor: '',
-    section: '直播播放器界面',
-    keywords: '播放器界面 频道信息条 线路名 EPG 节目 进度条 台标 回放标志 PlayerActivity iptvChannelChangeShowInfoPanel 换台时显示频道信息',
+    anchor: '#structure',
+    section: '应用结构',
+    keywords: '应用分两类界面： 主界面 （首页、全部频道、收藏、搜索、节目单（EPG）、推送、多屏同播、设置等页面在同一窗口内切换） 和 全屏直播界面 （选中频道即进入，横屏常亮）。 直播界面里可以叠加打开设置和节目单指南页，按返回键直接回到直播画面，不经过首页。 打开应用后先进哪个页面，可在 设置 → 通用 → 启动页面 修改： 首页（默认）/ 直播 / 节目单 / 全部频道 / 收藏 / 搜索 / 多屏同播。 把「启动页面」设为「直播」，打开应用就直接播放上次观看的频道；此时在直播画面按返回键直接退出应用。 多屏同播（一屏同时播放多个频道）玩法独立，见 多屏同播 。'
   },
   {
     path: '/live-screen',
     title: '直播主界面',
-    anchor: '',
-    section: 'TV 应用内设置项（设置 → 界面）',
-    keywords: '界面设置 节目进度 uiShowEpgProgrammeProgress 常驻节目进度 uiShowEpgProgrammePermanentProgress 台标显示 uiShowChannelLogo 显示回放标志 uiShowReplayBadge 左上角 频道预览 uiShowChannelPreview 频道预览并行数 channelPreviewParallelCount 1-10 列表项动画 uiListAnimation 列表懒渲染 uiLazyRender 懒渲染每批并行数 uiLazyRenderParallelCount 懒渲染间隔 uiLazyRenderInterval -1 50 100 200 300 500 1000 2000 ms 经典选台界面 uiUseClassicPanelScreen 显示订阅源列表 uiClassicShowSourceList 显示频道信息 uiClassicShowChannelInfo 单独显示频道号 uiClassicShowChannelNo 显示全部频道 uiClassicShowAllChannels 换台时显示频道信息 iptvChannelChangeShowInfoPanel 时间显示 uiTimeShowMode 隐藏 常显 整点 半点 30秒 超时自动关闭界面 uiScreenAutoCloseDelay 5 10 15 20 25 30秒 不关闭 界面整体缩放比例 uiDensityScaleRatio 自适应 0.5-2.0 界面字体缩放比例 uiFontScaleRatio 字幕设置 焦点优化 uiFocusOptimize 触摸设备闪退 启用收藏 iptvChannelFavoriteEnable 启用最近观看 iptvChannelHistoryEnable 15条历史',
+    anchor: '#dashboard',
+    section: '首页（Dashboard）',
+    keywords: '模块 说明 订阅源卡片 顶部显示当前订阅源名，右侧为时钟。按 OK 进入「设置 → 订阅源」管理页； 长按 清除当前订阅源缓存并重新加载。 收藏推荐轮播 有收藏频道时，每 4 秒自动轮换一张大卡片（频道号、频道名、「正在 / 接下来」节目、「立即观看」按钮）；左右键手动切换。OK 立即观看； 长按「立即观看」取消该频道收藏 。需开启「设置 → 界面 → 启用收藏」。 九宫格导航 直播、全部频道、收藏、节目单、搜索、设置、多屏同播、推送、关于。 最近观看 横向频道卡（台标、频道名、当前节目、进度条），OK 直接播放。需开启「设置 → 界面 → 启用最近观看」。 首页快捷键：蓝键 / F2 进入直播；「上一频道」键打开节目单指南页。 在首页按返回键会提示「再按一次退出」，连按两次才退出应用。'
   },
   {
     path: '/live-screen',
     title: '直播主界面',
-    anchor: '',
-    section: '主题',
-    keywords: '主题 颜色模式 配色方案 主题包 恢复默认 背景色 贴图 贴图透明度 自定义主题',
+    anchor: '#player-ui',
+    section: '直播画面上的信息元素',
+    keywords: '以下元素按需浮现，相关开关集中在 设置 → 界面 （逐项说明见下方「界面设置总表」）： 元素 说明 换台信息条 换台后屏幕底部浮现几秒：台标（无台标时用频道号占位）、频道名、标签行（时移、回放、线路 i/n、IPv6、 超分与插帧模式、分辨率与帧率、杜比视界等）、当前节目（含进度条）与下一节目、实时网速。 开关：设置 → 界面 → 换台时显示频道信息（默认开）。 常驻节目进度条 播放器底部的一条细进度条，常显当前节目进度。默认关。 回放标志 回看节目时左下角的「回放」字样。默认开。 时间 右上角时钟。设置 → 界面 → 时间显示：隐藏 / 常显 / 整点（默认）/ 半点；整点、半点为该时刻前后 30 秒显示。 数字选台输入 按数字键时，右上角显示已输入的号码，停顿自动换台、按 OK 立即换台。 加载提示条 顶部的状态条：加载订阅源 / 加载中... / 就绪 / 加载失败。'
   },
   {
     path: '/live-screen',
     title: '直播主界面',
-    anchor: '',
-    section: '画中画与启动页',
-    keywords: '画中画 启动页面 首页 直播 节目单 全部频道 收藏 搜索 多屏同播',
+    anchor: '#panels',
+    section: '抽屉面板',
+    keywords: '直播界面里可呼出以下面板（默认打开方式见下表，键位均可改绑，见 遥控器与触屏 ）。 面板无操作一段时间会自动关闭，时长在 设置 → 界面 → 超时自动关闭界面 调整（默认 15 秒，可设「不关闭」）。 面板 默认打开方式 说明 订阅源列表 长按上键 全部订阅源（分组数、频道数、缓存、更新时间），OK 整体切换订阅源；右上角可「刷新全部」。 节目单 GUIDE 键 / 长按左键 当前频道的多天节目单，节目行带状态标记（正在播放 / 回放 / 预约等）与简介。 按 OK：已播节目 = 回看（需线路支持）、正在播 = 回直播、未播 = 预约 / 取消预约。 预约的节目开始时弹出提醒，可「立即前往 / 忽略」；回看播完弹出结束面板， 倒计时自动播放下一个节目，也可手动选「播放下一个节目 / 返回直播节目」。 线路列表 红键 / 长按右键 当前频道的全部线路，OK 切换。 播放控制 长按下键 播放 / 暂停、进度条拖动（回看时按节目起止时间）、倍速加减、快进快退。 快捷设置 菜单键 / 长按 OK 上方是完整的频道信息条，下方按钮排：订阅源、节目单、线路、播放控制、 显示模式（原始 / 填充 /'
   },
   {
     path: '/live-screen',
     title: '直播主界面',
-    anchor: '',
-    section: '频道序号与台标的显示规则',
-    keywords: '频道序号 序号缩写 iptvChannelNoAbbrev 台标 图标首字 iptvChannelLogoInitial 无台标 首字背景色 频道图标提供 iptvChannelLogoProvider m3u 图标优先 iptvM3uLogoPriority epg 图标 台标显示关闭 uiShowChannelLogo 非法台标地址',
+    anchor: '#channel-select',
+    section: '选台界面（两种形态）',
+    keywords: '直播界面按 OK 打开选台界面，有两种形态： 经典三段式（默认） 与现代面板。 切换开关： 设置 → 界面 → 经典选台界面 （默认开）。'
+  },
+  {
+    path: '/live-screen',
+    title: '直播主界面',
+    anchor: '#classic-panel',
+    section: '经典三段式（默认）',
+    keywords: '左中右三列： 分组列表 → 频道列表 → 节目单 。屏幕两侧常驻「向左查看订阅源 / 向右查看节目单」提示条。 分组列再按左键展开 订阅源列表 ：焦点移到其他源时实时预览其分组与频道，选中频道后才真正换源。 频道列按右键展开该频道的节目单，可回看、预约、回直播。 含「全部频道」「收藏」「最近观看」虚拟分组；长按 OK 收藏 / 取消收藏。 加密分组会弹数字密码框，规则见 频道、收藏与搜索 。 开启经典界面后，「设置 → 界面」下多出 4 个专用开关：显示订阅源列表（默认开）、显示频道信息、 单独显示频道号（同时显示频道号和台标，无台标显示频道名首字）、显示全部频道（后三项默认关）。 配合 设置 → 节目单 → 经典选台界面节目单常显 ：节目单列始终展开（此时频道号和时间条隐藏）。'
+  },
+  {
+    path: '/live-screen',
+    title: '直播主界面',
+    anchor: '#modern-panel',
+    section: '现代选台面板',
+    keywords: '全屏遮罩：右上角显示当前频道号与日期时间，底部是当前频道信息条和分组频道列表。 组头显示组名与频道数；频道卡显示预览图 / 台标、频道名、当前节目与进度条。 OK 换台；长按 OK 收藏 / 取消收藏（提示「已收藏 / 取消收藏」）。 在列表顶端继续按上键，可切换到「收藏」「最近观看」横列表。'
+  },
+  {
+    path: '/live-screen',
+    title: '直播主界面',
+    anchor: '#ui-settings',
+    section: '界面设置总表',
+    keywords: '以下条目全部位于 设置 → 界面 ，默认值在说明中标注； 大部分也能在 远程配置面板 的 界面 页远程修改。 设置项 说明 节目进度 频道列表中在频道条目底部显示当前节目进度条。开（默认）/ 关 常驻节目进度 在播放器底部常显当前节目进度条。开 / 关（默认） 台标显示 列表中显示频道台标。开（默认）/ 关 显示回放标志 回看节目时在播放器左下角显示回放标志。开（默认）/ 关 频道预览 频道列表中显示实时预览小窗。开（默认）/ 关 频道预览并行数 同时抓取频道预览首帧的数量，1（默认）～10；过大可能导致网络卡顿 列表项动画 频道列表重排时的过渡动画。开（默认）/ 关 列表懒渲染 预览抓帧按间隔分批节流，减少滚动时的网络与解码尖峰。开 / 关（默认）；开启后才显示下面两项 懒渲染每批并行数 每个间隔窗口内放行的抓帧请求数，1（默认）～10 懒渲染间隔 每个放行窗口的间隔毫秒数：关闭（默认，不限速）/ 50 / 100 / 200 / 300 / 500 / 1000 / 2000 经典选台界面 选台界面使用经典三段式结构。开（默认）/ 关；开启后才显示下面四项 显示订阅源列表 经典选台'
+  },
+  {
+    path: '/live-screen',
+    title: '直播主界面',
+    anchor: '#system-integration',
+    section: '画中画、后台播放与开机自启',
+    keywords: '三项都在 设置 → 通用 ： 设置项 说明 画中画 观看中按主页键，画面缩为小窗继续播放。开 / 关（默认）；与「后台播放」互斥，开一个会自动关另一个 后台播放 切到后台后继续播放声音（「听电视」），通知栏可切台：上一个频道 / 播放暂停 / 下一个频道。开 / 关（默认）；与「画中画」互斥 开机自启 设备开机后自动启动应用。开 / 关（默认）；需设备本身支持该功能'
   },
   {
     path: '/channels',
     title: '频道、收藏与搜索',
     anchor: '',
-    section: '列表风格与频道项显示',
-    keywords: '列表风格 uiGroupParsStyle 传统分组 列表分组 二级分组 一级分组 category #group# group-title #genre# 大分类 二级分组模式 唯一子分组隐藏 降级 收藏 最近观看 全部频道',
+    section: '频道、收藏与搜索',
+    keywords: '频道来自订阅源。本页讲清全部频道、收藏、最近观看与搜索四个页面的用法，以及分组、隐藏、加密、别名合并与台标的整套规则。'
   },
   {
     path: '/channels',
     title: '频道、收藏与搜索',
-    anchor: '',
-    section: '频道列表',
-    keywords: '频道列表 分组条形 频道网格 经典选台界面 uiUseClassicPanelScreen 现代面板 三段式 显示订阅源列表 uiClassicShowSourceList 向左查看订阅源 显示频道信息 uiClassicShowChannelInfo 单独显示频道号 uiClassicShowChannelNo 频道名首字 显示全部频道 uiClassicShowAllChannels /ui remoteConfig',
+    anchor: '#from-sources',
+    section: '频道从哪来',
+    keywords: '频道和分组全部由 订阅源 提供：订阅源（m3u / txt / Xtream / Stalker）下载解析后，得到分组与频道列表。 一个频道可以有多条 线路 （多个播放地址），播放中可随时切换，某条线路失效不影响其他线路。 管理订阅源： 设置 → 订阅源 → 自定义订阅源 ，可切换当前源、刷新全部。 「相似频道合并」（默认开）会把不同来源的同名频道合并为一个，多个来源的地址变成该频道下的多条线路，见下文「频道别名与相似合并」。'
   },
   {
     path: '/channels',
     title: '频道、收藏与搜索',
-    anchor: '',
-    section: '跨组切换与循环',
-    keywords: '频道切换跨分组 iptvChannelChangeCrossGroup 上下键 所有频道 当前分组 频道列表首尾循环 iptvChannelChangeListLoop 首尾循环 /control',
+    anchor: '#all-channels',
+    section: '全部频道',
+    keywords: '入口： 首页 → 全部频道 （也可在 设置 → 通用 → 启动页面 设为开机直达）。 页面上方是 分组标签行 ，下方是当前分组的 频道卡网格 。每张频道卡显示： 预览图或台标、频道号、频道名； 当前节目与进度条（来自节目单（EPG）数据）； 角标：已收藏显示红心；线路多于 1 条时显示线路数；全部线路都是 IPv6 时显示 IPV6。 操作： OK ：播放该频道； 长按 OK ：收藏 / 取消收藏； 滚动浏览时顶栏自动隐藏，回滚即重现，给网格让出空间。 相关显示开关： 设置项 说明 设置 → 界面 → 台标显示 列表中是否显示台标，默认开 设置 → 界面 → 节目进度 频道卡底部是否显示当前节目进度条，默认开 设置 → 界面 → 频道预览 聚焦频道时抓取实时预览首帧，默认开；「频道预览并行数」控制同时抓帧数量，过大可能卡顿 设置 → 订阅源 → 序号缩写模式 频道号超过两位时只显示后两位（如 102 显示为 02），默认关'
   },
   {
     path: '/channels',
     title: '频道、收藏与搜索',
-    anchor: '',
-    section: '加密分组',
-    keywords: '加密分组 iptvChannelGroupEncrypted 支持加密频道组 密码 _数字 分组名 搜索隐藏 全部频道隐藏 选台界面 成人',
+    anchor: '#favorites',
+    section: '收藏',
+    keywords: '怎么收藏 ：在全部频道、搜索或选台面板中，对频道卡 长按 OK 即收藏，再长按一次取消。 收藏页 ： 首页 → 收藏 。 分组为「全部」+ 按来源订阅源分组，收藏记录记住自己来自哪个源； OK 播放、长按 OK 取消收藏； 标题栏右侧「 清空 」一键清空所有收藏； 还没有收藏时，页面提示「长按频道可添加收藏」。 首页收藏推荐区 ：有收藏时自动轮换展示，「立即观看」直接播放；长按「立即观看」可取消该频道的收藏。 设置项 说明 设置 → 界面 → 启用收藏 收藏功能总开关，默认开；关闭后首页收藏区与收藏页都不再显示 收藏列表随 云同步 备份与恢复，换设备不丢。'
   },
   {
     path: '/channels',
     title: '频道、收藏与搜索',
-    anchor: '',
-    section: '收藏夹',
-    keywords: '收藏 收藏夹 长按OK 收藏分组 清空 启用收藏 iptvChannelFavoriteEnable 是否显示当前订阅源频道收藏列表 备份 云同步',
+    anchor: '#recent',
+    section: '最近观看',
+    keywords: '播放过的频道自动进入「最近观看」，两个地方能看到： 首页 最近观看区：横向频道卡，OK 直接播放； 选台面板 ：列表顶部继续按上键，可切到「最近观看」横列表。 设置项 说明 设置 → 界面 → 启用最近观看 默认开； 关闭开关即清空全部记录 ，再打开后从零开始记录 最近观看没有单独的清空按钮：把「设置 → 界面 → 启用最近观看」关闭一次（记录立即清空），再打开即可。'
   },
   {
     path: '/channels',
     title: '频道、收藏与搜索',
-    anchor: '',
-    section: '隐藏频道与分组',
-    keywords: '隐藏 分类隐藏 iptvChannelGroupHiddenList Set 共N个分组 已隐藏M个分组 隐藏频道规则 iptvChannelHiddenList 正则 .*测试.* 频道名 chips',
-  },
-  {
-    path: '/channels',
-    title: '频道、收藏与搜索',
-    anchor: '',
+    anchor: '#search',
     section: '搜索',
-    keywords: '搜索 关键词 拼音首字母 contains 防抖 加密分组 隐藏规则 屏幕键盘',
+    keywords: '入口： 首页 → 搜索 。左侧输入框配内置 屏幕键盘 （A–Z、0–9、删除、清空），右侧实时出结果，边输边搜。 输入 中文 ：按频道名包含匹配，如「体育」命中所有名字带「体育」的频道； 输入 字母 / 数字 ：把频道名转成 拼音首字母 后匹配，如 ws 命中各「卫视」频道； OK 播放、 长按 OK 收藏。 搜索自动排除：分类隐藏的分组、隐藏频道规则命中的频道、加密分组（见下文「隐藏与加密」）。'
   },
   {
     path: '/channels',
     title: '频道、收藏与搜索',
-    anchor: '',
-    section: '多屏同播（MultiView）',
-    keywords: '多屏同播 MultiView 9路 同屏 方案 布局 放大 缩小 暂停 静音 切换线路 回看 移动屏幕 最近四屏 最近观看',
+    anchor: '#groups',
+    section: '分组体系',
+    keywords: '分组信息来自订阅源内容本身： m3u ：频道的 group-title 是分组名（可用 ; 同时进多个组）， category 是更大的一级分类； txt ：支持两级分组写法； 没有归组的频道自动进入「 其他 」分组。 源文件的具体写法见 订阅源 。分组在选台界面「怎么摆」由 设置 → 订阅源 → 列表风格 控制（选台界面本身的形态见 直播主界面 ）： 列表风格 展示形态 传统分组（默认） 只按分组平铺展示 列表分组 一级分类与分组以列表形式分级展示 二级分组1 / 二级分组2 一级分类下嵌套各分组；二级分组2 在某分类只有一个分组时，不再单独列出该分组 源里没有任何一级分类时，两种「二级分组」风格自动退化为传统分组，界面不会破版。'
   },
   {
     path: '/channels',
     title: '频道、收藏与搜索',
-    anchor: '',
-    section: '频道别名',
-    keywords: '频道别名 iptvChannelNameAlias remoteConfig 只读 __suffix 标准名 别名数组 共N个频道M个别名 相似频道合并 iptvSimilarChannelMerge 相同频道别名合并 R.raw.channel_name_alias 云同步',
+    anchor: '#hidden',
+    section: '隐藏与加密',
+    keywords: '不想看到的内容有三层机制，开关都在 设置 → 订阅源 下； 前两层的名单也可在 远程配置面板 （下称面板）的 订阅源 页编辑。'
   },
   {
     path: '/channels',
     title: '频道、收藏与搜索',
+    anchor: '#hidden-groups',
+    section: '分类隐藏（整组开关）',
+    keywords: '设置 → 订阅源 → 分类隐藏 ：进入后逐组切换显示 / 隐藏，被隐藏的整组频道不再出现在任何列表中。 入口行显示「共 N 个分组」或「共 N 个分组，已隐藏 M 个分组」。面板对应「频道隐藏分组」。'
+  },
+  {
+    path: '/channels',
+    title: '频道、收藏与搜索',
+    anchor: '#hidden-channels',
+    section: '隐藏频道规则（按名字正则）',
+    keywords: '设置 → 订阅源 → 隐藏频道规则 ：频道名匹配正则表达式的频道，不出现在任何列表与搜索中。可添加多条， 例如 . 测试. 屏蔽所有名字带「测试」的频道。面板对应「频道隐藏列表」。'
+  },
+  {
+    path: '/channels',
+    title: '频道、收藏与搜索',
+    anchor: '#encrypted-groups',
+    section: '加密分组',
+    keywords: '总开关： 设置 → 订阅源 → 支持加密频道组 （默认关）。开启后， 分组名以「下划线 + 数字」结尾即为加密分组 （如 成人 1234 ）： 搜索中整组不出现； 全部频道与选台界面中，分组标签照常显示（组名隐去下划线和数字），选中进入时弹出 数字密码框 ； 密码就是下划线后的数字，如 成人 1234 的密码是 1234 。 密码直接写在订阅源的分组名里，凡是能看到源内容的人都知道密码。它适合挡住「随手翻到」，并不是真正的内容加密。'
+  },
+  {
+    path: '/channels',
+    title: '频道、收藏与搜索',
+    anchor: '#alias-merge',
+    section: '频道别名与相似合并',
+    keywords: '不同订阅源对同一频道起名常不一致（「CCTV-1」与「CCTV1 综合」）。 频道别名 是一张「标准名 → 各种叫法」的映射表， 配合 设置 → 订阅源 → 相似频道合并 （默认开）： 经别名归一后名字相同的频道 合并为一个频道 ，列表里只占一格； 来自不同订阅源、不同分组的播放地址变成该频道下的 多条线路 ，换源变成切线路。 别名表的使用方式： 内置默认表 ，开箱即用，无需配置； 电视端只读： 设置 → 订阅源 → 频道别名 仅显示「共 N 个频道，M 个别名」； 修改只能在面板的 订阅源 页（或面板首页卡片）完成，格式说明见 订阅源 ； 别名表随 云同步 ，多设备共用一份。'
+  },
+  {
+    path: '/channels',
+    title: '频道、收藏与搜索',
+    anchor: '#logos',
+    section: '台标',
+    keywords: '台标有两个来源：订阅源内自带的台标，和按模板在线获取的台标。优先级由以下开关决定： 设置项 说明 设置 → 界面 → 台标显示 台标总开关，默认开 设置 → 订阅源 → 频道图标覆盖 默认开：用「频道图标提供」（在线台标模板）覆盖订阅源内自带的台标；关闭则源内台标优先，加载失败再回退在线模板 设置 → 订阅源 → 频道图标提供 在线台标模板地址，电视端只读，只能在面板的 订阅源 页修改 设置 → 订阅源 → m3u 台标优先 默认关：开启后源内台标优先于节目单提供的台标 设置 → 订阅源 → 图标首字 默认关：无台标时用频道名首字加彩色底色生成图标 频道没有台标时的兜底显示：经典选台界面显示频道名首字，新界面显示频道号占位。'
+  },
+  {
+    path: '/channels',
+    title: '频道、收藏与搜索',
+    anchor: '#multiview',
+    section: '多屏同播',
+    keywords: '想一块屏幕同时看多个频道，见 多屏同播 ：最多 9 路同播，支持方案保存。'
+  },
+  {
+    path: '/multiview',
+    title: '多屏同播',
     anchor: '',
-    section: '频道图标',
-    keywords: '频道图标 tvg-logo 频道图标提供 iptvChannelLogoProvider gitee myTVlogo URL模板 变量 name lowercase uppercase 10天周期 缓存过期 频道图标覆盖 iptvChannelLogoOverride 覆盖订阅源',
+    section: '多屏同播',
+    keywords: '一块屏幕同时播放最多 9 路直播，每路独立控制。本页说明布局规则、单屏操作、移动屏幕与可复用的频道方案。'
+  },
+  {
+    path: '/multiview',
+    title: '多屏同播',
+    anchor: '#what',
+    section: '这是什么',
+    keywords: '多屏同播把屏幕分成最多 9 格，每格（每屏）独立播放一路直播，适合同时盯多个频道——比如多场球赛、多个新闻台。 入口： 首页 → 多屏同播 ；也可在 设置 → 通用 → 启动页面 设为开机直达。 屏幕按数量自适应网格排布，每屏按 16:9 独立解码播放； 每屏 默认静音 ，想听哪路就对哪路单独取消静音； 某一路播放出错时，自动切换到下一条线路； 同一频道不能重复添加（提示「已存在该频道」）； 加满 9 屏后再添加会提示「超出最大添加频道数：9」。'
+  },
+  {
+    path: '/multiview',
+    title: '多屏同播',
+    anchor: '#actions',
+    section: '单屏操作',
+    keywords: '方向键聚焦某一屏，按 OK 弹出「操作屏幕 N」菜单（N 为屏幕序号）： 菜单项 作用 添加 从频道列表选一个频道，新增一屏（已满 9 屏时不可用） 搜索 搜索频道并新增一屏（同上） 切换 更换本屏播放的频道 删除 移除本屏；至少保留一屏 放大 / 缩小 放大后本屏占主画面、其余屏环绕小窗（一大多小）；再选缩小还原均分 切换线路 为本屏频道切换下一条线路 回看 打开本屏频道的节目单，选已播节目回看（需线路支持） 暂停 / 播放 暂停或恢复本屏画面 静音 / 取消静音 只控制本屏声音，各屏互不影响 保存方案 / 保存并命名 把当前频道组合存为方案，见下文「方案」 方案列表 打开已保存的方案 最近四屏 一键铺屏，见下文「最近四屏」 刷新 重新加载本屏播放'
+  },
+  {
+    path: '/multiview',
+    title: '多屏同播',
+    anchor: '#recent-four',
+    section: '最近四屏',
+    keywords: '菜单中的「最近四屏」把当前所有屏幕替换为 最近观看的前 4 个频道 ，一键铺屏； 观看记录不足 4 个时按实际数量铺，完全没有记录时提示「暂无最近观看记录」。'
+  },
+  {
+    path: '/multiview',
+    title: '多屏同播',
+    anchor: '#move',
+    section: '移动屏幕',
+    keywords: '聚焦某一屏 长按 OK ，弹出「移动屏幕 N」：再选目标屏幕，两屏 交换位置 。 用来调整哪一路占主画面，或把常看的摆到顺手的位置。'
+  },
+  {
+    path: '/multiview',
+    title: '多屏同播',
+    anchor: '#schemes',
+    section: '方案',
+    keywords: '方案 = 当前所有屏幕的频道组合，存下来可随时一键恢复。 保存方案 ：快速保存。正在使用某个方案时覆盖原方案，否则以「方案 + 时间」自动命名新建； 保存并命名 ：弹出输入框，自定义名称保存； 方案列表 ：OK 应用方案（所有屏幕整体替换为方案中的频道组合）； 长按 某个方案可 重命名 / 复制为新建 / 删除 ；「新建方案」回到单屏初始状态重新搭配； 最多保存 20 个方案，按最近使用时间排序，每个方案标注屏数。 9 路同时解码对设备性能要求高。低配设备建议少开几路，或到 播放器设置 中降低负载（如关闭超分与插帧、减小播放缓冲）。'
   },
   {
     path: '/sources',
-    title: '订阅源（IPTV）',
+    title: '订阅源（IPTV / 混合源）',
     anchor: '',
+    section: '订阅源（IPTV / 混合源）',
+    keywords: '订阅源决定你能看哪些频道。本页介绍各类源的写法与添加方式、电视端和面板上的管理操作、缓存与刷新、回看、网页源与混合模式，以及 m3u 常见字段的含义。'
+  },
+  {
+    path: '/sources',
+    title: '订阅源（IPTV / 混合源）',
+    anchor: '#types',
     section: '订阅源类型',
-    keywords: '订阅源类型 sourceType 网络 m3u txt 本地文件 Xtream Codes Stalker Portal get.php handshake 必填字段 gz GZIP FTP FTPS SMB smb2 cifs WebDAV webdavs dav 协议 端口 共享名 NTLM Basic 认证 PASV EPSV smbj user:pass@ Scheme鉴权自动识别 protocol 聚合配置 sourceType=4 多源合并',
+    keywords: '订阅源就是一份频道清单，里面写着每个频道的分组和一条或多条 线路 （播放地址）。 添加时按类型填写对应信息即可，其余留默认： 类型 是什么 必填项 网络 m3u / txt 最常见的直播源文件，m3u 与 txt 两种写法都支持，按内容自动识别； .gz 压缩包自动解压。 放在 FTP / SMB / WebDAV 服务器上的源也可以，地址带 ftp:// 、 smb:// 、 webdav:// 等前缀即可。 链接。FTP / SMB / WebDAV 源还需账号密码：可直接写进链接（如 ftp://用户名:密码 主机/路径 ）， 也可在面板按「协议、端口、账号、密码」字段分开填。 Xtream Codes 服务商发的账号式源，App 会自动拼好取数地址，不用自己拼链接。 服务器地址、用户名、密码、输出类型（ m3u plus 或 m3u ） Stalker Portal 机顶盒式门户源。 服务器地址、MAC 地址（服务商提供） 本地文件 电视本机上的 m3u / txt 文件。需要先在 设置 → 权限 中授予「读取外部存储/管理全部文件」。 文件路径 直接粘贴内容 在面板首页「订阅'
   },
   {
     path: '/sources',
-    title: '订阅源（IPTV）',
-    anchor: '',
+    title: '订阅源（IPTV / 混合源）',
+    anchor: '#add-manage',
+    section: '添加与管理',
+    keywords: ''
+  },
+  {
+    path: '/sources',
+    title: '订阅源（IPTV / 混合源）',
+    anchor: '#add',
     section: '添加订阅源',
-    keywords: '添加订阅源 二维码 面板 remote xtream stalker file content 粘贴 m3u 内容 深链 mytv://add nanotv:// play.aptv.app POST /api/iptv-source/push 添加聚合配置',
+    keywords: '电视上打字不便，添加订阅源一律通过扫码在远程配置面板（下称面板）里完成： 电视端打开 设置 → 订阅源 → 自定义订阅源 ，点底部「添加其他订阅源」，屏幕弹出二维码和地址。 用手机 / 电脑扫码（或在浏览器输入该地址）打开面板。面板的打开方式详见 远程配置面板 。 在面板首页「订阅源」卡片填好名称与链接（Xtream、Stalker、FTP 等类型会多出对应字段），点「推送订阅源」；也可以到面板的 订阅源 页点「新增」，用完整对话框添加。 回到电视，列表里就能看到新源，点按它选「设为当前」即开始使用。'
   },
   {
     path: '/sources',
-    title: '订阅源（IPTV）',
-    anchor: '',
-    section: '聚合配置（多源同名频道合并）',
-    keywords: '聚合配置 聚合源 sourceType=4 多源合并 同名频道 多线路 备选线路 线路优先级 勾选顺序 活引用 名称+地址 标准频道名 standardName 频道别名 自动切换线路 播放超时时间 5秒 10秒 线路级代理 httpProxy 继承 节目单并集 EPG 不支持嵌套 清缓存 刷新全部 添加聚合配置 编辑聚合配置',
+    title: '订阅源（IPTV / 混合源）',
+    anchor: '#manage-tv',
+    section: '电视端管理（设置 → 订阅源 → 自定义订阅源）',
+    keywords: '列表每条显示：名称、类型标签（本地 / Xtream / Stalker / 聚合）、单源 UA、分组数 / 频道数、缓存大小与更新时间。 点按某条 弹出操作：设为当前、删除、清除缓存；聚合条目另有「编辑聚合配置」。 页面顶部「 刷新全部 」：无视缓存时间，立即重新下载所有订阅源。 页面底部「 添加聚合配置 」：不扫码，直接在电视上勾选已有源进行合并，见下文「聚合配置」。'
   },
   {
     path: '/sources',
-    title: '订阅源（IPTV）',
-    anchor: '',
-    section: 'm3u 支持的扩展字段',
-    keywords: 'EXTM3U EXTINF tvg-id tvg-name tvg-logo tvg-chno group-title http-user-agent http-referrer http-origin http-cookie host catchup catchup-source x-tvg-url url-tvg KODIPROP EXTVLCOPT DRM stream_headers',
+    title: '订阅源（IPTV / 混合源）',
+    anchor: '#manage-panel',
+    section: '面板订阅源页',
+    keywords: '面板的 订阅源 页比电视端功能更全：单选钮切换当前源，每行菜单可 上移 / 下移排序 、编辑、删除。 「新增 / 编辑订阅源」对话框的字段一览： 字段 说明 名称 / 类型 / 链接 基本信息；类型为「文件」时链接处填电视上的文件路径 协议、端口、账号、密码 远程源选择 FTP / SMB / WebDAV 类协议时出现；地址里已带前缀和账号时可留空 用户名 / 密码 / 输出类型 仅 Xtream 类型 MAC 地址 仅 Stalker 类型 UA 按源单独设置 User-Agent：拉取该源时使用；频道没单独指定 UA 时播放也沿用 代理 按源单独设置代理，填 http:// 或 socks5:// 地址，可带账号密码 EPG 地址 给这个源单独指定节目单，配合节目单的「跟随订阅源」使用，见 EPG 节目单 自动刷新 单位小时，0 = 关闭（默认）。设为大于 0 后，该源在使用期间每隔这么久在后台静默重新下载一次，不打断播放 关闭预览图 / 关闭延迟检测 该源使用中时不抓频道预览首帧、不给线路测延迟，适合响应慢或对频繁探测敏感的源 转换 JS 源作者向能力：下载后先用一段脚本加工频'
   },
   {
     path: '/sources',
-    title: '订阅源（IPTV）',
-    anchor: '',
-    section: '一级 / 二级分组',
-    keywords: '一级分组 二级分组 category #group# group-title #genre# 大分类 频道分组层级 无 category 时保持原样',
+    title: '订阅源（IPTV / 混合源）',
+    anchor: '#cache',
+    section: '缓存时间与刷新',
+    keywords: '设置项 说明 设置 → 订阅源 → 订阅源缓存时间 可选 不缓存 / 1～23 小时 / 1～15 天 / 永久，默认 1 小时 。缓存没过期时直接用缓存，启动快；过期后重新下载，下载失败时回落到旧缓存。本地文件源没有过期一说 面板的 订阅源 页 → 订阅源缓存时间 同一项，按小时填，0 = 不缓存 先在「自定义订阅源」页点顶部「刷新全部」；还不行就对那条源执行「清除缓存」再刷新。 依然不变多半是源本身没更新或已失效，需要联系源作者或换源。'
   },
   {
     path: '/sources',
-    title: '订阅源（IPTV）',
-    anchor: '',
-    section: '分组级参数（#EXTKU9OPT）',
-    keywords: '分组级参数 #EXTKU9OPT DE SC HEADERS SCRIPT PB HOST PBO IJKAD EXOBM TSO 解码方式 画面比例 请求头 脚本 回放参数 Host 回放偏移 analyzeduration 起播缓冲 时移结束 iptvChannelGroupConfigEnable 首份生效 SP JS PY 归一 SCRIPT',
+    title: '订阅源（IPTV / 混合源）',
+    anchor: '#aggregation',
+    section: '聚合配置（多源合并）',
+    keywords: '聚合配置 把多个已有订阅源合成一个：同名频道自动归并为一个频道的多条线路， 播放时一条线路播不出来会自动切到下一条，逐条尝试到底。 创建 ：电视端 设置 → 订阅源 → 自定义订阅源 → 「添加聚合配置」，输入名称并勾选要合并的源，保存后自动设为当前； 勾选顺序就是线路优先级 。面板上在订阅源编辑对话框把类型选为「聚合配置」再勾选成员，效果相同。 编辑 ：电视端点按聚合条目 →「编辑聚合配置」；面板直接点编辑。增删成员、调整顺序都在这里。 活引用 ：聚合存的是对成员源的引用——面板里改了成员地址自动生效，成员被删除后自动剔除；成员源仍可单独使用，也可同时被多个聚合引用。聚合不能再套聚合。 容错 ：某个成员加载失败时用它的旧缓存，没有缓存就跳过；全部成员都失败才报错。 缓存 ：对聚合执行「清除缓存」会清空全部成员源的缓存；「刷新全部」连同成员一起刷新。'
   },
   {
     path: '/sources',
-    title: '订阅源（IPTV）',
-    anchor: '',
-    section: '回看类型',
-    keywords: '回看类型 catchup default append timeshift shift flussonic xtream codes disabled 内部值',
+    title: '订阅源（IPTV / 混合源）',
+    anchor: '#m3u-fields',
+    section: 'm3u 里的常见字段',
+    keywords: 'm3u 源里每个频道都可以带一些附加信息。 这些由源作者提供，App 会自动识别，不需要你动手 ； 了解含义有助于挑源和排查问题： 字段 作用 tvg-id / tvg-name 频道在节目单里的身份。节目单靠它把节目对到频道上，对不上就看不到节目信息，见 EPG 节目单 tvg-logo 台标图片地址 tvg-chno 频道号。遥控器数字选台优先按它匹配，见 遥控器与触屏操作 group-title 分组名，频道按它归入各个分组 catchup / catchup-source 回看支持标记与回看地址，决定这条线路能不能回看，见下文「回看（时移）」 http-user-agent / http-referrer 防盗链请求头。有的服务器会检查这些信息，对了才放行 txt 源的写法更简单：一行「 分组, genre 」声明分组，下面每行「 频道名,地址 」， 同一频道的多个地址用 分隔，即多条线路。'
   },
   {
     path: '/sources',
-    title: '订阅源（IPTV）',
-    anchor: '',
-    section: 'URL 前缀（混合源协议）',
-    keywords: 'URL前缀 webview:// video:// javascript:// hybridType 混合源协议 QuickJS ku9-json:// 内嵌JSON 请求头 远程度标记',
+    title: '订阅源（IPTV / 混合源）',
+    anchor: '#catchup',
+    section: '回看（时移）',
+    keywords: '哪些线路能回看： 源里带 catchup 参数的线路； 运营商的 PLTV 线路——「 PLTV转TVOD 」开关（设置 → 订阅源，默认开）会自动把这类地址转换成可回看的形式，一般无需理会。 怎么看回看： 打开节目单（直播界面按 GUIDE 键，或长按左键），找到已播出的节目； 按 OK 即开始回看。选台界面和节目单指南页里操作相同，详见 EPG 节目单 。 直播画面中按快退键可沿当前节目的时间轴回退（时移），最多回退 48 小时；回看时左下角会显示「回放」标志。 相关操作与设置见 直播主界面 与 播放器与字幕设置 。'
   },
   {
     path: '/sources',
-    title: '订阅源（IPTV）',
-    anchor: '',
-    section: 'javascript:// 源',
-    keywords: 'javascript:// QuickJS 动态拼接 一次额外请求 解密 播放地址 开发者模式 ku9 调试',
+    title: '订阅源（IPTV / 混合源）',
+    anchor: '#url-prefix',
+    section: 'URL 前缀（混合源线路）',
+    keywords: '有些源里的线路地址带特殊前缀，表示这条线路不走普通播放器： 前缀 含义 webview:// 、 video:// 走网页播放：App 用内置浏览器内核打开页面、取出其中的视频流。央视频、各卫视官网的线路都是这种，详见 WebView 播放器 javascript:// 源作者写的脚本线路，播放前实时计算出真实地址 普通用户只需知道：这些线路来自网页，加载通常比直接流慢一些；能不能用完全取决于源作者。'
   },
   {
     path: '/sources',
-    title: '订阅源（IPTV）',
-    anchor: '',
-    section: '混合源（自动添加网页源）',
-    keywords: '混合源 自动添加网页源 央视网 cctv.com 央视频 yangshipin.cn 官网 brtn jstv kankanews cztv hebtv gdtv gxtv hljtv hnntv hntv fjtv gzstv jxntv ahtv iqilu 兜底 tag 内置源 host 判定',
+    title: '订阅源（IPTV / 混合源）',
+    anchor: '#hybrid',
+    section: '自动添加网页源（混合模式）',
+    keywords: '开启后，App 自动为订阅源里对得上的频道附加官网网页线路——央视网、央视频，以及北京、江苏、浙江、湖南等各卫视官网。 源内线路失效时多一条兜底。 设置项 说明 设置 → 订阅源 → 自动添加网页源 三选一： 禁用 / 订阅源优先 （默认，网页线路排在源内线路之后）/ 网页源优先 （网页线路排在前） 设置 → 订阅源 → 网页源央视频Cookie 央视频的付费频道需要登录才能看：用浏览器登录央视频官网后复制全部 Cookie，粘贴到面板的「网页源央视频 Cookie」。 电视端这一项只读显示，只能在面板改。看不了付费频道时的排查见 常见问题 附加的网页线路走 WebView 播放（见 WebView 播放器 ）， 换台信息条上会带「央视网」「央视频」「官网」来源标签。'
   },
   {
     path: '/sources',
-    title: '订阅源（IPTV）',
-    anchor: '',
-    section: 'TV 应用内设置项（设置 → 订阅源）',
-    keywords: '订阅源设置 自定义订阅源 WebView测试源 类型徽标 转换JS徽标 刷新全部 订阅源缓存时间 不缓存 永久 1小时 15天 humanizeMs 分类隐藏 隐藏频道规则 正则 .*测试.* 支持加密频道组 _数字 密码 频道别名 iptvChannelNameAlias JSON字符串 R.raw.channel_name_alias __suffix 相似频道合并 频道图标提供 gitee myTVlogo name lowercase uppercase 10天周期 频道图标覆盖 PLTV转TVOD rtsp pltv tvod playseek 自动添加网页源 禁用 订阅源优先 IPTV_FIRST 网页源优先 HYBRID_FIRST 网页源央视频Cookie yangshipin.cn 前50字符',
+    title: '订阅源（IPTV / 混合源）',
+    anchor: '#channel-rules',
+    section: '频道层面的规则',
+    keywords: '以下设置都在 设置 → 订阅源 里，管的是「源解析出来的频道怎么显示」。详细用法见 频道、收藏与搜索 ，这里只列个大概： 分类隐藏 ：按分组整组隐藏 / 恢复。 隐藏频道规则 ：频道名命中规则的（如含「测试」）不进列表。 支持加密频道组 ：分组名以 数字 结尾的分组要输密码才能进入，默认关。 频道别名 + 相似频道合并 （默认开）：把不同写法的同名频道合并成一个频道的多条线路。 频道图标提供 / 覆盖 （默认开）：用在线台标模板统一补台标，并覆盖源内自带台标。'
   },
   {
     path: '/sources',
-    title: '订阅源（IPTV）',
-    anchor: '',
-    section: '10591 面板（/sources）的全部可配置项',
-    keywords: '面板订阅源 排序 上移下移 设为当前 编辑对话框 类型 remote file xtream stalker 链接 文件路径 文件内容 用户名密码 输出类型 m3u_plus MAC地址 全局UA httpUserAgent 代理 httpProxy 代理优先级 播放器代理规则 转换JS transformJs function main 订阅源缓存时间 频道隐藏分组 频道隐藏列表 频道别名 iptvChannelNameAlias JSON字符串 清空缓存 相似频道合并 频道图标提供 频道图标覆盖 PLTV转TVOD 自动添加网页源 网页源央视频Cookie /api/iptv-source/push /api/channel-alias /api/file/content',
+    title: '订阅源（IPTV / 混合源）',
+    anchor: '#group-params',
+    section: '分组级参数',
+    keywords: '「设置 → 订阅源 → 分组级参数」（默认开）允许源作者在源里按分组指定播放参数—— 比如某个分组用什么解码方式、带什么请求头。 普通用户不需要任何操作；只有当你用的源在说明里提到「分组级参数」时， 知道有这回事、确认开关是开的即可。关闭后，源里的分组级参数全部不生效。'
   },
   {
     path: '/epg',
     title: 'EPG 节目单',
     anchor: '',
-    section: 'EPG 来源类型',
-    keywords: 'EPG来源 XML XMLTV XML_GZ gzip DIYP LOVETV SPTV CHUNKED_XML 超级直播 EpgSourceType fromUrl 自动探测 channel={name} ch={name} diyp:// lovetv:// sptv:// program st et 当日秒偏移',
+    section: 'EPG 节目单',
+    keywords: '节目单（EPG，电子节目指南）告诉你每个频道正在播什么、接下来播什么。本页介绍节目单在哪里看、怎么添加与管理、频道与节目如何对上、刷新策略，以及回看与预约。'
   },
   {
     path: '/epg',
     title: 'EPG 节目单',
-    anchor: '',
-    section: '添加 EPG 源',
-    keywords: '添加EPG源 二维码 面板 自定义节目单 拖拽排序 EpgSource name url 空字符串跳过 刷新全部 设为当前 删除 清除缓存 format 解析格式 cacheHour 缓存时段 timeZoneOffset 时间偏移 externalStorage 内外储存 按订阅独立 ui_settings_epg_source_item_info 频道数 节目数 缓存大小 更新时间',
+    anchor: '#what-where',
+    section: '节目单是什么、在哪看',
+    keywords: '节目单就是每个频道的播出表：正在播的节目（附进度与简介）、接下来要播的节目，以及过去几天的播出记录。 它在 App 里随处可见： 换台信息条 ：换台后屏幕底部浮现，显示当前节目（进度条、剩余时长）和下一节目。 选台界面 ：频道卡上直接显示当前节目与进度。 直播界面节目单 ：按 GUIDE 键（或长按左键）打开当前频道的多天节目单，已播节目可回看、未播节目可预约。 节目单指南页 ：全部频道 × 时间的完整表格，见下一节。 总开关： 设置 → 节目单 → 节目单启用 （默认开；首次加载可能较慢）。关闭后以上位置的节目信息都不再显示。'
   },
   {
     path: '/epg',
     title: 'EPG 节目单',
-    anchor: '',
-    section: 'TV 应用内设置项（设置 → 节目单）',
-    keywords: '节目单设置 节目单启用 ui_epg_enable 跟随订阅源 ui_epg_source_follow_iptv 加载全部节目单 ui_epg_source_load_all 经典选台界面节目单常显 ui_epg_always_show_in_classic_channel_screen 自定义节目单 ui_epg_source_custom 刷新时间阈值 ui_epg_refresh_time_threshold Configs SpState epgEnable epgSourceFollowIptv epgSourceLoadAll alwaysShowEPGInClassicChannelScreen EPG_REFRESH_TIME_THRESHOLD=2 启动时刷新 epg_loaded_on_Startup 6列网格 -1 0..12',
+    anchor: '#guide',
+    section: '节目单指南页',
+    keywords: '指南页是「频道 × 时间」的二维表格：左侧选分组，中间是各频道逐日的节目格子； 聚焦某个频道约一秒后，上方会出现该频道的实时预览小窗和「立即观看」按钮。 打开方式（任选其一）： 首页 →「 节目单 」； 遥控器「 上一频道 」键：在首页或直播中按它直接打开；直播中打开时会自动定位到当前频道，按返回键直接回到直播画面； 设为启动页： 设置 → 通用 → 启动页面 选「节目单」，开机即见。 选中某个节目会弹出详情卡，按播出状态给出不同操作： 节目状态 可用操作 正在播 立即观看 未开始 预约 / 取消预约，见下文「预约未播节目」 已播完 回看；线路不支持时显示「暂不支持回看」，见下文「回看已播节目」'
   },
   {
     path: '/epg',
     title: 'EPG 节目单',
-    anchor: '',
-    section: '10591 面板（/epg）的全部可配置项',
-    keywords: '面板EPG 节目单启用 EPG.ENABLE 经典选台界面节目单常显 EPG.ALWAYS_SHOW_IN_CLASSIC 跟随订阅源 EPG.FOLLOW_SOURCE 加载全部节目单 EPG.LOAD_ALL 自定义节目单 EPG.CUSTOM_EPG app-epg-manager cdkDropList 拖拽手柄 刷新时间阈值 EPG.REFRESH_THRESHOLD app-epg-threshold-dialog 每次启动 THRESHOLD_ALWAYS 00:00 06:00 12:00 18:00 自定义 CUSTOM min=0 step=0.5 小数小时 HH:MM EPG源编辑 名称 HOME.NAME 链接 HOME.LINK 必填 matInput',
+    anchor: '#sources',
+    section: '节目单来源',
+    keywords: '支持的格式（添加时按链接自动识别，一般不用关心）： 格式 说明 XML（XMLTV） 最常见的标准节目单格式，整份一次下载 XML.GZ gzip 压缩的 XMLTV，体积小，App 自动解压 DIYP / LOVETV（超级直播）/ SPTV 按频道、按日期查询的接口式节目单；源作者给的地址里带占位符，App 会自动填充频道名和日期 首次安装自带一个「默认节目单 综合」，覆盖常见央视频道与卫视频道。 「 跟随订阅源 」（设置 → 节目单，默认关）：开启后优先使用当前订阅源自带的节目单地址—— 可以是源作者在源里内嵌的，也可以是在面板订阅源编辑里填的「EPG 地址」（见 订阅源 ）。适合「源和节目单成套」的情况。'
   },
   {
     path: '/epg',
     title: 'EPG 节目单',
-    anchor: '',
-    section: 'EPG 与频道的匹配',
-    keywords: 'EPG匹配 EpgList.match tvg-id tvg-name Channel.epgID Channel.epgName standardName displayName 频道别名 iptvChannelNameAlias ChannelAlias 归并 逻辑频道 epgSourceFollowIptv 大小写不敏感 索引查找',
+    anchor: '#add-manage',
+    section: '添加与管理',
+    keywords: '电视端入口： 设置 → 节目单 → 自定义节目单 。 每条节目单显示：名称、链接、频道数、节目数、缓存大小与更新时间。 点按某条 弹出操作：设为当前、删除、清除缓存。 页面顶部「 刷新全部 」：立即重新下载全部节目单。 页面底部「 添加其他节目单 」：弹二维码，扫码后在远程配置面板（下称面板）填名称和链接推送，与添加订阅源同一套流程。 在面板（打开方式见 远程配置面板 ）的 节目单 页点「自定义节目单」， 可打开管理对话框： 拖拽排序 、单选当前源、新增 / 编辑 / 删除，改完点「更新」保存。编辑对话框字段： 字段 说明 名称 / 链接 基本信息，两项都填了才能保存 数据格式 默认「按链接自动探测」；识别不对时手动指定 XML / DIYP / SPTV / LOVETV 缓存时长 单位小时。默认「跟随全局」（沿用全局刷新策略）；「不缓存」则每次都重新下载 时区偏移 -12～12 小时，默认 0。节目时间整体对不上（比如普遍差 8 小时）时用它修正 缓存到外部存储 默认关；开启后该节目单的缓存写到外部存储，缓解本机存储压力'
   },
   {
     path: '/epg',
     title: 'EPG 节目单',
-    anchor: '',
-    section: 'EPG 显示位置',
-    keywords: 'EPG显示 频道信息条 换台 下一个节目 进度条 EPG指南页 二维表格 全局EPG切换键 EpgGuideActivity 长按左方向键',
+    anchor: '#matching',
+    section: '频道怎么对上节目单',
+    keywords: 'App 按以下顺序把频道对到节目单里的节目： tvg-id ：订阅源里标好的节目单频道 ID，最优先、最可靠； 频道名 ：源里的 tvg-name 与频道名。 频道别名归一后的名字也参与匹配 ——所以「CCTV-1」「央视一套」都能对上节目单里的 CCTV1（别名机制见 频道、收藏与搜索 ）。 某个频道没有节目信息时，先确认节目单地址本身能下载，再看源里这个频道的 tvg-id 是否写对； 完整排查步骤见 常见问题 。'
   },
   {
     path: '/epg',
     title: 'EPG 节目单',
-    anchor: '',
-    section: '回看',
-    keywords: '回看 catchup catchup-source M3uIptvParser default append timeshift shift flussonic xtream codes disabled 全局EXTM3U EXTINF LIVE_SEEKTO_MAX_REWIND_HOURS 48小时 已播出节目',
+    anchor: '#refresh',
+    section: '刷新与缓存',
+    keywords: '设置项 说明 设置 → 节目单 → 刷新时间阈值 默认 2:00 ：每天凌晨 2 点前打开 App 不重复下载节目单，一天只刷一次，启动更快。 可改为「启动时刷新」（每次启动都下载）或指定某个整点（0:00～12:00）； 面板上还可选 18:00 或自定义到半小时。 缓存时长（面板按源设置） 见上文「添加与管理」；默认跟随全局，可按源单独改成固定小时数或不缓存 某个节目单数据异常时，在「自定义节目单」里对它执行「清除缓存」，再点「刷新全部」。 设置 → 节目单 → 加载全部节目单（默认关）会同时加载所有自定义节目单并合并显示，而不是只加载当前这份。 多份大节目单一起加载会明显变慢，小内存设备可能内存不足。只在确实需要多份节目单互补时开启。'
+  },
+  {
+    path: '/epg',
+    title: 'EPG 节目单',
+    anchor: '#replay',
+    section: '回看已播节目',
+    keywords: '在节目单指南页、直播界面节目单（GUIDE 键）或经典选台界面右侧的节目单里，找到已播出的节目； 按 OK 即开始回看。当前线路不支持回看时，会显示「暂不支持回看」。 回看的前提是线路支持：源里带 catchup 参数，或是运营商 PLTV 线路，详见 订阅源 的「回看（时移）」一节。 回看时可拖动进度条、调整倍速；播完弹出结束面板，可接着播放下一个节目或返回直播。 直播画面中按快退键可沿时间轴回退（时移），最多回退 48 小时。 相关设置：「SeekTo方式」见 播放器与字幕设置 ；「显示回放标志」「常驻节目进度」等显示开关见 直播主界面 。'
+  },
+  {
+    path: '/epg',
+    title: 'EPG 节目单',
+    anchor: '#reserve',
+    section: '预约未播节目',
+    keywords: '在节目单指南页、直播界面节目单或经典选台界面里，找到尚未播出的节目； 按 OK 预约，再按一次取消预约； 节目开始时屏幕弹出提醒，可「立即前往」或「忽略」。 预约与回看在节目单上的入口和状态标记，详见 直播主界面 。'
   },
   {
     path: '/webview-player',
     title: 'WebView 播放器',
     anchor: '',
-    section: '什么是 WebView 播放器',
-    keywords: 'WebView播放器 webview:// 防盗链 登录 网页 video 提取 原生播放器',
+    section: 'WebView 播放器',
+    keywords: 'webview:// 线路把网页当作视频源：App 用网页内核打开页面、取出其中的视频来播。本页介绍三种网页线路、全部 WebView 设置与排查方法。'
   },
   {
     path: '/webview-player',
     title: 'WebView 播放器',
-    anchor: '',
+    anchor: '#what',
+    section: '什么是网页播放',
+    keywords: '大多数线路是直接的流地址（m3u8、flv 等），交给播放器内核解码播放。但有些频道只有网页版： 必须登录、带防盗链，或站点根本不暴露流地址。这时线路可以写成 webview:// 开头的网页地址—— App 用 WebView（网页内核）打开这个页面，注入一段脚本找到页面里的视频元素， 隐藏网页其余内容和控件，把视频铺满全屏、取消静音并播放。 此时画面由 WebView 内核渲染， 不经过 Media3 / IJK / VLC 播放器内核； 「设置 → 播放器」里的解码、缓冲等选项对它不生效（详见 播放器与字幕 ）。'
+  },
+  {
+    path: '/webview-player',
+    title: 'WebView 播放器',
+    anchor: '#prefixes',
     section: '三种 URL 前缀',
-    keywords: 'URL前缀 webview:// video:// javascript:// 提取 纯视频流',
+    keywords: '前缀 工作方式 webview:// 把网页当播放器：WebView 加载页面后注入脚本，取出页中的视频铺满全屏，直接在网页内核里播放。最常用。 video:// 先尝试从网页中提取纯视频流地址（先抓取网页源码匹配，失败再用 WebView 加载并嗅探网络请求）： 提取到就交给普通播放器内核播放，享受解码、缓冲等全部播放能力；提取不到自动回退为 webview:// 方式播放。 javascript:// 下载并执行订阅源作者提供的脚本，由脚本动态算出真实播放地址（可返回播放链接或 m3u8 内容）。 脚本逻辑完全由源作者编写，用户无需任何操作，正常换台观看即可。'
   },
   {
     path: '/webview-player',
     title: 'WebView 播放器',
-    anchor: '',
-    section: '使用方法',
-    keywords: '使用方法 webview:// 播放器 自动启动 全屏 加载超时 失败 切换线路',
+    anchor: '#when',
+    section: '什么时候会遇到网页线路',
+    keywords: '订阅源里自带这些前缀的线路，线路列表会带上「网页源」等标签。 开启 设置 → 订阅源 → 自动添加网页源 后，App 会为央视、央视频和各省卫视自动附加官网线路， 这些官网线路都是网页播放（央视频的付费频道还需配置 Cookie，见下文）。详见 订阅源 。 网页线路的起播速度取决于站点本身：页面重、请求多的站点加载慢属正常现象，可按下文设置项优化。'
   },
   {
     path: '/webview-player',
     title: 'WebView 播放器',
-    anchor: '',
-    section: 'TV 应用内设置项（设置 → WebView 播放器）',
-    keywords: 'WebView设置 WebView内核 系统WebView TBS X5 腾讯X5 armv7 arm64 在线下载 回退 替换系统WebView com.google.android.webview 重启生效 WebView加载超时 加载风格 webViewLoadingStyle 正常显示 加载百分比 黑屏 页面分辨率 webViewResolution 自适应 100% 75% 50% UA预设 webViewUaPreset Windows macOS iPad 加载网页图片 webViewLoadImage 图层加速 webViewLayerAccel 硬件 软件',
+    anchor: '#settings',
+    section: '设置逐项（设置 → WebView）',
+    keywords: '以下设置在电视端 设置 → WebView 。除「清除 WebView 缓存」外，也能在远程配置面板（下称面板，见 远程配置面板 ）的 WebView 页修改，改动即保存。 设置项 说明 WebView 内核 Android （默认，系统自带内核）/ TBS X5 （腾讯 X5 内核，仅支持 armv7 / arm64 架构， 第一次使用时需要初始化下载；下载失败或架构不支持时回退系统内核）。 系统内核太老导致页面打不开时，优先试 X5。 替换系统 WebView 用包名为 com.google.android.webview 的应用替换系统 WebView 内核，默认关， 重启生效 。 适合系统自带内核版本过旧、且已自行安装新版 WebView 的设备。 WebView 加载超时 可选 1 / 2 / 3 / 4 / 5 / 10（默认） / 15 / 20 / 25 / 30 / 45 / 60 秒。 超时仍取不到视频，该线路按失败处理（多线路频道自动尝试下一条）。页面慢的站点可调大。 加载风格 默认网页 （默认，正常显示页面加载过程）/ 只显示百分比 （隐藏页面，只显示加载进度）'
   },
   {
     path: '/webview-player',
     title: 'WebView 播放器',
-    anchor: '',
-    section: '10591 面板（/webview）的全部可配置项',
-    keywords: '面板WebView WebView内核 SYSTEM X5 替换系统WebView 加载超时 毫秒 加载风格 页面分辨率 UA预设 加载网页图片 图层加速',
+    anchor: '#yangshipin',
+    section: '央视频付费频道（Cookie）',
+    keywords: '央视频（yangshipin.cn）的付费频道需要登录后才能播放。App 加载央视频域名时会自动注入你配置的 Cookie： 在电脑浏览器登录央视频网页版，复制登录后的全部 Cookie； 打开面板，在首页「网页源央视频 Cookie」卡片粘贴并推送（面板的 订阅源 页是同一项）； 回电视重新打开央视频频道。Cookie 过期后需要重新推送。 电视端 设置 → 订阅源 → 网页源央视频Cookie 只读，仅用于确认是否已配置，编辑一律在面板进行。 详细步骤见 常见问题 。'
   },
   {
     path: '/webview-player',
     title: 'WebView 播放器',
-    anchor: '',
-    section: '央视频 Cookie',
-    keywords: '央视频 Cookie yangshipin.cn 付费频道 登录 注入',
-  },
-  {
-    path: '/webview-player',
-    title: 'WebView 播放器',
-    anchor: '',
-    section: '常见问题',
-    keywords: 'WebView常见问题 全屏 提取不到流 DRM 自定义播放器 央视频黑屏 X5下载失败',
+    anchor: '#troubleshoot',
+    section: '一直加载或黑屏怎么办',
+    keywords: '换内核： WebView 内核 切到 TBS X5 再试； 调大 WebView 加载超时 （如 20～30 秒）； 关闭 加载网页图片 、把 网页缩放 降到 75 或 50 ，减轻低配设备负担； 花屏、黑屏：切换 图层加速 （硬件 / 软件都试一下），或换 网页 UA ； 页面状态异常：执行一次 清除 WebView 缓存 ； 仍不行：站点可能使用了 DRM 加密或自定义播放器，无法提取视频，放弃这条线路换其他源。 更多排查见 常见问题 。 网页播放用于观看你已有访问权的页面（如自己已登录的央视频账号）。请勿用于绕过登录、付费墙等场景。'
   },
   {
     path: '/remote-panel',
     title: '远程配置面板',
     anchor: '',
+    section: '远程配置面板',
+    keywords: '电视内置的网页后台：用手机或电脑的浏览器就能给电视推订阅源、改设置、传文件、看日志、装 APK，省去在电视上打字的麻烦。'
+  },
+  {
+    path: '/remote-panel',
+    title: '远程配置面板',
+    anchor: '#what',
+    section: '这是什么',
+    keywords: '应用运行时会在电视上开启一个网页服务（端口 10591 ），同一局域网内的手机、电脑用浏览器打开就能管理电视上的几乎所有配置。 本文档里简称「 面板 」。'
+  },
+  {
+    path: '/remote-panel',
+    title: '远程配置面板',
+    anchor: '#open',
     section: '怎么打开',
-    keywords: '打开面板 局域网 10591 端口 二维码 设备IP lang 语言',
+    keywords: '电视上打开 首页 → 推送 ，屏幕中央会显示 二维码和地址 （形如 http://192.168.1.5:10591 ）。 手机扫码，或在电脑浏览器手动输入这个地址。 手机 / 电脑必须和电视在 同一局域网 。 10591 被其他程序占用时会自动改用随机端口——以推送页上显示的地址为准。 面板由应用的前台服务承载（通知栏可见「远程遥控服务正在后台运行」），应用被清理后面板就打不开了。 设置里「添加其他订阅源 / 添加其他节目单」弹出的二维码，扫开也是这个面板。 面板没有任何登录验证， 同一局域网内的任何人都能改你的配置 。请只在家中等可信网络使用； 不要把 10591 端口映射到公网，也不要在公共 Wi-Fi（酒店、商场）下使用。'
   },
   {
     path: '/remote-panel',
     title: '远程配置面板',
+    anchor: '#basics',
+    section: '面板本身',
+    keywords: '语言 ：中文 / English / 阿拉伯语，默认跟随浏览器；点右上角地球图标切换（阿拉伯语会自动改为从右到左排版）。 明暗外观 ：右上角太阳 / 月亮图标切换，只影响面板自己，与电视端的 主题 无关。 改动即保存 ：设置页里的开关、下拉、输入框改完立即生效推送到电视，不需要找保存按钮。 仅有的例外是播放器页里的「实时字幕 ASR」和「字幕翻译」两张卡片，改完要按卡片里的「保存」。 浏览器标签页切回面板时会自动重新拉取最新配置；保存失败会提示「保存失败，请刷新页面后重试」。'
+  },
+  {
+    path: '/remote-panel',
+    title: '远程配置面板',
+    anchor: '#home-cards',
+    section: '首页：快捷操作',
+    keywords: '面板打开后的首页不是状态页，而是一排 快捷操作卡片 ，最常用的推送都在这里： 卡片 能做什么 关于应用 查看应用版本、设备名称与设备 ID（只读）。 订阅源 快速推送一条订阅源到电视：支持远程地址（含 FTP / SMB / WebDAV 及账号密码）、Xtream、Stalker、 设备上的文件路径、直接从电脑选文件上传。详见 订阅源 。 网页源央视频 Cookie 粘贴网页版央视频登录后的 Cookie，用于收看付费频道。 频道图标提供 台标图片地址模板，见 频道 · 收藏 · 搜索 。 频道别名 编辑频道名归一化别名表（JSON），见 频道 · 收藏 · 搜索 。 自定义节目单 推送一条节目单（EPG）地址到电视，见 EPG 节目单 。 播放器全局设置 推送全局 UA 与自定义请求头，见 播放器与字幕 。 云同步 配置云同步服务商与凭据，见 云同步与备份 。 安装 APK 选择电脑上的 APK 上传到电视，电视端弹窗确认后即开始安装——给电视装 / 升级应用最方便的方式。'
+  },
+  {
+    path: '/remote-panel',
+    title: '远程配置面板',
+    anchor: '#pages',
+    section: '各设置页一览',
+    keywords: '侧边栏的其余页面与电视端「设置」里的分类一一对应，细节在手册的对应章节，这里只列面板特有的操作： 面板页 对应手册 面板特有的能力 通用 设置项总览 — 订阅源 订阅源 拖拽式排序、按源单独配 UA / 代理 / 自动刷新、在线读写文件源内容 服务 服务（Python / PHP） 添加 / 编辑服务、下载运行环境、查看日志 节目单 EPG 节目单 拖拽排序、编辑源格式 / 缓存 / 时区 界面 直播主界面 — 主题 设置项总览 自定义背景 / 贴图与透明度 控制 遥控器与触屏 —（见下方说明） 播放器 播放器与字幕 正则解码配置、代理规则、ASR / 翻译凭据 WebView WebView 播放器 — 网络 设置项总览 IPv6 开关 更新 下载与更新 —（注意：不能在这里推 APK） 云同步 云同步与备份 凭据填写、导入 / 导出 JSON'
+  },
+  {
+    path: '/remote-panel',
+    title: '远程配置面板',
+    anchor: '#control-page',
+    section: '「控制」页不是遥控器模拟器',
+    keywords: '面板的「控制」页用来 修改电视遥控器的按键行为 （每个方向键、确认键、长按分别触发什么）， 不是用手机当遥控器。按键映射的说明见 遥控器与触屏 。'
+  },
+  {
+    path: '/remote-panel',
+    title: '远程配置面板',
+    anchor: '#update-page',
+    section: '「更新」页不能推 APK',
+    keywords: '「更新」页只改更新策略（稳定 / 预览 / 开发通道、强提醒）。想把 APK 文件推到电视安装，用面板 首页 的「安装 APK」卡片， 详见 下载与更新 。'
+  },
+  {
+    path: '/remote-panel',
+    title: '远程配置面板',
+    anchor: '#file',
+    section: '文件页：管理电视上的文件',
+    keywords: '浏览电视端应用专属目录（文件目录 / 缓存目录），支持新建文件夹、上传、重命名、删除，点目录名进入、面包屑返回。 点某个文件的 使用 按钮，会把它的路径带回首页的订阅源表单（自动切为「文件」类型），推送即成源；给「服务」页添加本地脚本时同样用它拿路径。 典型用途：上传本地 m3u 订阅、上传 Python / PHP 脚本、清理缓存目录。'
+  },
+  {
+    path: '/remote-panel',
+    title: '远程配置面板',
+    anchor: '#backup',
+    section: '备份管理页：电视端本地快照',
+    keywords: '「备份管理」把电视上的全部设置与数据打成一个本地快照，可创建、恢复、删除； 恢复会覆盖当前数据且需要重启应用才完全生效。它和「云同步」是两回事（快照只存在这台电视上），区别与用法见 云同步与备份 。'
+  },
+  {
+    path: '/remote-panel',
+    title: '远程配置面板',
+    anchor: '#log-debug',
+    section: '日志与调试页',
+    keywords: '日志 ：按时间倒序查看应用日志，可按级别（INFO / WARN / ERROR / DEBUG）筛选与分页，提交问题时从这里找线索。 调试 ：开关「显示性能信息 / 显示播放器信息 / 显示布局网格」，以及 导出 logcat （下载电视的系统日志文件）。'
+  },
+  {
+    path: '/remote-panel',
+    title: '远程配置面板',
+    anchor: '#panel-only',
+    section: '这些设置只能在面板改',
+    keywords: '以下项目在电视端设置里只读显示（电视端会标注需要在面板修改），要改就来面板： 播放器：全局 UA、自定义请求头、自定义 DNS、代理与代理规则、正则解码配置、Media3 隧道解码 订阅源：频道别名、频道图标提供（台标模板）、网页源央视频 Cookie 云同步：各服务商的凭据（Gist ID / Token、WebDAV 账号等） 字幕翻译与实时字幕：腾讯 / 百度 / MTranServer 密钥、Gemini API Key'
+  },
+  {
+    path: '/python-services',
+    title: '服务（Python / PHP）',
     anchor: '',
-    section: '面板页面一览',
-    keywords: '面板路由 /general /sources /epg /ui /theme /control /player /webview /network /update /sync /debug /log /file /backup 首页',
+    section: '服务（Python / PHP）',
+    keywords: '在电视上运行脚本，把脚本提供的本地订阅地址（例如央视频直播源）当作订阅源使用。运行环境按需下载，不占安装包体积。'
   },
   {
-    path: '/remote-panel',
-    title: '远程配置面板',
-    anchor: '#file-backup',
-    section: '文件与备份',
-    keywords: '文件页 备份管理 /file /backup 浏览设备目录 沙箱 应用文件目录 缓存目录 新建文件夹 重命名 删除 上传 使用 本地文件订阅源 备份快照 zip SharedPreferences Room数据库 创建 恢复 删除 重启生效 路径穿越',
+    path: '/python-services',
+    title: '服务（Python / PHP）',
+    anchor: '#what',
+    section: '这是什么',
+    keywords: '「服务」让你在电视上运行一段脚本（多数是直播源服务脚本，例如央视频的 ysp-live）， 脚本在电视上对外提供一个订阅地址，像普通订阅源一样添加使用即可， 也可以分享给同一局域网里的其他设备（APTV、电脑播放器等）。 支持两种脚本语言，添加服务时二选一： Python 服务 PHP 服务 脚本形态 独立运行的服务脚本，自己监听端口、常驻后台 单文件 Web 脚本，有请求时才执行一次并返回结果 运行环境 CPython 3.11 + 标准库，约 7 MB PHP 8.4，含 curl、openssl、json 等常用扩展 默认端口 8767 8768 典型脚本 ysp-live.py ysp.php 等单文件脚本 两种服务都要先下载对应的运行环境（按需下载，不含在安装包中），且需要 Android 7.0 及以上 ；Android 6.0 设备没有此功能，其余功能不受影响。'
   },
   {
-    path: '/remote-panel',
-    title: '远程配置面板',
-    anchor: '',
-    section: '首页能快速做什么',
-    keywords: '面板首页 推送订阅源 content 粘贴 网页源央视频Cookie 频道图标提供 频道别名 推送节目单 播放器全局设置 云同步 安装APK 关于应用',
+    path: '/python-services',
+    title: '服务（Python / PHP）',
+    anchor: '#install-runtime',
+    section: '第一步：下载运行环境',
+    keywords: '电视端： 设置 → 组件下载 ，找到 Python 运行环境 或 PHP 运行环境 ，按 OK 开始下载；也可以在网页面板的「服务」页下载。 等待状态从「下载中 → 校验中 → 解压中」变为 已安装 。 （可选）在面板「服务」页点 运行自检 ，确认版本、证书与端口绑定都正常。 在「组件下载」中长按已安装的运行环境可删除；删除不会动已添加的服务，重新下载后即可继续使用。'
   },
   {
-    path: '/remote-panel',
-    title: '远程配置面板',
-    anchor: '',
-    section: 'TV 设置页 vs 10591 面板',
-    keywords: 'TV面板对比 只能面板 排序 transformJs 单源UA 代理 EPG拖拽 正则解码配置 代理规则 ASR凭据 云同步账号 导入导出 推APK logcat',
+    path: '/python-services',
+    title: '服务（Python / PHP）',
+    anchor: '#add',
+    section: '第二步：添加服务（网页面板）',
+    keywords: '服务的添加与编辑都在网页面板完成（打开方式见 远程配置面板 ）： 面板 服务 页 → 右上角 添加服务 。 选择 脚本语言 （Python 或 PHP）。注意： 保存后不能再改语言 ，选错了删掉重新添加。 填写 服务名称 （如「央视频直播」）与 端口 （Python 默认 8767、PHP 默认 8768，一般不用改）。 代码来源 二选一： 远程链接 ：填脚本地址，可点「加载代码」预览内容； 本地文件 ：填设备上的脚本路径——先在面板「文件」页上传脚本，再点该文件的「使用」按钮即可自动填入路径。 也可以直接把代码粘贴到底部的代码框。 设置 自动更新间隔 （小时，0 = 不自动更新，默认 24）。 按需打开 局域网共享 （允许同一局域网的其他设备访问）与 启用 ，保存。 保存后服务会按启用状态立即启动；启用过的服务以后每次打开应用都会自动运行。 列表每 3 秒自动刷新状态，每行可以直接启停、复制地址，更多操作（立即更新脚本、查看日志、编辑、删除）在行尾的 ⋮ 菜单里。 编辑已保存的 Python 服务时可点 检查代码 ，对脚本做静态检查（语法错误、缺失的第三方依赖等），排查启动失败时很有'
   },
   {
-    path: '/remote-panel',
-    title: '远程配置面板',
-    anchor: '',
-    section: 'HTTP API（高级）',
-    keywords: 'HTTP API /api/info /api/about /api/logs /api/logcat /api/iptv-source/push /api/epg-source/push /api/channel-alias /api/configs /api/file/content /api/file/content-with-dir /api/cloud-sync/data /api/upload/apk /api/local.m3u8 /ku9/js',
+    path: '/python-services',
+    title: '服务（Python / PHP）',
+    anchor: '#advanced',
+    section: '高级选项',
+    keywords: '添加 / 编辑服务时展开「高级选项」： 选项 说明 拉取脚本 User-Agent 下载远程脚本时使用的 UA。个别站点会拒绝空 UA，拉不下来时填一个浏览器 UA 再试。 代理 http://主机:端口 或 socks5://主机:端口 ，支持带账号密码。 既用于下载脚本；Python 服务里也会同时作为脚本自身网络请求的代理。 附加启动参数 （仅 Python） 追加给脚本的启动参数，例如参考脚本的 --no-4k 。 环境变量 （仅 Python） 每行一条 KEY=VALUE ，脚本读取环境变量即可拿到（如 TOKEN）。 脚本退出后自动重启 （仅 Python） 脚本异常退出后自动拉起；连续多次启动即退出会停止重试并提示。 PHP 脚本按请求执行、不存在“退出”，所以没有这三项。'
   },
   {
-    path: '/remote-panel',
-    title: '远程配置面板',
-    anchor: '',
-    section: '典型用法',
-    keywords: 'curl 典型用法 推订阅源 推EPG 改全局UA 示例命令',
+    path: '/python-services',
+    title: '服务（Python / PHP）',
+    anchor: '#address',
+    section: '第三步：添加为订阅源',
+    keywords: '服务运行后，列表里每个服务会显示两个地址（都有复制按钮）： 地址 用途 http://127.0.0.1: 端口 /all.m3u 电视本机 使用 http:// 电视IP : 端口 /all.m3u 局域网内其他设备使用；需开启 局域网共享 最省事的做法：服务行的 ⋮ 菜单 → 一键添加订阅 ，自动把本机地址添加为订阅源（重复添加会提示已存在）。 all.m3u 是这类脚本的约定路径；个别脚本使用其他路径时，以脚本作者的说明为准。 修改 局域网共享 后服务会自动重启生效。Python 脚本通过环境变量 MYTV BIND 获知该监听本机还是局域网（脚本不读它就按脚本自己的默认）；PHP 服务的监听范围由应用直接控制，无需脚本配合。'
   },
   {
-    path: '/remote-panel',
-    title: '远程配置面板',
-    anchor: '',
-    section: '安全说明',
-    keywords: '安全 10591 无鉴权 CORS 局域网 端口映射 公网',
+    path: '/python-services',
+    title: '服务（Python / PHP）',
+    anchor: '#tv-manage',
+    section: '电视端的管理入口',
+    keywords: '电视端 设置 → 服务 能看到与面板一致的服务列表：每行显示名称、地址与运行状态， 按 OK 启动 / 停止， 长按删除 （脚本与日志一并删除）；「Python / PHP 运行环境」那一行点按跳转到「组件下载」。 添加服务、编辑服务与查看日志请用网页面板。'
+  },
+  {
+    path: '/python-services',
+    title: '服务（Python / PHP）',
+    anchor: '#auto-update',
+    section: '脚本自动更新',
+    keywords: '远程链接来源的脚本会按「自动更新间隔」在后台自动拉取：内容有变化就替换并重启服务，拉取失败保留现有脚本并显示错误； 本地文件来源每次启动时按内容变化同步。服务行的 ⋮ 菜单里还有 立即更新脚本 ，可以随时强制拉取一次。'
+  },
+  {
+    path: '/python-services',
+    title: '服务（Python / PHP）',
+    anchor: '#log',
+    section: '日志与排查',
+    keywords: '⋮ 菜单 → 查看日志 ：实时查看脚本输出与报错（打开期间每 3 秒自动刷新）。 状态含义： 运行中 （正常提供服务）、 启动中 （已启动还没就绪）、 异常 （看行内错误信息与日志）、 已停止 。 常见失败：提示「请先下载运行环境」→ 去 组件下载 ；端口被占用 → 给服务换个端口； 远程脚本拉不下来 → 检查电视网络，或在高级选项里填 UA / 代理； Python 脚本报缺少模块 → 见下方「已知限制」。 Python 脚本崩溃如果导致应用闪退，下次启动时会自动跳过该服务的自动启动并显示异常，修正脚本后手动启动即可。'
+  },
+  {
+    path: '/python-services',
+    title: '服务（Python / PHP）',
+    anchor: '#limits',
+    section: '已知限制',
+    keywords: '需要 Android 7.0 及以上 。 Python：只能运行纯 Python 脚本 。没有 pip，第三方依赖必须是纯 Python 包并手工放入依赖目录（可用面板「文件」页上传）； 多进程、加载系统动态库等能力在 Android 上不可用或受限。 PHP：单文件、按请求执行 ，可用扩展以运行环境内置的为准（curl、openssl、json 等已包含）； 请求逐个处理，不适合执行时间很长的脚本。 单个服务的日志超过 2 MB 会自动截断重写，避免长期运行写满存储。 多个 Python 服务共用同一个解释器，代理与环境变量是所有 Python 服务共用的。 服务会原样执行你添加的脚本，等同于在电视上装了一个程序。请只加载 可信来源 的脚本（优先 HTTPS 链接）； 网页面板本身没有密码，不要在不可信的网络里开放它，具体见 远程配置面板 的安全说明。'
   },
   {
     path: '/player-settings',
     title: '播放器与字幕设置',
     anchor: '',
-    section: '视频播放器内核',
-    keywords: '播放器内核 Media3 ExoPlayer IjkPlayer FFmpeg VLC 在线下发 组件管理 组件下载 下载 删除 未下载 下载中 校验中 解压中 已安装 下载失败 label 枚举 默认MEDIA3 RTSP单播',
+    section: '播放器与字幕设置',
+    keywords: '播放内核、解码渲染、超分插帧、缓冲、画面声音、网络请求与字幕的全部设置。播放出问题，先从「内核与组件」「解码与渲染」两节入手。'
   },
   {
     path: '/player-settings',
     title: '播放器与字幕设置',
-    anchor: '',
+    anchor: '#core',
+    section: '内核与组件下载',
+    keywords: '电视端 设置 → 播放器 → 视频播放器内核 切换全局默认内核；播放中也可以在快捷设置面板里临时切换。 内核 说明 Media3 （默认） 除 RTSP 单播以外基本支持全部功能，随 App 内置、无需下载。绝大多数情况用它。 IjkPlayer 基于 FFmpeg。部分视频（如加密的 DASH）可能无法正常使用。 需先在组件下载中安装 IJK播放组件 。 VLC 支持更多的字幕格式。 需先在组件下载中安装 VLC播放组件 。 未下载的内核在内核选择页会显示「未下载，请先到「组件下载」中下载」。'
+  },
+  {
+    path: '/player-settings',
+    title: '播放器与字幕设置',
+    anchor: '#components',
+    section: '组件下载（设置 → 组件下载）',
+    keywords: '所有需要在线下载的组件统一在 设置 → 组件下载 管理：点击（OK）下载， 已安装的 长按可删除 （删除后需重新下载）。状态包括： 未下载 / 下载中（带百分比）/ 校验中 / 解压中 / 已安装 / 下载失败。 组件 用途 Python 运行环境 CPython 3.11 + 标准库（约 7 MB，需 Android 7.0 及以上），供「服务」使用，见 服务（Python / PHP） PHP 运行环境 PHP 8.4 + 常用扩展，供 PHP 语言的服务使用 语音识别运行库（sherpa-onnx） 实时字幕（ASR）的识别引擎 AI Lite ONNX运行库 + AI 模型 AI Lite 超分（运行库与模型一起下载） RIFE 补帧运行库 RIFE Vulkan 插帧 Real-ESRGAN 超分运行库 Real-ESRGAN Vulkan 超分 VLC播放组件 / IJK播放组件 VLC / IjkPlayer 播放内核 语音识别模型 按 云端 / 中文 / 英文 / 多语言 / 其他语言 分组列出，显示语言与大小； 标注「云端」的模型无需下载，本地模型点击下载、长按删除。'
+  },
+  {
+    path: '/player-settings',
+    title: '播放器与字幕设置',
+    anchor: '#decode',
     section: '解码与渲染',
-    keywords: '渲染方式 SurfaceView TextureView 动画 截图 默认SurfaceView 强制软解 软解仅用于音频 MediaCodec FFmpeg 设备软解 扩展软解 花屏 硬解 CPU 停止上一媒体项 换台 双流 适配视频内容帧率 场率 帧率 刷新率 黑屏 闪烁 SurfaceView 兜底刷新率 系统默认 50Hz 59.94Hz 60Hz PAL NTSC 中国 英国 德国 法国 澳大利亚 美国 日本 韩国 加拿大 互联网视频流 更好的视频探测 起播时间 AUD IDR TS HLS无块准备 探测大小 分析时长 环路过滤 精确跳转 android-opaque 记忆播放器和解码配置 Host URL LRU 内核 渲染 软解 清空记忆',
+    keywords: '本节中标注「仅面板」的条目只能在远程配置面板（下称面板，见 远程配置面板 ）的 播放器 页修改，电视端没有入口。 设置项 说明 渲染方式 SurfaceView （默认，性能更好）/ TextureView 。 「适配视频内容帧率」需要使用 SurfaceView；画面异常时可在两者之间互换排查。 强制软解 开 / 关（默认）。Media3 使用设备和扩展软解码器；IJK / VLC 禁用 MediaCodec、改用 FFmpeg。 硬解异常（花屏、绿屏、无声）时的排查手段，会增加 CPU 占用与功耗。 软解仅用于音频 开 / 关（默认）， 仅 Media3 生效 ：开启后强制软解只作用于音频，视频仍硬解。 适合音频硬解异常（无声、杂音、音画不同步）但视频正常的设备。 IJK / VLC 的音频始终用 FFmpeg 解码，无需此开关。 记忆播放器和解码配置 无 （默认，不记忆）/ Host （按源的主机名记忆）/ URL （按源的完整链接记忆）。 记忆后，给某个频道临时换过的内核、软解配置在换台回来时自动应用。 更改选项会清空现有记忆 ，请谨慎切换。 正则解码配置（仅面板） 面板的 播'
   },
   {
     path: '/player-settings',
     title: '播放器与字幕设置',
-    anchor: '',
-    section: '隧道模式（Media3，面板专属）',
-    keywords: '隧道模式 隧道解码 videoPlayerMedia3Tunneled Media3 硬件直解 功耗 延迟 花屏 无声 不参与云同步 分组级参数 IJKAD EXOBM analyzeduration probesize 起播缓冲 播放缓冲 更好的视频探测 不提供全局设置',
+    anchor: '#enhancement',
+    section: '视频增强与插帧（实验性）',
+    keywords: '入口： 设置 → 播放器 → 视频增强与插帧 （带 Beta 标记）。页面顶部有红字警告： 「相关模式涉及底层调用，不兼容的设备可能导致应用退出，请确认设备支持后使用。」 播放中也可在快捷设置面板里临时切换超分与插帧。 设置项 说明 视频超分 关闭超分（默认）/ Anime4K Shader（实时，适合 720p / 1080p 动漫内容）/ AMD FSR 1（EASU + RCAS）/ SGSR1（实时，优先适合 Adreno，其他设备也可尝试）/ SGSR2（无运动矢量回退，动态画面可能拖影）/ Arm ASR（无运动矢量回退，运动场景效果下降）/ AI Lite 超分 （需在组件下载安装 ONNX 运行库 + 模型）/ Real-ESRGAN Vulkan （需在组件下载安装运行库，准备期间先用 AMD FSR 1 输出）。 视频插帧 关闭插帧（默认）/ GPU 帧混合（实时，运动场景可能有混合拖影）/ RIFE Vulkan （需在组件下载安装运行库，准备期间先用 GPU 帧混合）。 插帧目标帧率 自动跟随源帧率（默认）/ 目标 30 / 50 / 60 / 120 FPS。'
   },
   {
     path: '/player-settings',
     title: '播放器与字幕设置',
-    anchor: '',
-    section: '音频屏保、画面锁定与 AAC 优先',
-    keywords: '音频屏保 videoPlayerAudioScreensaver 无视频轨 纯音频 固定壁纸 主题背景 画面锁定 videoPlayerKeepLastFrame 切源 最后一帧 黑屏 AAC优先 videoPlayerAacPrefer 多音轨 音轨选择 记忆音轨',
+    anchor: '#smooth',
+    section: '流畅度与缓冲',
+    keywords: '设置项 说明 适配视频内容帧率 开 / 关（默认）。按检测到的场率 / 帧率请求系统切换显示刷新率，减少刷新率不匹配造成的卡顿。 需 SurfaceView 渲染模式 （Android 11 及以上）；切换期间可能短暂黑屏或闪烁。 使用兜底刷新率 仅在「适配视频内容帧率」开启后显示，检测不到有效帧率时使用： 系统默认刷新率（默认，不使用兜底）/ 50 Hz（中国、欧洲、澳洲等 PAL 制式地区）/ 59.94 Hz（美、日、韩等 NTSC 制式地区）/ 60 Hz（互联网视频，或不确定制式时建议）。 更好的视频探测 开（默认）/ 关。更准确地探测视频格式（对三种内核分别启用不同优化），但可能增加起播时间。 停止上一媒体项 开 / 关（默认）。开启后换台前先停止上一个流；关闭时换台更快，但部分设备可能出现短暂双流。 加载超时 可选 1 / 2 / 3 / 4 / 5 / 10（默认） / 15 / 20 / 25 / 30 / 45 / 60 秒。 影响超时换源与断线重连的触发时机：调小换源更快，但弱网下可能误判。 播放缓冲 播放前的最小缓存加载量，预设 0～60 多档，默认 0。 Me'
   },
   {
     path: '/player-settings',
     title: '播放器与字幕设置',
-    anchor: '',
-    section: '缓冲与超时',
-    keywords: '加载超时 1 2 3 4 5 10 15 20 25 30 45 60秒 超时换源 断线重连 弱网 误判 播放缓冲 0 帧 Media3 VLC 秒 IJK 帧 30帧 双单位 停滞重试 关闭 3 5 8 10 15 20 30 45 60秒 播放位置不变 自动重试当前线路 SeekTo方式 重载URL跳转 startAt 播放器seekTo跳转 已缓冲 RTSP传输方式 TCP UDP 稳定 丢包 延迟',
+    anchor: '#av',
+    section: '画面与声音',
+    keywords: '设置项 说明 全局显示模式 16:9 （默认）/ 原始 / 填充 / 裁剪 / 4:3 / 2.35:1。 播放中也可在快捷设置面板里临时切换显示模式，并可「应用到全局」（等同修改本项）。 音量平衡 关闭（默认）/ 低 / 中 / 高。统一均衡各频道音量，解决不同频道音量大小不一的问题； 日常推荐「中」。 仅 Media3 播放器生效 。 音频屏保（仅面板） 开 / 关（默认）。开启后，没有视频轨的纯音频频道（如广播）隐藏画面、改显当前主题背景，音频照常播放； 切回带画面的频道自动恢复。轨道还没探测出来时不会误触发。 AAC 优先（仅面板） 开 / 关（默认）。多音轨时优先选择 AAC。 Media3、IJK 生效 ； VLC 的轨道信息不带编码，无法判断，保持播放器默认选择。 手动选过音轨的频道以记忆为准，本项不覆盖。'
   },
   {
     path: '/player-settings',
     title: '播放器与字幕设置',
-    anchor: '',
-    section: '显示模式',
-    keywords: '全局显示模式 原始 填充 裁剪 4:3 16:9 默认16:9 2.35:1 比例 拉伸 铺满 等比裁剪',
+    anchor: '#network',
+    section: '网络请求（仅网页面板可改）',
+    keywords: '以下条目影响播放器发起网络请求的方式。电视端只读（「自定义headers」格式非法时会显示错误图标， 「代理规则」显示「共N条规则」），编辑一律在面板的 播放器 页（部分也可在面板首页快捷卡片修改），改动即保存。 设置项 说明 全局UA 播放器网络请求的 User-Agent，默认 Mytv.Android 。个别源站校验 UA 时才需要改。 自定义headers 附加到播放器请求的 HTTP 头，面板中每行一条 Name: Value 。 自定义DNS 播放器域名解析使用的 DNS 服务器， 仅 Media3 内核生效 。 代理 播放器全局代理，支持 http:// / socks5:// ，可带认证 user:pass host:port （IJK / VLC 内核的 SOCKS 认证支持有限）。 代理规则 按正则规则匹配 URL 选择不同代理，可添加多条，分流使用。 在链接中提取 Header 开 / 关（默认）。开启后支持解析 url Header1=v1 Header2=v2 格式， 把 后的内容作为请求头附加。适合只需要给某条线路单独加 Referer 等请求头的场景。 此'
   },
   {
     path: '/player-settings',
     title: '播放器与字幕设置',
-    anchor: '',
-    section: '请求与网络',
-    keywords: '在链接中提取Header url|Header1=v1&Header2=v2 分隔 Referer Origin 全局UA Mytv.Android 只读 自定义headers Name: Value 错误图标 自定义DNS 仅Media3 代理 代理规则 正则 URL 共N条规则',
-  },
-  {
-    path: '/player-settings',
-    title: '播放器与字幕设置',
-    anchor: '',
-    section: '音量',
-    keywords: '音量平衡 Media3 关闭 低 中 高 默认关闭 推荐中 统一均衡 输出音量 动态范围 人声稳定 压平音量波动 仅Media3',
-  },
-  {
-    path: '/player-settings',
-    title: '播放器与字幕设置',
-    anchor: '',
+    anchor: '#subtitle-style',
     section: '字幕样式（设置 → 界面 → 字幕设置）',
-    keywords: '字幕样式 设置界面 实时预览 示例字幕 使用系统样式 Android无障碍 跟随源嵌入样式 MKV内嵌 字体颜色 12色板 红品红绿蓝青黄黑深灰灰浅灰白透明 背景颜色 边框颜色 描边OUTLINE 窗口颜色 字体大小 10 20 30 180 步进10 dp 背景透明度 0-100% 字幕位置 0-50% 距底部',
+    keywords: '字幕样式与播放器内核无关，统一在 设置 → 界面 → 字幕设置 配置，页面下方带实时预览（示例文本「示例字幕」）。 设置项 说明 使用系统样式 开 / 关（默认）。开启后使用 Android 系统（设置 → 无障碍）中的字幕样式，忽略下方自定义。 跟随源嵌入样式 开（默认）/ 关。开启后使用视频源（如内嵌字幕）自带的样式与字号。 字体颜色 默认白色。12 色色板：红、品红、绿、蓝、青、黄、黑、深灰、灰、浅灰、白、透明。 背景颜色 默认透明，同色板；实际深浅还受「背景透明度」控制。 边框颜色 默认透明，同色板；边框为描边样式。 窗口颜色 默认透明，同色板；窗口指字幕背后的整块矩形区域。 字体大小 10 ～ 180，步进 10，默认 70。 背景透明度 滑杆 0 ～ 100 ，0 完全透明。 字幕位置 滑杆 0 ～ 50 ，字幕距屏幕底部的相对位置，默认 8 。'
   },
   {
     path: '/player-settings',
     title: '播放器与字幕设置',
-    anchor: '',
-    section: 'ASR 实时字幕（Beta）',
-    keywords: 'ASR 实时字幕 Sherpa-ONNX Media3 IJK 启用 下载Sherpa引擎 下载中 解压中 加载中 失败 实验性领先字幕 HLS 标准渲染器 主动解码未来分片 自动回退 领先字幕提前量 0-10000ms 步进100 非领先路径优先流式模型 降低字幕延迟 不会自动下载 VAD类型 Silero TenVad 中英混杂 低信噪比 语音活动检测 断句静音阈值 100-2000ms 步进50 灵敏 连贯 识别模型 分类 云端 中文 英文 多语言 其他语言 名称 语言 大小 描述 状态 未下载 下载中 带百分比 解压中 已开启 点击选择 长按删除 流式 离线 GitHub代理 tar.bz2 Gemini Live Translate 云端 Gemini API Key Google AI Studio 仅存本机 不参与云同步 Gemini端点 官方默认端点',
+    anchor: '#asr',
+    section: '实时字幕 ASR（Beta）',
+    keywords: '对没有字幕的直播流，在设备本地做语音识别、实时生成字幕。 支持 Media3 和 IJK 播放器 （VLC 不支持）。 入口： 设置 → 播放器 → 实时字幕 ASR 。 启用前需要准备两样东西（都在 组件下载 一节）： 语音识别运行库（sherpa-onnx） ：识别引擎，首次启用实时字幕时也会自动开始下载； 识别模型 ：在子页模型列表或组件下载中点击下载。标注「云端」的模型无需下载，也不需要运行库。'
   },
   {
     path: '/player-settings',
     title: '播放器与字幕设置',
-    anchor: '',
+    anchor: '#asr-options',
+    section: '子页设置项',
+    keywords: '设置项 说明 启用实时字幕 开 / 关（默认）。开启后自动识别音频并生成字幕。 实验性领先字幕（HLS） 开 / 关（默认）。开启后 Media3 HLS 会主动解码未来分片并提前识别，让字幕更接近对白时机； 不提前显示字幕，不支持的流自动回退为标准（渲染器）模式。 领先字幕提前量 滑杆 0 ～ 10000 ms（步进 100），默认 500 ms。 主动识别从「当前播放进度 + 该时间」的位置开始；播放列表没有这么远的分片时，用能取到的最远分片。 非领先路径优先流式模型 开（默认）/ 关。领先字幕不可用或失败时，优先使用已下载的流式模型以降低字幕延迟； 不会在播放中自动下载模型。 VAD 类型 Silero（默认）/ TenVad。语音活动检测后端；TenVad 在中英混杂、低信噪比下更准。 断句静音阈值 滑杆 100 ～ 2000 ms（步进 50），默认 650 ms。说话后静音多久触发断句： 越小断句越灵敏但可能切断短停顿，越大字幕更连贯但停顿后断句更慢。'
+  },
+  {
+    path: '/player-settings',
+    title: '播放器与字幕设置',
+    anchor: '#asr-models',
+    section: '识别模型',
+    keywords: '子页下半部分是模型列表，按 云端 / 中文 / 英文 / 多语言 / 其他语言 分组， 每条显示名称、语言、大小与描述： 点击未下载的模型开始下载（带进度百分比）；点击已下载的模型选用为当前模型，再点一次取消选用； 长按删除 已下载的本地模型（云端模型不可删除）； 同一份模型列表也在「设置 → 组件下载」中统一管理。 选中 Gemini Live Translate（云端） 模型后，子页会多出 Gemini API Key 与 Gemini 端点 两项（电视端只读，在面板的 播放器 页填写）：Key 在 Google AI Studio 申请， 仅存本机、不参与云同步；端点留空使用官方默认。该模型识别与翻译一体。 模型下载慢或失败的处理见 常见问题 。'
+  },
+  {
+    path: '/player-settings',
+    title: '播放器与字幕设置',
+    anchor: '#translation',
     section: '字幕翻译（Beta）',
-    keywords: '字幕翻译 ASR实时翻译 字幕轨翻译 译文显示在原文上方 避让堆叠 翻译引擎 未配置 腾讯翻译 百度翻译 MTranServer 自托管 腾讯SecretId SecretKey 百度APIKey 密钥 服务器地址 http://192.168.1.100:8989 API Token 无认证 目标语言 en zh ja ko fr de es ru pt it th vi id ms ar yue粤语 默认en 译文大小 ×1.0 0.5 1.5 字号比例 已配置 未配置 TV只读',
+    keywords: '把实时字幕（ASR）或视频已选字幕轨翻译成目标语言，译文显示在原文 上方 。 入口： 设置 → 播放器 → 字幕翻译 。 设置项 说明 翻译引擎 未配置（默认，不翻译）/ 腾讯翻译 （需 SecretId、SecretKey）/ 百度翻译 （需 API Key、密钥）/ MTranServer（自托管） （填服务器地址，如 http://192.168.1.100:8989 ， API Token 可选、留空表示无认证）。 凭据均在面板的 播放器 页填写 ，电视端只显示「已配置 / 未配置」。 目标语言 默认 English；共 16 种：英 / 中 / 日 / 韩 / 法 / 德 / 西 / 俄 / 葡 / 意 / 泰 / 越 / 印尼 / 马来 / 阿 / 粤语。 译文大小 翻译字幕相对原文字幕的字号比例，×0.5 ～ ×1.5（步进 0.1），默认 ×1.0（面板可设 0.5 ～ 2.0）。 注意区分：云端 Gemini 模型是「实时字幕 ASR 」里的识别模型（识别与翻译一体）， 不是这里的翻译引擎；两者互不影响，可单独使用。 面板的 播放器 页大部分选项改动即保存，但 ASR'
   },
   {
     path: '/player-settings',
     title: '播放器与字幕设置',
-    anchor: '',
-    section: '10591 面板（/player）的全部可配置项',
-    keywords: '面板播放器 视频播放器内核 渲染方式 记忆配置 强制软解 软解仅用于音频 适配帧率 更好探测 提取Header 全局显示模式 SeekTo 加载超时 毫秒 10000 播放缓冲 秒帧 0 停滞重试 毫秒 默认关闭 RTSP 音量平衡 正则解码配置 代理规则 ASR凭据 识别模型 占位 /storage/emulated/0 暂未实现 领先字幕提前量 断句静音阈值 翻译引擎按钮组 目标语言文本框 译文大小数字输入 0.5 2.0 腾讯SecretId密码框 百度APIKey MTranServer服务器地址 字幕翻译独立卡片 全局UA 自定义headers Name:Value 自定义DNS 代理 保存按钮',
-  },
-  {
-    path: '/player-settings',
-    title: '播放器与字幕设置',
-    anchor: '',
+    anchor: '#decoder-info',
     section: '解码器信息',
-    keywords: '解码器信息 硬解器 软硬解 最大并发实例 颜色格式 音频码率 视频码率 视频帧率 360P 480P 720P 1080P 2K 4K 8K',
-  },
-  {
-    path: '/player-settings',
-    title: '播放器与字幕设置',
-    anchor: '',
-    section: '与其他功能的联动',
-    keywords: '播放器联动 WebView EPG回看 订阅源 http-user-agent http-referrer EXTVLCOPT',
-  },
-  {
-    path: '/settings',
-    title: '设置项总览',
-    anchor: '#s1',
-    section: '§1 通用',
-    keywords: '通用设置 SettingsAppScreen SettingsCategoriesScreen SettingsCategories APP 语言 SettingLanguageScreen zh-Hans en ar 中文 English عربي 重启应用 开机自启 appBootLaunch RECEIVE_BOOT_COMPLETED 启动页面 SettingStartupScreen Screens.Dashboard Screens.Live Screens.EpgGuide Screens.Channels Screens.Favorites Screens.Search Screens.MultiView 首页 直播 节目单 全部频道 收藏 搜索 多屏同播 画中画 appPipEnable 互斥 后台播放 appBackgroundPlayEnable 听电视 通知渠道 清除缓存 AppCacheCleaner.clearAllCaches iptvChannelLinePlayableHostList iptvChannelLinePlayableUrlList 恢复初始化 SP.clear SharedPreferences 面板 GeneralComponent 缓存路径 cachePathExternal 外部存储 内部存储 重启生效',
-  },
-  {
-    path: '/settings',
-    title: '设置项总览',
-    anchor: '#s5',
-    section: '§5 主题',
-    keywords: '主题设置 SettingsThemeScreen app_themes.json 颜色模式 themeMode 0浅色 1深色 2跟随系统 分段按钮 配色方案 themeColorProvider 0内置颜色 1基于背景颜色 2朴素颜色 主题包 themeAppCurrent AppThemeDef 分组 http file data:image #纯色 base64 提取主题色 timestamp占位 恢复默认 面板 ThemeComponent 自定义主题 名称 背景 贴图 贴图透明度 mat-slider 0-1 0.01',
-  },
-  {
-    path: '/settings',
-    title: '设置项总览',
-    anchor: '#s9',
-    section: '§9 更新',
-    keywords: '更新设置 SettingsUpdateScreen 更新通道 updateChannel stable beta dev SettingsUpdateChannelScreen 稳定版本 预览版本 开发版本 Gitee mytvstable mytvbeta mytvdev 选择后立即检查更新 更新强提醒 updateForceRemind 全屏提醒 消息提示 面板 UpdateComponent mat-button-toggle-group',
-  },
-  {
-    path: '/settings',
-    title: '设置项总览',
-    anchor: '#s10',
-    section: '§10 网络',
-    keywords: '网络设置 SettingsNetworkScreen HTTP请求重试次数 networkRetryCount Constants.NETWORK_RETRY_COUNT 10 SettingsNetworkRetryCountScreen 1 2 3 4 5 6 7 8 9 10 15 20 30 40 50 HTTP请求重试间隔时间 networkRetryInterval Constants.NETWORK_RETRY_INTERVAL 1000ms SettingsNetworkRetryIntervalScreen humanizeMs 0 1000 2000 3000 5000 10000 15000 20000 30000 0秒 1秒 2秒 3秒 5秒 10秒 15秒 20秒 30秒 面板 NetworkComponent type=number ms 订阅源 节目单 UA 代理 DNS remoteConfig 启用IPv6 networkIpv6Enable AAAA 域名解析 IPv6线路',
-  },
-  {
-    path: '/settings',
-    title: '设置项总览',
-    anchor: '#s12',
-    section: '§12 权限',
-    keywords: '权限 SettingsPermissionsScreen 安装未知应用 REQUEST_INSTALL_PACKAGES rememberCanRequestPackageInstallsPermission 读取外部存储 管理全部文件 READ_EXTERNAL_STORAGE MANAGE_EXTERNAL_STORAGE rememberReadExternalStoragePermission 已授权对勾 未授权叉号 INTERNET RECEIVE_BOOT_COMPLETED WAKE_LOCK ACCESS_WIFI_STATE ACCESS_NETWORK_STATE GET_TASKS READ_PHONE_STATE FOREGROUND_SERVICE FOREGROUND_SERVICE_DATA_SYNC FOREGROUND_SERVICE_MEDIA_PLAYBACK POST_NOTIFICATIONS 夏杰语音 WRITE_EPG_DATA',
-  },
-  {
-    path: '/settings',
-    title: '设置项总览',
-    anchor: '#s13',
-    section: '§13 调试',
-    keywords: '调试设置 SettingsDebugScreen 显示性能信息 debugShowFps FPS 帧时间 Jank PSS内存 显示播放器信息 debugShowVideoPlayerMetadata 编码 解码器 采样率 显示布局网格 debugShowLayoutGrids 解码器信息 SettingsDecoderInfoScreen 导出Logcat DebugComponent logcat_时间戳.txt ISO格式 开发者模式 debugDeveloperMode POST /api/configs /ku9/js',
-  },
-  {
-    path: '/settings',
-    title: '设置项总览',
-    anchor: '#s14',
-    section: '§14 日志',
-    keywords: '日志 SettingsLogScreen 每秒刷新 delay(1000) Logger.history LOG_HISTORY_MAX_SIZE 100 级别图标 DEBUG BugReport INFO Info WARN Warning ERROR Error tag message cause HH:mm:ss 跨进程 history_pid.jsonl 合并去重 面板 LogComponent 级别筛选 ALL INFO ERROR WARN DEBUG 刷新按钮 日志表格 时间 级别 标签 消息 原因 列宽拖拽 分页 10 20 50 100 /api/logs /api/logcat 10000行',
+    keywords: '设置 → 调试 → 解码器信息 可查看设备支持的全部解码器：软硬解、最大并发实例数、颜色格式、 码率与帧率范围、各分辨率（360P ～ 8K）支持情况。决定换内核还是开软解之前，可以先来这里确认设备的硬解能力。 某个频道卡顿、花屏、无声时，按顺序试： 换内核 （视频播放器内核）→ 开强制软解 → 调大播放缓冲 （3～5 秒）。 仍不行按 常见问题 的播放问题一节排查。'
   },
   {
     path: '/settings',
     title: '设置项总览',
     anchor: '',
+    section: '设置项总览',
+    keywords: '整本手册的「设置地图」：16 个设置分类各管什么、去哪一页看详细说明；通用、组件下载、主题、更新、网络、权限、调试、日志这 8 类的条目直接在本页查。'
+  },
+  {
+    path: '/settings',
+    title: '设置项总览',
+    anchor: '#entries',
+    section: '在哪里改设置',
+    keywords: '电视端有两个入口，进入的是同一套设置： 首页 → 设置 ：图标网格，16 个一级分类一字排开； 直播界面 → 快捷设置 → 设置 ：直播画面里按菜单键（或长按 OK）打开快捷设置，再进设置，看完返回直接回到直播。 少数条目在电视端是 只读 的（右侧带跳转图标），例如频道别名、全局 UA、云同步凭据——它们要在 远程配置面板 （下称面板，用浏览器打开 http://电视IP:10591）里修改，面板改动即保存、立即推送到电视端。 面板的用法见 远程配置面板 。'
+  },
+  {
+    path: '/settings',
+    title: '设置项总览',
+    anchor: '#categories',
     section: '分类速查',
-    keywords: '设置分类 SettingsCategories 14大类 APP IPTV EPG UI THEME CONTROL VIDEO_PLAYER WEBVIEW_PLAYER UPDATE NETWORK CLOUD_SYNC PERMISSIONS DEBUG LOG 通用 订阅源 节目单 界面 主题 控制 播放器 WebView 更新 网络 云同步 权限 调试 日志',
+    keywords: '分类 里面有什么 详细文档 通用 界面语言、开机自启、启动页面、画中画、后台播放、清除缓存、恢复初始化 本页「通用」 订阅源 订阅源管理、缓存时间、隐藏与加密分组、频道别名与合并、台标、网页源 订阅源 服务 Python / PHP 服务的启停、运行状态与运行环境 服务（Python / PHP） 节目单 节目单（EPG）开关、节目单来源管理、刷新时间 节目单 界面 选台界面样式、台标、频道预览、界面缩放、字幕样式 直播主界面 主题 颜色模式、配色方案、内置主题包 本页「主题」 控制 数字选台、换台行为、遥控器按键自定义 遥控器与触屏操作 播放器 播放内核、解码、缓冲、超分插帧、实时字幕与翻译 播放器与字幕设置 组件下载 Python 运行环境、播放内核、AI 组件等在线组件的下载管理 本页「组件下载」 WebView 网页播放的内核、加载超时、网页缩放、UA WebView 播放器 更新 更新通道、更新强提醒 本页「更新」 网络 HTTP 请求重试次数与间隔 本页「网络」 云同步 服务商选择、凭据、拉取与推送、系统备份 云同步与备份 权限 安装未知应用、读取外部存储 本页「权限」 调'
+  },
+  {
+    path: '/settings',
+    title: '设置项总览',
+    anchor: '#general',
+    section: '通用',
+    keywords: '设置项 说明 语言 应用界面语言，可选 中文（默认）/ English / عربي。进入子页点选后立即生效并自动返回， 无需重启 。 开机自启 设备开机后自动启动应用，默认关。界面提示「请确保当前设备支持该功能」——部分电视和盒子会拦截自启，开了没反应属设备限制。 启动页面 打开应用后首先进入的页面，可选 首页（默认）/ 直播 / 节目单 / 全部频道 / 收藏 / 搜索 / 多屏同播。设为「直播」可开机直接看，此时返回键直接退出应用。 画中画 按主页键退回桌面时，以小窗继续播放，默认关。与「后台播放」互斥：打开一个会自动关闭另一个。 后台播放 切到后台后继续播放音频（听电视），默认关；通知栏提供上一个频道 / 播放暂停 / 下一个频道按钮。与「画中画」互斥。 清除缓存 清除应用全部缓存，条目右侧实时显示当前占用（约 xx）。清除后提示「缓存已清除」，不影响设置与收藏。 恢复初始化 清空本机全部设置与数据（订阅源、收藏、观看记录等一并清除），恢复到首次安装状态。点击立即生效， 不可撤销 ，慎用。 面板的「通用」页除上述开关外，还有电视端没有的「缓存写入外部存储」：把缓存目录改到外部存'
+  },
+  {
+    path: '/settings',
+    title: '设置项总览',
+    anchor: '#components',
+    section: '组件下载',
+    keywords: '设置 → 组件下载 统一管理所有需要在线下载的组件。每行显示名称、用途和状态 （未下载 / 下载中 / 校验中 / 解压中 / 已安装 / 下载失败）；按 OK 开始下载 ，已安装的组件 长按 OK 删除 （删除后要用得重新下载）。 组件 用途 Python 运行环境 CPython 3.11 + 标准库，按设备 ABI 下载（约 7MB），运行 Python 服务的前提；需要 Android 7.0 及以上。详见 服务（Python / PHP） PHP 运行环境 PHP 8.4 + 常用扩展（curl/openssl/json 等），按设备 ABI 下载，运行 PHP 服务的前提 语音识别运行库（sherpa-onnx） 实时字幕（ASR）的识别引擎；此处只提供下载，删除在实时字幕设置或模型处管理 AI Lite ONNX运行库 + AI 模型 AI Lite 实时超分所需的运行库与模型，两项合并下载、合并显示进度 RIFE 补帧运行库 RIFE Vulkan 实时插帧，在「播放器 → 视频增强与插帧」中选用 Real-ESRGAN 超分运行库 Real-ESRGAN Vulkan'
+  },
+  {
+    path: '/settings',
+    title: '设置项总览',
+    anchor: '#theme',
+    section: '主题',
+    keywords: '设置项 说明 颜色模式 浅色 / 深色 / 跟随系统（默认） 配色方案 各项界面元素的配色来源：内置颜色（默认）/ 基于背景颜色 / 朴素颜色。Android 12 及以上，「内置颜色」跟随系统主题色。 主题选择 多组内置主题卡片，点击应用整套背景与配色，并按背景图自动生成主题色。 恢复默认 页面顶部的「恢复默认」按钮，清除当前主题，回到默认外观。 面板的「主题」页除颜色模式与配色方案外，还能自定义 背景、贴图和贴图透明度 （支持网络图片或电视本地文件）， 适合把全家福、风景照设为背景。'
+  },
+  {
+    path: '/settings',
+    title: '设置项总览',
+    anchor: '#update',
+    section: '更新',
+    keywords: '设置项 说明 更新通道 接收哪个通道的版本更新：稳定版本（默认）/ 预览版本 / 开发版本。切换后立即检查一次该通道的新版本。 更新强提醒 默认关。开 = 检测到新版本时全屏提醒；关 = 仅消息提示。 各通道的区别、更新页面的使用，见 下载与更新 。'
+  },
+  {
+    path: '/settings',
+    title: '设置项总览',
+    anchor: '#network',
+    section: '网络',
+    keywords: '设置项 说明 HTTP请求重试次数 获取订阅源、节目单失败时的重试次数，默认 10；可选 1～10、15、20、30、40、50。 HTTP请求重试间隔时间 每次重试之间的间隔，默认 1 秒；可选 0 / 1 / 2 / 3 / 5 / 10 / 15 / 20 / 30 秒。 两项都只影响订阅源与节目单数据的获取；源地址不稳定、经常加载失败时可适当调大重试次数。 面板的「网络」页另有「启用 IPv6」开关。'
+  },
+  {
+    path: '/settings',
+    title: '设置项总览',
+    anchor: '#permissions',
+    section: '权限',
+    keywords: '只有两项。点击条目跳转到系统授权界面，条目右侧图标显示当前是否已授权。 面板没有对应页面，只能在电视端操作。 权限 用途 安装未知应用 应用内更新、面板推送 APK 到电视安装时需要 读取外部存储/管理全部文件 读取本地订阅源文件、本地云同步文件、语音识别模型等存储内容时需要 开机自启、画中画、后台播放不在这里——它们都在「通用」。'
+  },
+  {
+    path: '/settings',
+    title: '设置项总览',
+    anchor: '#debug',
+    section: '调试',
+    keywords: '排查问题时使用，正常观看保持关闭即可。 设置项 说明 显示性能信息 默认关。开启后所有界面（含直播）左上角浮窗显示 FPS（含近 15 秒柱状图）、帧时间、Jank 卡顿数、内存占用。 显示播放器信息 默认关。显示当前播放的编码、解码器、采样率等详细信息；直播界面按 INFO 键效果相同。 显示布局网格 默认关。在界面上叠加布局网格线。 解码器信息 子页查看系统全部解码器的能力：软解/硬解、各分辨率与码率的支持情况。选超分、插帧方案前可先看这里。 面板的「调试」页除上述开关外，还能 导出 Logcat ：把电视端系统日志下载为 txt 文件，反馈问题时一并附上。'
+  },
+  {
+    path: '/settings',
+    title: '设置项总览',
+    anchor: '#log',
+    section: '日志',
+    keywords: '设置 → 日志 显示应用运行日志的实时列表：按时间倒序、每秒自动刷新，每条包含级别、标签、内容与时间。 只读，没有设置项。 面板的「日志」页更适合细看：可按级别（ALL / INFO / ERROR / WARN / DEBUG）筛选、分页查看、手动刷新。 注意面板「调试」页导出的 logcat 是系统日志，和这里的应用内日志不是同一份。'
+  },
+  {
+    path: '/settings',
+    title: '设置项总览',
+    anchor: '#reset',
+    section: '改错了怎么办',
+    keywords: '设置 → 通用 → 恢复初始化 一键清空全部设置与数据，回到首次安装状态；只想还原外观，用 设置 → 主题 → 恢复默认 单独重置主题。 动手前先留好后路：用 云同步 把配置推送到云端，或在面板的「备份管理」页建一个本地快照。 这样就算误清空，随时能把配置拉回来。'
   },
   {
     path: '/sync',
     title: '云同步与备份',
     anchor: '',
-    section: '五种同步后端',
-    keywords: '同步后端 CloudSyncProvider GITHUB_GIST GITEE_GIST NETWORK_URL LOCAL_FILE WEBDAV 枚举值 支持拉取 支持推送 push返回false GitHub Gist Gitee 代码片段 网络链接 只读 本地文件 WebDAV 拉取 推送',
+    section: '云同步与备份',
+    keywords: '防止配置丢失、换机迁移、多台电视共享一份设置的三种做法——云同步、本地备份快照、导入导出 JSON，以及五种云同步服务商的配置步骤。'
   },
   {
     path: '/sync',
     title: '云同步与备份',
-    anchor: '',
-    section: '同步哪些数据',
-    keywords: '同步数据 CloudSyncData getData version syncAt syncFrom description configs toPartial desensitized 剔除 云同步账号 globalVideoPlayerCore webViewCore replaceSystemWebView iptvChannelHistoryList iptvSourceCurrentIdx iptvChannelLastPlay iptvChannelLinePlayableHostList iptvChannelLinePlayableUrlList uiFocusOptimize ASR翻译设备本地 extraLocalIptvSourceList sourceType==1 fileDir 并行读取 iptvChannelNameAlias ChannelAlias apply fromPartial',
+    anchor: '#three-ways',
+    section: '三种方式怎么选',
+    keywords: '后两种方式都在 远程配置面板 （下称面板，用浏览器打开 http://电视IP:10591，见 远程配置面板 ）上操作；云同步的凭据也只能在面板里填写。 方式 数据放在哪 在哪操作 适合 云同步 推送到 Gist、WebDAV 等云端，或本地文件 电视端 设置 → 云同步 拉取 / 推送；凭据在面板的 云同步 页填 多台电视长期共享同一份配置 备份管理 电视端本地快照 面板的 备份管理 页创建 / 恢复 / 删除 大改配置前留个还原点（恢复会覆盖当前数据，且需重启生效） 导入导出 JSON 一个 .json 文件，随你存放 面板的 云同步 页底部 换机一次性迁移，不依赖任何云端账号 「云同步」与「导入导出」打包的内容范围相同（见下文「同步哪些内容」）； 「备份管理」则是把电视端当前设置与数据原样封存，不做筛选。'
   },
   {
     path: '/sync',
     title: '云同步与备份',
-    anchor: '',
-    section: 'TV 应用内设置项（设置 → 云同步）',
-    keywords: '云同步设置 SettingsCloudSyncScreen 拉取云端 CloudSync.pull 推送云端 CloudSync.push 推送成功自动拉取 云端数据 自动拉取 yyyy-MM-dd HH:mm:ss 长按 apply 无云端数据 cloudSyncAutoPull 系统备份 appBackupEnable MyTVBackupAgent 键值对备份 自动备份 onBackup onFullBackup onRestore 云同步服务商 SettingsCloudSyncProviderScreen 6列网格 支持拉取 不支持拉取 remoteConfig 只读 cloudSyncGithubGistId cloudSyncGithubGistToken cloudSyncGiteeGistId cloudSyncGiteeGistToken cloudSyncNetworkUrl cloudSyncLocalFilePath DEFAULT_LOCAL_SYNC_FILE_PATH cloudSyncWebDavUrl cloudSyncWebDavUsername cloudSyncWebDavPassword',
+    anchor: '#cloud-sync',
+    section: '云同步',
+    keywords: '把订阅源、收藏和各项设置打包推送到云端；其他电视（或重装之后）拉取同一份数据即可恢复。 电视端入口： 设置 → 云同步 。 条目 说明 拉取云端 / 推送云端 页面顶部的两个按钮，按当前服务商的能力显示（「网络链接」只显示拉取）。推送成功后自动重新拉取、刷新显示。 云端数据 进入页面自动拉取一次，显示云端的 版本、推送时间、推送设备、备注 ；拉取失败或从未推送过显示「无云端数据」。 长按该条目 = 把云端数据应用到本机（覆盖本机设置）。 自动拉取 默认关。开启后每次启动应用自动拉取云端数据并应用——多台设备共用配置时方便；注意启动时的应用会覆盖本机尚未推送的改动。 系统备份 默认开。允许 Android 系统级备份应用数据（设置、收藏等），换机或重装时由系统恢复；与云同步互不干扰，建议保持开启。 云同步服务商 进入子页选择，默认 GitHub Gist；每个服务商右侧标注是否支持拉取 / 推送。 各服务商凭据 选择服务商后页面下方显示对应凭据条目（Gist ID、Token、WebDAV 地址等）。电视端只读，统一在面板的 云同步 页填写。'
   },
   {
     path: '/sync',
     title: '云同步与备份',
-    anchor: '',
-    section: '10591 面板（/sync）的全部可配置项',
-    keywords: '面板云同步 BackupComponent mat-button-toggle-group mat-slide-toggle 自动拉取 服务商 GitHub Gist Gitee 网络链接 本地文件 WebDAV ID Token URL 用户名 密码 占位符 example.com webdav.example.com remote.php 推送 configsService.updateData 导入应用数据 AppApi.pushCloudSyncData POST /api/cloud-sync/data 导出应用数据 AppApi.getCloudSyncData syncFrom version syncAt.json',
+    anchor: '#sync-scope',
+    section: '同步哪些内容',
+    keywords: '同步 ： 订阅源列表——包括「文件」类型订阅源的文件内容，换机后不用重新拷贝 m3u 文件； 自定义节目单配置； 频道收藏、频道别名； 界面、主题、控制、播放器、网络等各项设置； Python / PHP 服务的配置——但脚本文件本身不同步：远程来源的脚本可在新设备上用「立即更新脚本」重新拉取，本地脚本需在面板重新上传。 不同步 （与设备解码能力、性能或本机状态相关，每台电视要单独设置）： 播放器内核、强制软解、软解仅用于音频、Media3 隧道解码； 视频超分、插帧、插帧目标帧率、AI 超分执行后端； WebView 内核与「替换系统 WebView」； 实时字幕（ASR）的全部设置、已选识别模型、Gemini 凭据； 字幕翻译引擎及腾讯 / 百度 / MTranServer 凭据； 最近观看记录、当前选中的订阅源、最后播放位置； 焦点优化开关、云同步服务商的选择与「自动拉取」开关。'
   },
   {
     path: '/sync',
     title: '云同步与备份',
-    anchor: '',
-    section: '各后端配置步骤',
-    keywords: '配置步骤 GitHub Gist token gist权限 GithubGistSyncRepository api.github.com/gists PATCH Bearer X-GitHub-Api-Version all_configs.json Base64 truncated raw_url Gitee 令牌 gists权限 GiteeGistSyncRepository gitee.com/api/v5/gists access_token WebDavSyncRepository HTTP Basic Credentials.basic PUT GET 坚果云 应用密码 Nextcloud all_configs.json NetworkUrlSyncRepository push返回false URL.readText 网络链接 sync.json LocalFileSyncRepository 末段含. 完整文件名 目录 all_configs.json U盘',
+    anchor: '#providers',
+    section: '各服务商配置步骤',
+    keywords: '凭据一律在面板的 云同步 页填写（电视端只读），保存后到电视端 设置 → 云同步 → 推送云端 完成首次上传。'
   },
   {
     path: '/sync',
     title: '云同步与备份',
-    anchor: '',
-    section: '导入 / 导出应用数据',
-    keywords: '导入导出 AppApi.getCloudSyncData AppApi.pushCloudSyncData 导出JSON 导入JSON accept=.json 文件名 迁移 换机 不依赖云端',
+    anchor: '#github-gist',
+    section: 'GitHub Gist（默认）',
+    keywords: '创建 token：GitHub 网页 → 头像 → Settings → Developer settings → Personal access tokens → Tokens classic → Generate new token classic ，勾选 gist 权限，生成后复制 token。 新建 Gist：打开 gist.github.com，内容随意（如一行说明），选 Create secret gist 建私有 Gist；创建后地址栏网址的最后一段就是 Gist ID。 面板的 云同步 页 → 服务商选 GitHub Gist，填 Gist ID 和 Token，点「推送」保存。 电视端 设置 → 云同步 → 推送云端。之后这个 Gist 里会出现 all configs.json 文件，就是同步数据。 其他电视填同一个 Gist ID + Token，点「拉取云端」即可同步。'
+  },
+  {
+    path: '/sync',
+    title: '云同步与备份',
+    anchor: '#gitee',
+    section: 'Gitee 代码片段',
+    keywords: '步骤与 GitHub Gist 相同：token 在 Gitee 网页 → 头像 → 设置 → 私人令牌 中生成，勾选 gists 权限； 再新建一个私有代码片段，取网址最后一段作为 ID，面板里填 ID + Token。国内网络访问通常更稳定。'
+  },
+  {
+    path: '/sync',
+    title: '云同步与备份',
+    anchor: '#webdav',
+    section: 'WebDAV',
+    keywords: '填三项：地址、用户名、密码。 坚果云 ：不能用登录密码——在坚果云网页「账户信息 → 安全选项 → 第三方应用管理」生成 应用密码 ；地址形如 https://dav.jianguoyun.com/dav/ 。 Nextcloud 及兼容服务 ：地址形如 https://服务器地址/remote.php/dav/files/用户名/ 。 地址只填到目录时，同步数据自动保存为该目录下的 all configs.json 。'
+  },
+  {
+    path: '/sync',
+    title: '云同步与备份',
+    anchor: '#local-file',
+    section: '本地文件',
+    keywords: '默认路径 file:///storage/emulated/0/Download/ （电视的「下载」目录），同步数据保存为其中的 all configs.json 。 路径可改到 U 盘等外部存储目录；把生成的 all configs.json 拷到其他电视，即可离线迁移。 需要先在 设置 → 权限 授予「读取外部存储/管理全部文件」。'
+  },
+  {
+    path: '/sync',
+    title: '云同步与备份',
+    anchor: '#network-url',
+    section: '网络链接',
+    keywords: '只支持拉取、不能推送 ：填一个能直接下载到同步文件的网址（如别人分享的 all configs.json 直链）。 适合「家人或群主发布一份配置、大家只管用」的场景；本机的改动不会上传。 Gist / 代码片段务必建 私有 的——公开 Gist 任何人都能看到你的订阅源地址等全部配置。 token 就是账号钥匙，不要泄露，怀疑泄露立刻到 GitHub / Gitee 吊销后重建。 WebDAV 密码等同于网盘密码，坚果云务必用「应用密码」而不是登录密码。'
+  },
+  {
+    path: '/sync',
+    title: '云同步与备份',
+    anchor: '#backup',
+    section: '备份管理（本地快照）',
+    keywords: '面板的 备份管理 页在电视端本机创建数据快照（设置与数据原样封存），适合大改配置前留个还原点。 创建备份 ：输入名称（可用字母、数字、点、下划线、中划线）→ 创建备份；列表显示每个快照的名称、时间、大小。 恢复 ：二次确认后用快照 覆盖电视端当前全部设置与数据 ，完成后需重启应用才完全生效。 删除 ：二次确认后删除。 快照只保存在电视端本机，不上传云端；卸载应用会一并删除，重要快照建议配合「导出应用数据」存档。'
+  },
+  {
+    path: '/sync',
+    title: '云同步与备份',
+    anchor: '#import-export',
+    section: '导入导出 JSON',
+    keywords: '在面板的 云同步 页底部： 导出应用数据 ：把电视端当前的同步数据整包下载为 .json 文件（文件名带设备名、版本与时间），自己存档。 导入应用数据 ：选择之前导出的 .json 文件，推送到电视端并立即应用。 这是不依赖任何云端账号的迁移方式：旧电视导出 → 新电视导入。'
   },
   {
     path: '/faq',
     title: '常见问题',
     anchor: '',
-    section: '常见故障排查',
-    keywords: 'FAQ 常见问题 故障 排查 黑屏 无法播放 加载失败 EPG不显示 换台卡顿 缓存',
+    section: '常见问题',
+    keywords: '使用中最常遇到的问题，按场景分组，每条给出排查步骤。'
+  },
+  {
+    path: '/faq',
+    title: '常见问题',
+    anchor: '#playback',
+    section: '播放问题',
+    keywords: ''
+  },
+  {
+    path: '/faq',
+    title: '常见问题',
+    anchor: '#lag',
+    section: '换台、切线卡顿或一直缓冲？',
+    keywords: '换内核： 设置 → 播放器 → 视频播放器内核 ，在 Media3 / IjkPlayer / VLC 之间切换试（IJK、VLC 需先在 设置 → 组件下载 里安装）。 调大缓冲： 设置 → 播放器 → 播放缓冲 调到 3–5 秒。 检查网络：优先有线连接；只有晚间高峰卡，多半是订阅源或宽带出口的问题。 换线路或换源：直播中按左 / 右键切换线路；整个源都慢就换订阅源。'
+  },
+  {
+    path: '/faq',
+    title: '常见问题',
+    anchor: '#black-screen',
+    section: '黑屏但有声音？',
+    keywords: '换播放器内核（ 设置 → 播放器 → 视频播放器内核 ）。 切渲染方式（ 设置 → 播放器 → 渲染方式 ，SurfaceView 与 TextureView 互换）。 打开 设置 → 播放器 → 强制软解 。 仍黑屏：该线路的编码设备不支持，换线路。'
+  },
+  {
+    path: '/faq',
+    title: '常见问题',
+    anchor: '#enhancement-crash',
+    section: '开启超分或插帧后花屏、闪退？',
+    keywords: '该功能的设置页本身有提示：相关模式涉及底层调用，不兼容的设备可能导致应用退出。处理： 回 设置 → 播放器 → 视频增强与插帧 ，把视频超分、视频插帧都关回「关闭」。 想继续尝试：一次只开一项；插帧目标帧率先选 30；「AI 超分执行后端」在 NNAPI 与 CPU 之间切换。 Real-ESRGAN、RIFE 等路径需先在 设置 → 组件下载 安装对应运行库。'
+  },
+  {
+    path: '/faq',
+    title: '常见问题',
+    anchor: '#webview-stuck',
+    section: 'webview:// 频道一直加载？',
+    keywords: '切 X5 内核： 设置 → WebView → WebView 内核 选腾讯 X5（仅 armv7 / arm64，首次使用需联网初始化下载；也可直接安装文件名带 x5offline 的安装包）。 调大 设置 → WebView → 加载超时 。 央视频付费频道：先配置央视频 Cookie（见下一条）。 使用 DRM 加密的站点无法播放，放弃这条线路。'
+  },
+  {
+    path: '/faq',
+    title: '常见问题',
+    anchor: '#yangshipin-vip',
+    section: '央视频付费频道黑屏或无法播放？',
+    keywords: '在电脑浏览器登录央视频网页版，复制登录后的全部 Cookie。 打开网页面板，在首页「网页源央视频 Cookie」卡片粘贴并推送（面板的 订阅源 页也有同一配置项）。 回电视重新打开央视频频道。Cookie 过期后需重新推送。 电视端 设置 → 订阅源 → 网页源央视频Cookie 只用于查看配置状态，编辑在面板进行。'
+  },
+  {
+    path: '/faq',
+    title: '常见问题',
+    anchor: '#kernel-not-downloaded',
+    section: 'IJK / VLC 内核显示「未下载」？',
+    keywords: 'IJK、VLC 是在线下发组件。到 设置 → 组件下载 找到对应组件下载安装，再回 设置 → 播放器 → 视频播放器内核 切换。组件下载页还统一管理 Python 运行环境、语音识别运行库与模型、超分与插帧运行库等。'
+  },
+  {
+    path: '/faq',
+    title: '常见问题',
+    anchor: '#asr-model-download',
+    section: 'ASR 实时字幕模型下载慢或失败？',
+    keywords: '模型在 设置 → 组件下载 的「语音识别模型」分组里统一管理，标注「云端」的模型无需下载；识别前还需先安装「语音识别运行库」。 下载失败直接重试，网络差时换个时段或网络环境。 仍不行：在电脑上下载好模型文件，用面板的「文件」页上传到电视，再在面板 播放器 页的「ASR 语音识别」卡片里把识别模型填为该模型目录路径（改完记得点卡片内的「保存」）。'
+  },
+  {
+    path: '/faq',
+    title: '常见问题',
+    anchor: '#sources-epg',
+    section: '订阅源与节目单',
+    keywords: ''
+  },
+  {
+    path: '/faq',
+    title: '常见问题',
+    anchor: '#epg-missing',
+    section: 'EPG 节目单不显示？',
+    keywords: '检查 m3u 中的 tvg-id 是否与节目单数据中的频道 ID 一致。 确认节目单地址可访问：用手机 / 电脑浏览器打开，能正常下载到文件才算可用。 打开 设置 → 节目单 → 加载全部节目单 （该选项自带警告：可能引起内存溢出、加载变慢，小内存设备慎用）。 在 设置 → 节目单 → 自定义节目单 中对对应节目单执行清除缓存，或用 设置 → 通用 → 清除缓存 全清后重启应用。'
+  },
+  {
+    path: '/faq',
+    title: '常见问题',
+    anchor: '#demo-source',
+    section: '内置演示源失效了？',
+    keywords: '演示源仅供首次体验，可用性不作保证。按 快速上手 或 订阅源 换成自己的订阅源即可。'
+  },
+  {
+    path: '/faq',
+    title: '常见问题',
+    anchor: '#panel',
+    section: '网页面板',
+    keywords: ''
+  },
+  {
+    path: '/faq',
+    title: '常见问题',
+    anchor: '#panel-unreachable',
+    section: '10591 面板打不开？',
+    keywords: '确认手机 / 电脑与电视在同一局域网（访客 Wi-Fi 通常相互隔离）。 核对地址：电视端 首页 → 推送 页会显示完整面板地址和二维码，端口被占用时会自动改用随机端口，以该页显示为准；电视 IP 也可在 首页 → 关于 中查看。 关闭路由器的 AP 隔离（客户端隔离）功能。 确认应用正在运行：面板由应用内置服务提供，应用退出或被系统清理后面板即不可访问。'
+  },
+  {
+    path: '/faq',
+    title: '常见问题',
+    anchor: '#sync-backup',
+    section: '同步与备份',
+    keywords: ''
+  },
+  {
+    path: '/faq',
+    title: '常见问题',
+    anchor: '#cloud-sync-fail',
+    section: '云同步失败？',
+    keywords: 'GitHub Gist：确认 Token 未过期，且勾选了 gist 权限。 Gitee 代码片段：同样检查 Token 的权限与有效期。 WebDAV：坚果云等需要使用「应用密码」而不是账号登录密码，同时核对服务器地址与用户名。 网络链接：只支持拉取，不能推送，推送必然失败。 凭据统一在面板的 云同步 页配置，详见 云同步与备份 。'
+  },
+  {
+    path: '/faq',
+    title: '常见问题',
+    anchor: '#sync-device-settings',
+    section: '同步成功，但另一台设备上没生效？',
+    keywords: '与设备硬件相关的设置不参与云同步，需要在每台设备上单独设置，包括： 视频播放器内核、强制软解、软解仅用于音频、Media3 隧道解码。 视频超分与插帧（开关、模式、目标帧率、AI 后端）。 WebView 内核、替换系统 WebView。 实时字幕（ASR）与字幕翻译的全部设置（含各家密钥）。 焦点优化、最近观看记录。'
+  },
+  {
+    path: '/faq',
+    title: '常见问题',
+    anchor: '#others',
+    section: '其他',
+    keywords: ''
+  },
+  {
+    path: '/faq',
+    title: '常见问题',
+    anchor: '#touch-crash',
+    section: '触摸设备上某些场景闪退？',
+    keywords: '关闭 设置 → 界面 → 焦点优化 。首次启动时如果是用触摸点击「已阅读并同意」，应用会自动关闭焦点优化来规避这类闪退。'
+  },
+  {
+    path: '/faq',
+    title: '常见问题',
+    anchor: '#report-bug',
+    section: '如何提交 bug？',
+    keywords: '前往 GitHub Issues 提交，附上： 应用版本（ 首页 → 关于 里查看版本号）。 设备型号与系统版本。 复现步骤。 日志：面板的「日志」页可查看应用日志，「调试」页可导出 logcat 下载系统日志。'
   },
   {
     path: '/build',
     title: '下载与更新',
     anchor: '',
-    section: '下载',
-    keywords: '下载 Release APK GitHub Gitee 版本 签名',
+    section: '下载与更新',
+    keywords: '从 GitHub Release 下载安装包、在应用内检查更新，或用网页面板把 APK 推到电视安装。'
   },
   {
     path: '/build',
     title: '下载与更新',
-    anchor: '',
+    anchor: '#release-download',
+    section: '从 Release 下载',
+    keywords: '前往 mytv-android Releases 下载最新 APK。每个版本提供多个安装包，按设备的 CPU 架构（ABI）选择： 文件名包含 适用设备 arm64-v8a 较新的 64 位电视 / 盒子（主流选择） 。 armeabi-v7a 较老的 32 位电视 / 盒子。 x86 / x86 64 Intel / AMD 处理器的设备、模拟器。 all （universal） 不确定选哪个时用它，体积最大但全平台兼容。 普通电视优先 arm64-v8a ；装上打不开再换 armeabi-v7a 或 all 。 文件名还带三种后缀，按需选择： original ：标准版，默认选它。 x5offline ：内置腾讯 X5 内核的版本（仅 armv7 / arm64），不想在应用内联网下载 X5 内核时选它。 disguised ：应用包名不同的伪装版，功能与标准版相同，个别设备安装被拦截时备用。'
+  },
+  {
+    path: '/build',
+    title: '下载与更新',
+    anchor: '#in-app-update',
     section: '应用内更新',
-    keywords: '应用内更新 更新通道 stable beta dev 强提醒',
+    keywords: '应用启动时会按 设置 → 更新 → 更新通道 自动检查新版本，也可在 首页 → 关于 → 检查更新 手动检查： 通道 说明 稳定版本 （默认） 问题最少，推荐日常使用。 预览版本 提前体验新功能，可能有少量问题。 开发版本 最新改动，可能不稳定。 「更新强提醒」（ 设置 → 更新 ）：开启时检测到新版本会全屏提醒；关闭时仅消息提示。'
   },
   {
     path: '/build',
     title: '下载与更新',
-    anchor: '',
-    section: '自行编译',
-    keywords: '自行编译 源码 编译 gradle 签名 ABI',
+    anchor: '#update-screen',
+    section: '更新页',
+    keywords: '有新版本时进入更新页：左侧显示最新版本号和可滚动的更新日志，右侧两个按钮： 立即更新 ：下载安装包，首次需授予「安装未知应用」权限（也可提前在 设置 → 权限 中开启），随后调起系统安装界面。 忽略并返回 ：跳过本次提醒，该版本不再强提醒。 已是最新时显示「当前为最新版本」，点击即可返回。'
   },
   {
-    path: '/python-services',
-    title: 'Python 服务',
-    anchor: '#what',
-    section: '这是什么',
-    keywords: 'Python 服务 APTV 脚本 本地 HTTP 服务 m3u 订阅 127.0.0.1 8767 央视频 ysp-live 运行环境 可选下载 CPython 3.11',
-  },
-  {
-    path: '/python-services',
-    title: 'Python 服务',
-    anchor: '#requirement',
-    section: '运行条件',
-    keywords: 'Android 7.0 API 24 架构 armeabi-v7a arm64-v8a x86 存储 约 7MB 联网',
-  },
-  {
-    path: '/python-services',
-    title: 'Python 服务',
-    anchor: '#install',
-    section: '第一步：下载 Python 运行环境',
-    keywords: '下载运行环境 校验 解压 运行自检 OpenSSL SQLite CA 证书 端口 删除运行环境',
-  },
-  {
-    path: '/python-services',
-    title: 'Python 服务',
-    anchor: '#add',
-    section: '第二步：添加服务（网页面板）',
-    keywords: '添加服务 服务名称 端口 代码来源 远程链接 本地文件 检查代码 局域网共享 启用 自动运行',
-  },
-  {
-    path: '/python-services',
-    title: 'Python 服务',
-    anchor: '#address',
-    section: '第三步：订阅地址',
-    keywords: '订阅地址 all.m3u 本机 127.0.0.1 局域网 IP 复制 一键添加订阅 局域网共享 0.0.0.0 重启生效',
-  },
-  {
-    path: '/python-services',
-    title: 'Python 服务',
-    anchor: '#log',
-    section: '日志与排查',
-    keywords: '查看日志 stdout stderr 请求日志 异常 运行中 启动中 异常 已停止 端口占用 缺少依赖 崩溃 跳过自动启动',
-  },
-  {
-    path: '/python-services',
-    title: 'Python 服务',
-    anchor: '#limits',
-    section: '已知限制',
-    keywords: '纯 Python 无 pip site-packages http.server socketserver multiprocessing ctypes subprocess zoneinfo tzdata sys.argv 同解释器 段错误 可信来源',
-  },
-  {
-    path: '/python-services',
-    title: 'Python 服务',
-    anchor: '#auto-update',
-    section: '脚本自动更新',
-    keywords: '自动更新 后台拉取 更新间隔 立即更新 本地文件 远程链接 内容变化 重启 拉取失败 保留旧脚本',
-  },
-  {
-    path: '/python-services',
-    title: 'Python 服务',
-    anchor: '#advanced',
-    section: '高级选项（每个服务单独配置）',
-    keywords: 'User-Agent UA 代理 socks5 HTTP_PROXY 附加启动参数 --no-4k 环境变量 KEY=VALUE os.environ 自动重启 秒退保护',
-  },
-  {
-    path: '/python-services',
-    title: 'Python 服务',
-    anchor: '#api',
-    section: 'HTTP API（高级）',
-    keywords: 'API /api/python/status runtime download delete selftest fetch-code check service save delete start stop log code pythonServiceList 云同步 备份',
-  },
-  {
-    path: '/python-services',
-    title: 'Python 服务',
-    anchor: '#dev',
-    section: '开发者：运行环境包的制作与托管',
-    keywords: 'pack_python_runtime.py Chaquopy Maven Central certifi tar.bz2 sha256 gitee mytv_lib PYTHONHOME JNA Py_InitializeEx PyEval_SaveThread mytv_service.py',
-  },
+    path: '/build',
+    title: '下载与更新',
+    anchor: '#push-apk',
+    section: '用面板把 APK 推到电视安装',
+    keywords: '浏览器打开面板 http:// 电视IP :10591 。 在面板首页找到「安装 APK」卡片，选择本机的 APK 文件，点「上传并安装」。 上传完成后，电视端弹出确认窗口，确认后进入系统安装流程。 面板的「更新」页只能修改更新通道和更新强提醒。推 APK 安装请用面板首页的「安装 APK」卡片，详见 远程配置面板 。'
+  }
 ];

@@ -35,6 +35,12 @@ export const routes: Routes = [
     title: '频道、收藏与搜索 · 电视直播 使用文档',
   },
   {
+    path: 'multiview',
+    loadComponent: () =>
+      import('./pages/multiview/multiview').then((m) => m.MultiViewPage),
+    title: '多屏同播 · 电视直播 使用文档',
+  },
+  {
     path: 'sources',
     loadComponent: () =>
       import('./pages/sources/sources').then((m) => m.SourcesPage),
@@ -59,7 +65,7 @@ export const routes: Routes = [
       import('./pages/remote-panel/remote-panel').then(
         (m) => m.RemotePanelPage,
       ),
-    title: '远程配置面板（10591）· 电视直播 使用文档',
+    title: '远程配置面板 · 电视直播 使用文档',
   },
   {
     path: 'python-services',
@@ -67,7 +73,7 @@ export const routes: Routes = [
       import('./pages/python-services/python-services').then(
         (m) => m.PythonServicesPage,
       ),
-    title: 'Python 服务 · 电视直播 使用文档',
+    title: '服务（Python / PHP） · 电视直播 使用文档',
   },
   {
     path: 'player-settings',

@@ -1,317 +1,160 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DocPageHeader } from '../../shared/doc-page-header';
+import { DocCallout } from '../../shared/doc-callout';
 
 @Component({
   selector: 'app-epg',
-  imports: [DocPageHeader, RouterLink],
+  imports: [DocPageHeader, DocCallout, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="doc-page">
       <doc-page-header
         title="EPG 节目单"
-        lead="EPG（Electronic Program Guide）让你看到每个频道正在播出与即将播出的节目。本页介绍来源格式、TV 与面板上的设置，以及回看用法。"
+        lead="节目单（EPG，电子节目指南）告诉你每个频道正在播什么、接下来播什么。本页介绍节目单在哪里看、怎么添加与管理、频道与节目如何对上、刷新策略，以及回看与预约。"
       />
 
-      <h2>1. EPG 来源类型</h2>
+      <h2 id="what-where">节目单是什么、在哪看</h2>
       <p>
-        类型默认由 URL 自动探测（<code>EpgSourceType.fromUrl</code>）：先匹配 scheme <code>lovetv://</code> / <code>diyp://</code> / <code>sptv://</code>，再判断 URL 是否含 <code>.gz</code> / <code>gzip</code>，否则按普通 XMLTV 处理。<code>channel=&#123;name&#125;</code> 也会被识别为 LOVETV，<code>ch=&#123;name&#125;</code> 会被识别为 DIYP。
-        在面板 EPG 源编辑对话框中显式指定<b>格式</b>（<code>format</code>）时，优先于 URL 探测。
+        节目单就是每个频道的播出表：正在播的节目（附进度与简介）、接下来要播的节目，以及过去几天的播出记录。
+        它在 App 里随处可见：
       </p>
-      <table>
-        <thead>
-          <tr><th>类型</th><th>识别规则</th><th>说明</th></tr>
-        </thead>
-        <tbody>
-          <tr><td><b>XML</b></td><td>其他所有 URL（默认）</td><td>标准 XMLTV 格式，整份源一次请求</td></tr>
-          <tr><td><b>XML_GZ</b></td><td>URL 含 <code>.gz</code> 或 <code>gzip</code></td><td>gzip 压缩的 XMLTV，响应自动 GZIP 解压</td></tr>
-          <tr><td><b>DIYP</b></td><td><code>diyp://</code> 开头，或 URL 含 <code>ch=&#123;name&#125;</code></td><td><code>diyp://&#123;host&#125;/&#123;name&#125;/&#123;date&#125;</code> 模板，每频道每日期一次 JSON 请求；返回 <code>&#123;date, epg_data:[&#123;start,end,title,desc?&#125;]&#125;</code>，start/end 为 <code>HH:mm</code></td></tr>
-          <tr><td><b>LOVETV</b></td><td><code>lovetv://</code> 开头，或 URL 含 <code>channel=&#123;name&#125;</code></td><td><code>lovetv://&#123;host&#125;/&#123;name&#125;/&#123;date&#125;</code>，超级直播格式；返回 <code>&#123;频道:&#123;program:[&#123;st秒,et秒,t标题&#125;]&#125;&#125;</code></td></tr>
-          <tr><td><b>SPTV</b></td><td><code>sptv://</code> 开头</td><td><code>sptv://&#123;host&#125;/&#123;name&#125;</code> 模板，每频道一次请求；返回 <code>&#123;频道:&#123;program:[&#123;st,et,t标题,desc简介&#125;]&#125;&#125;</code>，<code>st</code> / <code>et</code> 为<b>当日零时起的秒偏移</b>（非时间戳），<code>et</code> 小于 <code>st</code> 时视为跨天</td></tr>
-          <tr><td><b>CHUNKED_XML</b></td><td>—</td><td>分块流式 XMLTV</td></tr>
-        </tbody>
-      </table>
+      <ul>
+        <li><b>换台信息条</b>：换台后屏幕底部浮现，显示当前节目（进度条、剩余时长）和下一节目。</li>
+        <li><b>选台界面</b>：频道卡上直接显示当前节目与进度。</li>
+        <li><b>直播界面节目单</b>：按 GUIDE 键（或长按左键）打开当前频道的多天节目单，已播节目可回看、未播节目可预约。</li>
+        <li><b>节目单指南页</b>：全部频道 × 时间的完整表格，见下一节。</li>
+      </ul>
       <p>
-        DIYP / LOVETV / SPTV 类型按 <code>previous=-6</code> 到 <code>next=+1</code> 共 8 天抓取（<code>JsonTemplateEpgFetcher.PREVIOUS_DAYS = -6</code> / <code>NEXT_DAYS = 1</code>），并发上限 8（<code>Semaphore(8)</code>），自定义 scheme 在请求前替换为 <code>http://</code>。
-      </p>
-      <p>
-        默认 EPG 源（<code>Constants.EPG_SOURCE_LIST</code>）：<code>https://gitee.com/mytv-android/myepg/raw/master/output/epg.gz</code>，名称「默认节目单 综合」。
+        总开关：<b>设置 → 节目单 → 节目单启用</b>（默认开；首次加载可能较慢）。关闭后以上位置的节目信息都不再显示。
       </p>
 
-      <h2>2. 添加 EPG 源</h2>
+      <h2 id="guide">节目单指南页</h2>
       <p>
-        EPG 源数据结构为 <code>EpgSource(name, url, format, cacheHour, timeZoneOffset, externalStorage)</code>，
-        <code>url</code> 为空字符串的源会被跳过（不显示、不加载）。
-        除名称与链接外，其余字段均可为默认值，用于按订阅源（按源）独立配置：
+        指南页是「频道 × 时间」的二维表格：左侧选分组，中间是各频道逐日的节目格子；
+        聚焦某个频道约一秒后，上方会出现该频道的实时预览小窗和「立即观看」按钮。
+      </p>
+      <p>打开方式（任选其一）：</p>
+      <ul>
+        <li>首页 →「<b>节目单</b>」；</li>
+        <li>遥控器「<b>上一频道</b>」键：在首页或直播中按它直接打开；直播中打开时会自动定位到当前频道，按返回键直接回到直播画面；</li>
+        <li>设为启动页：<b>设置 → 通用 → 启动页面</b> 选「节目单」，开机即见。</li>
+      </ul>
+      <p>选中某个节目会弹出详情卡，按播出状态给出不同操作：</p>
+      <table>
+        <thead>
+          <tr><th>节目状态</th><th>可用操作</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>正在播</td><td>立即观看</td></tr>
+          <tr><td>未开始</td><td>预约 / 取消预约，见下文「预约未播节目」</td></tr>
+          <tr><td>已播完</td><td>回看；线路不支持时显示「暂不支持回看」，见下文「回看已播节目」</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="sources">节目单来源</h2>
+      <p>支持的格式（添加时按链接自动识别，一般不用关心）：</p>
+      <table>
+        <thead>
+          <tr><th>格式</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><b>XML（XMLTV）</b></td><td>最常见的标准节目单格式，整份一次下载</td></tr>
+          <tr><td><b>XML.GZ</b></td><td>gzip 压缩的 XMLTV，体积小，App 自动解压</td></tr>
+          <tr><td><b>DIYP / LOVETV（超级直播）/ SPTV</b></td><td>按频道、按日期查询的接口式节目单；源作者给的地址里带占位符，App 会自动填充频道名和日期</td></tr>
+        </tbody>
+      </table>
+      <p>首次安装自带一个「默认节目单 综合」，覆盖常见央视频道与卫视频道。</p>
+      <p>
+        「<b>跟随订阅源</b>」（设置 → 节目单，默认关）：开启后优先使用当前订阅源自带的节目单地址——
+        可以是源作者在源里内嵌的，也可以是在面板订阅源编辑里填的「EPG 地址」（见
+        <a [routerLink]="'/sources'">订阅源</a>）。适合「源和节目单成套」的情况。
+      </p>
+
+      <h2 id="add-manage">添加与管理</h2>
+      <p>电视端入口：<b>设置 → 节目单 → 自定义节目单</b>。</p>
+      <ul>
+        <li>每条节目单显示：名称、链接、频道数、节目数、缓存大小与更新时间。</li>
+        <li><b>点按某条</b>弹出操作：设为当前、删除、清除缓存。</li>
+        <li>页面顶部「<b>刷新全部</b>」：立即重新下载全部节目单。</li>
+        <li>页面底部「<b>添加其他节目单</b>」：弹二维码，扫码后在远程配置面板（下称面板）填名称和链接推送，与添加订阅源同一套流程。</li>
+      </ul>
+      <p>
+        在面板（打开方式见 <a [routerLink]="'/remote-panel'">远程配置面板</a>）的 节目单 页点「自定义节目单」，
+        可打开管理对话框：<b>拖拽排序</b>、单选当前源、新增 / 编辑 / 删除，改完点「更新」保存。编辑对话框字段：
       </p>
       <table>
         <thead>
-          <tr><th>字段</th><th>类型 / 默认值</th><th>说明</th></tr>
+          <tr><th>字段</th><th>说明</th></tr>
         </thead>
         <tbody>
-          <tr>
-            <td><code>format</code></td>
-            <td><code>String?</code> = <code>null</code></td>
-            <td>
-              解析格式，取值 <code>XML</code> / <code>DIYP</code> / <code>SPTV</code> / <code>LOVETV</code>。
-              <code>null</code> 表示按 URL 自动探测（见第 1 节）；显式指定时优先于 URL 探测。
-            </td>
-          </tr>
-          <tr>
-            <td><code>cacheHour</code></td>
-            <td><code>Int</code> = <code>-1</code></td>
-            <td>
-              缓存时段（小时）。<code>-1</code> 跟随全局刷新时间阈值，<code>0</code> 表示不缓存。
-            </td>
-          </tr>
-          <tr>
-            <td><code>timeZoneOffset</code></td>
-            <td><code>Int</code> = <code>0</code></td>
-            <td>
-              XML 时间偏移（小时），取值 <code>-12</code> ~ <code>12</code>；<code>0</code> 表示使用默认时区。
-              用于源端节目时间与本地时区不一致的场景。
-            </td>
-          </tr>
-          <tr>
-            <td><code>externalStorage</code></td>
-            <td><code>Boolean</code> = <code>false</code></td>
-            <td>缓存写入外部存储；<code>true</code> 时该源缓存放在外部存储目录。</td>
-          </tr>
+          <tr><td>名称 / 链接</td><td>基本信息，两项都填了才能保存</td></tr>
+          <tr><td>数据格式</td><td>默认「按链接自动探测」；识别不对时手动指定 XML / DIYP / SPTV / LOVETV</td></tr>
+          <tr><td>缓存时长</td><td>单位小时。默认「跟随全局」（沿用全局刷新策略）；「不缓存」则每次都重新下载</td></tr>
+          <tr><td>时区偏移</td><td>-12～12 小时，默认 0。节目时间整体对不上（比如普遍差 8 小时）时用它修正</td></tr>
+          <tr><td>缓存到外部存储</td><td>默认关；开启后该节目单的缓存写到外部存储，缓解本机存储压力</td></tr>
         </tbody>
       </table>
+
+      <h2 id="matching">频道怎么对上节目单</h2>
+      <p>App 按以下顺序把频道对到节目单里的节目：</p>
       <ol>
-        <li><b>TV 端：设置 → 节目单 → 自定义节目单 → 添加其他节目单</b>。弹二维码到面板，面板填好名称 + 链接后推送回 TV。</li>
-        <li><b>面板首页（<code>/</code>）→ 自定义节目单</b>。粘贴名称 + 链接即可推送，面板提示「支持 xml、xml.gz 格式」（<code>EPG_SUBTITLE</code>）。</li>
-        <li><b>面板节目单页（<code>/epg</code>）→ 自定义节目单</b>。打开 EPG 源管理对话框（宽 600px），支持拖拽排序、新增、编辑、删除、单选当前。</li>
+        <li><b>tvg-id</b>：订阅源里标好的节目单频道 ID，最优先、最可靠；</li>
+        <li><b>频道名</b>：源里的 tvg-name 与频道名。<b>频道别名归一后的名字也参与匹配</b>——所以「CCTV-1」「央视一套」都能对上节目单里的 CCTV1（别名机制见 <a [routerLink]="'/channels'">频道、收藏与搜索</a>）。</li>
       </ol>
       <p>
-        TV 端「自定义节目单」子页面（<code>SettingsEpgSourceScreen</code>）每个源显示：名称 + 链接 + 缓存信息「频道：N | 节目：M | 缓存：xx KB | 更新：yyyy-MM-dd HH:mm:ss」（<code>ui_settings_epg_source_item_info</code>）。单项操作弹出 2×2 网格：<b>设为当前</b> / <b>删除</b> / <b>清除缓存</b> / <b>返回</b>。页面顶部「刷新全部」按钮重新拉取全部源并显示加载 / 错误图标。底部「添加其他节目单」同样弹二维码到面板。
+        某个频道没有节目信息时，先确认节目单地址本身能下载，再看源里这个频道的 tvg-id 是否写对；
+        完整排查步骤见 <a [routerLink]="'/faq'">常见问题</a>。
       </p>
 
-      <h2>3. TV 应用内设置项（设置 → 节目单）</h2>
-      <p>对应 <code>SettingsEpgScreen</code>，标题「设置 / 节目单」。开关均为即时写入 <code>Configs</code>（SpState 持久化）。</p>
+      <h2 id="refresh">刷新与缓存</h2>
       <table>
         <thead>
-          <tr><th>设置</th><th>默认</th><th>取值 / 说明</th></tr>
+          <tr><th>设置项</th><th>说明</th></tr>
         </thead>
         <tbody>
           <tr>
-            <td><b>节目单启用</b><br><code>ui_epg_enable</code></td>
-            <td>开（<code>Configs.epgEnable = true</code>）</td>
+            <td>设置 → 节目单 → 刷新时间阈值</td>
             <td>
-              <p>开关。作用：总开关，关闭后所有 EPG 功能（含信息条节目提示、EPG 指南页）都停用。</p>
-              <p>子标题（<code>ui_epg_enable_desc</code>）：「首次加载时可能会较为缓慢」。</p>
-              <p>配置方法：设置 → 节目单 → 节目单启用，OK 切换。</p>
+              默认 <b>2:00</b>：每天凌晨 2 点前打开 App 不重复下载节目单，一天只刷一次，启动更快。
+              可改为「启动时刷新」（每次启动都下载）或指定某个整点（0:00～12:00）；
+              面板上还可选 18:00 或自定义到半小时。
             </td>
           </tr>
           <tr>
-            <td><b>跟随订阅源</b><br><code>ui_epg_source_follow_iptv</code></td>
-            <td>关（<code>Configs.epgSourceFollowIptv = false</code>）</td>
-            <td>
-              <p>开关。作用：开启后优先使用订阅源定义的 EPG 而非自定义节目单。取值优先级：订阅源编辑对话框中的「EPG 地址」（<code>epg</code>，面板配置）&gt; m3u 内嵌的 <code>x-tvg-url</code> / <code>url-tvg</code>。</p>
-              <p>子标题（<code>ui_epg_source_follow_iptv_desc</code>）：「优先使用订阅源中定义的节目单」。</p>
-              <p>配置方法：设置 → 节目单 → 跟随订阅源，OK 切换。</p>
-            </td>
-          </tr>
-          <tr>
-            <td><b>加载全部节目单</b><br><code>ui_epg_source_load_all</code></td>
-            <td>关（<code>Configs.epgSourceLoadAll = false</code>）</td>
-            <td>
-              <p>开关。作用：开启后一次性加载所有自定义节目单源并合并（<code>EpgList.merge</code>），而非只加载当前源。</p>
-              <p>子标题（<code>ui_epg_source_load_all_desc</code>）：「启用后，应用将加载所有的自定义节目单，这可能会导致内存溢出、加载事件变长和加载失败等问题。」</p>
-              <p>配置方法：设置 → 节目单 → 加载全部节目单，OK 切换。仅在确需多源合并时开启。</p>
-            </td>
-          </tr>
-          <tr>
-            <td><b>经典选台界面节目单常显</b><br><code>ui_epg_always_show_in_classic_channel_screen</code></td>
-            <td>关（<code>Configs.alwaysShowEPGInClassicChannelScreen = false</code>）</td>
-            <td>
-              <p>开关。作用：开启后经典选台界面始终显示节目单面板。仅当「经典选台界面」开关（<code>Configs.uiUseClassicPanelScreen</code>）开启时本项才在列表中显示。</p>
-              <p>子标题（<code>ui_epg_always_show_in_classic_channel_screen_desc</code>）：「启用后，经典选台界面将始终显示节目单界面」。</p>
-              <p>配置方法：设置 → 界面 → 经典选台界面（开启）→ 设置 → 节目单 → 经典选台界面节目单常显。</p>
-            </td>
-          </tr>
-          <tr>
-            <td><b>自定义节目单</b><br><code>ui_epg_source_custom</code></td>
-            <td>当前源名称（默认「默认节目单 综合」）</td>
-            <td>
-              <p>跳转项。作用：进入 <code>SettingsEpgSourceScreen</code> 子页面管理所有 EPG 源。</p>
-              <p>右侧显示当前源名称（<code>settingsViewModel.epgSourceCurrent.name</code>）。</p>
-              <p>子页面操作：设为当前 / 删除 / 清除缓存 / 添加其他节目单；顶部「刷新全部」重新拉取。</p>
-              <p>配置方法：设置 → 节目单 → 自定义节目单，OK 进入子页面。</p>
-            </td>
-          </tr>
-          <tr>
-            <td><b>刷新时间阈值</b><br><code>ui_epg_refresh_time_threshold</code></td>
-            <td>2（<code>Constants.EPG_REFRESH_TIME_THRESHOLD = 2</code>）</td>
-            <td>
-              <p>跳转项，类型 <code>Int</code>。作用：控制节目单刷新时机。</p>
-              <p>子标题随当前值变化：</p>
-              <ul>
-                <li>阈值 ≥ 0：「时间不到&#123;N&#125;:00节目单将不会刷新」（<code>ui_epg_refresh_time_threshold_desc</code>）。</li>
-                <li>阈值 = -1：「应用将在每次启动时刷新节目单」（<code>ui_epg_refresh_time_on_startup_threshold_desc</code>）。</li>
-              </ul>
-              <p>子页面（<code>SettingsEpgRefreshTimeThresholdScreen</code>）6 列网格，可选值范围 <code>-1..&lt;13</code>，即 <code>-1, 0, 1, 2, …, 12</code> 共 14 项：</p>
-              <ul>
-                <li><code>-1</code> 显示为「启动时刷新」（<code>epg_loaded_on_Startup</code>）</li>
-                <li><code>0</code> → 「0:00」，<code>6</code> → 「6:00」，…，<code>12</code> → 「12:00」</li>
-              </ul>
-              <p>配置方法：设置 → 节目单 → 刷新时间阈值，OK 进入子页面，选择目标时间。</p>
-            </td>
+            <td>缓存时长（面板按源设置）</td>
+            <td>见上文「添加与管理」；默认跟随全局，可按源单独改成固定小时数或不缓存</td>
           </tr>
         </tbody>
       </table>
+      <p>某个节目单数据异常时，在「自定义节目单」里对它执行「清除缓存」，再点「刷新全部」。</p>
+      <doc-callout kind="warn" title="「加载全部节目单」慎用" icon="warning">
+        设置 → 节目单 → 加载全部节目单（默认关）会同时加载所有自定义节目单并合并显示，而不是只加载当前这份。
+        多份大节目单一起加载会明显变慢，小内存设备可能内存不足。只在确实需要多份节目单互补时开启。
+      </doc-callout>
 
-      <h2>4. 10591 面板（<code>/epg</code>）的全部可配置项</h2>
-      <p>面板组件 <code>app-epg</code>。开关即时写入 <code>configsService</code> 并 <code>updateConfig()</code> 推送回 TV。</p>
-      <table>
-        <thead>
-          <tr><th>面板字段</th><th>类型</th><th>说明</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><b>节目单启用</b>（<code>EPG.ENABLE</code>）</td>
-            <td><code>mat-slide-toggle</code></td>
-            <td>同 TV。描述（<code>EPG.ENABLE_DESC</code>）：「首次加载时可能会较为缓慢」。</td>
-          </tr>
-          <tr>
-            <td><b>经典选台界面节目单常显</b>（<code>EPG.ALWAYS_SHOW_IN_CLASSIC</code>）</td>
-            <td><code>mat-slide-toggle</code></td>
-            <td>同 TV；仅当经典选台界面开启时显示。描述（<code>EPG.ALWAYS_SHOW_IN_CLASSIC_DESC</code>）：「开启后，经典选台界面将始终显示节目单。」</td>
-          </tr>
-          <tr>
-            <td><b>跟随订阅源</b>（<code>EPG.FOLLOW_SOURCE</code>）</td>
-            <td><code>mat-slide-toggle</code></td>
-            <td>同 TV。描述（<code>EPG.FOLLOW_SOURCE_DESC</code>）：「优先使用订阅源中定义的节目单」。</td>
-          </tr>
-          <tr>
-            <td><b>加载全部节目单</b>（<code>EPG.LOAD_ALL</code>）</td>
-            <td><code>mat-slide-toggle</code></td>
-            <td>同 TV。描述（<code>EPG.LOAD_ALL_DESC</code>）：「启用后，应用将加载所有的自定义节目单，这可能会导致内存溢出、加载事件变长和加载失败等问题。」</td>
-          </tr>
-          <tr>
-            <td><b>自定义节目单</b>（<code>EPG.CUSTOM_EPG</code>）</td>
-            <td>跳转项</td>
-            <td>
-              <p>打开 EPG 源管理对话框 <code>app-epg-manager</code>（宽 600px）。</p>
-              <p>支持<b>拖拽排序</b>（<code>cdkDropList</code>，拖拽手柄 <code>drag_indicator</code>）、新增（<code>app-epg-source-dialog</code>）、编辑、删除、单选当前源。</p>
-              <p>保存按钮文案「更新」（<code>SYNC.UPDATE</code>），取消按钮「关闭」（<code>HOME.CLOSE</code>）。保存后弹出「更新成功」提示 3 秒。</p>
-            </td>
-          </tr>
-          <tr>
-            <td><b>刷新时间阈值</b>（<code>EPG.REFRESH_THRESHOLD</code>）</td>
-            <td>跳转项</td>
-            <td>
-              <p>打开阈值对话框 <code>app-epg-threshold-dialog</code>。右侧显示当前值：<code>-1</code> 显示「每次启动」，否则显示 <code>HH:MM</code>（<code>Math.floor</code> 取小时、<code>Math.round((o-e)*60)</code> 取分钟）。</p>
-              <p>预设单选：</p>
-              <ul>
-                <li>每次启动（<code>-1</code>，<code>EPG.THRESHOLD_ALWAYS</code>）</li>
-                <li>00:00（<code>0</code>）</li>
-                <li>06:00（<code>6</code>）</li>
-                <li>12:00（<code>12</code>）</li>
-                <li>18:00（<code>18</code>）</li>
-                <li>自定义（<code>EPG.CUSTOM</code>）：<code>&lt;input type="number" min="0" step="0.5"&gt;</code>，支持小数小时（如 <code>0.5</code> = 00:30，<code>12.5</code> = 12:30），最小 0。</li>
-              </ul>
-              <p>描述（<code>EPG.REFRESH_THRESHOLD_DESC</code>）：「每天 &#123;time&#125; 之前启动应用将不会刷新节目单」；<code>-1</code> 时为「每次启动应用都会尝试刷新节目单」（<code>EPG.REFRESH_THRESHOLD_ALWAYS_DESC</code>）。</p>
-              <p>注意：面板存的是 <code>number</code>，可含小数；TV 端 <code>SpState.int</code> 存整数，同步时小数部分会被截断。</p>
-            </td>
-          </tr>
-          <tr>
-            <td><b>EPG 源编辑对话框 - 名称</b>（<code>HOME.NAME</code>）</td>
-            <td>文本框（必填）</td>
-            <td>
-              <p><code>&lt;input matInput required&gt;</code>，绑定 <code>source.name</code>。</p>
-              <p>新增时初始值空字符串；编辑时回填原值。</p>
-              <p>示例：「默认节目单 综合」。</p>
-            </td>
-          </tr>
-          <tr>
-            <td><b>EPG 源编辑对话框 - 链接</b>（<code>HOME.LINK</code>）</td>
-            <td>文本框（必填）</td>
-            <td>
-              <p><code>&lt;input matInput required&gt;</code>，绑定 <code>source.url</code>。</p>
-              <p>支持 <code>http(s)://</code> XMLTV、<code>.gz</code> 压缩、<code>diyp://</code> / <code>lovetv://</code> / <code>sptv://</code> 模板（见第 1 节）。</p>
-              <p>示例：<code>https://gitee.com/mytv-android/myepg/raw/master/output/epg.gz</code>、<code>diyp://example.com/epg/&#123;name&#125;/&#123;date&#125;</code>。</p>
-              <p>名称和链接都非空时「推送」按钮才可点击。</p>
-            </td>
-          </tr>
-          <tr>
-            <td><b>EPG 源编辑对话框 - 格式</b></td>
-            <td>下拉</td>
-            <td>
-              <p>绑定 <code>source.format</code>，取值 <code>XML</code> / <code>DIYP</code> / <code>SPTV</code> / <code>LOVETV</code>，另有一项「自动」。</p>
-              <p>选「自动」时写入 <code>null</code>，按 URL 探测类型；显式指定时优先于 URL 探测。</p>
-            </td>
-          </tr>
-          <tr>
-            <td><b>EPG 源编辑对话框 - 缓存时段</b></td>
-            <td>下拉</td>
-            <td>
-              <p>绑定 <code>source.cacheHour</code>，单位小时。</p>
-              <p><code>跟随全局</code>（<code>-1</code>，默认）使用全局刷新时间阈值；<code>不缓存</code>（<code>0</code>）每次启动都重新拉取。</p>
-            </td>
-          </tr>
-          <tr>
-            <td><b>EPG 源编辑对话框 - 时区偏移</b></td>
-            <td>下拉</td>
-            <td>
-              <p>绑定 <code>source.timeZoneOffset</code>，取值 <code>-12</code> ~ <code>12</code>，<code>0</code> 为默认时区。</p>
-              <p>用于修正源端节目时间与本地时区的差异。</p>
-            </td>
-          </tr>
-          <tr>
-            <td><b>EPG 源编辑对话框 - 外部存储缓存</b></td>
-            <td>开关</td>
-            <td>
-              <p>绑定 <code>source.externalStorage</code>，默认关。</p>
-              <p>开启后该源缓存写入外部存储。</p>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h2>5. EPG 与频道的匹配</h2>
-      <p>
-        EPG 与频道通过 <code>EpgList.match(channel, epgSourceFollowIptv)</code> 匹配，优先级依次：
-      </p>
+      <h2 id="replay">回看已播节目</h2>
       <ol>
-        <li><b>tvg-id</b>（m3u <code>tvg-id="..."</code> → <code>Channel.epgID</code>）：索引精确查找，大小写不敏感。</li>
-        <li><b>tvg-name</b>（m3u <code>tvg-name="..."</code> → <code>Channel.epgName</code>）：索引精确查找，大小写不敏感。</li>
-        <li><b>standardName</b>（频道标准名）：进缓存查找，先查 <code>standardName</code>，再查 <code>displayName</code>，最后遍历 <code>Epg.channelList</code> 做 <code>equals</code> 比对。</li>
+        <li>在节目单指南页、直播界面节目单（GUIDE 键）或经典选台界面右侧的节目单里，找到已播出的节目；</li>
+        <li>按 OK 即开始回看。当前线路不支持回看时，会显示「暂不支持回看」。</li>
       </ol>
       <p>
-        如果 EPG 没显示节目，多半是 <code>tvg-id</code> / <code>tvg-name</code> 与 EPG 源中的 <code>id</code> / <code>channel</code> 不一致。可在面板编辑<b>频道别名</b>（配置项 <code>iptvChannelNameAlias</code>，对应 <code>ChannelAlias</code> 模块）把多个名字归并到同一逻辑频道。<code>epgSourceFollowIptv</code> 开启时优先使用订阅源内嵌 EPG。
+        回看的前提是线路支持：源里带 <code>catchup</code> 参数，或是运营商 PLTV 线路，详见
+        <a [routerLink]="'/sources'">订阅源</a> 的「回看（时移）」一节。
       </p>
-
-      <h2>6. EPG 显示位置</h2>
       <ul>
-        <li><b>频道信息条</b>：换台 / 切线时显示当前与下个节目，含进度条。</li>
-        <li><b>EPG 指南页</b>：完整的频道 × 时间二维表格，按遥控器「全局 EPG 切换键」跳到独立的 EpgGuideActivity，或在主界面长按左方向键。</li>
+        <li>回看时可拖动进度条、调整倍速；播完弹出结束面板，可接着播放下一个节目或返回直播。</li>
+        <li>直播画面中按快退键可沿时间轴回退（时移），最多回退 48 小时。</li>
+        <li>相关设置：「SeekTo方式」见 <a [routerLink]="'/player-settings'">播放器与字幕设置</a>；「显示回放标志」「常驻节目进度」等显示开关见 <a [routerLink]="'/live-screen'">直播主界面</a>。</li>
       </ul>
 
-      <h2>7. 回看</h2>
-      <p>
-        在 EPG 指南页选择已播出的节目，OK 即触发回看。回看类型由 m3u 的 <code>catchup</code> / <code>catchup-source</code> 决定（<code>M3uIptvParser</code> 解析），支持全局 <code>#EXTM3U</code> 行与每条 <code>#EXTINF</code> 行两种位置；后者覆盖前者。
-      </p>
-      <p>支持的回看类型（字符串大小写不敏感）：</p>
-      <ul>
-        <li><code>default</code> → 0</li>
-        <li><code>append</code> → 1</li>
-        <li><code>timeshift</code> / <code>shift</code> → 2</li>
-        <li><code>flussonic</code> → 3</li>
-        <li><code>xtream codes</code> → 4</li>
-        <li><code>disabled</code> → null（禁用）</li>
-      </ul>
-      <p>
-        直播最大可回退 <b>48 小时</b>（<code>Constants.LIVE_SEEKTO_MAX_REWIND_HOURS = 48</code>）。
-      </p>
-
-      <h2>8. 与其他功能的联动</h2>
-      <ul>
-        <li><b>订阅源</b>：m3u 内嵌 EPG 地址 + 「跟随订阅源」开关联动，见 <a [routerLink]="'/sources'">订阅源</a>。</li>
-        <li><b>播放器</b>：「SeekTo 方式 = 重载URL跳转」时回看通过修改 startAt 实现，见 <a [routerLink]="'/player-settings'">播放器与字幕</a>。</li>
-        <li><b>界面</b>：「节目进度」「常驻节目进度」「经典选台界面节目单常显」三个开关控制 EPG 在 UI 上的呈现，见 <a [routerLink]="'/live-screen'">直播主界面</a>。</li>
-      </ul>
+      <h2 id="reserve">预约未播节目</h2>
+      <ol>
+        <li>在节目单指南页、直播界面节目单或经典选台界面里，找到尚未播出的节目；</li>
+        <li>按 OK 预约，再按一次取消预约；</li>
+        <li>节目开始时屏幕弹出提醒，可「立即前往」或「忽略」。</li>
+      </ol>
+      <p>预约与回看在节目单上的入口和状态标记，详见 <a [routerLink]="'/live-screen'">直播主界面</a>。</p>
     </div>
   `,
 })

@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:index": "node scripts/build-search-index.mjs",
     "build:ghpages": "ng build --configuration=production --base-href=/mytv-doc/ && node scripts/ghpages-404.mjs",
     "deploy": "npm run build:ghpages && ng deploy --base-href=/mytv-doc/ --no-build",
     "watch": "ng build --watch --configuration development",
