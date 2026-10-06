@@ -204,14 +204,21 @@ export const SEARCH_INDEX: SearchIndexEntry[] = [
     title: '订阅源（IPTV）',
     anchor: '',
     section: '订阅源类型',
-    keywords: '订阅源类型 sourceType 网络 m3u txt 本地文件 Xtream Codes Stalker Portal get.php handshake 必填字段 gz GZIP FTP FTPS SMB smb2 cifs WebDAV webdavs dav 协议 端口 共享名 NTLM Basic 认证 PASV EPSV smbj user:pass@ Scheme鉴权自动识别 protocol',
+    keywords: '订阅源类型 sourceType 网络 m3u txt 本地文件 Xtream Codes Stalker Portal get.php handshake 必填字段 gz GZIP FTP FTPS SMB smb2 cifs WebDAV webdavs dav 协议 端口 共享名 NTLM Basic 认证 PASV EPSV smbj user:pass@ Scheme鉴权自动识别 protocol 聚合配置 sourceType=4 多源合并',
   },
   {
     path: '/sources',
     title: '订阅源（IPTV）',
     anchor: '',
     section: '添加订阅源',
-    keywords: '添加订阅源 二维码 面板 remote xtream stalker file content 粘贴 m3u 内容 深链 mytv://add nanotv:// play.aptv.app POST /api/iptv-source/push',
+    keywords: '添加订阅源 二维码 面板 remote xtream stalker file content 粘贴 m3u 内容 深链 mytv://add nanotv:// play.aptv.app POST /api/iptv-source/push 添加聚合配置',
+  },
+  {
+    path: '/sources',
+    title: '订阅源（IPTV）',
+    anchor: '',
+    section: '聚合配置（多源同名频道合并）',
+    keywords: '聚合配置 聚合源 sourceType=4 多源合并 同名频道 多线路 备选线路 线路优先级 勾选顺序 活引用 名称+地址 标准频道名 standardName 频道别名 自动切换线路 播放超时时间 5秒 10秒 线路级代理 httpProxy 继承 节目单并集 EPG 不支持嵌套 清缓存 刷新全部 添加聚合配置 编辑聚合配置',
   },
   {
     path: '/sources',

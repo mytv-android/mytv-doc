@@ -11,11 +11,11 @@ import { DocCallout } from '../../shared/doc-callout';
     <div class="doc-page">
       <doc-page-header
         title="订阅源（IPTV）"
-        lead="订阅源是电视直播的核心数据。本页介绍四种源类型、URL 前缀协议、混合源，以及 TV 应用内和 10591 面板上的全部相关设置。"
+        lead="订阅源是电视直播的核心数据。本页介绍五种源类型、聚合配置、URL 前缀协议、混合源，以及 TV 应用内和 10591 面板上的全部相关设置。"
       />
 
       <h2>1. 订阅源类型</h2>
-      <p>应用支持四种订阅源类型（<code>sourceType</code>），按内容自动识别或手动指定：</p>
+      <p>应用支持五种订阅源类型（<code>sourceType</code>），按内容自动识别或手动指定：</p>
       <table>
         <thead>
           <tr><th>类型</th><th>sourceType</th><th>说明</th><th>必填字段</th></tr>
@@ -59,6 +59,15 @@ import { DocCallout } from '../../shared/doc-callout';
             </td>
             <td>链接（含协议/账号）或协议 + 端口 + 账号字段</td>
           </tr>
+          <tr>
+            <td><b>聚合配置</b></td>
+            <td><code>4</code></td>
+            <td>
+              把多个已有订阅源打包成一个配置：同名频道的线路合并到一起，一条播不出来自动切下一条。
+              聚合自身不抓取内容，只按「名称 + 地址」引用成员源。详见下文「聚合配置」一节。
+            </td>
+            <td>至少一个成员订阅源</td>
+          </tr>
         </tbody>
       </table>
 
@@ -69,8 +78,12 @@ import { DocCallout } from '../../shared/doc-callout';
           <b>TV 端：设置 → 订阅源 → 自定义订阅源 → 添加其他订阅源</b>。弹二维码，扫码跳到面板添加页。
           <ul>
             <li>面板首页（<code>/</code>）→ 订阅源。支持 5 种类型：<code>remote</code>（网络 URL）/ <code>xtream</code> / <code>stalker</code> / <code>file</code>（TV 本地路径）/ <code>content</code>（直接粘贴 m3u / txt 内容，面板把内容写到 TV 本地文件 <code>iptv_source_local_&lt;时间戳&gt;.txt</code> 再注册为本地源）。</li>
-            <li>面板订阅源页（<code>/sources</code>）→ 新增。同首页，但走完整编辑对话框。</li>
+            <li>面板订阅源页（<code>/sources</code>）→ 新增。同首页，但走完整编辑对话框，类型中额外提供「聚合配置」。</li>
           </ul>
+        </li>
+        <li>
+          <b>TV 端：设置 → 订阅源 → 自定义订阅源 → 添加聚合配置</b>。不扫码，直接在 TV 上输入名称并勾选要聚合的订阅源（详见
+          <b>3. 聚合配置</b>）。
         </li>
         <li>
           <b>深链添加</b>：<code>mytv://add?url=&lt;订阅源地址&gt;&amp;name=&amp;user-agent=&amp;proxy=&amp;transform-js=</code>。从外部 App 唤起 TV 应用并直接写入订阅源列表。
@@ -80,7 +93,42 @@ import { DocCallout } from '../../shared/doc-callout';
         </li>
       </ol>
 
-      <h2>3. m3u 支持的扩展字段</h2>
+      <h2>3. 聚合配置（多源同名频道合并）</h2>
+      <p>
+        <b>聚合配置</b>（<code>sourceType=4</code>）把多个已有订阅源打包成一个配置：聚合自身不抓取内容，
+        取数时逐个加载被引用的订阅源，再把<b>同名频道</b>归并为同一频道的多条线路。
+        播放时一条线路播不出来，会自动切到该频道的下一条线路。
+      </p>
+      <h3>创建与编辑</h3>
+      <ul>
+        <li><b>TV 端</b>：设置 → 订阅源 → 自定义订阅源 → <b>添加聚合配置</b>。输入名称、勾选要聚合的订阅源，保存后自动设为当前源。</li>
+        <li><b>面板</b>：添加 / 编辑订阅源对话框，类型选「聚合配置」，在「选择要聚合的订阅源」列表中勾选，并用上下箭头调整顺序。</li>
+        <li><b>编辑</b>：TV 端长按聚合条目 → 「编辑聚合配置」；面板直接点编辑。增删成员、调整顺序都在这里。</li>
+      </ul>
+      <h3>合并规则</h3>
+      <ul>
+        <li><b>勾选顺序 = 线路优先级</b>：越早勾选的订阅源，其线路排得越靠前，播放时越优先。</li>
+        <li><b>同名归并</b>：按「标准频道名」（经频道别名归一后的名字）跨源合并为同一频道；各源的线路按订阅源顺序拼接，URL 重复的线路只保留第一条。</li>
+        <li><b>频道信息</b>：频道名、分组取<b>最先出现</b>的订阅源；该处缺失的台标 / 节目单 ID 会用后续成员源补齐。</li>
+        <li><b>分组</b>：各源分组按首次出现的顺序合并；同名频道归入它第一次出现的分组。</li>
+        <li><b>代理</b>：线路继承其来源订阅源的单源代理（<code>httpProxy</code>），带代理的源聚合后播放仍走代理。</li>
+        <li><b>节目单</b>：EPG 设置开启「跟随订阅源」时，聚合配置的节目单地址取各成员源内嵌 EPG 地址的<b>并集</b>；聚合配置自身的「EPG 地址」字段优先。</li>
+      </ul>
+      <h3>播放与自动切换</h3>
+      <ul>
+        <li>播放报错（含加载超时）时自动切到本频道的下一条线路，逐条尝试到最后一条为止，<b>不循环回第一条</b>。</li>
+        <li>「播放超时时间」（设置 → 播放器，默认 10 秒）就是「多久没起播算失败」的阈值；聚合想更激进地换线，可调到 5 秒左右。</li>
+        <li>频道列表右上角的数字角标即该频道的备选线路数，聚合频道通常大于 1。</li>
+      </ul>
+      <doc-callout kind="info" title="聚合配置的引用方式">
+        <ul>
+          <li><b>活引用</b>：聚合按「名称 + 地址」引用成员源。面板里改过成员源的地址后聚合自动生效；成员源被删除后自动从聚合中剔除。</li>
+          <li>成员源仍保留在订阅源列表中，可以单独使用，也可以同时被多个聚合配置引用；<b>不支持聚合嵌套</b>（成员只能是普通订阅源）。</li>
+          <li>加载成员源失败时：有本地缓存则用缓存，没有则跳过该成员；全部成员都失败才报错。</li>
+          <li>「刷新全部」会连同聚合一起刷新；对聚合执行「清缓存」会清空其全部成员源的缓存。</li>
+        </ul>
+      </doc-callout>
+      <h2>4. m3u 支持的扩展字段</h2>
       <h3><code>#EXTM3U</code> 行（全局）</h3>
       <ul>
         <li><code>catchup</code> / <code>catchup-source</code>：默认回看类型与回看地址，可被 <code>#EXTINF</code> 行覆写。</li>
@@ -160,7 +208,7 @@ import { DocCallout } from '../../shared/doc-callout';
         </tbody>
       </table>
 
-      <h2>4. URL 前缀（混合源协议）</h2>
+      <h2>5. URL 前缀（混合源协议）</h2>
       <p>
         每条线路的 URL 可以加前缀改变播放器行为。前缀决定 <code>hybridType</code>，影响线路被切到时的处理方式。
       </p>
@@ -198,7 +246,7 @@ import { DocCallout } from '../../shared/doc-callout';
         </tbody>
       </table>
 
-      <h2>5. javascript:// 源</h2>
+      <h2>6. javascript:// 源</h2>
       <p>
         把订阅源某条线路的 URL 写成 <code>javascript://</code> 开头，播放器切到这条线路时不会直接请求网络，
         而是把整段 URL 交给内置的 <b>QuickJS</b> 引擎执行。脚本 <code>return</code> 的字符串就是真正的播放地址（m3u8 / mp4 等）。
@@ -216,7 +264,7 @@ import { DocCallout } from '../../shared/doc-callout';
         <li>调试需要打开「开发者模式」（见 <a [routerLink]="'/remote-panel'">远程配置面板</a> → <code>/ku9/js/*</code> 端点）。</li>
       </ul>
 
-      <h2>6. 混合源（自动添加网页源）</h2>
+      <h2>7. 混合源（自动添加网页源）</h2>
       <p>
         <b>电视直播</b>内置<b>混合源</b>能力：自动为订阅源中的频道追加官网 / 央视网 / 央视频等网页源线路，作为内置源失效时的兜底。
       </p>
@@ -233,7 +281,7 @@ import { DocCallout } from '../../shared/doc-callout';
         央视频线路属于 WebView 源，付费频道需要配合「网页源央视频 Cookie」。
       </p>
 
-      <h2>7. TV 应用内设置项（设置 → 订阅源）</h2>
+      <h2>8. TV 应用内设置项（设置 → 订阅源）</h2>
       <p>入口：<b>设置 → 订阅源</b>。下列表格按 TV 设置页的顺序排列，「默认」列来自源码中的常量初始值。</p>
       <table>
         <thead>
@@ -245,8 +293,9 @@ import { DocCallout } from '../../shared/doc-callout';
             <td>WebView测试源</td>
             <td>
               <p>子页面管理全部订阅源。</p>
-              <p>列表项显示：名称 + 类型徽标（<code>本地</code> / <code>XTREAM</code> / <code>STALKER PORTAL</code>，网络源无徽标）+ 转换JS 徽标 + 链接 + 单源 UA + 缓存信息（分组数 / 频道数 / 缓存大小 / 更新时间）。</p>
-              <p>单项操作：设为当前 / 删除 / 清除缓存。页面顶部「刷新全部」重新拉取所有源并显示加载 / 错误状态。</p>
+              <p>列表项显示：名称 + 类型徽标（<code>本地</code> / <code>XTREAM</code> / <code>STALKER PORTAL</code> / <code>聚合</code>，网络源无徽标）+ 转换JS 徽标 + 链接 + 单源 UA + 缓存信息（分组数 / 频道数 / 缓存大小 / 更新时间）；聚合条目显示成员源名称（<code>聚合：源1、源2</code>）代替链接。</p>
+              <p>单项操作：设为当前 / 删除 / 清除缓存；聚合条目另有<b>编辑聚合配置</b>。页面顶部「刷新全部」重新拉取所有源并显示加载 / 错误状态。</p>
+              <p>页面底部还有<b>添加其他订阅源</b>（二维码）与<b>添加聚合配置</b>（TV 内多选创建）两个入口。</p>
               <p>默认演示源：<code>https://gitee.com/mytv-android/iptv-api/raw/master/output/webview_demo.m3u</code>。</p>
             </td>
           </tr>
@@ -411,7 +460,7 @@ import { DocCallout } from '../../shared/doc-callout';
         </tbody>
       </table>
 
-      <h2>8. 10591 面板（<code>/sources</code>）的全部可配置项</h2>
+      <h2>9. 10591 面板（<code>/sources</code>）的全部可配置项</h2>
       <p>面板订阅源页比 TV 多了排序、转换JS、单源 UA / 代理、EPG 地址、自动刷新、预览 / 延迟检测开关、别名编辑、文件内容直接编辑等能力。所有字段通过 <code>POST /api/configs</code> 写回；别名编辑绑定 <code>configs.iptvChannelNameAlias</code>，随 <code>/api/configs</code> 一起下发，也可单独通过 <code>POST /api/channel-alias</code> 写回（两条路径都会自动刷新别名并清空 IPTV / EPG 缓存）。</p>
       <table>
         <thead>
@@ -431,12 +480,20 @@ import { DocCallout } from '../../shared/doc-callout';
           <tr>
             <td>编辑对话框 - 类型</td>
             <td>下拉</td>
-            <td><code>remote</code>（sourceType 0）/ <code>file</code>（1）/ <code>xtream</code>（2）/ <code>stalker</code>（3）。</td>
+            <td><code>remote</code>（sourceType 0）/ <code>file</code>（1）/ <code>xtream</code>（2）/ <code>stalker</code>（3）/ <code>聚合配置</code>（4）。</td>
+          </tr>
+          <tr>
+            <td>编辑对话框 - 聚合成员</td>
+            <td>复选列表 + 排序</td>
+            <td>
+              仅「聚合配置」类型显示，代替链接字段。勾选要聚合的订阅源，勾选顺序即线路优先级，可用上下箭头调整，至少勾选一个。
+              列表只含普通订阅源（聚合配置不参与嵌套）。
+            </td>
           </tr>
           <tr>
             <td>编辑对话框 - 链接 / 文件路径</td>
             <td>文本框</td>
-            <td>网络源 URL 或本地文件路径（<code>/</code> 开头）。xtream / stalker 填服务器根地址。</td>
+            <td>网络源 URL 或本地文件路径（<code>/</code> 开头）。xtream / stalker 填服务器根地址。聚合配置类型不显示（地址由成员源决定）。</td>
           </tr>
           <tr>
             <td>编辑对话框 - 用户名 / 密码</td>
@@ -463,7 +520,7 @@ import { DocCallout } from '../../shared/doc-callout';
             <td>文本框</td>
             <td>
               <p>单源级代理（<code>httpProxy</code>）。所有类型（含本地源）均显示。</p>
-              <p>播放器解析有效代理的优先级：<b>播放器代理规则列表</b>（正则匹配）&gt; <b>当前订阅源的 httpProxy</b> &gt; <b>播放器全局代理</b>。</p>
+              <p>播放器解析有效代理的优先级：<b>播放器代理规则列表</b>（正则匹配）&gt; <b>线路级代理</b>（聚合配置的线路继承来源成员源的 httpProxy）&gt; <b>当前订阅源的 httpProxy</b> &gt; <b>播放器全局代理</b>。</p>
               <p>格式：<code>http://host:port</code> 或 <code>socks5://host:port</code>，可带认证 <code>user:pass@host:port</code>。</p>
             </td>
           </tr>
@@ -602,7 +659,7 @@ import { DocCallout } from '../../shared/doc-callout';
         </tbody>
       </table>
 
-      <h2>9. 与其他功能的联动</h2>
+      <h2>10. 与其他功能的联动</h2>
       <ul>
         <li><b>EPG</b>：「跟随订阅源」开启时，编辑对话框中的<b>「EPG 地址」</b>（<code>epg</code>）优先作为节目单来源，其次为源内容内嵌的 <code>x-tvg-url</code> / <code>url-tvg</code>。详见 <a [routerLink]="'/epg'">EPG 节目单</a>。</li>
         <li><b>WebView 播放器</b>：<code>webview://</code> 前缀触发 WebView 内核加载。详见 <a [routerLink]="'/webview-player'">WebView 播放器</a>。</li>
