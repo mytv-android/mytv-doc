@@ -33,7 +33,7 @@ import { DocCallout } from '../../shared/doc-callout';
           <tr><td><code>/</code></td><td>首页</td><td>快速添加订阅源 / EPG / 别名 / 云同步 / 推 APK / 关于</td><td>本页 §3</td></tr>
           <tr><td><code>/general</code></td><td>通用</td><td>开机自启、启动页、画中画</td><td><a [routerLink]="'/settings'">设置项总览 §1</a></td></tr>
           <tr><td><code>/sources</code></td><td>订阅源</td><td>订阅源列表管理、隐藏规则、别名、混合源、PLTV</td><td><a [routerLink]="'/sources'">订阅源</a></td></tr>
-          <tr><td><code>/services</code></td><td>服务</td><td>Python 运行环境下载与服务管理（加载 / 检查代码、开关、地址复制、日志）</td><td><a [routerLink]="'/python-services'">Python 服务</a></td></tr>
+          <tr><td><code>/services</code></td><td>服务</td><td>Python 运行环境下载与服务管理（检查代码、开关、地址复制、日志）</td><td><a [routerLink]="'/python-services'">Python 服务</a></td></tr>
           <tr><td><code>/epg</code></td><td>节目单</td><td>EPG 源管理、刷新阈值、跟随订阅源</td><td><a [routerLink]="'/epg'">EPG</a></td></tr>
           <tr><td><code>/ui</code></td><td>界面</td><td>进度条、台标、回放标志、预览、缩放、收藏、历史</td><td><a [routerLink]="'/settings'">设置项总览 §4</a></td></tr>
           <tr><td><code>/theme</code></td><td>主题</td><td>颜色模式、配色方案、自定义主题</td><td><a [routerLink]="'/settings'">设置项总览 §5</a></td></tr>

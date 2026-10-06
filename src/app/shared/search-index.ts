@@ -680,7 +680,7 @@ export const SEARCH_INDEX: SearchIndexEntry[] = [
     title: 'Python 服务',
     anchor: '#add',
     section: '第二步：添加服务（网页面板）',
-    keywords: '添加服务 服务名称 端口 代码来源 远程链接 加载代码 检查代码 粘贴 局域网共享 启用 自动运行',
+    keywords: '添加服务 服务名称 端口 代码来源 远程链接 本地文件 检查代码 局域网共享 启用 自动运行',
   },
   {
     path: '/python-services',
