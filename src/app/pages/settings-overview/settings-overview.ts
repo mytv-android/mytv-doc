@@ -154,7 +154,7 @@ import { DocCallout } from '../../shared/doc-callout';
           </tr>
           <tr>
             <td>更新强提醒</td>
-            <td>默认关。开 = 检测到新版本时全屏提醒；关 = 仅消息提示。</td>
+            <td>默认关。开 = 只要还有新版本，每次启动都全屏提醒，忽略只跳过这一次；关 = 仅消息提示，同一版本只提示一次。</td>
           </tr>
         </tbody>
       </table>
