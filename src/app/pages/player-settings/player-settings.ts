@@ -16,6 +16,11 @@ import { DocShot } from '../../shared/doc-shot';
       />
 
       <h2 id="core">内核与组件下载</h2>
+      <doc-shot
+        src="screenshots/app-player-top.png"
+        alt="电视端设置 → 播放器：渲染方式、视频播放器内核等"
+        caption="电视端 设置 → 播放器：「渲染方式」「视频播放器内核」是开头两项，往下是解码、增强、字幕等分组的开关。"
+      />
       <p>
         电视端 <b>设置 → 播放器 → 视频播放器内核</b> 切换全局默认内核；播放中也可以在快捷设置面板里临时切换。
       </p>

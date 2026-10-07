@@ -83,6 +83,11 @@ import { DocShot } from '../../shared/doc-shot';
       </table>
 
       <h2 id="pages">各设置页一览</h2>
+      <doc-shot
+        src="screenshots/panel-ui.png"
+        alt="网页面板界面页"
+        caption="面板的设置页都是这个样式：一行一项，开关直接拨，改完即保存——以「界面」页为例。"
+      />
       <p>侧边栏的其余页面与电视端「设置」里的分类一一对应，细节在手册的对应章节，这里只列面板特有的操作：</p>
       <table>
         <thead>

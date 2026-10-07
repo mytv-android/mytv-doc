@@ -16,6 +16,11 @@ import { DocShot } from '../../shared/doc-shot';
       />
 
       <h2 id="structure">应用结构</h2>
+      <doc-shot
+        src="screenshots/app-dashboard.png"
+        alt="电视端首页：左侧收藏轮播与最近观看，右侧导航图标网格"
+        caption="电视端首页。左侧是「收藏」轮播（当前频道的大幅卡片）和「最近观看」；右侧「导航」是进入各个页面的图标网格。"
+      />
       <p>
         应用分两类界面：<b>主界面</b>（首页、全部频道、收藏、搜索、节目单（EPG）、推送、多屏同播、设置等页面在同一窗口内切换）
         和<b>全屏直播界面</b>（选中频道即进入，横屏常亮）。
@@ -172,9 +177,9 @@ import { DocShot } from '../../shared/doc-shot';
         大部分也能在<a [routerLink]="'/remote-panel'">远程配置面板</a>的 <b>界面</b> 页远程修改。
       </p>
       <doc-shot
-        src="screenshots/panel-ui.png"
-        alt="网页面板界面页：节目进度、台标显示、频道预览等开关"
-        caption="面板 → 界面页：开关一目了然，「频道预览」和「频道预览并行数」就在这一屏。"
+        src="screenshots/app-ui.png"
+        alt="电视端设置 → 界面：节目进度、台标显示、频道预览等开关"
+        caption="电视端 设置 → 界面。红框两项控制频道预览图：抓帧靠的是各线路地址，用不到可以整页关掉。"
       />
       <table>
         <thead>

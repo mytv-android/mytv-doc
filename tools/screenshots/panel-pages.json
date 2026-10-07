@@ -1,0 +1,17 @@
+[
+  { "name": "panel-home", "path": "/?lang=zh", "waitMs": 4000 },
+  { "name": "panel-sources", "path": "/sources?lang=zh", "waitMs": 4000 },
+  {
+    "name": "panel-source-dialog",
+    "path": "/sources?lang=zh",
+    "waitMs": 4000,
+    "pre": "(async () => { const sleep = (ms) => new Promise(r => setTimeout(r, ms)); const kebab = [...document.querySelectorAll('button')].filter(b => b.textContent.trim() === 'more_vert'); kebab[0]?.click(); await sleep(700); const items = [...document.querySelectorAll('.mat-mdc-menu-item, [role=\"menuitem\"]')]; items.find(i => i.textContent.includes('编辑'))?.click(); await sleep(900); return 'ok'; })()",
+    "afterMs": 1200
+  },
+  { "name": "panel-player", "path": "/player?lang=zh", "waitMs": 4000 },
+  { "name": "panel-epg", "path": "/epg?lang=zh", "waitMs": 4000 },
+  { "name": "panel-services", "path": "/services?lang=zh", "waitMs": 4000 },
+  { "name": "panel-ui", "path": "/ui?lang=zh", "waitMs": 4000 },
+  { "name": "panel-sync", "path": "/sync?lang=zh", "waitMs": 4000 },
+  { "name": "panel-general", "path": "/general?lang=zh", "waitMs": 4000 }
+]

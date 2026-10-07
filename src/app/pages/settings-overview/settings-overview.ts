@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DocPageHeader } from '../../shared/doc-page-header';
 import { DocCallout } from '../../shared/doc-callout';
+import { DocShot } from '../../shared/doc-shot';
 
 @Component({
   selector: 'app-settings-overview',
-  imports: [DocPageHeader, DocCallout, RouterLink],
+  imports: [DocPageHeader, DocCallout, DocShot, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="doc-page">
@@ -15,6 +16,11 @@ import { DocCallout } from '../../shared/doc-callout';
       />
 
       <h2 id="entries">在哪里改设置</h2>
+      <doc-shot
+        src="screenshots/app-settings.png"
+        alt="电视端设置页：通用、订阅源、服务、节目单、界面、主题等分类图标"
+        caption="电视端的设置页：16 个分类一字排开，按 OK 进入二级页。大部分条目都能在远程配置面板上改，改法见各分类的说明页。"
+      />
       <p>电视端有两个入口，进入的是同一套设置：</p>
       <ul>
         <li><b>首页 → 设置</b>：图标网格，16 个一级分类一字排开；</li>
@@ -93,6 +99,11 @@ import { DocCallout } from '../../shared/doc-callout';
       </p>
 
       <h2 id="components">组件下载</h2>
+      <doc-shot
+        src="screenshots/app-components.png"
+        alt="电视端设置 → 组件下载：Python 运行环境、PHP 运行环境、语音识别运行库等"
+        caption="设置 → 组件下载。每行右侧显示状态（未下载 / 下载中 / 已安装…），按 OK 下载，长按 OK 删除。"
+      />
       <p>
         <b>设置 → 组件下载</b> 统一管理所有需要在线下载的组件。每行显示名称、用途和状态
         （未下载 / 下载中 / 校验中 / 解压中 / 已安装 / 下载失败）；按 <b>OK 开始下载</b>，已安装的组件

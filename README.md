@@ -70,10 +70,13 @@ src/
 │   │   ├── faq/  build/  not-found/
 │   └── shared/
 │       ├── doc-page-header.ts         # 页面标题组件
-│       └── doc-callout.ts             # 提示卡片
+│       ├── doc-callout.ts             # 提示卡片
+│       └── doc-shot.ts                # 文档配图（截图 + 图注）
 ├── styles.scss                        # 全局样式 + .doc-page 排版 + 深色主题
 └── index.html
 
+public/screenshots/                    # 页面配图（由 tools/screenshots 生成）
+tools/screenshots/                     # 截图工具：面板假数据 + 无头截图 + 裁剪标注
 scripts/ghpages-404.mjs                # 构建后复制 404.html
 SYNC_STATE.md                          # 记录上次同步到的 mytv-android commit
 .claude/skills/sync-from-android/      # 源码同步 skill

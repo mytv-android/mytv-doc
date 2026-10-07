@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DocPageHeader } from '../../shared/doc-page-header';
 import { DocCallout } from '../../shared/doc-callout';
+import { DocShot } from '../../shared/doc-shot';
 
 @Component({
   selector: 'app-channels',
-  imports: [DocPageHeader, DocCallout, RouterLink],
+  imports: [DocPageHeader, DocCallout, DocShot, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="doc-page">
@@ -26,6 +27,11 @@ import { DocCallout } from '../../shared/doc-callout';
 
       <h2 id="all-channels">全部频道</h2>
       <p>入口：<b>首页 → 全部频道</b>（也可在 <b>设置 → 通用 → 启动页面</b> 设为开机直达）。</p>
+      <doc-shot
+        src="screenshots/app-channels.png"
+        alt="电视端全部频道页：分组标签行与频道卡网格"
+        caption="全部频道页。上方一行是分组标签（央视 / 体育 / 卫视…），下面是频道卡：台标、频道名，以及当前正在播的节目。"
+      />
       <p>页面上方是<b>分组标签行</b>，下方是当前分组的<b>频道卡网格</b>。每张频道卡显示：</p>
       <ul>
         <li>预览图或台标、频道号、频道名；</li>

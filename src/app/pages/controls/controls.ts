@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DocPageHeader } from '../../shared/doc-page-header';
 import { DocCallout } from '../../shared/doc-callout';
+import { DocShot } from '../../shared/doc-shot';
 
 @Component({
   selector: 'app-controls',
-  imports: [DocPageHeader, DocCallout, RouterLink],
+  imports: [DocPageHeader, DocCallout, DocShot, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="doc-page">
@@ -15,6 +16,11 @@ import { DocCallout } from '../../shared/doc-callout';
       />
 
       <h2 id="default-keys">直播界面默认键位</h2>
+      <doc-shot
+        src="screenshots/app-control.png"
+        alt="电视端设置 → 控制：数字选台、频道列表首尾循环、跨分组切换、按键行为"
+        caption="设置 → 控制：数字选台、列表首尾循环、跨分组切换等开关，以及进入「按键（手势）行为」改绑按键的子页。"
+      />
       <p>
         下表是直播界面的默认键位，均可按下一节的方法改绑。
         遥控器的<b>频道±、翻页±、小键盘±</b>键与上 / 下方向键等效，小键盘确认键与 OK 等效。
