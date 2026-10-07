@@ -27,14 +27,14 @@ import { DocCallout } from '../../shared/doc-callout';
           <tr><th>文件名包含</th><th>适用设备</th></tr>
         </thead>
         <tbody>
-          <tr><td><code>arm64-v8a</code></td><td><b>较新的 64 位电视 / 盒子（主流选择）</b>。</td></tr>
-          <tr><td><code>armeabi-v7a</code></td><td>较老的 32 位电视 / 盒子。</td></tr>
+          <tr><td><code>arm64-v8a</code></td><td>64 位系统的设备：手机、平板，以及少数 64 位系统的盒子。</td></tr>
+          <tr><td><code>armeabi-v7a</code></td><td>32 位系统的设备：<b>绝大多数电视和盒子都属这一类</b>。</td></tr>
           <tr><td><code>x86</code> / <code>x86_64</code></td><td>Intel / AMD 处理器的设备、模拟器。</td></tr>
           <tr><td><code>all</code>（universal）</td><td>不确定选哪个时用它，体积最大但全平台兼容。</td></tr>
         </tbody>
       </table>
       <p>
-        普通电视优先 <code>arm64-v8a</code>；装上打不开再换 <code>armeabi-v7a</code> 或 <code>all</code>。
+        电视、盒子优先 <code>armeabi-v7a</code>；手机、平板用 <code>arm64-v8a</code>。盒子普遍是 64 位芯片配 32 位系统，决定能否安装的是<b>系统</b>位数而不是芯片位数，这类设备仍只能装 <code>armeabi-v7a</code>。装不上（提示「不兼容」「解析包错误」）就换 <code>all</code>。
       </p>
       <p>文件名还带三种后缀，按需选择：</p>
       <ul>

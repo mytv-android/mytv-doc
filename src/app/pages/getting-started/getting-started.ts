@@ -30,7 +30,7 @@ import { DocCallout } from '../../shared/doc-callout';
           在电脑或手机上打开
           <a href="https://github.com/mytv-android/mytv-android/releases" target="_blank" rel="noopener">GitHub Releases</a>
           下载最新 APK。一个版本有多个安装包，按 CPU 架构选择，对照表见
-          <a [routerLink]="'/build'">下载与更新</a>（普通电视优先 arm64-v8a，装不上再换 armeabi-v7a 或 universal）。
+          <a [routerLink]="'/build'">下载与更新</a>（电视、盒子优先 armeabi-v7a，手机、平板用 arm64-v8a，不确定用 universal）。
         </li>
         <li>用 U 盘把 APK 拷到电视上安装；首次在电视上安装第三方应用时，按系统提示允许「安装未知应用」。</li>
         <li>安装完成后打开应用。</li>
