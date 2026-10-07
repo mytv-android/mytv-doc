@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DocPageHeader } from '../../shared/doc-page-header';
 import { DocCallout } from '../../shared/doc-callout';
+import { DocShot } from '../../shared/doc-shot';
 
 @Component({
   selector: 'app-live-screen',
-  imports: [DocPageHeader, DocCallout, RouterLink],
+  imports: [DocPageHeader, DocCallout, DocShot, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="doc-page">
@@ -170,6 +171,11 @@ import { DocCallout } from '../../shared/doc-callout';
         以下条目全部位于 <b>设置 → 界面</b>，默认值在说明中标注；
         大部分也能在<a [routerLink]="'/remote-panel'">远程配置面板</a>的 <b>界面</b> 页远程修改。
       </p>
+      <doc-shot
+        src="screenshots/panel-ui.png"
+        alt="网页面板界面页：节目进度、台标显示、频道预览等开关"
+        caption="面板 → 界面页：开关一目了然，「频道预览」和「频道预览并行数」就在这一屏。"
+      />
       <table>
         <thead>
           <tr><th>设置项</th><th>说明</th></tr>

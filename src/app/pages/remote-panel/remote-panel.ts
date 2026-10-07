@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DocPageHeader } from '../../shared/doc-page-header';
 import { DocCallout } from '../../shared/doc-callout';
+import { DocShot } from '../../shared/doc-shot';
 
 @Component({
   selector: 'app-remote-panel',
-  imports: [DocPageHeader, DocCallout, RouterLink],
+  imports: [DocPageHeader, DocCallout, DocShot, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="doc-page">
@@ -50,6 +51,11 @@ import { DocCallout } from '../../shared/doc-callout';
 
       <h2 id="home-cards">首页：快捷操作</h2>
       <p>面板打开后的首页不是状态页，而是一排<b>快捷操作卡片</b>，最常用的推送都在这里：</p>
+      <doc-shot
+        src="screenshots/panel-home.png"
+        alt="网页面板首页：若干快捷操作卡片"
+        caption="网页面板首页。左侧「关于应用」只读；右侧卡片从「订阅源」「自定义节目单」一路往下是「播放器全局设置」「云同步」「安装 APK」。"
+      />
       <table>
         <thead>
           <tr><th>卡片</th><th>能做什么</th></tr>

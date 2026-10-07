@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DocPageHeader } from '../../shared/doc-page-header';
 import { DocCallout } from '../../shared/doc-callout';
+import { DocShot } from '../../shared/doc-shot';
 
 @Component({
   selector: 'app-sources',
-  imports: [DocPageHeader, DocCallout, RouterLink],
+  imports: [DocPageHeader, DocCallout, DocShot, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="doc-page">
@@ -96,6 +97,11 @@ import { DocCallout } from '../../shared/doc-callout';
       </ul>
 
       <h3 id="manage-panel">面板订阅源页</h3>
+      <doc-shot
+        src="screenshots/panel-sources.png"
+        alt="网页面板订阅源页：源列表与缓存时间"
+        caption="面板 → 订阅源页：列表单选切换当前源，行尾 ⋮ 是上移 / 下移 / 编辑 / 删除；下面跟着缓存时间与频道层面的开关。"
+      />
       <p>
         面板的 订阅源 页比电视端功能更全：单选钮切换当前源，每行菜单可<b>上移 / 下移排序</b>、编辑、删除。
         「新增 / 编辑订阅源」对话框的字段一览：
@@ -118,6 +124,11 @@ import { DocCallout } from '../../shared/doc-callout';
           <tr><td>文件内容</td><td>仅本地文件类型：直接在面板里查看、修改电视上的源文件内容</td></tr>
         </tbody>
       </table>
+      <doc-shot
+        src="screenshots/panel-source-dialog-plain.png"
+        alt="网页面板编辑订阅源对话框"
+        caption="「新增 / 编辑订阅源」对话框的样子。上半部分是基本信息，往下依次是 UA、代理、EPG 地址、自动刷新，最底下是「关闭预览图 / 关闭延迟检测」。"
+      />
 
       <h3 id="cache">缓存时间与刷新</h3>
       <table>

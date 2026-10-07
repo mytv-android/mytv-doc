@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DocPageHeader } from '../../shared/doc-page-header';
 import { DocCallout } from '../../shared/doc-callout';
+import { DocShot } from '../../shared/doc-shot';
 
 @Component({
   selector: 'app-epg',
-  imports: [DocPageHeader, DocCallout, RouterLink],
+  imports: [DocPageHeader, DocCallout, DocShot, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="doc-page">
@@ -73,6 +74,11 @@ import { DocCallout } from '../../shared/doc-callout';
 
       <h2 id="add-manage">添加与管理</h2>
       <p>电视端入口：<b>设置 → 节目单 → 自定义节目单</b>。</p>
+      <doc-shot
+        src="screenshots/panel-epg.png"
+        alt="网页面板节目单页：启用、跟随订阅源、自定义节目单"
+        caption="面板 → 节目单页：总开关、跟随订阅源、加载全部节目单都在这一屏，点「自定义节目单」进去管理条目。"
+      />
       <ul>
         <li>每条节目单显示：名称、链接、频道数、节目数、缓存大小与更新时间。</li>
         <li><b>点按某条</b>弹出操作：设为当前、删除、清除缓存。</li>

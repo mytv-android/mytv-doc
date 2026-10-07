@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DocPageHeader } from '../../shared/doc-page-header';
 import { DocCallout } from '../../shared/doc-callout';
+import { DocShot } from '../../shared/doc-shot';
 
 @Component({
   selector: 'app-sync',
-  imports: [DocPageHeader, DocCallout, RouterLink],
+  imports: [DocPageHeader, DocCallout, DocShot, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="doc-page">
@@ -88,6 +89,11 @@ import { DocCallout } from '../../shared/doc-callout';
           </tr>
         </tbody>
       </table>
+      <doc-shot
+        src="screenshots/panel-sync.png"
+        alt="网页面板云同步页：服务商与凭据"
+        caption="面板 → 云同步页：先选服务商，再填对应凭据。凭据在电视端只读，只在这里填。"
+      />
 
       <h2 id="sync-scope">同步哪些内容</h2>
       <p><b>同步</b>：</p>

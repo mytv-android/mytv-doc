@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DocPageHeader } from '../../shared/doc-page-header';
 import { DocCallout } from '../../shared/doc-callout';
+import { DocShot } from '../../shared/doc-shot';
 
 @Component({
   selector: 'app-python-services',
-  imports: [DocPageHeader, DocCallout, RouterLink],
+  imports: [DocPageHeader, DocCallout, DocShot, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="doc-page">
@@ -52,6 +53,11 @@ import { DocCallout } from '../../shared/doc-callout';
         服务的添加与编辑都在网页面板完成（打开方式见
         <a [routerLink]="'/remote-panel'">远程配置面板</a>）：
       </p>
+      <doc-shot
+        src="screenshots/panel-services.png"
+        alt="网页面板服务页：运行环境与已添加的服务"
+        caption="面板 → 服务页：上面是 Python / PHP 运行环境的状态与下载按钮，下面是已添加的服务，每行可直接启停。"
+      />
       <ol>
         <li>面板 <b>服务</b> 页 → 右上角 <b>添加服务</b>。</li>
         <li>

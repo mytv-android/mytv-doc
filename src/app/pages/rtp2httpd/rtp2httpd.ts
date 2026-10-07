@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DocPageHeader } from '../../shared/doc-page-header';
 import { DocCallout } from '../../shared/doc-callout';
+import { DocShot } from '../../shared/doc-shot';
 
 @Component({
   selector: 'app-rtp2httpd',
-  imports: [DocPageHeader, DocCallout, RouterLink],
+  imports: [DocPageHeader, DocCallout, DocShot, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="doc-page">
@@ -136,6 +137,11 @@ http://192.168.1.1:5140/rtp/239.253.64.200:5140$高清</code></pre>
           </tr>
         </tbody>
       </table>
+      <doc-shot
+        src="screenshots/panel-source-dialog.png"
+        alt="面板编辑订阅源对话框：UA、关闭预览图、关闭延迟检测"
+        caption="面板 → 订阅源 → 某一行的菜单 → 编辑：红框三项都在这个对话框里。组播源尤其建议打开「关闭延迟检测」，不然每次进选台界面都会让服务端多拉几路流。"
+      />
 
       <h2 id="server-settings">推荐设置（rtp2httpd 侧）</h2>
       <p>在配置文件 <code>/etc/rtp2httpd.conf</code> 的 <code>[global]</code> 段里调整，改完重载配置生效：</p>
@@ -220,6 +226,11 @@ http://192.168.1.1:5140/rtp/239.253.64.200:5140$高清</code></pre>
         上游用的时移参数名不是 <code>playseek</code> / <code>tvdr</code> 时，
         在地址上带 <code>r2h-seek-name=参数名</code>；服务端时钟有偏差也可用 <code>r2h-seek-offset</code> 微调。
       </p>
+      <doc-shot
+        src="screenshots/panel-player-network.png"
+        alt="网页面板播放器页：全局 UA"
+        caption="面板 → 播放器：红框是全局 UA，改成 Mytv.Android TZ/UTC+8 即可修正回看时区。电视端这一项是只读的。"
+      />
       <doc-callout kind="info" title="回看播完怎么回到直播" icon="movie">
         RTSP 上游如果支持，可以在地址上加 <code>r2h-seek-mode=range(...)</code> 启用 Range Seek：
         回看段播完会<b>无缝接回实时直播</b>，不用重新连接。这是可选项，只有确认上游支持时才开，
@@ -246,6 +257,11 @@ http://192.168.1.1:5140/rtp/239.253.64.121:5140?fcc=10.255.14.152:8027&amp;fcc-t
         <li><b>设置 → 播放器 → 更好的视频探测</b>：<b>关闭</b>。开着时播放器会花更多时间探测视频格式，凭空拖慢起播；</li>
         <li><b>设置 → 播放器 → 播放缓冲</b>：设为 <b>0～1 秒</b>。缓冲越大，起播前等待越久。</li>
       </ul>
+      <doc-shot
+        src="screenshots/panel-player-startup.png"
+        alt="网页面板播放器页：更好的视频探测与播放缓冲"
+        caption="面板 → 播放器：红框两项就是起播快慢的关键。想用 FCC 快速换台，把「更好的视频探测」关掉、「播放缓冲」压到 0～1 秒。"
+      />
       <p>
         FCC 服务器地址需要自己抓包或查社区汇总；rtp2httpd 跑在 NAT 后面（NAS、二级路由）时，
         还要按官方文档做端口转发或改用原生支持穿透的华为协议。

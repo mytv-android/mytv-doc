@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DocPageHeader } from '../../shared/doc-page-header';
 import { DocCallout } from '../../shared/doc-callout';
+import { DocShot } from '../../shared/doc-shot';
 
 @Component({
   selector: 'app-player-settings',
-  imports: [DocPageHeader, DocCallout, RouterLink],
+  imports: [DocPageHeader, DocCallout, DocShot, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="doc-page">
@@ -38,6 +39,12 @@ import { DocCallout } from '../../shared/doc-callout';
         </tbody>
       </table>
       <p>未下载的内核在内核选择页会显示「未下载，请先到「组件下载」中下载」。</p>
+
+      <doc-shot
+        src="screenshots/panel-player-basic.png"
+        alt="网页面板播放器页：内核、渲染与解码设置"
+        caption="面板 → 播放器页顶部：视频播放器内核、渲染方式、解码相关开关都在这里，改动即保存。"
+      />
 
       <h3 id="components">组件下载（设置 → 组件下载）</h3>
       <p>
@@ -238,6 +245,11 @@ import { DocCallout } from '../../shared/doc-callout';
           </tr>
         </tbody>
       </table>
+      <doc-shot
+        src="screenshots/panel-player-startup.png"
+        alt="网页面板播放器页：更好的视频探测、加载超时、播放缓冲、停滞重试"
+        caption="面板 → 播放器页的起播相关项：追求换台快就把「更好的视频探测」关掉、缓冲压到 0～1 秒；网络不稳再靠「停滞重试」兜底。"
+      />
 
       <h2 id="av">画面与声音</h2>
       <table>
@@ -320,6 +332,11 @@ import { DocCallout } from '../../shared/doc-callout';
           </tr>
         </tbody>
       </table>
+      <doc-shot
+        src="screenshots/panel-player-network.png"
+        alt="网页面板播放器页：自定义 DNS、代理、代理规则、全局 UA、自定义 headers"
+        caption="面板 → 播放器页的网络部分：自定义 DNS、代理、代理规则、全局 UA、自定义 headers——电视端都只读，只能在这里改。"
+      />
 
       <h2 id="subtitle-style">字幕样式（设置 → 界面 → 字幕设置）</h2>
       <p>
