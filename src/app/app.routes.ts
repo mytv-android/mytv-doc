@@ -52,6 +52,12 @@ export const routes: Routes = [
     title: 'EPG 节目单 · 电视直播 使用文档',
   },
   {
+    path: 'rtp2httpd',
+    loadComponent: () =>
+      import('./pages/rtp2httpd/rtp2httpd').then((m) => m.Rtp2httpdPage),
+    title: '配合 rtp2httpd 使用 · 电视直播 使用文档',
+  },
+  {
     path: 'webview-player',
     loadComponent: () =>
       import('./pages/webview-player/webview-player').then(

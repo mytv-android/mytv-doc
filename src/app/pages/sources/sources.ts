@@ -70,6 +70,11 @@ import { DocCallout } from '../../shared/doc-callout';
       <doc-callout kind="warn" title="关于内置演示源" icon="warning">
         新装 App 自带的演示源仅供体验，可用性不保证。请自行准备合法的订阅源。
       </doc-callout>
+      <doc-callout kind="tip" title="运营商组播 / RTSP 源要先转成 HTTP" icon="router">
+        运营商的组播（<code>rtp://</code>、<code>udp://</code>）和 RTSP 单播地址通常只有拿到 IPTV 内网 IP 的设备才收得到，
+        需要在路由器 / NAS 上用 rtp2httpd 之类的工具先转成 HTTP 单播，再把转好的播放列表添加进来。
+        详见 <a [routerLink]="'/rtp2httpd'">配合 rtp2httpd 使用</a>。
+      </doc-callout>
 
       <h2 id="add-manage">添加与管理</h2>
 

@@ -21,6 +21,7 @@ import { DocPageHeader } from '../../shared/doc-page-header';
         <li>调大缓冲：<b>设置 → 播放器 → 播放缓冲</b> 调到 3–5 秒。</li>
         <li>检查网络：优先有线连接；只有晚间高峰卡，多半是订阅源或宽带出口的问题。</li>
         <li>换线路或换源：直播中按左 / 右键切换线路；整个源都慢就换订阅源。</li>
+        <li>运营商组播 / RTSP 源（经 rtp2httpd 转成 HTTP）：卡顿多半出在服务端或上行带宽，先在服务端的 <code>/status</code> 页看是否为「慢客户端」，见 <a [routerLink]="'/rtp2httpd'">配合 rtp2httpd 使用</a>。</li>
       </ol>
 
       <h3 id="black-screen">黑屏但有声音？</h3>

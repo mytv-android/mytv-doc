@@ -532,6 +532,97 @@ export const SEARCH_INDEX: SearchIndexEntry[] = [
     keywords: '在节目单指南页、直播界面节目单或经典选台界面里，找到尚未播出的节目； 按 OK 预约，再按一次取消预约； 节目开始时屏幕弹出提醒，可「立即前往」或「忽略」。 预约与回看在节目单上的入口和状态标记，详见 直播主界面 。'
   },
   {
+    path: '/rtp2httpd',
+    title: '配合 rtp2httpd 使用',
+    anchor: '',
+    section: '配合 rtp2httpd 使用',
+    keywords: 'rtp2httpd 是在路由器 / NAS 上把运营商 IPTV 的组播 RTP、RTSP 单播转成 HTTP 单播的开源工具。本页说明怎么把它的播放列表接进电视直播，以及两边各有哪些推荐设置。'
+  },
+  {
+    path: '/rtp2httpd',
+    title: '配合 rtp2httpd 使用',
+    anchor: '#why',
+    section: '为什么要先用 rtp2httpd 转一道',
+    keywords: '运营商 IPTV 的频道大多是 组播 地址（ rtp://239.x.x.x:5140 ）， 或者需要 IPTV 内网鉴权的 RTSP 单播 地址，一般只有拿到了 IPTV 内网 IP 的设备才收得到， 而电视、手机连的是普通家庭网络。 rtp2httpd 在能接入 IPTV 网络的路由器（或 NAS、软路由）上把这些流转成普通的 HTTP 单播地址， 家里任何设备都能看，而且 转一路、多台设备同时看 。它完全兼容 udpxy 的地址格式， 原来用 udpxy / msd lite 的地址可以直接搬过来。 对本 App 来说，rtp2httpd 转出来的就是普通的 HTTP 源，按 订阅源 的常规做法添加即可。 FCC 快速换台、时移回看、视频快照这些能力都由 rtp2httpd 提供，通过播放列表里的参数和地址生效； App 侧不用配置服务端相关的东西，只要按下面的「推荐设置」把几个播放选项调好， 就能把这些能力用足。 安装（OpenWrt 一键脚本 / Docker / 静态二进制）、IPTV 网络融合、抓包、FCC 服务器地址等细节， 都以 rtp2httpd 官方文档 为准， '
+  },
+  {
+    path: '/rtp2httpd',
+    title: '配合 rtp2httpd 使用',
+    anchor: '#source',
+    section: '把它的播放列表接进 App',
+    keywords: ''
+  },
+  {
+    path: '/rtp2httpd',
+    title: '配合 rtp2httpd 使用',
+    anchor: '#by-playlist',
+    section: '方式一：直接用它生成的播放列表（推荐）',
+    keywords: '在 rtp2httpd 里配置好外部 M3U（ external-m3u ）或内联频道清单后， 它会提供一个转换好的播放列表地址。把它当作普通的「网络 m3u」源添加： http://路由器IP:5140/playlist.m3u 用这个地址的好处： 频道地址里的 IP、端口、认证信息都被替换成 rtp2httpd 自己的地址，换路由器不用重新找源； 节目单地址（ x-tvg-url ）也被一并代理，频道和节目单一起更新； 源里写好的 FCC、时移回看参数原样保留。'
+  },
+  {
+    path: '/rtp2httpd',
+    title: '配合 rtp2httpd 使用',
+    anchor: '#by-hand',
+    section: '方式二：自己写 m3u，线路直接写 rtp2httpd 的地址',
+    keywords: '地址格式是「服务器地址 + 协议前缀 + 上游地址」： /rtp/组播地址:端口 、 /udp/组播地址:端口 —— 两者完全等价，选一个就行； /rtsp/RTSP服务器:端口/路径 —— RTSP 单播与时移回看； /http/上游服务器/路径 —— 代理内网的 HTTP / HLS 源。 EXTM3U EXTINF:-1 group-title=\'央视\',CCTV-1 http://192.168.1.1:5140/rtp/239.253.64.120:5140 EXTINF:-1 group-title=\'卫视\',广东卫视 http://192.168.1.1:5140/rtp/239.253.64.96:5140 超高清 http://192.168.1.1:5140/rtp/239.253.64.200:5140 高清 一个频道写多行地址就是多条线路，地址末尾的 标签 会显示成线路名（如「超高清」「高清」）， 和别的源写法一致，详见 订阅源 。'
+  },
+  {
+    path: '/rtp2httpd',
+    title: '配合 rtp2httpd 使用',
+    anchor: '#app-settings',
+    section: '推荐设置（App 侧）',
+    keywords: '设置项 位置 建议 说明 全局UA 面板 → 播放器 加上 TZ/UTC+8 rtp2httpd 从 UA 里找 TZ/ 标记来判断客户端时区，没写就按 UTC 算， 回看时间会差 8 小时。电视端这一项只读，改在面板上，见下文「时移回看」 关闭延迟检测 面板 → 订阅源 → 编辑该源 打开 线路延迟检测会对每条线路发一次请求，服务端随后就要为它拉一路流，平白占掉一个客户端名额 频道预览 设置 → 界面 服务端开了视频快照再开，否则建议关 开了快照时预览首帧直接拿一张 JPEG；没开时 App 只能自己拉流解码取帧，慢且费流量，见下文「频道预览图」 频道预览并行数 设置 → 界面 保持默认 1；服务端是 x86 强机可调大 每个预览请求都会让服务端跑一次转码取帧 视频播放器内核 设置 → 播放器 Media3（默认） rtp2httpd 出来的是标准 HTTP MPEG-TS 流，默认内核即可，遇到花屏等再考虑换内核 更好的视频探测 设置 → 播放器 用 FCC 快速换台时关闭 开着会花更多时间探测视频格式，拖慢起播，把 FCC 省下的时间又还回去 播放缓冲 设置 → 播放器 0～1 '
+  },
+  {
+    path: '/rtp2httpd',
+    title: '配合 rtp2httpd 使用',
+    anchor: '#server-settings',
+    section: '推荐设置（rtp2httpd 侧）',
+    keywords: '在配置文件 /etc/rtp2httpd.conf 的 global 段里调整，改完重载配置生效： 配置项 默认 建议 upstream-interface 无（走系统路由） 必须设成 IPTV 网络接口 ，否则拉不到组播和 FCC maxclients 5 按家里的设备数调大，如 20。电视、手机、平板各算一个，预览图并发也占资源 udp-rcvbuf-size 512 KB 4K 或高码率流调到 1～2 MB 减少丢包；Docker 部署要加 --cap-add=NET ADMIN 才能超过内核上限 buffer-pool-max-size 16384（约 24 MB） 客户端多、或上行吃紧时调大，给发送队列留余地 mcast-rejoin-interval 0（关闭） 出现「看一会儿就断，重进又好了」时设 30～120 秒。 只在遇到问题时才开 external-m3u-update-interval 7200 秒（2 小时） 外部源的自动更新间隔，按源的更新频率调整；设 0 改为手动更新 video-snapshot 关闭 想用 App 的频道预览图就打开，需要另外装 ffmp'
+  },
+  {
+    path: '/rtp2httpd',
+    title: '配合 rtp2httpd 使用',
+    anchor: '#catchup',
+    section: '时移回看',
+    keywords: '回看的地址来自源里的 catchup 与 catchup-source 。 rtp2httpd 生成播放列表时会把 catchup-source 一起改写成自己的代理地址， 并保留 utc:... 这类动态占位符，所以 直接用它的播放列表就带回看 。 怎么用回看见 EPG 节目单 ：GUIDE 键打开节目单，选中已播出的节目按 OK。'
+  },
+  {
+    path: '/rtp2httpd',
+    title: '配合 rtp2httpd 使用',
+    anchor: '#catchup-time',
+    section: '回看时间差 8 小时',
+    keywords: '回看时间由 App 按设备本地时区生成。rtp2httpd 收到后，按请求头 User-Agent 里的 TZ/ 标记理解客户端时区， UA 里没有这个标记就按 UTC 算 。 App 默认 UA 是 Mytv.Android ，不带这个标记，于是本地时间被当成 UTC， 和上游期望的时间对不上，最典型的表现就是整体差 8 小时。 两种改法任选： 把 面板 → 播放器 → 全局UA 改成带时区标记的形式，例如 Mytv.Android TZ/UTC+8 （ 推荐 ，一次改完对所有源生效）； 在播放地址后追加时间偏移参数 r2h-seek-offset ， 可选 28800 或 -28800 ，按实际偏差方向选一个。 上游用的时移参数名不是 playseek / tvdr 时， 在地址上带 r2h-seek-name=参数名 ；服务端时钟有偏差也可用 r2h-seek-offset 微调。 RTSP 上游如果支持，可以在地址上加 r2h-seek-mode=range ... 启用 Range Seek： 回看段播完会 无缝接回实时直播 ，不用重新连接。这是可选项，只有确认上游支持时才开'
+  },
+  {
+    path: '/rtp2httpd',
+    title: '配合 rtp2httpd 使用',
+    anchor: '#fcc',
+    section: 'FCC 快速换台',
+    keywords: '纯组播起播要等下一个关键帧（间隔通常 1～5 秒），这就是换台慢的原因。 FCC 让 rtp2httpd 先向 FCC 服务器要一段缓存好的关键帧立刻起播，再无缝切回组播流。 用法是在线路地址后带一个参数： http://192.168.1.1:5140/rtp/239.253.64.120:5140?fcc=10.255.14.152:15970 http://192.168.1.1:5140/rtp/239.253.64.121:5140?fcc=10.255.14.152:8027 fcc-type=huawei 不带 fcc-type 时按电信 / 中兴 / 烽火协议处理， fcc-type=huawei 走华为协议， 大多数省份用默认的即可。效果上，启用 FCC 后换台一般在 1 秒内，未启用则要 2～5 秒。 FCC 由 rtp2httpd 侧完成 ，App 不需要配置 FCC 服务器，把带参数的地址照常播放即可。 但要让 FCC 的秒级换台真正体现出来，App 侧还要让起播尽量快： 设置 → 播放器 → 更好的视频探测 ： 关闭 。开着时播放器会花更多时间探测视频格式，凭'
+  },
+  {
+    path: '/rtp2httpd',
+    title: '配合 rtp2httpd 使用',
+    anchor: '#snapshot',
+    section: '频道预览图（视频快照）',
+    keywords: '这是本 App 与 rtp2httpd 目前唯一的直接对接点：抓取频道列表预览首帧时， App 会带上 X-Request-Snapshot: 1 请求头。服务端开了视频快照就 直接回一张 JPEG ， 不用把媒体流拉下来解码，预览图出得非常快。 服务端开关： video-snapshot = yes ，并另外装好带 h264 / hevc 编解码器的 ffmpeg； 速度：配合 FCC 一般 0.3 秒内返回，没开 FCC 最长约 1 秒（等下一个 IDR 帧）； 服务端资源有限时，把 App 的「频道预览并行数」保持为 1，或关掉「频道预览」。 快照功能没开（或 ffmpeg 缺编解码器）时，App 只能退回本地拉流解码取帧， 每次预览都要真拉一路流，既慢又占服务端的客户端名额和带宽。 这种情况建议直接在 设置 → 界面 关掉「频道预览」，或按源勾选面板上的「关闭预览图」。'
+  },
+  {
+    path: '/rtp2httpd',
+    title: '配合 rtp2httpd 使用',
+    anchor: '#public',
+    section: '公网访问与安全',
+    keywords: 'rtp2httpd 默认兼容 udpxy 的地址格式，而网上有大量扫描器专门探测开放的 udpxy / msd lite 服务， 一旦不加防护地暴露到公网就会被持续盗用带宽。要出公网时，应改掉 hostname 、 设置 r2h-token 、改掉状态页与播放器页路径，前面再挂一层反向代理并开启 xff 。 启用 r2h-token 时，令牌 写在订阅源地址里 就行： rtp2httpd 生成播放列表时，会把令牌自动加到每个频道地址和节目单地址后面， App 拉到的线路本身就已经带着令牌，不用逐条改地址。 http://你的域名:5140/playlist.m3u?r2h-token=你的令牌 带宽方面：一条 1080p 流约 6～10 Mbps，4K 流可达 30～40 Mbps。 近年来运营商对家庭宽带的 上行 （尤其跨运营商）限速很严格，外网看时如果频繁花屏、卡顿， 先在服务端的 /status 页看看是不是出现了「慢客户端」——那多半是上行带宽不够，而不是 App 的问题。'
+  },
+  {
+    path: '/rtp2httpd',
+    title: '配合 rtp2httpd 使用',
+    anchor: '#troubleshoot',
+    section: '出问题时先看这几处',
+    keywords: '现象 先查什么 播放列表能加载，频道全部播不了 服务端没拿到 IPTV 内网 IP，或「上游接口」没选对；浏览器打开 http://路由器IP:5140/status 看日志和客户端连接 换台要 2～5 秒 没启用 FCC，见上文；确认地址里带了 ?fcc= 看一会儿就花屏、卡顿、断开 服务端调大 udp-rcvbuf-size ，或设 mcast-rejoin-interval ；也可能是上游或上行带宽问题 回看时间对不上 时区问题，见「时移回看」一节 预览图一直出不来 服务端没开 video-snapshot ，或 ffmpeg 缺 h264 / hevc 编解码器 播放几路后新设备连不上 客户端数到了 maxclients 上限（默认 5），调大即可 rtp2httpd 官方的 快速上手 、 URL 格式说明 、 M3U 播放列表集成 与 配置参数详解 ， 它的「相关软件」页也把本 App 列为支持视频快照的播放器。'
+  },
+  {
     path: '/webview-player',
     title: 'WebView 播放器',
     anchor: '',
@@ -1019,7 +1110,7 @@ export const SEARCH_INDEX: SearchIndexEntry[] = [
     title: '常见问题',
     anchor: '#lag',
     section: '换台、切线卡顿或一直缓冲？',
-    keywords: '换内核： 设置 → 播放器 → 视频播放器内核 ，在 Media3 / IjkPlayer / VLC 之间切换试（IJK、VLC 需先在 设置 → 组件下载 里安装）。 调大缓冲： 设置 → 播放器 → 播放缓冲 调到 3–5 秒。 检查网络：优先有线连接；只有晚间高峰卡，多半是订阅源或宽带出口的问题。 换线路或换源：直播中按左 / 右键切换线路；整个源都慢就换订阅源。'
+    keywords: '换内核： 设置 → 播放器 → 视频播放器内核 ，在 Media3 / IjkPlayer / VLC 之间切换试（IJK、VLC 需先在 设置 → 组件下载 里安装）。 调大缓冲： 设置 → 播放器 → 播放缓冲 调到 3–5 秒。 检查网络：优先有线连接；只有晚间高峰卡，多半是订阅源或宽带出口的问题。 换线路或换源：直播中按左 / 右键切换线路；整个源都慢就换订阅源。 运营商组播 / RTSP 源（经 rtp2httpd 转成 HTTP）：卡顿多半出在服务端或上行带宽，先在服务端的 /status 页看是否为「慢客户端」，见 配合 rtp2httpd 使用 。'
   },
   {
     path: '/faq',

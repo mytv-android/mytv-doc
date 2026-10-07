@@ -112,6 +112,7 @@ export class HomePage {
     { path: '/channels', icon: 'list', title: '频道 · 收藏 · 搜索', subtitle: '频道列表、收藏夹、加密分组' },
     { path: '/sources', icon: 'rss_feed', title: '订阅源', subtitle: 'm3u / Xtream / Stalker / 网页源' },
     { path: '/epg', icon: 'calendar_month', title: 'EPG 节目单', subtitle: '自定义节目单、回看与预约' },
+    { path: '/rtp2httpd', icon: 'router', title: '配合 rtp2httpd', subtitle: '组播转 HTTP、FCC、回看时区' },
     { path: '/webview-player', icon: 'web', title: 'WebView 播放器', subtitle: 'webview://、X5 内核、超时' },
     { path: '/multiview', icon: 'grid_view', title: '多屏同播', subtitle: '最多 9 路同屏、方案保存' },
     { path: '/remote-panel', icon: 'settings_remote', title: '远程配置面板', subtitle: '10591 端口、推订阅、推 APK' },

@@ -4,7 +4,7 @@
 
 ## 功能
 
-- 14 个文档页面，覆盖快速上手、遥控器、Dashboard、频道、订阅源、EPG、WebView、10591 远程面板、播放器与字幕、设置项总览、云同步、FAQ、下载与编译。
+- 15 个文档页面，覆盖快速上手、遥控器、Dashboard、频道、订阅源、EPG、配合 rtp2httpd 使用、WebView、10591 远程面板、播放器与字幕、设置项总览、云同步、FAQ、下载与编译。
 - 深色 / 浅色主题切换（默认跟随系统）。
 - 响应式侧栏（手机端折叠为抽屉）。
 - 每页懒加载，初始包 < 1 MB（gzip 后更小）。
@@ -63,9 +63,9 @@ src/
 ├── app/
 │   ├── app.ts / app.html / app.scss   # 应用外壳：toolbar + sidenav + 路由出口
 │   ├── app.routes.ts                  # 路由
-│   ├── pages/                         # 14 个文档页面组件（inline template）
+│   ├── pages/                         # 15 个文档页面组件（inline template）
 │   │   ├── home/  getting-started/  controls/  live-screen/  channels/
-│   │   ├── sources/  epg/  webview-player/  remote-panel/
+│   │   ├── sources/  epg/  rtp2httpd/  webview-player/  remote-panel/
 │   │   ├── player-settings/  settings-overview/  sync/
 │   │   ├── faq/  build/  not-found/
 │   └── shared/

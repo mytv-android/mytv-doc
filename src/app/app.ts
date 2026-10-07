@@ -35,6 +35,7 @@ export const NAV_ENTRIES: NavEntry[] = [
   { path: '/multiview', label: '多屏同播', icon: 'grid_view', group: '功能' },
   { path: '/sources', label: '订阅源（IPTV）', icon: 'rss_feed', group: '功能' },
   { path: '/epg', label: 'EPG 节目单', icon: 'calendar_month', group: '功能' },
+  { path: '/rtp2httpd', label: '配合 rtp2httpd', icon: 'router', group: '功能' },
   { path: '/webview-player', label: 'WebView 播放器', icon: 'web', group: '功能' },
   { path: '/remote-panel', label: '远程配置面板', icon: 'settings_remote', group: '功能' },
   { path: '/python-services', label: '服务（Python / PHP）', icon: 'terminal', group: '功能' },
