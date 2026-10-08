@@ -42,7 +42,7 @@ import { DocShot } from '../../shared/doc-shot';
           <tr><td>订阅源</td><td>订阅源管理、缓存时间、隐藏与加密分组、频道别名与合并、台标、网页源</td><td><a [routerLink]="'/sources'">订阅源</a></td></tr>
           <tr><td>服务</td><td>Python / PHP 服务的启停、运行状态与运行环境</td><td><a [routerLink]="'/python-services'">服务（Python / PHP）</a></td></tr>
           <tr><td>节目单</td><td>节目单（EPG）开关、节目单来源管理、刷新时间</td><td><a [routerLink]="'/epg'">节目单</a></td></tr>
-          <tr><td>界面</td><td>选台界面样式、台标、频道预览、界面缩放、字幕样式</td><td><a [routerLink]="'/live-screen'">直播主界面</a></td></tr>
+          <tr><td>界面</td><td>选台界面样式、台标、频道预览、界面缩放、屏幕方向、字幕样式</td><td><a [routerLink]="'/live-screen'">直播主界面</a></td></tr>
           <tr><td>主题</td><td>颜色模式、配色方案、内置主题包</td><td>本页「主题」</td></tr>
           <tr><td>控制</td><td>数字选台、换台行为、遥控器按键自定义</td><td><a [routerLink]="'/controls'">遥控器与触屏操作</a></td></tr>
           <tr><td>播放器</td><td>播放内核、解码、缓冲、超分插帧、实时字幕与翻译</td><td><a [routerLink]="'/player-settings'">播放器与字幕设置</a></td></tr>
