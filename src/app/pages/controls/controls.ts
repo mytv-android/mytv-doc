@@ -138,6 +138,7 @@ import { DocShot } from '../../shared/doc-shot';
         <li>换台时屏幕底部是否显示频道信息条：<b>设置 → 界面 → 换台时显示频道信息</b>，见 <a [routerLink]="'/live-screen'">直播主界面与首页</a>。</li>
         <li>各类面板无操作后自动关闭的时长：<b>设置 → 界面 → 超时自动关闭界面</b>。</li>
         <li>回看时快进快退的跳转方式：<b>设置 → 播放器 → SeekTo方式</b>，见 <a [routerLink]="'/player-settings'">播放器与字幕</a>。</li>
+        <li>播放控制界面把进度条换成 EPG 时间轴（左右键微调不变，按 OK 跳到节目开头 / 回到直播）：<b>设置 → 播放器 → SeekTo方式 → EPG时间轴</b>。</li>
       </ul>
     </div>
   `,
