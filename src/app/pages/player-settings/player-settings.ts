@@ -81,8 +81,8 @@ import { DocShot } from '../../shared/doc-shot';
 
       <h2 id="decode">解码与渲染</h2>
       <p>
-        本节中标注「仅面板」的条目只能在远程配置面板（下称面板，见
-        <a [routerLink]="'/remote-panel'">远程配置面板</a>）的 <b>播放器</b> 页修改，电视端没有入口。
+        本节条目在电视端 <b>设置 → 播放器</b> 与远程配置面板（下称面板，见
+        <a [routerLink]="'/remote-panel'">远程配置面板</a>）的 <b>播放器</b> 页都能修改。
       </p>
       <table>
         <thead>
@@ -120,14 +120,14 @@ import { DocShot } from '../../shared/doc-shot';
             </td>
           </tr>
           <tr>
-            <td>正则解码配置（仅面板）</td>
+            <td>正则解码配置</td>
             <td>
-              面板的 播放器 页可增删多条规则：正则规则 + 内核 + 强制软解。按顺序匹配线路 URL，
-              命中即用——例如给某个总是花屏的源单独指定内核和软解，不影响全局设置。电视端无此入口。
+              电视端点进这一项（或在面板的 播放器 页）可增删改多条规则：正则规则 + 内核 + 强制软解。按顺序匹配线路 URL，
+              命中即用——例如给某个总是花屏的源单独指定内核和软解，不影响全局设置。
             </td>
           </tr>
           <tr>
-            <td>Media3 隧道解码（仅面板）</td>
+            <td>Media3 隧道解码</td>
             <td>
               开 / 关（默认）。开启后音视频由设备硬件直接解码输出，可降低功耗与延迟；
               部分设备不兼容，会花屏或无声，遇到即关回。属设备本地设置，不参与云同步；保存后立即生效。
@@ -286,14 +286,14 @@ import { DocShot } from '../../shared/doc-shot';
             </td>
           </tr>
           <tr>
-            <td>音频屏保（仅面板）</td>
+            <td>音频屏保</td>
             <td>
               开 / 关（默认）。开启后，没有视频轨的纯音频频道（如广播）隐藏画面、改显当前主题背景，音频照常播放；
               切回带画面的频道自动恢复。轨道还没探测出来时不会误触发。
             </td>
           </tr>
           <tr>
-            <td>AAC 优先（仅面板）</td>
+            <td>AAC 优先</td>
             <td>
               开 / 关（默认）。多音轨时优先选择 AAC。<b>Media3、IJK 生效</b>；
               VLC 的轨道信息不带编码，无法判断，保持播放器默认选择。
@@ -303,10 +303,10 @@ import { DocShot } from '../../shared/doc-shot';
         </tbody>
       </table>
 
-      <h2 id="network">网络请求（仅网页面板可改）</h2>
+      <h2 id="network">网络请求</h2>
       <p>
-        以下条目影响播放器发起网络请求的方式。电视端只读（「自定义headers」格式非法时会显示错误图标，
-        「代理规则」显示「共N条规则」），编辑一律在面板的 <b>播放器</b> 页（部分也可在面板首页快捷卡片修改），改动即保存。
+        以下条目影响播放器发起网络请求的方式。电视端 <b>设置 → 播放器</b> 选中即可编辑（编辑框左下角「扫码编辑」可改用面板），
+        也可在面板的 <b>播放器</b> 页修改（部分也可在面板首页快捷卡片修改），改动即保存。
       </p>
       <table>
         <thead>
@@ -319,7 +319,7 @@ import { DocShot } from '../../shared/doc-shot';
           </tr>
           <tr>
             <td>自定义headers</td>
-            <td>附加到播放器请求的 HTTP 头，面板中每行一条 <code>Name: Value</code>。</td>
+            <td>附加到播放器请求的 HTTP 头，每行一条 <code>Name: Value</code>；电视端填写时格式不对会提示，无法确定。</td>
           </tr>
           <tr>
             <td>自定义DNS</td>
@@ -334,14 +334,13 @@ import { DocShot } from '../../shared/doc-shot';
           </tr>
           <tr>
             <td>代理规则</td>
-            <td>按正则规则匹配 URL 选择不同代理，可添加多条，分流使用。</td>
+            <td>按正则规则匹配 URL 选择不同代理，可添加多条，分流使用。电视端点进这一项是规则列表，每条为「正则规则 + 代理」，可增删改。</td>
           </tr>
           <tr>
             <td>在链接中提取 Header</td>
             <td>
               开 / 关（默认）。开启后支持解析 <code>url|Header1=v1&amp;Header2=v2</code> 格式，
               把 <code>|</code> 后的内容作为请求头附加。适合只需要给某条线路单独加 Referer 等请求头的场景。
-              <b>此项电视端可直接修改</b>（设置 → 播放器）。
             </td>
           </tr>
         </tbody>
@@ -349,7 +348,7 @@ import { DocShot } from '../../shared/doc-shot';
       <doc-shot
         src="screenshots/panel-player-network.png"
         alt="网页面板播放器页：自定义 DNS、代理、代理规则、全局 UA、自定义 headers"
-        caption="面板 → 播放器页的网络部分：自定义 DNS、代理、代理规则、全局 UA、自定义 headers——电视端都只读，只能在这里改。"
+        caption="面板 → 播放器页的网络部分：自定义 DNS、代理、代理规则、全局 UA、自定义 headers，与电视端 设置 → 播放器 里的同名条目是同一份设置。"
       />
 
       <h2 id="subtitle-style">字幕样式（设置 → 界面 → 字幕设置）</h2>
@@ -468,7 +467,7 @@ import { DocShot } from '../../shared/doc-shot';
       </ul>
       <doc-callout kind="info" title="云端 Gemini 模型" icon="cloud">
         选中 <b>Gemini Live Translate（云端）</b> 模型后，子页会多出 <b>Gemini API Key</b> 与
-        <b>Gemini 端点</b> 两项（电视端只读，在面板的 播放器 页填写）：Key 在 Google AI Studio 申请，
+        <b>Gemini 端点</b> 两项（电视端选中即可填写，也可在面板的 播放器 页填写）：Key 在 Google AI Studio 申请，
         仅存本机、不参与云同步；端点留空使用官方默认。该模型识别与翻译一体。
         模型下载慢或失败的处理见 <a [routerLink]="'/faq'" fragment="asr-model-download">常见问题</a>。
       </doc-callout>
@@ -488,7 +487,7 @@ import { DocShot } from '../../shared/doc-shot';
             <td>
               未配置（默认，不翻译）/ <b>腾讯翻译</b>（需 SecretId、SecretKey）/ <b>百度翻译</b>（需 API Key、密钥）/
               <b>MTranServer（自托管）</b>（填服务器地址，如 <code>http://192.168.1.100:8989</code>，
-              API Token 可选、留空表示无认证）。<b>凭据均在面板的 播放器 页填写</b>，电视端只显示「已配置 / 未配置」。
+              API Token 可选、留空表示无认证）。凭据在本页选中对应条目即可填写（条目显示「已配置 / 未配置」），也可在面板的 播放器 页填写。
             </td>
           </tr>
           <tr>
@@ -500,7 +499,7 @@ import { DocShot } from '../../shared/doc-shot';
           <tr>
             <td>译文大小</td>
             <td>
-              翻译字幕相对原文字幕的字号比例，×0.5 ～ ×1.5（步进 0.1），默认 ×1.0（面板可设 0.5 ～ 2.0）。
+              翻译字幕相对原文字幕的字号比例，×0.5 ～ ×2.0（步进 0.1），默认 ×1.0，与面板一致。
             </td>
           </tr>
         </tbody>

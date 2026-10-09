@@ -54,7 +54,7 @@ import { DocPageHeader } from '../../shared/doc-page-header';
         <li>打开网页面板，在首页「网页源央视频 Cookie」卡片粘贴并推送（面板的 订阅源 页也有同一配置项）。</li>
         <li>回电视重新打开央视频频道。Cookie 过期后需重新推送。</li>
       </ol>
-      <p>电视端 <b>设置 → 订阅源 → 网页源央视频Cookie</b> 只用于查看配置状态，编辑在面板进行。</p>
+      <p>电视端 <b>设置 → 订阅源 → 网页源央视频Cookie</b> 也能直接粘贴编辑（多行输入），不过 Cookie 很长，从电脑复制后在面板粘贴最省事。</p>
 
       <h3 id="kernel-not-downloaded">IJK / VLC 内核显示「未下载」？</h3>
       <p>
@@ -104,7 +104,7 @@ import { DocPageHeader } from '../../shared/doc-page-header';
         <li>WebDAV：坚果云等需要使用「应用密码」而不是账号登录密码，同时核对服务器地址与用户名。</li>
         <li>网络链接：只支持拉取，不能推送，推送必然失败。</li>
       </ol>
-      <p>凭据统一在面板的 云同步 页配置，详见 <a [routerLink]="'/sync'">云同步与备份</a>。</p>
+      <p>凭据在电视端 <b>设置 → 云同步</b> 或面板的 云同步 页配置，详见 <a [routerLink]="'/sync'">云同步与备份</a>。</p>
 
       <h3 id="sync-device-settings">同步成功，但另一台设备上没生效？</h3>
       <p>与设备硬件相关的设置不参与云同步，需要在每台设备上单独设置，包括：</p>

@@ -30,7 +30,7 @@ import { DocShot } from '../../shared/doc-shot';
         <li>手机 / 电脑必须和电视在<b>同一局域网</b>。</li>
         <li>10591 被其他程序占用时会自动改用随机端口——以推送页上显示的地址为准。</li>
         <li>面板由应用的前台服务承载（通知栏可见「远程遥控服务正在后台运行」），应用被清理后面板就打不开了。</li>
-        <li>设置里「添加其他订阅源 / 添加其他节目单」弹出的二维码，扫开也是这个面板。</li>
+        <li>设置里各编辑框左下角「扫码编辑」弹出的二维码、设置 → 服务 →「在网页面板中配置」弹出的二维码，扫开也是这个面板。</li>
       </ul>
 
       <doc-callout kind="warn" title="面板没有密码，注意使用环境" icon="warning">
@@ -95,17 +95,17 @@ import { DocShot } from '../../shared/doc-shot';
         </thead>
         <tbody>
           <tr><td>通用</td><td><a [routerLink]="'/settings'">设置项总览</a></td><td>—</td></tr>
-          <tr><td>订阅源</td><td><a [routerLink]="'/sources'">订阅源</a></td><td>拖拽式排序、按源单独配 UA / 代理 / 自动刷新、在线读写文件源内容</td></tr>
-          <tr><td>服务</td><td><a [routerLink]="'/python-services'">服务（Python / PHP）</a></td><td>添加 / 编辑服务、下载运行环境、查看日志</td></tr>
-          <tr><td>节目单</td><td><a [routerLink]="'/epg'">EPG 节目单</a></td><td>拖拽排序、编辑源格式 / 缓存 / 时区</td></tr>
+          <tr><td>订阅源</td><td><a [routerLink]="'/sources'">订阅源</a></td><td>从电脑 / 手机选文件上传成源、在线读写文件源内容</td></tr>
+          <tr><td>服务</td><td><a [routerLink]="'/python-services'">服务（Python / PHP）</a></td><td>选择脚本文件上传、检查代码、运行自检</td></tr>
+          <tr><td>节目单</td><td><a [routerLink]="'/epg'">EPG 节目单</a></td><td>—</td></tr>
           <tr><td>界面</td><td><a [routerLink]="'/live-screen'">直播主界面</a></td><td>—</td></tr>
-          <tr><td>主题</td><td><a [routerLink]="'/settings'">设置项总览</a></td><td>自定义背景 / 贴图与透明度</td></tr>
+          <tr><td>主题</td><td><a [routerLink]="'/settings'">设置项总览</a></td><td>—</td></tr>
           <tr><td>控制</td><td><a [routerLink]="'/controls'">遥控器与触屏</a></td><td>—（见下方说明）</td></tr>
-          <tr><td>播放器</td><td><a [routerLink]="'/player-settings'">播放器与字幕</a></td><td>正则解码配置、代理规则、ASR / 翻译凭据</td></tr>
+          <tr><td>播放器</td><td><a [routerLink]="'/player-settings'">播放器与字幕</a></td><td>—</td></tr>
           <tr><td>WebView</td><td><a [routerLink]="'/webview-player'">WebView 播放器</a></td><td>—</td></tr>
           <tr><td>网络</td><td><a [routerLink]="'/settings'">设置项总览</a></td><td>IPv6 开关</td></tr>
           <tr><td>更新</td><td><a [routerLink]="'/build'">下载与更新</a></td><td>—（注意：不能在这里推 APK）</td></tr>
-          <tr><td>云同步</td><td><a [routerLink]="'/sync'">云同步与备份</a></td><td>凭据填写、导入 / 导出 JSON</td></tr>
+          <tr><td>云同步</td><td><a [routerLink]="'/sync'">云同步与备份</a></td><td>导入 / 导出 JSON</td></tr>
         </tbody>
       </table>
 
@@ -131,7 +131,7 @@ import { DocShot } from '../../shared/doc-shot';
       <h2 id="backup">备份管理页：电视端本地快照</h2>
       <p>
         「备份管理」把电视上的全部设置与数据打成一个本地快照，可创建、恢复、删除；
-        恢复会覆盖当前数据且需要重启应用才完全生效。它和「云同步」是两回事（快照只存在这台电视上），区别与用法见
+        恢复会覆盖当前数据且需要重启应用才完全生效。电视端 设置 → 通用 → 备份管理 管理的是同一批快照。它和「云同步」是两回事（快照只存在这台电视上），区别与用法见
         <a [routerLink]="'/sync'">云同步与备份</a>。
       </p>
 
@@ -141,13 +141,21 @@ import { DocShot } from '../../shared/doc-shot';
         <li><b>调试</b>：开关「显示性能信息 / 显示播放器信息 / 显示布局网格」，以及<b>导出 logcat</b>（下载电视的系统日志文件）。</li>
       </ul>
 
-      <h2 id="panel-only">这些设置只能在面板改</h2>
-      <p>以下项目在电视端设置里只读显示（电视端会标注需要在面板修改），要改就来面板：</p>
+      <h2 id="panel-only">仍需在面板完成的操作</h2>
+      <p>
+        以前在电视端只读、只能来面板改的设置——全局 UA、自定义请求头、自定义 DNS、代理与代理规则、正则解码配置、Media3 隧道解码、
+        频道别名、频道图标提供、网页源央视频 Cookie、云同步凭据、翻译与 Gemini 密钥，以及添加订阅源 / 节目单 / 服务、自定义主题、备份管理等——
+        现在电视端都能直接操作。电视端编辑框左下角的「扫码编辑」仍可切到面板，两种方式并存，面板保存后电视端立即生效。
+      </p>
+      <p>下面这些涉及文件传输或面板专属页面，仍只能在面板完成：</p>
       <ul>
-        <li>播放器：全局 UA、自定义请求头、自定义 DNS、代理与代理规则、正则解码配置、Media3 隧道解码</li>
-        <li>订阅源：频道别名、频道图标提供（台标模板）、网页源央视频 Cookie</li>
-        <li>云同步：各服务商的凭据（Gist ID / Token、WebDAV 账号等）</li>
-        <li>字幕翻译与实时字幕：腾讯 / 百度 / MTranServer 密钥、Gemini API Key</li>
+        <li>安装 APK：首页「安装 APK」卡片，从电脑上传 APK 推送安装</li>
+        <li>文件页：浏览、上传、重命名、删除电视上的文件</li>
+        <li>订阅源：「本地上传」从电脑 / 手机选文件推送，查看 / 修改本地文件源的内容</li>
+        <li>服务：选择脚本文件上传、检查代码、运行自检</li>
+        <li>调试：导出 Logcat</li>
+        <li>云同步：导入 / 导出应用数据（JSON）</li>
+        <li>日志：按级别筛选、分页查看</li>
       </ul>
     </div>
   `,

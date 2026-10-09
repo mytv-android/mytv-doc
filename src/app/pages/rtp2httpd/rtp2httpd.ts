@@ -84,7 +84,7 @@ http://192.168.1.1:5140/rtp/239.253.64.200:5140$高清</code></pre>
             <td>加上 <code>TZ/UTC+8</code></td>
             <td>
               rtp2httpd 从 UA 里找 <code>TZ/</code> 标记来判断客户端时区，没写就按 UTC 算，
-              回看时间会差 8 小时。电视端这一项只读，改在面板上，见下文「时移回看」
+              回看时间会差 8 小时。电视端 设置 → 播放器 → 全局UA 也能改，见下文「时移回看」
             </td>
           </tr>
           <tr>
@@ -214,7 +214,7 @@ http://192.168.1.1:5140/rtp/239.253.64.200:5140$高清</code></pre>
       </p>
       <ol>
         <li>
-          把 <b>面板 → 播放器 → 全局UA</b> 改成带时区标记的形式，例如
+          把 <b>面板 → 播放器 → 全局UA</b>（或电视端 设置 → 播放器 → 全局UA）改成带时区标记的形式，例如
           <code>Mytv.Android TZ/UTC+8</code>（<b>推荐</b>，一次改完对所有源生效）；
         </li>
         <li>
@@ -229,7 +229,7 @@ http://192.168.1.1:5140/rtp/239.253.64.200:5140$高清</code></pre>
       <doc-shot
         src="screenshots/panel-player-network.png"
         alt="网页面板播放器页：全局 UA"
-        caption="面板 → 播放器：红框是全局 UA，改成 Mytv.Android TZ/UTC+8 即可修正回看时区。电视端这一项是只读的。"
+        caption="面板 → 播放器：红框是全局 UA，改成 Mytv.Android TZ/UTC+8 即可修正回看时区。电视端 设置 → 播放器 → 全局UA 也能改。"
       />
       <doc-callout kind="info" title="回看播完怎么回到直播" icon="movie">
         RTSP 上游如果支持，可以在地址上加 <code>r2h-seek-mode=range(...)</code> 启用 Range Seek：

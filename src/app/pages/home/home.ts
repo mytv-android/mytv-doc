@@ -53,7 +53,7 @@ import { DocPageHeader } from '../../shared/doc-page-header';
         <li><b>WebView 播放器</b>：把网页当作视频源，支持切换腾讯 X5 内核。</li>
         <li><b>多屏同播</b>：最多 9 路同屏播放，可保存最多 20 套频道组合方案。</li>
         <li><b>视频超分与插帧</b>：Anime4K、AMD FSR 1、Real-ESRGAN 等多种超分路径，GPU 帧混合 / RIFE 插帧，目标帧率最高 120 FPS。</li>
-        <li><b>脚本服务（Python / PHP）</b>：在电视上运行脚本（需 Android 7.0 及以上），把脚本产出的频道列表当作本机或局域网订阅源；服务在网页面板中添加与管理。</li>
+        <li><b>脚本服务（Python / PHP）</b>：在电视上运行脚本（需 Android 7.0 及以上），把脚本产出的频道列表当作本机或局域网订阅源；服务可在应用内（设置 → 服务）或网页面板中添加与管理。</li>
         <li><b>组件下载</b>：统一下载管理 IJK / VLC 播放组件、Python / PHP 运行环境、语音识别运行库与模型、超分与插帧运行库。</li>
         <li><b>ASR 实时字幕</b>：本地语音识别，把直播语音实时转成字幕，支持 Media3 与 IJK 内核，也可选云端 Gemini 模型。</li>
         <li><b>字幕翻译</b>：把实时字幕或已有字幕轨翻译成目标语言，引擎可选腾讯翻译 / 百度翻译 / MTranServer（自托管）。</li>

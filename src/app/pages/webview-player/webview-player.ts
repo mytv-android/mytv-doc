@@ -147,7 +147,7 @@ import { DocCallout } from '../../shared/doc-callout';
         <li>回电视重新打开央视频频道。Cookie 过期后需要重新推送。</li>
       </ol>
       <p>
-        电视端 <b>设置 → 订阅源 → 网页源央视频Cookie</b> 只读，仅用于确认是否已配置，编辑一律在面板进行。
+        电视端 <b>设置 → 订阅源 → 网页源央视频Cookie</b> 也能直接粘贴编辑（多行输入），不过从电脑复制后在面板粘贴更省事。
         详细步骤见 <a [routerLink]="'/faq'" fragment="yangshipin-vip">常见问题</a>。
       </p>
 
