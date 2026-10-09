@@ -103,7 +103,7 @@ import { DocShot } from '../../shared/doc-shot';
           <tr><td>控制</td><td><a [routerLink]="'/controls'">遥控器与触屏</a></td><td>—（见下方说明）</td></tr>
           <tr><td>播放器</td><td><a [routerLink]="'/player-settings'">播放器与字幕</a></td><td>—</td></tr>
           <tr><td>WebView</td><td><a [routerLink]="'/webview-player'">WebView 播放器</a></td><td>—</td></tr>
-          <tr><td>网络</td><td><a [routerLink]="'/settings'">设置项总览</a></td><td>IPv6 开关</td></tr>
+          <tr><td>网络</td><td><a [routerLink]="'/settings'">设置项总览</a></td><td>—</td></tr>
           <tr><td>更新</td><td><a [routerLink]="'/build'">下载与更新</a></td><td>—（注意：不能在这里推 APK）</td></tr>
           <tr><td>云同步</td><td><a [routerLink]="'/sync'">云同步与备份</a></td><td>导入 / 导出 JSON</td></tr>
         </tbody>

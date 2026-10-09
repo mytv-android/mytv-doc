@@ -45,7 +45,7 @@ import { DocShot } from '../../shared/doc-shot';
           <tr><td>节目单</td><td>节目单（EPG）开关、节目单来源管理、刷新时间</td><td><a [routerLink]="'/epg'">节目单</a></td></tr>
           <tr><td>界面</td><td>选台界面样式、台标、频道预览、界面缩放、屏幕方向、字幕样式</td><td><a [routerLink]="'/live-screen'">直播主界面</a></td></tr>
           <tr><td>主题</td><td>颜色模式、配色方案、内置主题包、自定义主题</td><td>本页「主题」</td></tr>
-          <tr><td>控制</td><td>数字选台、换台行为、遥控器按键自定义</td><td><a [routerLink]="'/controls'">遥控器与触屏操作</a></td></tr>
+          <tr><td>控制</td><td>换台行为、遥控器按键自定义</td><td><a [routerLink]="'/controls'">遥控器与触屏操作</a></td></tr>
           <tr><td>播放器</td><td>播放内核、解码、缓冲、超分插帧、实时字幕与翻译</td><td><a [routerLink]="'/player-settings'">播放器与字幕设置</a></td></tr>
           <tr><td>组件下载</td><td>Python 运行环境、播放内核、AI 组件等在线组件的下载管理</td><td>本页「组件下载」</td></tr>
           <tr><td>WebView</td><td>网页播放的内核、加载超时、网页缩放、UA</td><td><a [routerLink]="'/webview-player'">WebView 播放器</a></td></tr>
@@ -195,7 +195,6 @@ import { DocShot } from '../../shared/doc-shot';
       </table>
       <p>
         两项都只影响订阅源与节目单数据的获取；源地址不稳定、经常加载失败时可适当调大重试次数。
-        面板的「网络」页另有「启用 IPv6」开关。
       </p>
 
       <h2 id="permissions">权限</h2>

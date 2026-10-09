@@ -18,8 +18,8 @@ import { DocShot } from '../../shared/doc-shot';
       <h2 id="default-keys">直播界面默认键位</h2>
       <doc-shot
         src="screenshots/app-control.png"
-        alt="电视端设置 → 控制：数字选台、频道列表首尾循环、跨分组切换、按键行为"
-        caption="设置 → 控制：数字选台、列表首尾循环、跨分组切换等开关，以及进入「按键（手势）行为」改绑按键的子页。"
+        alt="电视端设置 → 控制：频道列表首尾循环、跨分组切换、按键行为"
+        caption="设置 → 控制：列表首尾循环、跨分组切换等开关，以及进入「按键（手势）行为」改绑按键的子页。"
       />
       <p>
         下表是直播界面的默认键位，均可按下一节的方法改绑。
@@ -104,7 +104,6 @@ import { DocShot } from '../../shared/doc-shot';
           <tr><th>设置项</th><th>说明</th></tr>
         </thead>
         <tbody>
-          <tr><td>数字选台</td><td>用遥控器数字键直接选台。开（默认）/ 关</td></tr>
           <tr><td>频道列表首尾循环</td><td>上下键切到列表首尾时循环到另一端。开（默认）/ 关</td></tr>
           <tr><td>频道切换跨分组</td><td>上下键在所有频道间切换；关闭后只在当前分组内上下切换。开（默认）/ 关</td></tr>
         </tbody>
@@ -136,7 +135,6 @@ import { DocShot } from '../../shared/doc-shot';
       <h2 id="related-settings">相关设置入口</h2>
       <ul>
         <li>换台时屏幕底部是否显示频道信息条：<b>设置 → 界面 → 换台时显示频道信息</b>，见 <a [routerLink]="'/live-screen'">直播主界面与首页</a>。</li>
-        <li>各类面板无操作后自动关闭的时长：<b>设置 → 界面 → 超时自动关闭界面</b>。</li>
         <li>回看时快进快退的跳转方式：<b>设置 → 播放器 → SeekTo方式</b>，见 <a [routerLink]="'/player-settings'">播放器与字幕</a>。</li>
         <li>播放控制界面把进度条换成 EPG 时间轴（左右键微调不变，按 OK 跳到节目开头 / 回到直播）：<b>设置 → 播放器 → SeekTo方式 → EPG时间轴</b>。</li>
       </ul>
