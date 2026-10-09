@@ -61,7 +61,7 @@ import { DocShot } from '../../shared/doc-shot';
           <tr><th>卡片</th><th>能做什么</th></tr>
         </thead>
         <tbody>
-          <tr><td><b>关于应用</b></td><td>查看应用版本、设备名称与设备 ID（只读）。</td></tr>
+          <tr><td><b>关于应用</b></td><td>查看应用版本与设备名称（只读）。</td></tr>
           <tr>
             <td><b>订阅源</b></td>
             <td>
