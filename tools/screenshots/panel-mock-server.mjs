@@ -123,7 +123,7 @@ const OVERRIDES = {
 const CONFIGS = { ...defaultConfigs(), ...OVERRIDES };
 
 const ABOUT = {
-  applicationId: 'top.yogiczy.mytv',
+  applicationId: 'com.github.mytv.android',
   flavor: 'tv',
   buildType: 'debug',
   versionCode: 677,

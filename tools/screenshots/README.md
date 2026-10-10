@@ -42,7 +42,7 @@ $ADB wait-for-device && $ADB shell getprop sys.boot_completed   # 等到输出 1
 $ADB install -r output/apk/mytv-android-tv-<版本>-x86-sdk23-original.apk
 
 # 3. 启动
-$ADB shell am start -n com.github.mytv.android/top.yogiczy.mytv.tv.MainActivity
+$ADB shell am start -n com.github.mytv.android/com.github.mytv.android.MainActivity
 
 # 4. 截图（导航见下）
 $ADB exec-out screencap -p > /tmp/app-raw/00-launch.png
