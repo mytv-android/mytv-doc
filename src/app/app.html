@@ -1,29 +1,37 @@
-<mat-toolbar color="primary" class="app-toolbar">
-  <button mat-icon-button (click)="toggleSidenav()" aria-label="切换导航">
+<mat-toolbar class="app-toolbar">
+  <button mat-icon-button (click)="toggleSidenav()" aria-label="切换导航" class="nav-toggle-btn">
     <mat-icon>menu</mat-icon>
   </button>
-  <img src="app-icon.png" alt="电视直播" class="app-icon" />
-  <span class="app-title">电视直播 使用文档</span>
+  <div class="brand-container" [routerLink]="'/home'">
+    <img src="app-icon.png" alt="电视直播" class="app-icon" />
+    <span class="app-title">电视直播</span>
+    <span class="app-subtitle">文档</span>
+    <span class="version-badge">v3.0</span>
+  </div>
   <span class="spacer"></span>
   <doc-search />
-  <a
-    mat-icon-button
-    href="https://github.com/mytv-android/mytv-android"
-    target="_blank"
-    rel="noopener"
-    aria-label="GitHub 仓库"
-    matTooltip="打开 GitHub 仓库"
-  >
-    <mat-icon>code</mat-icon>
-  </a>
-  <button
-    mat-icon-button
-    (click)="toggleTheme()"
-    aria-label="切换主题"
-    [matTooltip]="isDark() ? '切换为浅色' : '切换为深色'"
-  >
-    <mat-icon>{{ isDark() ? 'light_mode' : 'dark_mode' }}</mat-icon>
-  </button>
+  <div class="toolbar-actions">
+    <a
+      mat-icon-button
+      href="https://github.com/mytv-android/mytv-android"
+      target="_blank"
+      rel="noopener"
+      aria-label="GitHub 仓库"
+      matTooltip="打开 GitHub 仓库"
+      class="action-btn"
+    >
+      <mat-icon>code</mat-icon>
+    </a>
+    <button
+      mat-icon-button
+      (click)="toggleTheme()"
+      aria-label="切换主题"
+      [matTooltip]="isDark() ? '切换为浅色模式' : '切换为深色模式'"
+      class="action-btn theme-toggle-btn"
+    >
+      <mat-icon>{{ isDark() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+    </button>
+  </div>
 </mat-toolbar>
 
 <mat-sidenav-container class="app-container">
@@ -33,25 +41,30 @@
     (closedStart)="sidenavOpened.set(false)"
     class="app-sidenav"
   >
-    <mat-nav-list>
-      @for (group of groups(); track group.name) {
-        <h3 matSubheader>{{ group.name }}</h3>
-        @for (entry of group.entries; track entry.path) {
-          <a
-            mat-list-item
-            [routerLink]="entry.path"
-            routerLinkActive="active-link"
-            (click)="isHandset() && sidenavOpened.set(false)"
-          >
-            <mat-icon matListItemIcon>{{ entry.icon }}</mat-icon>
-            <span matListItemTitle>{{ entry.label }}</span>
-          </a>
+    <div class="sidenav-scroll-area">
+      <mat-nav-list class="sidenav-nav-list">
+        @for (group of groups(); track group.name) {
+          <div class="nav-group-header">
+            <span class="group-name">{{ group.name }}</span>
+          </div>
+          @for (entry of group.entries; track entry.path) {
+            <a
+              mat-list-item
+              [routerLink]="entry.path"
+              routerLinkActive="active-link"
+              (click)="isHandset() && sidenavOpened.set(false)"
+              class="nav-entry-item"
+            >
+              <mat-icon matListItemIcon class="nav-entry-icon">{{ entry.icon }}</mat-icon>
+              <span matListItemTitle class="nav-entry-title">{{ entry.label }}</span>
+            </a>
+          }
         }
-      }
-    </mat-nav-list>
+      </mat-nav-list>
+    </div>
   </mat-sidenav>
 
-  <mat-sidenav-content class="app-content">
+  <mat-sidenav-content class="app-content" (scroll)="onContentScroll($event)">
     <div class="page-row">
       <main class="page">
         <router-outlet />
@@ -59,11 +72,24 @@
       <doc-toc />
     </div>
     <footer class="app-footer">
-      <p>
-        本文档基于
-        <a href="https://github.com/mytv-android/mytv-android" target="_blank" rel="noopener">mytv-android</a>
-        源码整理，遵循其 GNU 许可证。
-      </p>
+      <div class="footer-content">
+        <p>
+          电视直播（mytv-android）用户手册 · 遵循 GNU 通用公共许可证 ·
+          <a href="https://github.com/mytv-android/mytv-android" target="_blank" rel="noopener">GitHub 仓库</a>
+        </p>
+      </div>
     </footer>
+
+    @if (showScrollTop()) {
+      <button
+        class="scroll-top-btn"
+        (click)="scrollToTop()"
+        aria-label="返回顶部"
+        matTooltip="返回顶部"
+        type="button"
+      >
+        <mat-icon>keyboard_arrow_up</mat-icon>
+      </button>
+    }
   </mat-sidenav-content>
 </mat-sidenav-container>

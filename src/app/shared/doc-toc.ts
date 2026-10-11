@@ -8,6 +8,7 @@ import {
   signal,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 import { filter } from 'rxjs/operators';
 
 interface TocItem {
@@ -17,16 +18,20 @@ interface TocItem {
 
 /**
  * 页面右侧的「本页目录」。路由切换后扫描当前页面的 h2[id]（不足 3 个时退回 h3[id]），
- * 宽屏（≥1500px）显示，窄屏隐藏。点击平滑滚动并把锚点写进地址栏。
+ * 宽屏显示，窄屏隐藏。点击平滑滚动并把锚点写进地址栏。
  */
 @Component({
   selector: 'doc-toc',
+  imports: [MatIconModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { '[class.toc-empty]': '!visible()' },
   template: `
     @if (visible()) {
       <nav class="toc" aria-label="本页目录">
-        <div class="toc-title">本页目录</div>
+        <div class="toc-header">
+          <mat-icon class="toc-icon">format_list_bulleted</mat-icon>
+          <span class="toc-title">本页目录</span>
+        </div>
         <div class="toc-list">
           @for (item of items(); track item.id) {
             <a
@@ -42,7 +47,7 @@ interface TocItem {
   `,
   styles: `
     :host {
-      width: 216px;
+      width: 220px;
       flex-shrink: 0;
     }
     :host(.toc-empty) {
@@ -50,40 +55,66 @@ interface TocItem {
     }
     .toc {
       position: sticky;
-      top: 24px;
-      max-height: calc(100vh - 48px);
+      top: 84px;
+      max-height: calc(100vh - 100px);
       display: flex;
       flex-direction: column;
-      padding-top: 24px;
+      padding: 16px 12px;
+      border-radius: 16px;
+      background: var(--mat-sys-surface-container-low);
+      border: 1px solid var(--mat-sys-outline-variant);
     }
-    .toc-title {
-      font: var(--mat-sys-title-small);
-      color: var(--mat-sys-on-surface-variant);
+    .toc-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
       margin-bottom: 8px;
-      padding-left: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--mat-sys-outline-variant);
+
+      .toc-icon {
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
+        color: var(--mat-sys-primary);
+      }
+      .toc-title {
+        font: var(--mat-sys-label-medium);
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--mat-sys-on-surface-variant);
+      }
     }
     .toc-list {
       overflow-y: auto;
-      border-left: 2px solid var(--mat-sys-outline-variant);
+      max-height: calc(100vh - 170px);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding-right: 4px;
     }
     .toc-link {
       display: block;
-      padding: 5px 12px;
+      padding: 6px 10px;
       color: var(--mat-sys-on-surface-variant);
       text-decoration: none;
       cursor: pointer;
-      border-left: 2px solid transparent;
-      margin-left: -2px;
+      border-radius: 8px;
       line-height: 1.45;
       font: var(--mat-sys-body-medium);
-    }
-    .toc-link:hover {
-      color: var(--mat-sys-on-surface);
-    }
-    .toc-link.toc-active {
-      color: var(--mat-sys-primary);
-      border-left-color: var(--mat-sys-primary);
-      font-weight: 600;
+      font-size: 13px;
+      transition: all 0.15s cubic-bezier(0.2, 0, 0, 1);
+
+      &:hover {
+        color: var(--mat-sys-on-surface);
+        background: var(--mat-sys-surface-container-high);
+      }
+      &.toc-active {
+        color: var(--mat-sys-primary);
+        background: color-mix(in srgb, var(--mat-sys-primary-container) 55%, transparent);
+        font-weight: 600;
+      }
     }
     @media (max-width: 1299px) {
       :host {

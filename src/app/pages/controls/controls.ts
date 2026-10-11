@@ -30,13 +30,13 @@ import { DocShot } from '../../shared/doc-shot';
           <tr><th>按键</th><th>默认动作</th></tr>
         </thead>
         <tbody>
-          <tr><td>上 / 下键</td><td>前一 / 后一频道</td></tr>
-          <tr><td>左 / 右键</td><td>前一 / 后一线路</td></tr>
-          <tr><td>OK（选择键）</td><td>打开选台面板</td></tr>
-          <tr><td>长按 OK</td><td>快捷设置</td></tr>
-          <tr><td>长按上 / 下 / 左 / 右</td><td>管理订阅源 / 播放控制 / 节目单 / 线路列表</td></tr>
-          <tr><td>菜单键（部分遥控器标为设置、帮助）</td><td>快捷设置</td></tr>
-          <tr><td>数字键 0–9</td><td>数字选台</td></tr>
+          <tr><td><kbd>上</kbd> / <kbd>下</kbd> 键</td><td>前一 / 后一频道</td></tr>
+          <tr><td><kbd>左</kbd> / <kbd>右</kbd> 键</td><td>前一 / 后一线路</td></tr>
+          <tr><td><kbd>OK</kbd>（选择键）</td><td>打开选台面板</td></tr>
+          <tr><td>长按 <kbd>OK</kbd></td><td>快捷设置</td></tr>
+          <tr><td>长按 <kbd>上</kbd> / <kbd>下</kbd> / <kbd>左</kbd> / <kbd>右</kbd></td><td>管理订阅源 / 播放控制 / 节目单 / 线路列表</td></tr>
+          <tr><td><kbd>菜单</kbd> 键（部分遥控器标为设置、帮助）</td><td>快捷设置</td></tr>
+          <tr><td><kbd>0</kbd>–<kbd>9</kbd> 数字键</td><td>数字选台</td></tr>
         </tbody>
       </table>
       <p>彩色键与功能键为固定用途，不参与改绑：</p>
@@ -45,14 +45,14 @@ import { DocShot } from '../../shared/doc-shot';
           <tr><th>按键</th><th>作用</th></tr>
         </thead>
         <tbody>
-          <tr><td>红键</td><td>线路列表</td></tr>
-          <tr><td>绿键 / 音轨键</td><td>音轨选择</td></tr>
-          <tr><td>黄键 / 字幕键</td><td>字幕选择</td></tr>
-          <tr><td>蓝键 / F2</td><td>回首页</td></tr>
-          <tr><td>INFO 键</td><td>显示 / 隐藏播放器信息（编码、解码器等）</td></tr>
-          <tr><td>GUIDE 键</td><td>当前频道节目单</td></tr>
-          <tr><td>「上一频道」键</td><td>打开节目单指南页（自动定位到当前频道）</td></tr>
-          <tr><td>快进 / 快退键</td><td>快进 / 快退 10 秒</td></tr>
+          <tr><td><kbd>红键</kbd></td><td>线路列表</td></tr>
+          <tr><td><kbd>绿键</kbd> / <kbd>音轨</kbd></td><td>音轨选择</td></tr>
+          <tr><td><kbd>黄键</kbd> / <kbd>字幕</kbd></td><td>字幕选择</td></tr>
+          <tr><td><kbd>蓝键</kbd> / <kbd>F2</kbd></td><td>回首页</td></tr>
+          <tr><td><kbd>INFO</kbd> 键</td><td>显示 / 隐藏播放器信息（编码、解码器等）</td></tr>
+          <tr><td><kbd>GUIDE</kbd> 键</td><td>当前频道节目单</td></tr>
+          <tr><td><kbd>上一频道</kbd> 键</td><td>打开节目单指南页（自动定位到当前频道）</td></tr>
+          <tr><td><kbd>快进</kbd> / <kbd>快退</kbd> 键</td><td>快进 / 快退 10 秒</td></tr>
         </tbody>
       </table>
       <p>
@@ -70,16 +70,16 @@ import { DocShot } from '../../shared/doc-shot';
           <tr><th>按键 / 手势</th><th>默认动作</th></tr>
         </thead>
         <tbody>
-          <tr><td>上键 / 上滑</td><td>前一频道</td></tr>
-          <tr><td>下键 / 下滑</td><td>后一频道</td></tr>
-          <tr><td>左键 / 左滑</td><td>前一线路</td></tr>
-          <tr><td>右键 / 右滑</td><td>后一线路</td></tr>
-          <tr><td>选择键</td><td>频道列表</td></tr>
-          <tr><td>长按选择键</td><td>快捷设置</td></tr>
-          <tr><td>长按上键</td><td>管理订阅源</td></tr>
-          <tr><td>长按下键</td><td>播放控制</td></tr>
-          <tr><td>长按左键</td><td>节目单</td></tr>
-          <tr><td>长按右键</td><td>线路列表</td></tr>
+          <tr><td><kbd>上键</kbd> / 上滑</td><td>前一频道</td></tr>
+          <tr><td><kbd>下键</kbd> / 下滑</td><td>后一频道</td></tr>
+          <tr><td><kbd>左键</kbd> / 左滑</td><td>前一线路</td></tr>
+          <tr><td><kbd>右键</kbd> / 右滑</td><td>后一线路</td></tr>
+          <tr><td><kbd>选择键</kbd></td><td>频道列表</td></tr>
+          <tr><td>长按 <kbd>选择键</kbd></td><td>快捷设置</td></tr>
+          <tr><td>长按 <kbd>上键</kbd></td><td>管理订阅源</td></tr>
+          <tr><td>长按 <kbd>下键</kbd></td><td>播放控制</td></tr>
+          <tr><td>长按 <kbd>左键</kbd></td><td>节目单</td></tr>
+          <tr><td>长按 <kbd>右键</kbd></td><td>线路列表</td></tr>
         </tbody>
       </table>
       <p>
@@ -149,8 +149,8 @@ import { DocShot } from '../../shared/doc-shot';
         </thead>
         <tbody>
           <tr><td>上 / 下 / 左 / 右滑动</td><td>上 / 下 / 左 / 右方向键（默认上/下换台，左/右切线路）</td></tr>
-          <tr><td>单击屏幕</td><td>OK 键（默认打开经典或现代选台面板）</td></tr>
-          <tr><td>长按屏幕</td><td>长按 OK（默认呼出快捷设置面板）</td></tr>
+          <tr><td>单击屏幕</td><td><kbd>OK</kbd> 键（默认打开经典或现代选台面板）</td></tr>
+          <tr><td>长按屏幕</td><td>长按 <kbd>OK</kbd>（默认呼出快捷设置面板）</td></tr>
         </tbody>
       </table>
       <doc-callout kind="info" title="触摸设备焦点优化" icon="touch_app">

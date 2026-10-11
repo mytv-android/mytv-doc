@@ -79,6 +79,7 @@ export class App {
 
   protected readonly sidenavOpened = signal(true);
   protected readonly isDark = signal(false);
+  protected readonly showScrollTop = signal(false);
 
   protected readonly groups = computed(() => {
     const order: NavEntry['group'][] = ['使用', '功能', '设置', '其他'];
@@ -110,6 +111,19 @@ export class App {
           }
         }, 60);
       });
+  }
+
+  onContentScroll(event: Event) {
+    const el = event.target as HTMLElement | null;
+    if (el) {
+      this.showScrollTop.set(el.scrollTop > 300);
+    }
+  }
+
+  scrollToTop() {
+    document
+      .querySelector<HTMLElement>('.app-content')
+      ?.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   toggleSidenav() {
