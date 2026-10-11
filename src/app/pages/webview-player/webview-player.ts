@@ -68,8 +68,7 @@ import { DocCallout } from '../../shared/doc-callout';
 
       <h2 id="settings">设置逐项（设置 → WebView）</h2>
       <p>
-        以下设置在电视端 <b>设置 → WebView</b>。除「清除 WebView 缓存」外，也能在远程配置面板（下称面板，见
-        <a [routerLink]="'/remote-panel'">远程配置面板</a>）的 <b>WebView</b> 页修改，改动即保存。
+        以下设置位于电视端 <b>设置 → WebView</b>。除「清除 WebView 缓存」外，亦可在<a [routerLink]="'/remote-panel'">远程配置面板</a>的「WebView」页面中直接调整，改动即时生效。
       </p>
       <table>
         <thead>

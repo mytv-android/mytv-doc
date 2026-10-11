@@ -17,8 +17,7 @@ import { DocShot } from '../../shared/doc-shot';
 
       <h2 id="three-ways">三种方式怎么选</h2>
       <p>
-        备份管理在电视端（设置 → 通用 → 备份管理）和<b>远程配置面板</b>（下称面板，用浏览器打开 http://电视IP:10591，见
-        <a [routerLink]="'/remote-panel'">远程配置面板</a>）上都能操作，导入导出 JSON 只能在面板上操作；云同步的凭据在电视端和面板都能填写。
+        备份管理支持在电视端（设置 → 通用 → 备份管理）与<a [routerLink]="'/remote-panel'">远程配置面板</a>中操作，导入与导出 JSON 则在远程配置面板中完成；云同步服务的各项凭据在电视端和面板中均可配置。
       </p>
       <table>
         <thead>

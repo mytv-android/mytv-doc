@@ -33,10 +33,10 @@ import { DocShot } from '../../shared/doc-shot';
         App 侧不用配置服务端相关的东西，只要按下面的「推荐设置」把几个播放选项调好，
         就能把这些能力用足。
       </p>
-      <doc-callout kind="info" title="服务端怎么装、怎么配" icon="menu_book">
-        安装（OpenWrt 一键脚本 / Docker / 静态二进制）、IPTV 网络融合、抓包、FCC 服务器地址等细节，
-        都以 <a href="https://rtp2httpd.com/guide/quick-start" target="_blank" rel="noopener">rtp2httpd 官方文档</a> 为准，
-        本页只写与本 App 相关的一侧。
+      <doc-callout kind="info" title="服务端安装与配置" icon="menu_book">
+        有关服务端的安装部署（OpenWrt 脚本 / Docker / 二进制）、IPTV 双网融合、组播抓包等配置，
+        请参阅 <a href="https://rtp2httpd.com/guide/quick-start" target="_blank" rel="noopener">rtp2httpd 官方文档</a>；
+        本章节重点介绍播放器客户端侧的最佳实践与适配调优。
       </doc-callout>
 
       <h2 id="source">把它的播放列表接进 App</h2>

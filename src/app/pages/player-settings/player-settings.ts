@@ -81,8 +81,7 @@ import { DocShot } from '../../shared/doc-shot';
 
       <h2 id="decode">解码与渲染</h2>
       <p>
-        本节条目在电视端 <b>设置 → 播放器</b> 与远程配置面板（下称面板，见
-        <a [routerLink]="'/remote-panel'">远程配置面板</a>）的 <b>播放器</b> 页都能修改。
+        本节条目在电视端 <b>设置 → 播放器</b> 与<a [routerLink]="'/remote-panel'">远程配置面板</a>的「播放器」页面均可调整。
       </p>
       <table>
         <thead>

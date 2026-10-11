@@ -22,11 +22,10 @@ import { DocPageHeader } from '../../shared/doc-page-header';
 
       <h2 id="what">这是什么？</h2>
       <p>
-        <b>电视直播</b>（GitHub 仓库名 mytv-android）是一款 Android 电视直播应用，
-        支持自定义订阅源（m3u / txt / Xtream Codes / Stalker Portal / 本地文件）、EPG 节目单、
-        WebView 网页源、多屏同播（最多 9 路）、视频超分与插帧、ASR 实时字幕与字幕翻译、
-        Python / PHP 服务、云同步等能力。本文档面向<b>最终用户</b>，介绍电视端应用和内置网页面板
-        （<code>http://&lt;电视IP&gt;:10591</code>）的使用方法，不涉及源码与二次开发内容。
+        <b>电视直播</b>（mytv-android）是一款专为电视大屏与移动设备打造的开源流媒体播放应用。
+        支持自定义 IPTV 订阅源（m3u / txt / Xtream Codes / Stalker Portal 等）、电子节目单（EPG）、
+        网页解析源、最高 9 路多屏同播、AI 实时超分与插帧、本地及云端语音识别（ASR）字幕与多引擎翻译，
+        并内置轻量级脚本服务（Python / PHP）、云端数据同步以及局域网远程配置面板。
       </p>
 
       <h2 id="start">从哪儿开始？</h2>
@@ -63,11 +62,10 @@ import { DocPageHeader } from '../../shared/doc-page-header';
         <li><b>系统集成</b>：开机自启、画中画、后台播放（听电视）、自定义启动页面、配合夏杰语音 App 语音换台。</li>
       </ul>
 
-      <h2 id="conventions">文档约定</h2>
+      <h2 id="conventions">使用提示</h2>
       <ul>
-        <li>本文档以应用当前版本为准，界面文字以 App 内实际显示为准。</li>
-        <li>「设置 → X → Y」指电视端应用内的路径。</li>
-        <li>「面板」指应用内置的远程配置面板（<code>http://&lt;电视IP&gt;:10591</code>），详见 <a [routerLink]="'/remote-panel'">远程配置面板</a>。</li>
+        <li><b>菜单路径</b>：文中的「设置 → 界面 → 屏幕方向」指应用内部的设置层级路径。</li>
+        <li><b>远程配置</b>：电视与电脑或手机处于同一局域网时，可在浏览器访问 <code>http://&lt;设备IP&gt;:10591</code> 打开远程配置面板进行管理，详见 <a [routerLink]="'/remote-panel'">远程配置面板</a>。</li>
       </ul>
     </div>
   `,
