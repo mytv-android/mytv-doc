@@ -109,20 +109,52 @@ import { DocShot } from '../../shared/doc-shot';
         </tbody>
       </table>
 
-      <h2 id="touch">触屏手势</h2>
+      <h2 id="touch">触屏手势与移动交互</h2>
+      <p>
+        应用全面适配了触摸屏设备，在<b>手机竖屏模式</b>与<b>电视横屏触控设备</b>下分别提供针对性的触屏手势与交互支持。
+      </p>
+
+      <h3 id="touch-portrait">手机竖屏触屏手势（移动原生）</h3>
+      <doc-shot
+        src="screenshots/portrait-player.png"
+        [portrait]="true"
+        alt="手机竖屏播放器界面与触控层"
+        caption="手机竖屏播放器：顶部 16:9 视频支持单击悬浮浮层、双击暂停、上下滑切台与左右滑 Seek；下方为正在播放卡片、线路分体按钮与频道列表。"
+      />
+      <table>
+        <thead>
+          <tr><th>区域 / 元素</th><th>触屏手势</th><th>对应操作</th></tr>
+        </thead>
+        <tbody>
+          <tr><td rowspan="4">16:9 视频区</td><td>单击画面</td><td>显示 / 隐藏顶部返回栏与底部悬浮控制栏（无操作自动淡出）</td></tr>
+          <tr><td>双击画面</td><td>快速暂停 / 恢复播放</td></tr>
+          <tr><td>垂直上下滑</td><td>切台：上滑切换至下一频道，下滑切换至上一频道</td></tr>
+          <tr><td>水平左右滑</td><td>快进 / 快退 10 秒（进度条实时显示位移）</td></tr>
+          <tr><td rowspan="4">悬浮控制栏</td><td>点击 <code>&lt;</code> / <code>&gt;</code></td><td>上一频道 / 下一频道</td></tr>
+          <tr><td>点击 <code>▶</code> / <code>⏸</code></td><td>播放 / 暂停</td></tr>
+          <tr><td>点击 <code>⛶</code></td><td>进入横屏全屏播放（或旋转手机横屏）</td></tr>
+          <tr><td>点击比例按钮</td><td>打开画面比例选择抽屉（原始/填充/裁剪/4:3/16:9/2.35:1）</td></tr>
+          <tr><td rowspan="2">正在播放卡片</td><td>点击红心图标</td><td>收藏 / 取消收藏当前频道</td></tr>
+          <tr><td>点击线路按钮</td><td>左侧点击顺序轮换下一线路；右侧下拉箭头呼出 Material 3 线路测速选择抽屉</td></tr>
+          <tr><td>底部抽屉（BottomSheet）</td><td>向下滑动 / 点击半透遮罩</td><td>平滑关闭抽屉弹层</td></tr>
+          <tr><td>返回导航</td><td>左上角返回 / 系统手势返回</td><td>全屏横屏时返回竖屏半屏播放；竖屏播放时返回手机首页；首页连按两次退出</td></tr>
+        </tbody>
+      </table>
+
+      <h3 id="touch-tv">电视横屏触控手势（触屏电视 / 平板横屏）</h3>
+      <p>在横屏触屏电视或平板横屏状态下，手势等效于遥控器键位（同样跟随「按键（手势）行为」的改绑设置）：</p>
       <table>
         <thead>
           <tr><th>手势</th><th>等效操作</th></tr>
         </thead>
         <tbody>
-          <tr><td>上 / 下 / 左 / 右滑动</td><td>上 / 下 / 左 / 右方向键（跟随改绑动作）</td></tr>
-          <tr><td>单击屏幕</td><td>OK 键（默认打开选台面板）</td></tr>
-          <tr><td>长按屏幕</td><td>长按 OK（默认打开快捷设置）</td></tr>
+          <tr><td>上 / 下 / 左 / 右滑动</td><td>上 / 下 / 左 / 右方向键（默认上/下换台，左/右切线路）</td></tr>
+          <tr><td>单击屏幕</td><td>OK 键（默认打开经典或现代选台面板）</td></tr>
+          <tr><td>长按屏幕</td><td>长按 OK（默认呼出快捷设置面板）</td></tr>
         </tbody>
       </table>
-      <doc-callout kind="info" title="触摸设备上闪退？" icon="touch_app">
-        应用面向遥控器设计。在触摸屏设备上若遇到闪退，到 <b>设置 → 界面</b> 关闭「焦点优化」，
-        详见 <a [routerLink]="'/faq'">常见问题</a>。
+      <doc-callout kind="info" title="触摸设备焦点优化" icon="touch_app">
+        在纯触摸屏或车机设备上若在列表滚动时遇到焦点跳动或个别场景闪退，可进入 <b>设置 → 界面</b> 关闭「焦点优化」，详见 <a [routerLink]="'/faq'">常见问题</a>。
       </doc-callout>
 
       <h2 id="voice">语音换台</h2>

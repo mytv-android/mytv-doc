@@ -8,7 +8,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   selector: 'doc-shot',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <figure class="shot">
+    <figure class="shot" [class.portrait]="portrait()">
       <img [src]="src()" [alt]="alt()" />
       @if (caption()) {
         <figcaption>{{ caption() }}</figcaption>
@@ -18,6 +18,10 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   styles: `
     .shot {
       margin: 16px 0 24px;
+
+      &.portrait {
+        max-width: 380px;
+      }
     }
     img {
       display: block;
@@ -37,4 +41,5 @@ export class DocShot {
   readonly src = input.required<string>();
   readonly alt = input<string>('');
   readonly caption = input<string>();
+  readonly portrait = input<boolean>(false);
 }

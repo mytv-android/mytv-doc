@@ -15,7 +15,7 @@ import { DocPageHeader } from '../../shared/doc-page-header';
         <div>
           <doc-page-header
             title="电视直播 使用文档"
-            lead="基于天光云影 3.3.9 的 Android TV 电视直播应用 · 支持 Android 6.0 及以上 · 仅横屏"
+            lead="基于天光云影 3.3.9 的 Android TV 电视直播应用 · 支持 Android 6.0 及以上 · 支持电视横屏与手机竖屏自适应"
           />
         </div>
       </div>
@@ -49,6 +49,7 @@ import { DocPageHeader } from '../../shared/doc-page-header';
         <li><b>多种订阅源</b>：m3u / txt / Xtream Codes / Stalker Portal / 本地文件，远程链接支持 FTP / SMB / WebDAV 协议；线路支持 <code>webview://</code>、<code>video://</code>、<code>javascript://</code> 特殊前缀。</li>
         <li><b>自动添加网页源</b>：为订阅源频道附加央视、央视频、卫视官网等网页线路，主源失效仍可切换观看；央视频付费频道支持配置 Cookie。</li>
         <li><b>EPG 节目单</b>：支持 XML（XMLTV）、DIYP 等多种来源格式；节目单指南页支持节目回看与预约提醒。</li>
+        <li><b>手机竖屏与移动自适应</b>：全面支持手机竖屏专享界面（16:9 置顶视频、原生触屏手势、换台与线路底部抽屉、更多功能面板），根据设备握持方向无缝自适应流转。</li>
         <li><b>远程配置面板</b>：电视启动应用后，浏览器访问 <code>http://&lt;电视IP&gt;:10591</code> 即可推送订阅源、整包改设置（改动即保存）、管理文件与备份、推 APK、看日志。</li>
         <li><b>WebView 播放器</b>：把网页当作视频源，支持切换腾讯 X5 内核。</li>
         <li><b>多屏同播</b>：最多 9 路同屏播放，可保存最多 20 套频道组合方案。</li>
@@ -56,7 +57,7 @@ import { DocPageHeader } from '../../shared/doc-page-header';
         <li><b>脚本服务（Python / PHP）</b>：在电视上运行脚本（需 Android 7.0 及以上），把脚本产出的频道列表当作本机或局域网订阅源；服务可在应用内（设置 → 服务）或网页面板中添加与管理。</li>
         <li><b>组件下载</b>：统一下载管理 IJK / VLC 播放组件、Python / PHP 运行环境、语音识别运行库与模型、超分与插帧运行库。</li>
         <li><b>ASR 实时字幕</b>：本地语音识别，把直播语音实时转成字幕，支持 Media3 与 IJK 内核，也可选云端 Gemini 模型。</li>
-        <li><b>字幕翻译</b>：把实时字幕或已有字幕轨翻译成目标语言，引擎可选腾讯翻译 / 百度翻译 / MTranServer（自托管）。</li>
+        <li><b>字幕翻译</b>：把实时字幕或已有字幕轨翻译成目标语言，引擎可选腾讯翻译 / 百度翻译 / MTranServer（自托管） / 有道翻译 / 谷歌翻译 / 微软翻译。</li>
         <li><b>云同步</b>：GitHub Gist / Gitee 代码片段 / WebDAV / 网络链接（仅拉取）/ 本地文件。</li>
         <li><b>加密分组与隐藏规则</b>：分组名以 <code>_数字</code> 结尾即为密码分组；支持按正则隐藏频道。</li>
         <li><b>系统集成</b>：开机自启、画中画、后台播放（听电视）、自定义启动页面、配合夏杰语音 App 语音换台。</li>

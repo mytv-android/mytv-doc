@@ -18,10 +18,10 @@ import { DocCallout } from '../../shared/doc-callout';
 
       <h2 id="requirements">系统要求</h2>
       <ul>
-        <li>系统：Android 6.0 及以上，仅横屏（电视、电视盒子、投影仪）。</li>
+        <li>系统：Android 6.0 及以上，支持电视、电视盒子、投影仪（横屏），以及手机、平板（自适应横屏/竖屏）。</li>
         <li>个别功能要求更高：服务（Python / PHP，含各自运行环境）需 Android 7.0 及以上。</li>
         <li>网络：家庭局域网，有线连接更稳定；订阅源与节目单需要联网获取。</li>
-        <li>操作：遥控器，或触屏 / 鼠标。</li>
+        <li>操作：遥控器，或触屏 / 鼠标（移动设备提供完整的原生触控手势与抽屉交互）。</li>
       </ul>
 
       <h2 id="install">安装应用</h2>

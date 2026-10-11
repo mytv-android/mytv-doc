@@ -188,4 +188,15 @@ body {
       line-height: 1.6;
     }
   }
+
+  .shot-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin: 16px 0 24px;
+
+    .shot {
+      margin: 0;
+    }
+  }
 }
