@@ -70,15 +70,15 @@ import { DocPageHeader } from '../../shared/doc-page-header';
     </div>
   `,
   styles: `
+    // 标题区：不画描边，只留色调底
     .hero {
       display: flex;
       align-items: flex-start;
       gap: 20px;
       margin-bottom: 12px;
-      padding: 16px 20px;
-      border-radius: 20px;
-      background: color-mix(in srgb, var(--mat-sys-surface-container-low) 70%, transparent);
-      border: 1px solid var(--mat-sys-outline-variant);
+      padding: 20px 24px 0;
+      border-radius: var(--mytv-radius-hero);
+      background: var(--mytv-card);
     }
     .hero-icon {
       width: 68px;
@@ -100,19 +100,22 @@ import { DocPageHeader } from '../../shared/doc-page-header';
       display: block;
       height: 100%;
     }
+    .card-link:focus-visible {
+      outline: var(--mytv-focus-ring-width) solid var(--mytv-focus-ring);
+      outline-offset: 2px;
+      border-radius: var(--mytv-radius-card);
+    }
+    // 入口卡片：不画描边、不加阴影，只留色调底；悬停 8% 叠层
     .nav-card {
       height: 100%;
-      border-radius: 18px !important;
-      border: 1px solid var(--mat-sys-outline-variant);
-      background: var(--mat-sys-surface-container-low);
-      transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+      border-radius: var(--mytv-radius-card) !important;
+      border: none;
+      background: var(--mytv-card);
+      box-shadow: none;
+      transition: background-color var(--mytv-duration-fast) var(--mytv-easing);
 
       &:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.1), 0 4px 8px -2px rgba(0, 0, 0, 0.05);
-        border-color: var(--mat-sys-primary);
-        background: var(--mat-sys-surface-container);
+        background-image: linear-gradient(var(--mytv-hover-layer), var(--mytv-hover-layer));
       }
 
       mat-card-header {

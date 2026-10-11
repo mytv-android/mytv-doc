@@ -17,12 +17,12 @@ import { MatIconModule } from '@angular/material/icon';
       @if (lead()) {
         <p class="page-lead">{{ lead() }}</p>
       }
-      <div class="header-divider"></div>
     </header>
   `,
   styles: `
+    // 标题区不画分隔线，只靠留白与正文分开
     .doc-header {
-      margin-bottom: 24px;
+      margin-bottom: 32px;
     }
     .header-badge {
       display: inline-flex;
@@ -59,11 +59,6 @@ import { MatIconModule } from '@angular/material/icon';
       color: var(--mat-sys-on-surface-variant);
       margin: 0;
       max-width: 820px;
-    }
-    .header-divider {
-      height: 1px;
-      background: linear-gradient(90deg, var(--mat-sys-outline-variant) 0%, transparent 100%);
-      margin-top: 20px;
     }
   `,
 })

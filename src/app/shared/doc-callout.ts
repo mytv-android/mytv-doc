@@ -7,9 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <aside class="callout" [class]="'callout-' + kind()" role="note">
-      <div class="callout-icon-badge">
-        <mat-icon>{{ resolvedIcon() }}</mat-icon>
-      </div>
+      <mat-icon class="callout-icon">{{ resolvedIcon() }}</mat-icon>
       <div class="callout-content">
         @if (title()) {
           <div class="callout-title">{{ title() }}</div>
@@ -19,38 +17,40 @@ import { MatIconModule } from '@angular/material/icon';
     </aside>
   `,
   styles: `
+    // 低饱和色调底：提示 = secondaryContainer、注意 = tertiaryContainer、警告 = errorContainer，约 55%；
+    // 注意的图标用 tertiary，警告的图标用 error 并加 3px 左侧色条，浅色主题下两者也能一眼分开
     .callout {
+      --callout-container: var(--mat-sys-secondary-container);
+      --callout-on-container: var(--mat-sys-on-secondary-container);
+      --callout-icon: var(--callout-on-container);
       display: flex;
-      gap: 16px;
-      padding: 16px 20px;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 16px;
       margin: 20px 0;
-      border-radius: 16px;
-      border: 1px solid var(--mat-sys-outline-variant);
-      background-color: var(--mat-sys-surface-container-low);
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-
-      &:hover {
-        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
-      }
+      border-radius: var(--mytv-radius-card);
+      background-color: color-mix(in srgb, var(--callout-container) 55%, transparent);
     }
 
-    .callout-icon-badge {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      flex-shrink: 0;
-      background: var(--mat-sys-surface-container-highest);
-      color: var(--mat-sys-primary);
+    .callout-info {
+      --callout-container: var(--mat-sys-tertiary-container);
+      --callout-on-container: var(--mat-sys-on-tertiary-container);
+      --callout-icon: var(--mat-sys-tertiary);
+    }
 
-      mat-icon {
-        font-size: 20px;
-        width: 20px;
-        height: 20px;
-      }
+    .callout-warn {
+      --callout-container: var(--mat-sys-error-container);
+      --callout-on-container: var(--mat-sys-on-error-container);
+      --callout-icon: var(--mat-sys-error);
+      box-shadow: inset 3px 0 0 var(--mat-sys-error);
+    }
+
+    .callout-icon {
+      flex-shrink: 0;
+      font-size: 22px;
+      width: 22px;
+      height: 22px;
+      color: var(--callout-icon);
     }
 
     .callout-content {
@@ -60,10 +60,8 @@ import { MatIconModule } from '@angular/material/icon';
 
     .callout-title {
       font: var(--mat-sys-title-small);
-      font-weight: 600;
-      margin-bottom: 4px;
-      color: var(--mat-sys-on-surface);
-      letter-spacing: 0.01em;
+      margin-bottom: 2px;
+      color: var(--callout-on-container);
     }
 
     .callout-body {
@@ -73,48 +71,6 @@ import { MatIconModule } from '@angular/material/icon';
 
       p:last-child {
         margin-bottom: 0;
-      }
-    }
-
-    .callout-tip {
-      border-color: color-mix(in srgb, var(--mat-sys-tertiary) 35%, transparent);
-      background-color: color-mix(in srgb, var(--mat-sys-tertiary-container) 35%, var(--mat-sys-surface));
-
-      .callout-icon-badge {
-        background: var(--mat-sys-tertiary-container);
-        color: var(--mat-sys-on-tertiary-container);
-      }
-
-      .callout-title {
-        color: var(--mat-sys-on-tertiary-container);
-      }
-    }
-
-    .callout-info {
-      border-color: color-mix(in srgb, var(--mat-sys-primary) 35%, transparent);
-      background-color: color-mix(in srgb, var(--mat-sys-primary-container) 35%, var(--mat-sys-surface));
-
-      .callout-icon-badge {
-        background: var(--mat-sys-primary-container);
-        color: var(--mat-sys-on-primary-container);
-      }
-
-      .callout-title {
-        color: var(--mat-sys-on-primary-container);
-      }
-    }
-
-    .callout-warn {
-      border-color: color-mix(in srgb, var(--mat-sys-error) 45%, transparent);
-      background-color: color-mix(in srgb, var(--mat-sys-error-container) 35%, var(--mat-sys-surface));
-
-      .callout-icon-badge {
-        background: var(--mat-sys-error-container);
-        color: var(--mat-sys-on-error-container);
-      }
-
-      .callout-title {
-        color: var(--mat-sys-on-error-container);
       }
     }
   `,

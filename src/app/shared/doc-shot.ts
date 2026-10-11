@@ -1,31 +1,38 @@
-import { ChangeDetectionStrategy, Component, HostListener, input, signal } from '@angular/core';
+import { Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { TemplatePortal } from '@angular/cdk/portal';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  HostListener,
+  TemplateRef,
+  ViewContainerRef,
+  computed,
+  inject,
+  input,
+  viewChild,
+} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 /**
- * 文档配图：高质感截图卡片 + 响应式双态预览 + 图说。
- * 支持点击大图全屏查看（Lightbox），针对移动端竖屏与电脑宽屏自适应缩放。
+ * 文档配图：按设备统一画框（电视 12 圆角；手机竖屏单图与左右对照图 20 圆角）+ 图下一行图说。
+ * 支持点击大图全屏查看（Lightbox）：挂到 CDK 浮层容器（body 下），盖住顶栏与侧边导航。
  */
 @Component({
   selector: 'doc-shot',
   imports: [MatIconModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <figure class="shot" [class.portrait]="portrait()">
+    <figure class="shot" [class.portrait]="portrait()" [class.pair]="pair()">
       <div class="img-wrapper" (click)="openPreview()" role="button" tabindex="0" [attr.aria-label]="'查看大图: ' + (alt() || caption() || '')" (keydown.enter)="openPreview()">
         <img [src]="src()" [alt]="alt()" loading="lazy" />
-        <div class="zoom-badge" title="点击查看大图">
-          <mat-icon>zoom_in</mat-icon>
-        </div>
       </div>
       @if (caption()) {
-        <figcaption>
-          <mat-icon class="caption-icon">photo_camera</mat-icon>
-          <span class="caption-text">{{ caption() }}</span>
-        </figcaption>
+        <figcaption>{{ caption() }}</figcaption>
       }
     </figure>
 
-    @if (previewOpen()) {
+    <ng-template #lightbox>
       <div class="lightbox-backdrop" (click)="closePreview()">
         <div class="lightbox-card" (click)="$event.stopPropagation()">
           <button class="lightbox-close-btn" (click)="closePreview()" aria-label="关闭预览" mat-icon-button>
@@ -37,7 +44,7 @@ import { MatIconModule } from '@angular/material/icon';
           }
         </div>
       </div>
-    }
+    </ng-template>
   `,
   styles: `
     .shot {
@@ -46,30 +53,33 @@ import { MatIconModule } from '@angular/material/icon';
       &.portrait {
         max-width: 380px;
       }
+
+      &.pair {
+        max-width: 760px;
+      }
     }
 
     .img-wrapper {
-      position: relative;
       display: inline-block;
       max-width: 100%;
+      vertical-align: top;
       cursor: zoom-in;
-      border-radius: 16px;
+      border-radius: var(--mytv-radius-card);
       overflow: hidden;
-      border: 1px solid var(--mat-sys-outline-variant);
       background: var(--mat-sys-surface-container);
-      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.03);
-      transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.2s cubic-bezier(0.2, 0, 0, 1), border-color 0.2s;
+      box-shadow:
+        0 1px 0 var(--mytv-divider),
+        0 6px 18px color-mix(in srgb, var(--mat-sys-shadow) 14%, transparent);
 
-      &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 28px -4px rgba(0, 0, 0, 0.12), 0 3px 10px -1px rgba(0, 0, 0, 0.06);
-        border-color: var(--mat-sys-primary);
-
-        .zoom-badge {
-          opacity: 1;
-          transform: scale(1);
-        }
+      &:focus-visible {
+        outline: var(--mytv-focus-ring-width) solid var(--mytv-focus-ring);
+        outline-offset: 2px;
       }
+    }
+
+    .portrait .img-wrapper,
+    .pair .img-wrapper {
+      border-radius: var(--mytv-radius-hero);
     }
 
     img {
@@ -78,56 +88,10 @@ import { MatIconModule } from '@angular/material/icon';
       height: auto;
     }
 
-    .zoom-badge {
-      position: absolute;
-      right: 12px;
-      bottom: 12px;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: color-mix(in srgb, var(--mat-sys-surface) 85%, transparent);
-      backdrop-filter: blur(8px);
-      color: var(--mat-sys-on-surface);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transform: scale(0.85);
-      transition: opacity 0.2s ease, transform 0.2s ease;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-
-      mat-icon {
-        font-size: 18px;
-        width: 18px;
-        height: 18px;
-      }
-    }
-
     figcaption {
-      display: inline-flex;
-      align-items: flex-start;
-      gap: 6px;
-      margin-top: 10px;
-      padding: 4px 12px;
-      border-radius: 20px;
-      background: var(--mat-sys-surface-container);
-      border: 1px solid var(--mat-sys-outline-variant);
-      font: var(--mat-sys-body-small);
+      margin-top: 8px;
+      font: var(--mat-sys-body-medium);
       color: var(--mat-sys-on-surface-variant);
-      line-height: 1.5;
-
-      .caption-icon {
-        font-size: 15px;
-        width: 15px;
-        height: 15px;
-        margin-top: 2px;
-        color: var(--mat-sys-primary);
-        flex-shrink: 0;
-      }
-
-      .caption-text {
-        flex: 1;
-      }
     }
 
     // Lightbox modal
@@ -216,20 +180,32 @@ export class DocShot {
   readonly caption = input<string>();
   readonly portrait = input<boolean>(false);
 
-  protected readonly previewOpen = signal(false);
+  /** 手机竖屏的左右对照拼图（screenshots/portrait-pair-*）：按手机画框，宽度放两台手机 */
+  protected readonly pair = computed(() => !this.portrait() && this.src().includes('portrait-pair-'));
+
+  private readonly overlay = inject(Overlay);
+  private readonly vcr = inject(ViewContainerRef);
+  private readonly lightboxTpl = viewChild.required<TemplateRef<unknown>>('lightbox');
+  private overlayRef: OverlayRef | null = null;
+
+  constructor() {
+    // 离开页面时一并关掉大图
+    inject(DestroyRef).onDestroy(() => this.closePreview());
+  }
 
   openPreview() {
-    this.previewOpen.set(true);
+    if (this.overlayRef) return;
+    this.overlayRef = this.overlay.create();
+    this.overlayRef.attach(new TemplatePortal(this.lightboxTpl(), this.vcr));
   }
 
   closePreview() {
-    this.previewOpen.set(false);
+    this.overlayRef?.dispose();
+    this.overlayRef = null;
   }
 
   @HostListener('document:keydown.escape')
   onEscape() {
-    if (this.previewOpen()) {
-      this.closePreview();
-    }
+    this.closePreview();
   }
 }

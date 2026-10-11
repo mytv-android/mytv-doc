@@ -1,44 +1,60 @@
-// Include theming for Angular Material with `mat.theme()`.
-// This Sass mixin will define CSS variables that are used for styling Angular Material
-// components according to the Material 3 design spec.
-// Learn more about theming and how to use it for your application's
-// custom components at https://material.angular.dev/guide/theming
+// Angular Material 系统变量 + App 内置配色（与网页面板共用 tokens.scss）
 @use '@angular/material' as mat;
+@use 'tokens';
 
 html {
   height: 100%;
+  // 颜色变量随后被 tokens.light / tokens.dark 全量覆盖，这里的色板只用来生成结构
   @include mat.theme(
     (
       color: (
-        primary: mat.$azure-palette,
-        tertiary: mat.$blue-palette,
+        primary: mat.$cyan-palette,
+        theme-type: light,
       ),
-      typography: Roboto,
+      typography: (
+        plain-family: var(--mytv-font-family),
+        brand-family: var(--mytv-font-family),
+      ),
       density: 0,
+    )
+  );
+  @include tokens.base;
+
+  @include mat.sidenav-overrides(
+    (
+      container-divider-color: transparent,
     )
   );
 }
 
+// 颜色及引用了颜色的令牌都放在 body 上：深色模式覆盖 body 上的 --mat-sys-*，
+// 同一元素上声明的派生变量才能跟着变
 body {
-  color-scheme: light;
-  background-color: var(--mat-sys-surface);
+  @include tokens.light;
+
+  @include mat.sidenav-overrides(
+    (
+      container-background-color: var(--mytv-page),
+      content-background-color: var(--mytv-page),
+      scrim-color: color-mix(in srgb, var(--mat-sys-scrim) 32%, transparent),
+    )
+  );
+
+  background-color: var(--mytv-page);
   color: var(--mat-sys-on-surface);
   font: var(--mat-sys-body-medium);
   margin: 0;
   height: 100%;
 
   &.dark-theme {
-    color-scheme: dark;
-    @include mat.theme(
-      (
-        color: (
-          primary: mat.$azure-palette,
-          tertiary: mat.$blue-palette,
-          theme-type: dark,
-        ),
-      )
-    );
+    @include tokens.dark;
   }
+}
+
+// 侧边导航只由抽屉内层容器滚动，滚动条细一些
+.mat-drawer-inner-container {
+  scrollbar-width: thin;
+  scrollbar-color: var(--mat-sys-outline-variant) transparent;
 }
 
 // 文档页面通用排版与 Material 3 Expressive 设计规范
@@ -173,24 +189,19 @@ body {
     }
   }
 
-  // 现代文档卡片表格
+  // 表格：不画外框，只留表头色调与行分隔
   table {
     border-collapse: separate;
     border-spacing: 0;
     width: 100%;
     margin: 20px 0;
     font: var(--mat-sys-body-medium);
-    border: 1px solid var(--mat-sys-outline-variant);
-    border-radius: 14px;
-    overflow: hidden;
-    background-color: var(--mat-sys-surface);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
 
     th,
     td {
       text-align: left;
-      padding: 13px 16px;
-      border-bottom: 1px solid var(--mat-sys-outline-variant);
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--mytv-divider);
       vertical-align: top;
     }
 
@@ -198,16 +209,22 @@ body {
       font: var(--mat-sys-title-small);
       font-weight: 600;
       background-color: var(--mat-sys-surface-container-high);
-      color: var(--mat-sys-on-surface);
-      letter-spacing: 0.01em;
+      color: var(--mat-sys-on-surface-variant);
+      border-bottom: none;
+    }
+
+    tr:first-child th:first-child {
+      border-top-left-radius: var(--mytv-radius-chip);
+      border-bottom-left-radius: var(--mytv-radius-chip);
+    }
+
+    tr:first-child th:last-child {
+      border-top-right-radius: var(--mytv-radius-chip);
+      border-bottom-right-radius: var(--mytv-radius-chip);
     }
 
     tr:last-child td {
       border-bottom: none;
-    }
-
-    tr:hover td {
-      background-color: var(--mat-sys-surface-container-low);
     }
 
     td:first-child {

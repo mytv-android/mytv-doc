@@ -1,9 +1,11 @@
 <mat-toolbar class="app-toolbar">
-  <button mat-icon-button (click)="toggleSidenav()" aria-label="切换导航" class="nav-toggle-btn">
-    <mat-icon>menu</mat-icon>
-  </button>
+  @if (isHandset()) {
+    <button mat-icon-button (click)="sidenav.toggle()" aria-label="切换导航" class="nav-toggle-btn">
+      <mat-icon>menu</mat-icon>
+    </button>
+  }
   <div class="brand-container" [routerLink]="'/home'">
-    <img src="app-icon.png" alt="电视直播" class="app-icon" />
+    <span class="app-brand-mark"><mat-icon>live_tv</mat-icon></span>
     <span class="app-title">电视直播</span>
     <span class="app-subtitle">使用文档</span>
   </div>
@@ -35,32 +37,28 @@
 
 <mat-sidenav-container class="app-container">
   <mat-sidenav
+    #sidenav
     [mode]="isHandset() ? 'over' : 'side'"
-    [opened]="isHandset() ? sidenavOpened() && false : sidenavOpened()"
-    (closedStart)="sidenavOpened.set(false)"
+    [opened]="!isHandset()"
     class="app-sidenav"
   >
-    <div class="sidenav-scroll-area">
-      <mat-nav-list class="sidenav-nav-list">
-        @for (group of groups(); track group.name) {
-          <div class="nav-group-header">
-            <span class="group-name">{{ group.name }}</span>
-          </div>
-          @for (entry of group.entries; track entry.path) {
-            <a
-              mat-list-item
-              [routerLink]="entry.path"
-              routerLinkActive="active-link"
-              (click)="isHandset() && sidenavOpened.set(false)"
-              class="nav-entry-item"
-            >
-              <mat-icon matListItemIcon class="nav-entry-icon">{{ entry.icon }}</mat-icon>
-              <span matListItemTitle class="nav-entry-title">{{ entry.label }}</span>
-            </a>
-          }
+    <nav class="nav-list" aria-label="文档导航">
+      @for (group of groups(); track group.name) {
+        <div class="nav-header">{{ group.name }}</div>
+        @for (entry of group.entries; track entry.path) {
+          <a
+            class="nav-item"
+            [routerLink]="entry.path"
+            routerLinkActive="is-active"
+            ariaCurrentWhenActive="page"
+            (click)="isHandset() && sidenav.close()"
+          >
+            <mat-icon>{{ entry.icon }}</mat-icon>
+            <span class="nav-item-label">{{ entry.label }}</span>
+          </a>
         }
-      </mat-nav-list>
-    </div>
+      }
+    </nav>
   </mat-sidenav>
 
   <mat-sidenav-content class="app-content" (scroll)="onContentScroll($event)">

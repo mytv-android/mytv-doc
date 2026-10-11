@@ -1,9 +1,8 @@
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, computed, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -22,7 +21,7 @@ export interface NavEntry {
   path: string;
   label: string;
   icon: string;
-  group: '使用' | '功能' | '设置' | '其他';
+  group: '使用' | '功能' | '设置';
 }
 
 export const NAV_ENTRIES: NavEntry[] = [
@@ -30,6 +29,8 @@ export const NAV_ENTRIES: NavEntry[] = [
   { path: '/getting-started', label: '快速上手', icon: 'rocket_launch', group: '使用' },
   { path: '/controls', label: '遥控器与触屏', icon: 'gamepad', group: '使用' },
   { path: '/live-screen', label: '直播主界面', icon: 'live_tv', group: '使用' },
+  { path: '/faq', label: '常见问题', icon: 'help', group: '使用' },
+  { path: '/build', label: '下载与更新', icon: 'download', group: '使用' },
 
   { path: '/channels', label: '频道 · 收藏 · 搜索', icon: 'list', group: '功能' },
   { path: '/multiview', label: '多屏同播', icon: 'grid_view', group: '功能' },
@@ -43,9 +44,6 @@ export const NAV_ENTRIES: NavEntry[] = [
 
   { path: '/player-settings', label: '播放器与字幕', icon: 'tune', group: '设置' },
   { path: '/settings', label: '设置项总览', icon: 'settings', group: '设置' },
-
-  { path: '/faq', label: '常见问题', icon: 'help', group: '其他' },
-  { path: '/build', label: '下载与更新', icon: 'download', group: '其他' },
 ];
 
 @Component({
@@ -56,7 +54,6 @@ export const NAV_ENTRIES: NavEntry[] = [
     RouterLinkActive,
     MatToolbarModule,
     MatSidenavModule,
-    MatListModule,
     MatIconModule,
     MatButtonModule,
     MatTooltipModule,
@@ -70,19 +67,17 @@ export class App {
   private breakpointObserver = inject(BreakpointObserver);
   private router = inject(Router);
 
+  /** 与网页面板同一断点：≥1024px 侧边导航常驻，以下收进抽屉 */
   protected readonly isHandset = toSignal(
-    this.breakpointObserver
-      .observe([Breakpoints.Handset, Breakpoints.TabletPortrait])
-      .pipe(map((r) => r.matches)),
+    this.breakpointObserver.observe('(max-width: 1023px)').pipe(map((r) => r.matches)),
     { initialValue: false },
   );
 
-  protected readonly sidenavOpened = signal(true);
   protected readonly isDark = signal(false);
   protected readonly showScrollTop = signal(false);
 
   protected readonly groups = computed(() => {
-    const order: NavEntry['group'][] = ['使用', '功能', '设置', '其他'];
+    const order: NavEntry['group'][] = ['使用', '功能', '设置'];
     return order.map((g) => ({
       name: g,
       entries: NAV_ENTRIES.filter((e) => e.group === g),
@@ -124,10 +119,6 @@ export class App {
     document
       .querySelector<HTMLElement>('.app-content')
       ?.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  toggleSidenav() {
-    this.sidenavOpened.update((v) => !v);
   }
 
   toggleTheme() {
