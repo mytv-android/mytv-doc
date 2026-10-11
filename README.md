@@ -81,7 +81,3 @@ scripts/ghpages-404.mjs                # 构建后复制 404.html
 SYNC_STATE.md                          # 记录上次同步到的 mytv-android commit
 .claude/skills/sync-from-android/      # 源码同步 skill
 ```
-
-## 许可证
-
-文档内容基于 [mytv-android](https://github.com/mytv-android/mytv-android) 源码整理，遵循其 GNU 许可证。
