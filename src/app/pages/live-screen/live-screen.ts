@@ -31,7 +31,7 @@ import { DocShot } from '../../shared/doc-shot';
         首页（默认）/ 直播 / 节目单 / 全部频道 / 收藏 / 搜索 / 多屏同播。
       </p>
       <doc-callout kind="tip" title="开机直接看" icon="power_settings_new">
-        把「启动页面」设为「直播」，打开应用就直接播放上次观看的频道；此时在直播画面按返回键直接退出应用。
+        把「启动页面」设为「直播」，打开应用就直接播放上次观看的频道；此时在直播画面按返回键会提示「再按一次退出」，连按两次才退出应用。
       </doc-callout>
       <p>多屏同播（一屏同时播放多个频道）玩法独立，见 <a [routerLink]="'/multiview'">多屏同播</a>。</p>
 
