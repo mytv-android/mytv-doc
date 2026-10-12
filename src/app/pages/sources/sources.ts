@@ -226,10 +226,10 @@ import { DocShot } from '../../shared/doc-shot';
         </thead>
         <tbody>
           <tr><td><code>webview://</code>、<code>video://</code></td><td>走网页播放：App 用内置浏览器内核打开页面、取出其中的视频流。央视频、各卫视官网的线路都是这种，详见 <a [routerLink]="'/webview-player'">WebView 播放器</a></td></tr>
-          <tr><td><code>javascript://</code></td><td>源作者写的脚本线路，播放前实时计算出真实地址</td></tr>
+          <tr><td><code>javascript://</code></td><td>内置 QuickJS 原生脚本线路：播放前实时动态计算播放地址、防盗链请求头或动态 M3U8 列表。详见 <a [routerLink]="'/javascript-sources'">JavaScript 脚本源</a></td></tr>
         </tbody>
       </table>
-      <p>普通用户只需知道：这些线路来自网页，加载通常比直接流慢一些；能不能用完全取决于源作者。</p>
+      <p>普通用户只需知道：这些特殊前缀线路包含网页或脚本动态提取能力，加载耗时取决于源站响应；能否正常播放由源作者维护的接口决定。</p>
 
       <h2 id="hybrid">自动添加网页源（混合模式）</h2>
       <p>

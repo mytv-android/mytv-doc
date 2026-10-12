@@ -48,8 +48,8 @@ import { DocCallout } from '../../shared/doc-callout';
           <tr>
             <td><code>javascript://</code></td>
             <td>
-              下载并执行订阅源作者提供的脚本，由脚本动态算出真实播放地址（可返回播放链接或 m3u8 内容）。
-              脚本逻辑完全由源作者编写，用户无需任何操作，正常换台观看即可。
+              下载并由内置 QuickJS 引擎执行脚本，动态算出真实播放地址、防盗链请求头或动态 M3U8 列表。
+              编写规范与 API 详见 <a [routerLink]="'/javascript-sources'">JavaScript 脚本源</a>。
             </td>
           </tr>
         </tbody>

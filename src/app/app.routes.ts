@@ -47,6 +47,14 @@ export const routes: Routes = [
     title: '订阅源（IPTV / 混合源）· 电视直播 使用文档',
   },
   {
+    path: 'javascript-sources',
+    loadComponent: () =>
+      import('./pages/javascript-sources/javascript-sources').then(
+        (m) => m.JavascriptSourcesPage,
+      ),
+    title: 'JavaScript 脚本源 · 电视直播 使用文档',
+  },
+  {
     path: 'epg',
     loadComponent: () => import('./pages/epg/epg').then((m) => m.EpgPage),
     title: 'EPG 节目单 · 电视直播 使用文档',

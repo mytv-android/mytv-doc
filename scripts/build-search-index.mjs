@@ -104,10 +104,7 @@ const ts = `export interface SearchIndexEntry {
  * 本文件由 scripts/build-search-index.mjs 自动生成，请勿手工编辑；
  * 页面内容变更后运行 \`node scripts/build-search-index.mjs\` 重新生成。
  */
-export const SEARCH_INDEX: SearchIndexEntry[] = ${JSON.stringify(entries, null, 2)
-  .replace(/"([^"]+)":/g, '$1:') // 键名去引号，贴近现有风格
-  .replace(/"(|[^"]*)"/g, (m, g1) => `'${g1.replace(/'/g, "\\'")}'`) // 字符串改单引号
-};
+export const SEARCH_INDEX: SearchIndexEntry[] = ${JSON.stringify(entries, null, 2)};
 `;
 
 writeFileSync(join(root, 'src/app/shared/search-index.ts'), ts, 'utf8');

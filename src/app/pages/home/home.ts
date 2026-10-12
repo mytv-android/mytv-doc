@@ -24,8 +24,8 @@ import { DocPageHeader } from '../../shared/doc-page-header';
       <p>
         <b>电视直播</b>（mytv-android）是一款专为电视大屏与移动设备打造的开源流媒体播放应用。
         支持自定义 IPTV 订阅源（m3u / txt / Xtream Codes / Stalker Portal 等）、电子节目单（EPG）、
-        网页解析源、最高 9 路多屏同播、AI 实时超分与插帧、本地及云端语音识别（ASR）字幕与多引擎翻译，
-        并内置轻量级脚本服务（Python / PHP）、云端数据同步以及局域网远程配置面板。
+        网页解析源、QuickJS 原生脚本源（javascript://）、最高 9 路多屏同播、AI 实时超分与插帧、
+        本地及云端语音识别（ASR）字幕与多引擎翻译，并内置轻量级脚本服务（Python / PHP）、云端数据同步以及局域网远程配置面板。
       </p>
 
       <h2 id="start">从哪儿开始？</h2>
@@ -45,7 +45,7 @@ import { DocPageHeader } from '../../shared/doc-page-header';
 
       <h2 id="features">主要特性速览</h2>
       <ul>
-        <li><b>多种订阅源</b>：m3u / txt / Xtream Codes / Stalker Portal / 本地文件，远程链接支持 FTP / SMB / WebDAV 协议；线路支持 <code>webview://</code>、<code>video://</code>、<code>javascript://</code> 特殊前缀。</li>
+        <li><b>多种订阅源</b>：m3u / txt / Xtream Codes / Stalker Portal / 本地文件，远程链接支持 FTP / SMB / WebDAV 协议；线路支持 <code>webview://</code>、<code>video://</code>、<code>javascript://</code> 特殊前缀（详见<a [routerLink]="'/sources'">订阅源</a>与 <a [routerLink]="'/javascript-sources'">JavaScript 脚本源</a>）。</li>
         <li><b>自动添加网页源</b>：为订阅源频道附加央视、央视频、卫视官网等网页线路，主源失效仍可切换观看；央视频付费频道支持配置 Cookie。</li>
         <li><b>EPG 节目单</b>：支持 XML（XMLTV）、DIYP 等多种来源格式；节目单指南页支持节目回看与预约提醒。</li>
         <li><b>手机竖屏与移动自适应</b>：全面支持手机竖屏专享界面（16:9 置顶视频、原生触屏手势、换台与线路底部抽屉、更多功能面板），根据设备握持方向无缝自适应流转。</li>
@@ -156,6 +156,7 @@ export class HomePage {
     { path: '/live-screen', icon: 'live_tv', title: '直播主界面', subtitle: 'Dashboard 元素介绍' },
     { path: '/channels', icon: 'list', title: '频道 · 收藏 · 搜索', subtitle: '频道列表、收藏夹、加密分组' },
     { path: '/sources', icon: 'rss_feed', title: '订阅源', subtitle: 'm3u / Xtream / Stalker / 网页源' },
+    { path: '/javascript-sources', icon: 'code', title: 'JavaScript 脚本源', subtitle: 'QuickJS 原生脚本解析、Token 与 M3U8' },
     { path: '/epg', icon: 'calendar_month', title: 'EPG 节目单', subtitle: '自定义节目单、回看与预约' },
     { path: '/rtp2httpd', icon: 'router', title: '配合 rtp2httpd', subtitle: '组播转 HTTP、FCC、回看时区' },
     { path: '/webview-player', icon: 'web', title: 'WebView 播放器', subtitle: 'webview://、X5 内核、超时' },
