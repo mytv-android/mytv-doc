@@ -118,6 +118,11 @@ import { DocShot } from '../../shared/doc-shot';
         <li><b>OK</b> 播放、<b>长按 OK</b> 收藏。</li>
       </ul>
       <p>搜索自动排除：分类隐藏的分组、隐藏频道规则命中的频道、加密分组（见下文「隐藏与加密」）。</p>
+      <doc-shot
+        src="screenshots/app-search.png"
+        alt="电视端搜索页：左侧输入框与内置屏幕键盘，右侧实时匹配结果"
+        caption="电视端搜索。左侧输入框配内置屏幕键盘（A–Z、0–9、删除、清空），右侧边输边出结果；输入字母时按拼音首字母匹配。"
+      />
 
       <h3 id="search-portrait">手机竖屏搜索体验</h3>
       <doc-shot

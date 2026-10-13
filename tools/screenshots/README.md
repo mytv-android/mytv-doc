@@ -2,7 +2,19 @@
 
 文档站里的截图都在这儿生成，产出直接落到 `public/screenshots/`，页面用 `<doc-shot>` 引用。
 
-分两类：**网页面板**（mytv-panel 的界面）和**应用本体**（电视端 UI，走 adb 截图）。
+分三类：**网页面板**（mytv-panel 的界面）、**应用本体**（电视端 UI，走 adb 截图）、**手机竖屏**（同一个 App 的竖屏界面，也是 adb 截图）。
+
+三类共用一个假数据服务 `doc-fixture-server.mjs`：给应用的「订阅源」「节目单」喂 75 个频道 + XMLTV，脱离它截图只能拍到空列表和「暂无节目单」。
+
+## 假数据（应用本体 + 手机竖屏都要用）
+
+```bash
+node tools/screenshots/doc-fixture-server.mjs      # 默认 http://localhost:18770
+```
+
+在应用的「订阅源」里填 `http://10.0.2.2:18770/all.m3u`，「节目单」里填 `http://10.0.2.2:18770/epg.xml`。
+`10.0.2.2` 是模拟器视角的宿主机。频道名与台标取自 gitee 上的 myTVlogo 仓库，直播地址用公开 HLS 测试流，
+每个频道发 3 条线路（频道卡出「线路数」角标、线路抽屉有实测延迟），不涉及任何个人订阅源或令牌。
 
 ## 网页面板
 
@@ -48,24 +60,84 @@ $ADB shell am start -n com.github.mytv.android/com.github.mytv.android.MainActiv
 $ADB exec-out screencap -p > /tmp/app-raw/00-launch.png
 ```
 
-导航方式（电视 UI，`input tap` 的坐标按 1920×1080 屏幕）：
+电视端 activity 是 `.MainActivity`；手机端（同一个包，x86_64）也是 `.MainActivity`
+（旧文档里的 `top.yogiczy.mytv.tv.MainActivity` 已经没有了）。
+
+### 界面语言
+
+模拟器系统语言默认是英文，而 App 的语言是**应用内设置**（设置 → 通用 → 语言 → 中文），
+跟系统语言无关。截图前先改成中文，否则一半字符串是英文（只有翻过的才显示中文）。
+
+### 导航方式
+
+**首页「导航」九宫格只响应遥控器按键，`input tap` 无效**（Compose 的 `handleKeyEvents`）。
+进首页时焦点默认在「直播」：
 
 ```bash
-# 直接点某个图标：先截一张，量出目标图标的中心坐标
-$ADB shell input tap <x> <y>
-
-# 列表滚动：从下往上滑（settings 之类的长列表）
-$ADB shell input swipe 960 800 960 400 300
-
-# 方向键 / 返回
-$ADB shell input keyevent KEYCODE_DPAD_DOWN
-$ADB shell input keyevent KEYCODE_BACK
+$ADB shell input keyevent KEYCODE_DPAD_RIGHT    # / DOWN / LEFT / UP
+$ADB shell input keyevent KEYCODE_DPAD_CENTER   # OK
+$ADB shell input keyevent --longpress KEYCODE_DPAD_CENTER   # 长按 OK
 ```
 
-首页「导航」网格 1920×1080 下的图标中心：直播 (1280,300)、全部频道 (1480,290)、收藏 (1686,290)、
-节目单 (1280,443)、搜索 (1480,440)、设置 (1686,440)、多屏同播 (1280,607)、推送 (1480,605)、关于 (1686,607)。
-设置页二级分类（y 坐标按行）：第 1 行 y≈264、第 2 行 y≈495、第 3 行 y≈735；
-列坐标：x≈240 / 534 / 831 / 1128 / 1425 / 1719。
+**设置页的分类网格 `input tap` 有效**，1920×1080 下的中心坐标：
+
+```bash
+# 首页导航（行1 直播/全部频道/收藏，行2 节目单/搜索/设置，行3 多屏同播/推送/关于）
+# 设置分类：行1 y=310（通用 244 / 订阅源 530 / 服务 818 / 节目单 1105 / 界面 1391 / 主题 1677）
+#            行2 y=550（控制 244 / 播放器 530 / 组件下载 817 / WebView 1105 / 更新 1391 / 网络 1677）
+#            行3 y=790（云同步 243 / 权限 531 / 调试 818 / 日志 1105）
+$ADB shell input tap 1391 310      # 例：打开「界面」
+```
+
+拿不准位置就用 `uiautomator dump`（Compose 的语义树能拿到 text 和 bounds）：
+
+```bash
+MSYS_NO_PATHCONV=1 $ADB shell uiautomator dump /sdcard/ui.xml
+MSYS_NO_PATHCONV=1 $ADB pull /sdcard/ui.xml ./ui.xml
+```
+
+列表滚动（settings 之类的长列表）用从下往上滑：
+
+```bash
+$ADB shell input swipe 960 800 960 400 300
+```
+
+### 配数据不用手点
+
+App 常驻一个 Web Panel（端口 10591），`adb forward` 之后可以直接从宿主机推订阅源/节目单，
+比在电视上敲 URL 快得多，中文名也不会乱码：
+
+```bash
+$ADB -s emulator-5554 forward tcp:10591 tcp:10591
+curl -X POST -H 'Content-Type: application/json' \
+     -d '{"name":"文档测试源","type":"url","url":"http://10.0.2.2:18790/all.m3u","filePath":"","content":""}' \
+     http://127.0.0.1:10591/api/iptv-source/push
+curl -X POST -H 'Content-Type: application/json' \
+     -d '{"name":"文档节目单","url":"http://10.0.2.2:18790/epg.xml"}' \
+     http://127.0.0.1:10591/api/epg-source/push
+```
+
+注意 slirp 网络下宿主机够不到模拟器 IP，必须走 `adb forward`。`curl -d` 里带中文要先写进文件
+再用 `--data-binary @文件`，否则 Git Bash 会插乱码。
+
+### 出图
+
+```bash
+python tools/screenshots/crop-mark.py app /tmp/app-raw public/screenshots
+```
+
+## 手机竖屏
+
+采集方式同上，只是 AVD 换成 `Phone_Portrait_Test`（x86_64，1080×2400），
+操作用 `input tap`（触屏，坐标按 1080×2400）。界面语言同样在 设置 → 通用 → 语言 里改。
+
+```bash
+python tools/screenshots/crop-portrait.py /tmp/portrait-raw public/screenshots
+```
+
+`crop-portrait.py` 里两张表：`PORTRAIT_JOBS`（单屏，整张 1080×2400 缩到 540×1200）和
+`PORTRAIT_PAIRS`（成对对比，左 540 + 12px 黑缝 + 右 540 = 1092×1200）。
+成对图的两半就是两张单屏素材，一次拍好三处复用。
 
 ### 截图前先清场
 
@@ -77,7 +149,8 @@ $ADB shell input keyevent KEYCODE_BACK
 
 ## 出图
 
-`crop-mark.py` 里两张表：`PANEL_JOBS`、`APP_JOBS`。每项是
+三个脚本各管一类：`crop-mark.py panel`（网页面板）、`crop-mark.py app`（电视端）、
+`crop-portrait.py`（手机竖屏）。`crop-mark.py` 里两张表：`PANEL_JOBS`、`APP_JOBS`，每项是
 `输出名: (源图, 裁剪框, 标注框列表, 输出宽度)`：
 
 - 裁剪框 `(x0, y0, x1, y1)` 用源图坐标，用来去掉两侧空白和无关行；

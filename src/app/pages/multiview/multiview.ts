@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DocPageHeader } from '../../shared/doc-page-header';
 import { DocCallout } from '../../shared/doc-callout';
+import { DocShot } from '../../shared/doc-shot';
 
 @Component({
   selector: 'app-multiview',
-  imports: [DocPageHeader, DocCallout, RouterLink],
+  imports: [DocPageHeader, DocCallout, DocShot, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="doc-page">
@@ -26,8 +27,18 @@ import { DocCallout } from '../../shared/doc-callout';
         <li>同一频道不能重复添加（提示「已存在该频道」）；</li>
         <li>加满 9 屏后再添加会提示「超出最大添加频道数：9」。</li>
       </ul>
+      <doc-shot
+        src="screenshots/app-multiview.png"
+        alt="电视端多屏同播：四路直播并排，每路 16:9 独立播放"
+        caption="多屏同播：屏幕按数量自适应网格排布，每路 16:9 独立解码播放，默认全部静音（左上角「静音」标记），想听哪路就单独取消静音。"
+      />
 
       <h2 id="actions">单屏操作</h2>
+      <doc-shot
+        src="screenshots/app-multiview-menu.png"
+        alt="电视端多屏同播：某一屏按 OK 弹出的「操作屏幕 N」菜单"
+        caption="方向键聚焦某一屏后按 OK，弹出「操作屏幕 N」菜单：添加、搜索、切换、删除、放大 / 缩小、切换线路、回看、暂停 / 播放、静音 / 取消静音，以及方案相关操作。"
+      />
       <p>方向键聚焦某一屏，按 <b>OK</b> 弹出「操作屏幕 N」菜单（N 为屏幕序号）：</p>
       <table>
         <thead>

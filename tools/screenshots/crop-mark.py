@@ -20,21 +20,23 @@ from PIL import Image, ImageDraw
 MARK = (255, 82, 82)
 
 # —— 网页面板（1400 宽）——
+# 裁剪框按 2026-10-13 之后的面板重新量过：内容卡片从原来的 x≈290..1110（820 宽、
+# 两列网格）变成 x≈444..1203（759 宽、单列），行高也更紧凑，所以 x/y 全部右移/收紧。
 PANEL_JOBS = {
-    'panel-home': ('panel-home', (60, 0, 1340, 1330), [], 1400),
-    'panel-sources': ('panel-sources', (290, 150, 1110, 700), [], 1400),
-    'panel-source-dialog': ('panel-source-dialog', (430, 70, 970, 830),
-                            [(83, 345, 355, 78), (85, 597, 145, 52), (228, 597, 258, 52)], 1400, 'image'),
-    'panel-source-dialog-plain': ('panel-source-dialog', (430, 70, 970, 830), [], 1400),
-    'panel-player-basic': ('panel-player', (380, 120, 995, 900), [], 1400),
-    'panel-player-startup': ('panel-player', (380, 1420, 995, 2110),
-                             [(395, 1468, 585, 92), (395, 1924, 585, 92)], 1400),
-    'panel-player-network': ('panel-player', (380, 2740, 995, 3260),
-                             [(395, 3052, 585, 68)], 1400),
-    'panel-epg': ('panel-epg', (400, 60, 1000, 580), [], 1400),
-    'panel-services': ('panel-services', (300, 60, 1110, 800), [], 1400),
-    'panel-ui': ('panel-ui', (290, 60, 1110, 580), [], 1400),
-    'panel-sync': ('panel-sync', (400, 60, 1110, 890), [], 1400),
+    'panel-home': ('panel-home', (60, 0, 1340, 1310), [], 1400),
+    'panel-sources': ('panel-sources', (429, 80, 1218, 613), [], 1400),
+    'panel-source-dialog': ('panel-source-dialog', (435, 77, 965, 823),
+                            [(35, 77, 228, 68), (47, 601, 183, 35), (311, 601, 194, 35)], 1400, 'image'),
+    'panel-source-dialog-plain': ('panel-source-dialog', (435, 77, 965, 823), [], 1400),
+    'panel-player-basic': ('panel-player', (429, 80, 1218, 795), [], 1400),
+    'panel-player-startup': ('panel-player', (429, 1245, 1218, 1905),
+                             [(444, 1286, 759, 105), (444, 1742, 759, 85)], 1400),
+    'panel-player-network': ('panel-player', (429, 2600, 1218, 3135),
+                             [(444, 2908, 759, 91)], 1400),
+    'panel-epg': ('panel-epg', (412, 80, 1201, 470), [], 1400),
+    'panel-services': ('panel-services', (426, 80, 1215, 738), [], 1400),
+    'panel-ui': ('panel-ui', (429, 80, 1218, 585), [], 1400),
+    'panel-sync': ('panel-sync', (426, 80, 1215, 639), [], 1400),
 }
 
 # —— 应用本体（1920×1080）——
@@ -52,6 +54,16 @@ APP_JOBS = {
                [(40, 780, 1840, 96), (40, 898, 1840, 166)], 1280),
     'app-control': ('22-control', (0, 0, 1920, 1080), [], 1280),
     'app-components': ('23-components', (0, 0, 1920, 1080), [], 1280),
+    # —— 以下为后补的图，都是全幅不裁 ——
+    'app-epg-guide': ('24-epg-guide', (0, 0, 1920, 1080), [], 1280),
+    'app-multiview': ('25-multiview', (0, 0, 1920, 1080), [], 1280),
+    'app-multiview-menu': ('26-multiview-menu', (0, 0, 1920, 1080), [], 1280),
+    'app-channel-temp': ('27-channel-temp', (0, 0, 1920, 1080), [], 1280),
+    'app-channel-classic': ('28-classic-panel', (0, 0, 1920, 1080), [], 1280),
+    'app-search': ('29-search', (0, 0, 1920, 1080), [], 1280),
+    # 按钮排是横向滚动的 LazyRow，一屏放不下全部按钮；裁到「自动解码」之后，
+    # 让最后一根分隔线暗示右侧还有，比把某个按钮切成半截干净
+    'app-quick-op': ('30-quick-op', (0, 0, 1740, 1080), [], 1280),
 }
 
 

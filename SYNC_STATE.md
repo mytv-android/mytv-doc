@@ -1,15 +1,15 @@
 # 文档同步状态
 
-- **上次同步时间**：2026-10-13
-- **同步到的 mytv-android commit**：`7f66a829`（播放控制进度条短按步进 5 秒改为 10 秒）
-- **同步到的 mytv-panel commit**：c5ecd5b（本轮面板无改动）
-- **同步到的版本号**：3.0.0（versionCode 通过 `VERSION_CODE` 环境变量注入）
-- **本次涉及页面**：/player-settings。
-- **备注**：播放控制界面（含 EPG 时间轴）左右键短按由 ±5 秒改为 ±10 秒，与下方 ±10 秒按钮一致，长按仍为 ±60 秒；/player-settings 的「EPG时间轴」一行随之更新。上一轮（37f1443d）：启动页面设为「直播」时，直播画面按返回键不再直接退出：先提示「再按一次退出」，2 秒内再按才退出应用；/live-screen 的「开机直接看」提示与 /settings-overview 的启动页面一行随之更新。同一提交里的信息条简介最多 2 行、首页空收藏说明文案，文档没有写到，无需改。上一轮（84b597b9）：添加隐藏频道规则、添加 / 编辑聚合配置原是自绘对话框，现在也走设置编辑框：电视上先选「扫码编辑」或「直接输入」；/sources 的聚合配置两处、/channels 的隐藏频道规则一句随之更新。上一轮（6afbea42）：设置编辑对话框（订阅源 / 节目单 / 服务的添加编辑、文本类设置等）在电视端打开时先选「扫码编辑」或「直接输入」，不再直接展开表单；扫码页「返回」回到选择这一步，表单左下角「扫码编辑」仍可随时切换，已有条目的「删除」在选择这一步也有。手机竖屏不变，直接显示表单。各页只改了描述编辑框打开方式与「扫码编辑」位置的句子，截图未动。上一轮（aec6adad / c5ecd5b）：全面更新手机竖屏模式（Mobile Portrait Mode）与自适应交互文档，通过 Android 模拟器（Pixel 7 Android 14）捕获并添加 16 张实机截图（单屏与成对对比）：
-  1. `/live-screen`：手机竖屏主页（继续观看大卡片、5列导航、收藏与最近观看横滑卡片）、上下分屏播放器（16:9 视频区、悬浮控制条、触控手势、正在播放卡片、画质音轨标签、分体式线路按钮）、播放器三大标签页（频道/节目单/更多快捷设置）、Material 3 底部抽屉（线路选择与实时延迟测速、画面比例选择）、全屏横屏流转与返回键分流机制（配图：`portrait-pair-main.png`, `portrait-pair-player-more.png`, `portrait-pair-sheets.png`）。
-  2. `/controls`：重构触屏交互章节，分为手机竖屏原生手势（单击浮层、双击暂停、上下滑切台、左右滑快进快退、线路分体按键、底部抽屉关闭手势、导航返回分流）与电视横屏触控手势（配图：`portrait-player.png`）。
-  3. `/channels`：新增手机竖屏全部频道流（分组胶囊 + 纵向卡片）与原生输入法软键盘即输即搜体验（配图：`portrait-pair-channels-epg.png`, `portrait-pair-search.png`）。
-  4. `/epg`：新增手机竖屏节目单指南（`EpgGuidePortraitScreen`：顶部胶囊 + 80dp 紧凑频道轨道 + 日期选择与时间线节目单）（配图：`portrait-epg.png`）。
-  5. `/settings`：新增手机竖屏设置分类（常用 6 / 播放 4 / 系统 6 三段式卡片列表）与屏幕方向设置（自动 / 横屏 / 竖屏）（配图：`portrait-pair-settings.png`）。
-  6. `/home` 与 `/getting-started`：系统要求更新为支持电视（横屏）与手机平板（自适应横竖屏），更新特性列表。
-  7. 另：字幕翻译引擎由 3 种扩到 6 种（新增有道/谷歌/微软），视轨/音轨列表编码大写显示。
+- **上次同步时间**：2026-10-14
+- **同步到的 mytv-android commit**：`52d3e097`（截图基准：mytv-Internal 预览版本 V3.0.0.725，由该提交的 CI 产出）
+- **同步到的 mytv-panel commit**：b6dbffd（字体改用 Google Sans Flex，与 App 一致）
+- **同步到的版本号**：3.0.0.725（预览版本，versionCode 通过 `VERSION_CODE` 环境变量注入）
+- **本次涉及页面**：/live-screen、/channels、/epg、/multiview、/player-settings、/settings-overview、/sources、/remote-panel、/sync、/rtp2httpd、/python-services、/controls。
+- **备注**：**全站截图用 CI 预览版 V3.0.0.725 重做**，电视端 10 张 + 手机竖屏 16 张 + 网页面板 11 张全部替换，另新增 7 张。采集方式与假数据服务见 `tools/screenshots/README.md`；新增 `doc-fixture-server.mjs`（75 频道 / 6 分组 / 每频道 3 条线路 + XMLTV 节目单）与 `crop-portrait.py`（手机竖屏单屏与成对拼图）。
+  1. 电视端重拍 10 张：`app-dashboard`（首页收藏轮播 + 最近观看 + 九宫格）、`app-channels`（全部频道，分组胶囊 + 台标 + 正在播出节目与进度条 + 线路数角标）、`app-settings`（16 个设置分类）、`app-player-top` / `app-player-startup`（设置 → 播放器，红框圈「更好的视频探测」）、`app-sources` / `app-sources-custom`（设置 → 订阅源）、`app-ui`（红框圈「频道预览」与「频道预览并行数」）、`app-control`、`app-components`。红框坐标未变，仍准确。
+  2. 手机竖屏重拍 16 张：成对对比 6 张 + 单屏 10 张。这一轮换上了带 XMLTV 节目单的源，「继续观看」卡片、频道卡进度条、节目单指南都不再是「暂无节目信息」。`portrait-pair-search` 补上了原先缺失的左半（空搜索态 + 系统软键盘）。
+  3. 网页面板重拍 11 张：`crop-mark.py` 的 `PANEL_JOBS` 裁剪框全部重新量过——10-13 之后面板版式从两列网格（x≈290..1110）改成单列（x≈444..1203），行高也更紧凑，旧框全部错位。三处红框（player-startup、player-network、source-dialog）按新坐标重新对准，语义目标不变。
+  4. 新增 7 张电视端截图：`app-epg-guide`（/epg 的节目单指南页，此前只有文字）、`app-multiview` 与 `app-multiview-menu`（/multiview 整页此前零配图）、`app-channel-temp`（换台信息条）、`app-channel-classic`（经典三段式选台界面）、`app-search`（电视端屏幕键盘搜索）、`app-quick-op`（快捷设置面板）。
+  5. 修正文档与实现不符的 4 处：① /live-screen 手机竖屏导航实际是 **3 列 7 磁贴**（直播/全部频道/收藏/节目单/多屏同播/推送/关于），搜索与设置已移到顶部应用栏，原文写「单行 5 列」；② 同节「收藏」实际是**纵向列表**（最多 6 条），横向卡片是「最近观看」，原文写「收藏频道横滑卡片」；③ 手机竖屏节目单对正在播出的节目只做绿底高亮 + 「直播中」，**没有进度条**（`PortraitProgrammeList` 无该组件）；④ 快捷设置面板的打开方式是**长按 OK**（`keyDownEventLongSelect` 默认 `ToQuickOpScreen`），菜单键并未绑定，原文写「菜单键 / 长按 OK」。
+  6. /player-settings 的 `app-player-top` 图说改写：播放器设置页第 1 行是「渲染方式」，中间多了「正则解码配置」一行，「视频播放器内核」是第 4 行，原文说它是「开头两项」之一不准确。
+  7. 上一轮（7f66a829）：播放控制界面（含 EPG 时间轴）左右键短按由 ±5 秒改为 ±10 秒，与下方 ±10 秒按钮一致，长按仍为 ±60 秒；/player-settings 的「EPG时间轴」一行随之更新。上一轮（37f1443d）：启动页面设为「直播」时，直播画面按返回键不再直接退出：先提示「再按一次退出」，2 秒内再按才退出应用；/live-screen 的「开机直接看」提示与 /settings-overview 的启动页面一行随之更新。上一轮（84b597b9）：添加隐藏频道规则、添加 / 编辑聚合配置原是自绘对话框，现在也走设置编辑框：电视上先选「扫码编辑」或「直接输入」；/sources 的聚合配置两处、/channels 的隐藏频道规则一句随之更新。上一轮（6afbea42）：设置编辑对话框（订阅源 / 节目单 / 服务的添加编辑、文本类设置等）在电视端打开时先选「扫码编辑」或「直接输入」，不再直接展开表单；扫码页「返回」回到选择这一步，表单左下角「扫码编辑」仍可随时切换，已有条目的「删除」在选择这一步也有。手机竖屏不变，直接显示表单。上一轮（aec6adad / c5ecd5b）：全面更新手机竖屏模式（Mobile Portrait Mode）与自适应交互文档，通过 Android 模拟器（Pixel 7 Android 14）捕获并添加 16 张实机截图（单屏与成对对比）：/live-screen 手机竖屏主页与播放器、/controls 触屏交互、/channels 竖屏频道浏览与搜索、/epg 竖屏节目单指南、/settings 竖屏设置分类与屏幕方向、/home 与 /getting-started 系统要求；另字幕翻译引擎由 3 种扩到 6 种（新增有道/谷歌/微软）。
