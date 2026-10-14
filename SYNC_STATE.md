@@ -1,11 +1,12 @@
 # 文档同步状态
 
-- **上次同步时间**：2026-10-14
-- **同步到的 mytv-android commit**：`52d3e097`（截图基准：mytv-Internal 预览版本 V3.0.0.725，由该提交的 CI 产出）
+- **上次同步时间**：2026-10-15
+- **同步到的 mytv-android commit**：`39620c44`（本轮：频道预览改回逐卡抓帧；截图基准仍是 mytv-Internal 预览版本 V3.0.0.725，由上一轮 `52d3e097` 的 CI 产出）
 - **同步到的 mytv-panel commit**：b6dbffd（字体改用 Google Sans Flex，与 App 一致）
 - **同步到的版本号**：3.0.0.725（预览版本，versionCode 通过 `VERSION_CODE` 环境变量注入）
-- **本次涉及页面**：/live-screen、/channels、/epg、/multiview、/player-settings、/settings-overview、/sources、/remote-panel、/sync、/rtp2httpd、/python-services、/controls。
-- **备注**：**全站截图用 CI 预览版 V3.0.0.725 重做**，电视端 10 张 + 手机竖屏 16 张 + 网页面板 11 张全部替换，另新增 7 张。采集方式与假数据服务见 `tools/screenshots/README.md`；新增 `doc-fixture-server.mjs`（75 频道 / 6 分组 / 每频道 3 条线路 + XMLTV 节目单）与 `crop-portrait.py`（手机竖屏单屏与成对拼图）。
+- **本次涉及页面**：/channels。
+- **备注**：本轮只改一处行为：频道预览由「只有聚焦或正在播放的频道抓帧」改回**逐卡抓帧**（抓帧仍等列表停止滚动后才开始，并受「频道预览并行数」与「列表懒渲染」限速），/channels 开关表里「频道预览」一行随之改为「频道卡逐卡抓取实时预览首帧」；/live-screen 的「频道列表中显示实时预览小窗」本来就是逐卡口径，未动。截图本轮未重拍（`app-channels` 仍是 V3.0.0.725 的台标态，下一轮截图统一更新）。
+  **下面 1–7 条是上一轮 `52d3e097`（截图基准 V3.0.0.725）的内容**：**全站截图用 CI 预览版 V3.0.0.725 重做**，电视端 10 张 + 手机竖屏 16 张 + 网页面板 11 张全部替换，另新增 7 张。采集方式与假数据服务见 `tools/screenshots/README.md`；新增 `doc-fixture-server.mjs`（75 频道 / 6 分组 / 每频道 3 条线路 + XMLTV 节目单）与 `crop-portrait.py`（手机竖屏单屏与成对拼图）。
   1. 电视端重拍 10 张：`app-dashboard`（首页收藏轮播 + 最近观看 + 九宫格）、`app-channels`（全部频道，分组胶囊 + 台标 + 正在播出节目与进度条 + 线路数角标）、`app-settings`（16 个设置分类）、`app-player-top` / `app-player-startup`（设置 → 播放器，红框圈「更好的视频探测」）、`app-sources` / `app-sources-custom`（设置 → 订阅源）、`app-ui`（红框圈「频道预览」与「频道预览并行数」）、`app-control`、`app-components`。红框坐标未变，仍准确。
   2. 手机竖屏重拍 16 张：成对对比 6 张 + 单屏 10 张。这一轮换上了带 XMLTV 节目单的源，「继续观看」卡片、频道卡进度条、节目单指南都不再是「暂无节目信息」。`portrait-pair-search` 补上了原先缺失的左半（空搜索态 + 系统软键盘）。
   3. 网页面板重拍 11 张：`crop-mark.py` 的 `PANEL_JOBS` 裁剪框全部重新量过——10-13 之后面板版式从两列网格（x≈290..1110）改成单列（x≈444..1203），行高也更紧凑，旧框全部错位。三处红框（player-startup、player-network、source-dialog）按新坐标重新对准，语义目标不变。
