@@ -1,11 +1,12 @@
 # 文档同步状态
 
 - **上次同步时间**：2026-10-16
-- **同步到的 mytv-android commit**：`4c157243`（本轮：Python 服务内置 requests 等常用依赖；截图基准仍是 mytv-Internal 预览版本 V3.0.0.725）
+- **同步到的 mytv-android commit**：`7c19d565`（本轮：权限设置页新增「通知」「读取电话状态」两行；截图基准仍是 mytv-Internal 预览版本 V3.0.0.725）
 - **同步到的 mytv-panel commit**：b6dbffd（字体改用 Google Sans Flex，与 App 一致）
 - **同步到的版本号**：3.0.0.725（预览版本，versionCode 通过 `VERSION_CODE` 环境变量注入）
-- **本次涉及页面**：/python-services。
-- **备注**：本轮只改一处行为：Python 服务内置 `requests` 2.34.2 及其依赖（urllib3、certifi、idna、charset_normalizer、PySocks），脚本可直接 `import requests`（随应用内置，不依赖重下运行时）；/python-services 的运行环境对照表与「已知限制」随之更新。截图本轮未重拍。
+- **本次涉及页面**：/settings-overview。
+- **备注**：权限设置页由两项增至四项：新增「通知」（遥控面板、后台播放的常驻通知显示所需，Android 13 及以上走系统运行时授权，低版本跳转应用通知设置）与「读取电话状态」（X5 内核网页直播源所需）；「读取外部存储/管理全部文件」行在 Android 10 以下改为同时申请读/写，按包名的入口打不开时回落通用设置页。/settings-overview 的权限表与设置分类总表随之更新，截图未重拍。
+  **下面为上一轮 `4c157243` 及更早的内容**：上一轮 `4c157243`：Python 服务内置 `requests` 2.34.2 及其依赖（urllib3、certifi、idna、charset_normalizer、PySocks），脚本可直接 `import requests`（随应用内置，不依赖重下运行时）；/python-services 的运行环境对照表与「已知限制」随之更新。截图未重拍。
   **下面 1–7 条是上一轮 `39620c44` 及更早的内容**：上一轮 `39620c44`：频道预览由「只有聚焦或正在播放的频道抓帧」改回**逐卡抓帧**（抓帧仍等列表停止滚动后才开始，并受「频道预览并行数」与「列表懒渲染」限速），/channels 开关表里「频道预览」一行随之改为「频道卡逐卡抓取实时预览首帧」；/live-screen 的「频道列表中显示实时预览小窗」本来就是逐卡口径，未动。再往前（`52d3e097`，截图基准 V3.0.0.725）：**全站截图用 CI 预览版 V3.0.0.725 重做**，电视端 10 张 + 手机竖屏 16 张 + 网页面板 11 张全部替换，另新增 7 张。采集方式与假数据服务见 `tools/screenshots/README.md`；新增 `doc-fixture-server.mjs`（75 频道 / 6 分组 / 每频道 3 条线路 + XMLTV 节目单）与 `crop-portrait.py`（手机竖屏单屏与成对拼图）。
   1. 电视端重拍 10 张：`app-dashboard`（首页收藏轮播 + 最近观看 + 九宫格）、`app-channels`（全部频道，分组胶囊 + 台标 + 正在播出节目与进度条 + 线路数角标）、`app-settings`（16 个设置分类）、`app-player-top` / `app-player-startup`（设置 → 播放器，红框圈「更好的视频探测」）、`app-sources` / `app-sources-custom`（设置 → 订阅源）、`app-ui`（红框圈「频道预览」与「频道预览并行数」）、`app-control`、`app-components`。红框坐标未变，仍准确。
   2. 手机竖屏重拍 16 张：成对对比 6 张 + 单屏 10 张。这一轮换上了带 XMLTV 节目单的源，「继续观看」卡片、频道卡进度条、节目单指南都不再是「暂无节目信息」。`portrait-pair-search` 补上了原先缺失的左半（空搜索态 + 系统软键盘）。

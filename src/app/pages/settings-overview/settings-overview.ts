@@ -72,7 +72,7 @@ import { DocShot } from '../../shared/doc-shot';
           <tr><td>更新</td><td>更新通道、更新强提醒</td><td>本页「更新」</td></tr>
           <tr><td>网络</td><td>HTTP 请求重试次数与间隔</td><td>本页「网络」</td></tr>
           <tr><td>云同步</td><td>服务商选择、凭据、拉取与推送、系统备份</td><td><a [routerLink]="'/sync'">云同步与备份</a></td></tr>
-          <tr><td>权限</td><td>安装未知应用、读取外部存储</td><td>本页「权限」</td></tr>
+          <tr><td>权限</td><td>安装未知应用、读取外部存储、通知、读取电话状态</td><td>本页「权限」</td></tr>
           <tr><td>调试</td><td>性能浮窗、播放器信息、布局网格、解码器信息</td><td>本页「调试」</td></tr>
           <tr><td>日志</td><td>应用运行日志实时列表</td><td>本页「日志」</td></tr>
         </tbody>
@@ -219,7 +219,7 @@ import { DocShot } from '../../shared/doc-shot';
 
       <h2 id="permissions">权限</h2>
       <p>
-        只有两项。点击条目跳转到系统授权界面，条目右侧图标显示当前是否已授权。
+        点击条目跳转到系统授权界面，条目右侧图标显示当前是否已授权。
         面板没有对应页面，只能在电视端操作。
       </p>
       <table>
@@ -229,6 +229,8 @@ import { DocShot } from '../../shared/doc-shot';
         <tbody>
           <tr><td>安装未知应用</td><td>应用内更新、面板推送 APK 到电视安装时需要</td></tr>
           <tr><td>读取外部存储/管理全部文件</td><td>读取本地订阅源文件、本地云同步文件、语音识别模型等存储内容时需要</td></tr>
+          <tr><td>通知</td><td>遥控面板、后台播放的常驻通知显示需要；Android 13 及以上需手动授权</td></tr>
+          <tr><td>读取电话状态</td><td>网页直播源（X5 内核）加载时需要</td></tr>
         </tbody>
       </table>
       <p>开机自启、画中画、后台播放不在这里——它们都在「通用」。</p>
