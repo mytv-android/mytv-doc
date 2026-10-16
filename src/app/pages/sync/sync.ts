@@ -109,7 +109,7 @@ import { DocShot } from '../../shared/doc-shot';
         <li>视频超分、插帧、插帧目标帧率、AI 超分执行后端；</li>
         <li>WebView 内核与「替换系统 WebView」；</li>
         <li>实时字幕（ASR）的全部设置、已选识别模型、Gemini 凭据；</li>
-        <li>字幕翻译引擎及腾讯 / 百度 / MTranServer 凭据；</li>
+        <li>字幕翻译的引擎、目标语言与各家凭据（腾讯 / 百度 / MTranServer / 有道 / 微软等）；</li>
         <li>最近观看记录、当前选中的订阅源、最后播放位置；</li>
         <li>焦点优化开关、云同步服务商的选择与「自动拉取」开关。</li>
       </ul>

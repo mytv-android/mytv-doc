@@ -69,6 +69,13 @@ import { DocPageHeader } from '../../shared/doc-page-header';
         <li>仍不行：在电脑上下载好模型文件，用面板的「文件」页上传到电视，再在面板 播放器 页的「ASR 语音识别」卡片里把识别模型填为该模型目录路径（改完记得点卡片内的「保存」）。</li>
       </ol>
 
+      <h3 id="translation-no-output">字幕翻译不出译文？</h3>
+      <p>
+        先按顺序查三处：字幕翻译子页里的「翻译引擎」是不是还停在「未配置」、在面板上改完是不是忘了点卡片内的「保存」、
+        播放内核是不是 VLC（换成 Media3 或 IJK）。都不是的话，按
+        <a [routerLink]="'/translation'" fragment="troubleshoot">字幕翻译教程</a> 的排查表逐项对。
+      </p>
+
       <h2 id="sources-epg">订阅源与节目单</h2>
 
       <h3 id="epg-missing">EPG 节目单不显示？</h3>
@@ -112,7 +119,7 @@ import { DocPageHeader } from '../../shared/doc-page-header';
         <li>视频播放器内核、强制软解、软解仅用于音频、Media3 隧道解码。</li>
         <li>视频超分与插帧（开关、模式、目标帧率、AI 后端）。</li>
         <li>WebView 内核、替换系统 WebView。</li>
-        <li>实时字幕（ASR）与字幕翻译的全部设置（含各家密钥）。</li>
+        <li>实时字幕（ASR）的全部设置；字幕翻译的引擎、目标语言与各家密钥。</li>
         <li>焦点优化、最近观看记录。</li>
       </ul>
 

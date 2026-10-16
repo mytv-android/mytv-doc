@@ -98,6 +98,12 @@ export const routes: Routes = [
     title: '播放器与字幕设置 · 电视直播 使用文档',
   },
   {
+    path: 'translation',
+    loadComponent: () =>
+      import('./pages/translation/translation').then((m) => m.TranslationPage),
+    title: '字幕翻译教程 · 电视直播 使用文档',
+  },
+  {
     path: 'settings',
     loadComponent: () =>
       import('./pages/settings-overview/settings-overview').then(

@@ -41,6 +41,7 @@ export const NAV_ENTRIES: NavEntry[] = [
   { path: '/webview-player', label: 'WebView 播放器', icon: 'web', group: '功能' },
   { path: '/remote-panel', label: '远程配置面板', icon: 'settings_remote', group: '功能' },
   { path: '/python-services', label: '服务（Python / PHP）', icon: 'terminal', group: '功能' },
+  { path: '/translation', label: '字幕翻译教程', icon: 'translate', group: '功能' },
   { path: '/sync', label: '云同步与备份', icon: 'cloud_sync', group: '功能' },
 
   { path: '/player-settings', label: '播放器与字幕', icon: 'tune', group: '设置' },

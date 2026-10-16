@@ -115,6 +115,12 @@ const OVERRIDES = {
   videoPlayerBufferTime: 0,
   videoPlayerLoadTimeout: 10000,
   videoPlayerApplyBetterDetection: true,
+  // 字幕翻译卡片：给一个自托管引擎示例，让截图里能看到选中引擎后的凭据行；
+  // 地址用的就是 App 内的示例地址，不含任何真实令牌。字号比例给真实默认值 1。
+  videoPlayerASRTranslationEngine: 'mtranserver',
+  videoPlayerASRTranslationTargetLang: 'en',
+  videoPlayerASRTranslationMTranServerUrl: 'http://192.168.1.100:8989',
+  videoPlayerASRTranslationFontScale: 1,
   networkRetryCount: 10,
   networkRetryInterval: 1000,
   cloudSyncProvider: 'GITHUB_GIST',
