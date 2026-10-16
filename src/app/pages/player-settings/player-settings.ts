@@ -464,10 +464,17 @@ import { DocShot } from '../../shared/doc-shot';
         <li><b>长按删除</b>已下载的本地模型（云端模型不可删除）；</li>
         <li>同一份模型列表也在「设置 → 组件下载」中统一管理。</li>
       </ul>
-      <doc-callout kind="info" title="云端 Gemini 模型" icon="cloud">
-        选中 <b>Gemini Live Translate（云端）</b> 模型后，子页会多出 <b>Gemini API Key</b> 与
-        <b>Gemini 端点</b> 两项（电视端选中即可填写，也可在面板的 播放器 页填写）：Key 在 Google AI Studio 申请，
-        仅存本机、不参与云同步；端点留空使用官方默认。该模型识别与翻译一体。
+      <doc-callout kind="info" title="云端模型" icon="cloud">
+        三个云端模型都是<b>识别与翻译一体</b>：选中后子页会多出该模型的凭据项（电视端选中即可填写，
+        也可在面板的 播放器 页填写），凭据仅存本机、不参与云同步。
+        <ul>
+          <li><b>Gemini Live Translate</b>：<b>Gemini API Key</b>（Google AI Studio 申请）与
+            <b>Gemini 端点</b>（留空使用官方默认）；</li>
+          <li><b>通义千问实时同传</b>（阿里云百炼）：<b>百炼 API Key</b> 与 <b>百炼端点</b>——端点必须填
+            控制台给出、含你自己 workspace 的 WebSocket 地址，留空则该模型不可用；国内可直连；</li>
+          <li><b>Soniox 实时翻译</b>：只需 <b>Soniox API Key</b>；粤语按普通话识别。</li>
+        </ul>
+        三者都在云端完成识别与翻译，选中后不再调用「字幕翻译」里的引擎。
         模型下载慢或失败的处理见 <a [routerLink]="'/faq'" fragment="asr-model-download">常见问题</a>。
       </doc-callout>
 
@@ -481,8 +488,9 @@ import { DocShot } from '../../shared/doc-shot';
       </p>
       <doc-callout kind="info" title="引擎怎么申请、怎么选" icon="menu_book">
         六种引擎的对比、逐家的凭据申请步骤、电视端与面板的完整配置流程、没有译文时的排查，
-        都在 <a [routerLink]="'/translation'">字幕翻译教程</a>。另注意：云端 Gemini 模型是
-        「实时字幕 (ASR)」里的识别模型（识别与翻译一体），不是这里的翻译引擎，两者互不影响。
+        都在 <a [routerLink]="'/translation'">字幕翻译教程</a>。另注意：云端模型（Gemini Live Translate /
+        通义千问实时同传 / Soniox 实时翻译）是「实时字幕 (ASR)」里的识别模型（识别与翻译一体），
+        不是这里的翻译引擎，两者互不影响。
       </doc-callout>
 
       <doc-callout kind="tip" title="面板上的两张卡片要单独保存" icon="save">

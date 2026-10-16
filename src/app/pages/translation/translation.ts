@@ -273,9 +273,9 @@ import { DocShot } from '../../shared/doc-shot';
           换设备要重新配，详见 <a [routerLink]="'/sync'">云同步与备份</a>。
         </li>
         <li>
-          <b>Gemini 模型自带翻译</b>：实时字幕选的是云端
-          <b>Gemini Live Translate</b> 模型时，识别与翻译一体，不再调用上面选的引擎
-          （也正因如此，没有译文时先确认引擎没被 Gemini 接管）。
+          <b>云端模型自带翻译</b>：实时字幕选的是云端模型（<b>Gemini Live Translate</b> /
+          <b>通义千问实时同传</b> / <b>Soniox 实时翻译</b>）时，识别与翻译一体，不再调用上面选的引擎
+          （也正因如此，没有译文时先确认引擎没被云端模型接管）。
         </li>
         <li>
           <b>Beta 状态</b>：翻译失败不会在画面上报错，只写进应用日志，表现就是「这一句没有译文」。
