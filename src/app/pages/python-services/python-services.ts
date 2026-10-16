@@ -28,7 +28,7 @@ import { DocShot } from '../../shared/doc-shot';
         </thead>
         <tbody>
           <tr><td>脚本形态</td><td>独立运行的服务脚本，自己监听端口、常驻后台</td><td>单文件 Web 脚本，有请求时才执行一次并返回结果</td></tr>
-          <tr><td>运行环境</td><td>CPython 3.11 + 标准库，约 7 MB</td><td>PHP 8.4，含 curl、openssl、json 等常用扩展</td></tr>
+          <tr><td>运行环境</td><td>CPython 3.11 + 标准库（含 requests、urllib3 等常用网络库），约 7 MB</td><td>PHP 8.4，含 curl、openssl、json 等常用扩展</td></tr>
           <tr><td>默认端口</td><td>8767</td><td>8768</td></tr>
           <tr><td>典型脚本</td><td><code>ysp-live.py</code></td><td><code>ysp.php</code> 等单文件脚本</td></tr>
         </tbody>
@@ -191,7 +191,9 @@ import { DocShot } from '../../shared/doc-shot';
       <ul>
         <li>需要 <b>Android 7.0 及以上</b>。</li>
         <li>
-          <b>Python：只能运行纯 Python 脚本</b>。没有 pip，第三方依赖必须是纯 Python 包并手工放入依赖目录（可用面板「文件」页上传）；
+          <b>Python：只能运行纯 Python 脚本</b>。没有 pip；<code>requests</code> 及其依赖
+          （urllib3、certifi、idna、charset_normalizer、PySocks）已随应用内置，脚本可直接
+          <code>import requests</code>；其他第三方依赖必须是纯 Python 包并手工放入依赖目录（可用面板「文件」页上传）；
           多进程、加载系统动态库等能力在 Android 上不可用或受限。
         </li>
         <li>

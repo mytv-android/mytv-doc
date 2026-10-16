@@ -991,7 +991,7 @@ export const SEARCH_INDEX: SearchIndexEntry[] = [
     "title": "服务（Python / PHP）",
     "anchor": "#what",
     "section": "这是什么",
-    "keywords": "「服务」让你在电视上运行一段脚本（多数是直播源服务脚本，例如央视频的 ysp-live）， 脚本在电视上对外提供一个订阅地址，像普通订阅源一样添加使用即可， 也可以分享给同一局域网里的其他设备（APTV、电脑播放器等）。 支持两种脚本语言，添加服务时二选一： Python 服务 PHP 服务 脚本形态 独立运行的服务脚本，自己监听端口、常驻后台 单文件 Web 脚本，有请求时才执行一次并返回结果 运行环境 CPython 3.11 + 标准库，约 7 MB PHP 8.4，含 curl、openssl、json 等常用扩展 默认端口 8767 8768 典型脚本 ysp-live.py ysp.php 等单文件脚本 两种服务都要先下载对应的运行环境（按需下载，不含在安装包中），且需要 Android 7.0 及以上 ；Android 6.0 设备没有此功能，其余功能不受影响。"
+    "keywords": "「服务」让你在电视上运行一段脚本（多数是直播源服务脚本，例如央视频的 ysp-live）， 脚本在电视上对外提供一个订阅地址，像普通订阅源一样添加使用即可， 也可以分享给同一局域网里的其他设备（APTV、电脑播放器等）。 支持两种脚本语言，添加服务时二选一： Python 服务 PHP 服务 脚本形态 独立运行的服务脚本，自己监听端口、常驻后台 单文件 Web 脚本，有请求时才执行一次并返回结果 运行环境 CPython 3.11 + 标准库（含 requests、urllib3 等常用网络库），约 7 MB PHP 8.4，含 curl、openssl、json 等常用扩展 默认端口 8767 8768 典型脚本 ysp-live.py ysp.php 等单文件脚本 两种服务都要先下载对应的运行环境（按需下载，不含在安装包中），且需要 Android 7.0 及以上 ；Android 6.0 设备没有此功能，其余功能不受影响。"
   },
   {
     "path": "/python-services",
@@ -1047,7 +1047,7 @@ export const SEARCH_INDEX: SearchIndexEntry[] = [
     "title": "服务（Python / PHP）",
     "anchor": "#limits",
     "section": "已知限制",
-    "keywords": "需要 Android 7.0 及以上 。 Python：只能运行纯 Python 脚本 。没有 pip，第三方依赖必须是纯 Python 包并手工放入依赖目录（可用面板「文件」页上传）； 多进程、加载系统动态库等能力在 Android 上不可用或受限。 PHP：单文件、按请求执行 ，可用扩展以运行环境内置的为准（curl、openssl、json 等已包含）； 请求逐个处理，不适合执行时间很长的脚本。 单个服务的日志超过 2 MB 会自动截断重写，避免长期运行写满存储。 多个 Python 服务共用同一个解释器，代理与环境变量是所有 Python 服务共用的。 服务会原样执行你添加的脚本，等同于在电视上装了一个程序。请只加载 可信来源 的脚本（优先 HTTPS 链接）； 网页面板本身没有密码，不要在不可信的网络里开放它，具体见 远程配置面板 的安全说明。"
+    "keywords": "需要 Android 7.0 及以上 。 Python：只能运行纯 Python 脚本 。没有 pip； requests 及其依赖 （urllib3、certifi、idna、charset normalizer、PySocks）已随应用内置，脚本可直接 import requests ；其他第三方依赖必须是纯 Python 包并手工放入依赖目录（可用面板「文件」页上传）； 多进程、加载系统动态库等能力在 Android 上不可用或受限。 PHP：单文件、按请求执行 ，可用扩展以运行环境内置的为准（curl、openssl、json 等已包含）； 请求逐个处理，不适合执行时间很长的脚本。 单个服务的日志超过 2 MB 会自动截断重写，避免长期运行写满存储。 多个 Python 服务共用同一个解释器，代理与环境变量是所有 Python 服务共用的。 服务会原样执行你添加的脚本，等同于在电视上装了一个程序。请只加载 可信来源 的脚本（优先 HTTPS 链接）； 网页面板本身没有密码，不要在不可信的网络里开放它，具体见 远程配置面板 的安全说明。"
   },
   {
     "path": "/player-settings",
