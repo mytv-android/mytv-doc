@@ -470,8 +470,9 @@ import { DocShot } from '../../shared/doc-shot';
         <ul>
           <li><b>Gemini Live Translate</b>：<b>Gemini API Key</b>（Google AI Studio 申请）与
             <b>Gemini 端点</b>（留空使用官方默认）；</li>
-          <li><b>通义千问实时同传</b>（阿里云百炼）：<b>百炼 API Key</b> 与 <b>百炼端点</b>——端点必须填
-            控制台给出、含你自己 workspace 的 WebSocket 地址，留空则该模型不可用；国内可直连；</li>
+          <li><b>通义千问实时同传</b>（阿里云百炼）：<b>百炼 API Key</b> 与 <b>百炼业务空间 ID</b>——ID 在
+            控制台「业务空间」页查看，填 ID 即可无需手拼地址（粘贴控制台给出的完整接口地址也可识别），
+            留空则该模型不可用；国内可直连；</li>
           <li><b>Soniox 实时翻译</b>：只需 <b>Soniox API Key</b>；粤语按普通话识别。</li>
         </ul>
         三者都在云端完成识别与翻译，选中后不再调用「字幕翻译」里的引擎。
