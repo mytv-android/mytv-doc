@@ -1,7 +1,7 @@
 # 文档同步状态
 
 - **上次同步时间**：2026-10-18
-- **同步到的 mytv-android commit**：6f598ddd（Stalker 门户内置 EPG；上一轮 69b5be1d 为门户源支持）
+- **同步到的 mytv-android commit**：b2ab6807（Stalker 门户内置 EPG；上一轮 69b5be1d 为门户源支持）
 - **同步到的 mytv-panel commit**：32b75f1（Stalker 源补充可选账号密码并归一化 MAC）
 - **同步到的版本号**：3.0.0.725（预览版本，versionCode 通过 `VERSION_CODE` 环境变量注入）
 - **本次涉及页面**：/sources、/epg。**本轮**：接入 Stalker 门户内置 EPG——开启「节目单跟随订阅源」后，Stalker 源自动调用门户批量接口 `get_epg_info`（约 7 天），按门户频道 id / 频道名 / `xmltv_id` 匹配，无需另配 XMLTV；源级「EPG 地址」仍优先。门户凭据仅在运行期使用，不写入配置。截图未重拍，搜索索引已重生成（227 条）。
