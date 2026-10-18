@@ -45,7 +45,8 @@ import { DocShot } from '../../shared/doc-shot';
             <td><b>Stalker Portal</b></td>
             <td>
               机顶盒式门户源（Stalker / Ministra）。App 会自动探测门户端点
-              （<code>portal.php</code> 或 <code>server/load.php</code>），并按门户要求完成握手与认证。
+              （<code>portal.php</code> 或 <code>server/load.php</code>），并按门户要求完成握手与认证；
+              开启「节目单跟随订阅源」时还会自动使用门户内置 EPG。
             </td>
             <td>服务器地址、MAC 地址（服务商提供）；部分门户还需用户名和密码</td>
           </tr>
