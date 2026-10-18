@@ -1,7 +1,7 @@
 # 文档同步状态
 
 - **上次同步时间**：2026-10-18
-- **同步到的 mytv-android commit**：3d34cc41（Stalker/Ministra 门户源完善）
+- **同步到的 mytv-android commit**：5a33f705（Stalker/Ministra 门户源完善；主体 3d34cc41 + 播放地址修正 5a33f705）
 - **同步到的 mytv-panel commit**：32b75f1（Stalker 源补充可选账号密码并归一化 MAC）
 - **同步到的版本号**：3.0.0.725（预览版本，versionCode 通过 `VERSION_CODE` 环境变量注入）
 - **本次涉及页面**：/sources。**本轮**：Stalker Portal 源支持完善——自动探测 `portal.php` / `server/load.php` 端点，兼容 `/c/`、`/c/index.html` 与显式 `.php` 地址；支持 MAC+token 认证与需要登录的门户（可选用户名/密码）；频道列表在 `get_all_channels` 为空时回退分页 `get_ordered_list`；播放时按门户标记选择静态 `cmd` 或 `create_link`，`localhost` 占位会替换为门户主机，跨主机流不再携带门户凭据。设置页与网页面板为 Stalker 类型补充可选用户名/密码字段，MAC 保存时统一为大写冒号格式。截图未重拍，搜索索引已重生成（227 条）。
