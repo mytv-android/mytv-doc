@@ -43,8 +43,11 @@ import { DocShot } from '../../shared/doc-shot';
           </tr>
           <tr>
             <td><b>Stalker Portal</b></td>
-            <td>机顶盒式门户源。</td>
-            <td>服务器地址、MAC 地址（服务商提供）</td>
+            <td>
+              机顶盒式门户源（Stalker / Ministra）。App 会自动探测门户端点
+              （<code>portal.php</code> 或 <code>server/load.php</code>），并按门户要求完成握手与认证。
+            </td>
+            <td>服务器地址、MAC 地址（服务商提供）；部分门户还需用户名和密码</td>
           </tr>
           <tr>
             <td><b>本地文件</b></td>
@@ -129,8 +132,8 @@ import { DocShot } from '../../shared/doc-shot';
         <tbody>
           <tr><td>名称 / 类型 / 链接</td><td>基本信息；类型为「文件」时链接处填电视上的文件路径</td></tr>
           <tr><td>协议、端口、账号、密码</td><td>远程源选择 FTP / SMB / WebDAV 类协议时出现；地址里已带前缀和账号时可留空</td></tr>
-          <tr><td>用户名 / 密码 / 输出类型</td><td>仅 Xtream 类型</td></tr>
-          <tr><td>MAC 地址</td><td>仅 Stalker 类型</td></tr>
+          <tr><td>用户名 / 密码 / 输出类型</td><td>Xtream 类型；用户名 / 密码也用于需要登录的 Stalker Portal</td></tr>
+          <tr><td>MAC 地址</td><td>仅 Stalker 类型。支持带冒号或不带冒号输入，保存时会统一为大写冒号格式</td></tr>
           <tr><td>UA</td><td>按源单独设置 User-Agent：拉取该源时使用；频道没单独指定 UA 时播放也沿用</td></tr>
           <tr><td>代理</td><td>按源单独设置代理，填 <code>http://</code> 或 <code>socks5://</code> 地址，可带账号密码</td></tr>
           <tr><td>EPG 地址</td><td>给这个源单独指定节目单，配合节目单的「跟随订阅源」使用，见 <a [routerLink]="'/epg'">EPG 节目单</a></td></tr>
