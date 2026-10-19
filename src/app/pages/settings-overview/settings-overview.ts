@@ -59,7 +59,7 @@ import { DocShot } from '../../shared/doc-shot';
           <tr><th>分类</th><th>里面有什么</th><th>详细文档</th></tr>
         </thead>
         <tbody>
-          <tr><td>通用</td><td>界面语言、开机自启、启动页面、画中画、后台播放、缓存写入外部存储、清除缓存、备份管理、恢复初始化</td><td>本页「通用」</td></tr>
+          <tr><td>通用</td><td>界面语言、开机自启、启动页面、画中画、后台播放、投屏接收、缓存写入外部存储、清除缓存、备份管理、恢复初始化</td><td>本页「通用」</td></tr>
           <tr><td>订阅源</td><td>订阅源管理、缓存时间、隐藏与加密分组、频道别名与合并、台标、网页源</td><td><a [routerLink]="'/sources'">订阅源</a></td></tr>
           <tr><td>服务</td><td>Python / PHP 服务的添加、编辑、启停、日志、运行状态与运行环境</td><td><a [routerLink]="'/python-services'">服务（Python / PHP）</a></td></tr>
           <tr><td>节目单</td><td>节目单（EPG）开关、节目单来源管理、刷新时间</td><td><a [routerLink]="'/epg'">节目单</a></td></tr>
@@ -104,6 +104,10 @@ import { DocShot } from '../../shared/doc-shot';
           <tr>
             <td>后台播放</td>
             <td>切到后台后继续播放音频（听电视），默认关；通知栏提供上一个频道 / 播放暂停 / 下一个频道按钮。与「画中画」互斥。</td>
+          </tr>
+          <tr>
+            <td>投屏接收</td>
+            <td>默认关。开启后，同一局域网内支持 DLNA 投屏的手机应用（系统投屏、视频类 App 的 DLNA 推送）可以把视频推到本机播放，投屏列表里的设备名即本机型号。</td>
           </tr>
           <tr>
             <td>缓存写入外部存储</td>
