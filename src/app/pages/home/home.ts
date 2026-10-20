@@ -52,10 +52,10 @@ import { DocPageHeader } from '../../shared/doc-page-header';
         <li><b>远程配置面板</b>：电视启动应用后，浏览器访问 <code>http://&lt;电视IP&gt;:10591</code> 即可推送订阅源、整包改设置（改动即保存）、管理文件与备份、推 APK、看日志。</li>
         <li><b>WebView 播放器</b>：把网页当作视频源，支持切换腾讯 X5 内核。</li>
         <li><b>多屏同播</b>：最多 9 路同屏播放，可保存最多 20 套频道组合方案。</li>
-        <li><b>投屏</b>：把正在看的频道投到局域网内支持 DLNA / AirPlay / Google Cast 的电视 / 盒子播放；打开 设置 → 通用 → 投屏接收 后，也可接收手机等设备推送的 DLNA / AirPlay（视频）内容在本机播放。</li>
+        <li><b>投屏</b>：把正在看的频道投到局域网内支持 DLNA / AirPlay / Google Cast 的电视 / 盒子播放；打开 设置 → 通用 → 投屏接收 后，也可接收手机等设备推送的 DLNA / AirPlay 内容在本机播放，装上「AirPlay 投屏组件」后支持 iPhone 屏幕镜像与音频（Android 7.0+）。</li>
         <li><b>视频超分与插帧</b>：Anime4K、AMD FSR 1、Real-ESRGAN 等多种超分路径，GPU 帧混合 / RIFE 插帧，目标帧率最高 120 FPS。</li>
         <li><b>脚本服务（Python / PHP）</b>：在电视上运行脚本（需 Android 7.0 及以上），把脚本产出的频道列表当作本机或局域网订阅源；服务可在应用内（设置 → 服务）或网页面板中添加与管理。</li>
-        <li><b>组件下载</b>：统一下载管理 IJK / VLC 播放组件、Python / PHP 运行环境、语音识别运行库与模型、超分与插帧运行库。</li>
+        <li><b>组件下载</b>：统一下载管理 IJK / VLC 播放组件、Python / PHP 运行环境、语音识别运行库与模型、超分与插帧运行库、AirPlay 投屏组件。</li>
         <li><b>ASR 实时字幕</b>：本地语音识别，把直播语音实时转成字幕，支持 Media3 与 IJK 内核；也可选云端模型（Gemini / 阿里云百炼 / Soniox），识别与翻译一体。</li>
         <li><b>字幕翻译</b>：把实时字幕或已有字幕轨翻译成目标语言，引擎可选腾讯翻译 / 百度翻译 / MTranServer（自托管） / 有道翻译 / 谷歌翻译 / 微软翻译，逐家配置见<a [routerLink]="'/translation'">字幕翻译教程</a>。</li>
         <li><b>云同步</b>：GitHub Gist / Gitee 代码片段 / WebDAV / 网络链接（仅拉取）/ 本地文件。</li>
