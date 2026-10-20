@@ -107,7 +107,7 @@ import { DocShot } from '../../shared/doc-shot';
           </tr>
           <tr>
             <td>投屏接收</td>
-            <td>默认关。开启后，同一局域网内支持 DLNA 投屏的手机应用（系统投屏、视频类 App 的 DLNA 推送）可以把视频推到本机播放，投屏列表里的设备名即本机型号。</td>
+            <td>默认关。开启后，同一局域网内支持 DLNA / AirPlay（视频）推送的应用（系统投屏、视频类 App）可以把视频推到本机播放，设备名即本机型号；iPhone 系统级 AirPlay 的兼容性待真机验证。</td>
           </tr>
           <tr>
             <td>缓存写入外部存储</td>
