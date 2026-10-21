@@ -107,7 +107,7 @@ import { DocShot } from '../../shared/doc-shot';
           </tr>
           <tr>
             <td>投屏接收</td>
-            <td>默认关。开启后，同一局域网内支持 DLNA / AirPlay 推送的应用（系统投屏、视频类 App）可以把视频推到本机播放，设备名即本机型号。安装 设置 → 组件 的「AirPlay 投屏组件」后还支持 iPhone 屏幕镜像与音频（Android 7.0+，未装则 AirPlay 仅视频推送）；Miracast（Windows「连接」等源端）在设备支持 Wi-Fi 直连时自动可用，需在 设置 → 权限 授权「附近设备/Wi-Fi 直连」；Google Cast 接收为实验性（本应用互投可用，官方发送端的设备认证不支持）。</td>
+            <td>默认关。开启后，同一局域网内支持 DLNA / AirPlay 推送的应用（系统投屏、视频类 App）可以把视频推到本机播放，设备名即本机型号。安装 设置 → 组件 的「AirPlay 投屏组件」后还支持 iPhone 屏幕镜像与音频、手机端暂停/拖进度与 H.265 镜像（Android 7.0+，未装则 AirPlay 仅视频推送）；组件随应用更新，版本不匹配时在组件页重新下载即可。Miracast（Windows「连接」等源端）在设备支持 Wi-Fi 直连时自动可用，需在 设置 → 权限 授权「附近设备/Wi-Fi 直连」；Google Cast 接收为实验性（本应用互投可用，官方发送端的设备认证不支持）。</td>
           </tr>
           <tr>
             <td>缓存写入外部存储</td>
