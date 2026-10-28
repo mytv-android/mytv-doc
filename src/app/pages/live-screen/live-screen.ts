@@ -363,8 +363,8 @@ import { DocShot } from '../../shared/doc-shot';
         </li>
       </ul>
 
-      <h2 id="system-integration">画中画、后台播放与开机自启</h2>
-      <p>三项都在 <b>设置 → 通用</b>：</p>
+      <h2 id="system-integration">画中画、后台播放与开机启动</h2>
+      <p>四项都在 <b>设置 → 通用</b>：</p>
       <table>
         <thead>
           <tr><th>设置项</th><th>说明</th></tr>
@@ -380,7 +380,11 @@ import { DocShot } from '../../shared/doc-shot';
           </tr>
           <tr>
             <td>开机自启</td>
-            <td>设备开机后自动启动应用。开 / 关（默认）；需设备本身支持该功能</td>
+            <td>设备开机后自动启动应用。开 / 关（默认）；需设备本身支持该功能；与「开机静默自启」互斥</td>
+          </tr>
+          <tr>
+            <td>开机静默自启</td>
+            <td>设备开机后只在后台启动 HTTP 服务（含网页面板与已启用的 Python 等服务），不显示应用界面，可把盒子当常驻服务器给局域网其他设备提供直播。开 / 关（默认）；与「开机自启」互斥；节目单与订阅源仍在打开应用后加载</td>
           </tr>
         </tbody>
       </table>

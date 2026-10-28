@@ -60,7 +60,7 @@ import { DocPageHeader } from '../../shared/doc-page-header';
         <li><b>字幕翻译</b>：把实时字幕或已有字幕轨翻译成目标语言，引擎可选腾讯翻译 / 百度翻译 / MTranServer（自托管） / 有道翻译 / 谷歌翻译 / 微软翻译，逐家配置见<a [routerLink]="'/translation'">字幕翻译教程</a>。</li>
         <li><b>云同步</b>：GitHub Gist / Gitee 代码片段 / WebDAV / 网络链接（仅拉取）/ 本地文件。</li>
         <li><b>加密分组与隐藏规则</b>：分组名以 <code>_数字</code> 结尾即为密码分组；支持按正则隐藏频道。</li>
-        <li><b>系统集成</b>：开机自启、画中画、后台播放（听电视）、自定义启动页面、配合夏杰语音 App 语音换台。</li>
+        <li><b>系统集成</b>：开机自启、开机静默自启（只启动后台 HTTP 与脚本服务）、画中画、后台播放（听电视）、自定义启动页面、配合夏杰语音 App 语音换台。</li>
       </ul>
 
       <h2 id="conventions">使用提示</h2>
