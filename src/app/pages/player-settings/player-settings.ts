@@ -91,8 +91,11 @@ import { DocShot } from '../../shared/doc-shot';
           <tr>
             <td>渲染方式</td>
             <td>
-              <b>SurfaceView</b>（默认，性能更好）/ <b>TextureView</b>。
-              「适配视频内容帧率」需要使用 SurfaceView；画面异常时可在两者之间互换排查。
+              <b>SurfaceView</b>（默认，性能更好）/ <b>TextureView</b> / <b>GLSurfaceView</b>。
+              「适配视频内容帧率」需要使用 SurfaceView；画面异常时可在三者之间互换排查。
+              GLSurfaceView 让解码帧经应用自己的 GL 管线输出成 RGBA 层，颜色与 TextureView 同源，
+              Media3 / IJK / VLC 都支持：部分电视盒子的视频层会把有限范围画面合成得偏白、发灰，
+              切到这一项可绕开，代价是每帧多一次 GPU 拷贝，且不做 HDR 色调映射。
             </td>
           </tr>
           <tr>

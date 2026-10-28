@@ -32,6 +32,13 @@ import { DocPageHeader } from '../../shared/doc-page-header';
         <li>仍黑屏：该线路的编码设备不支持，换线路。</li>
       </ol>
 
+      <h3 id="washed">画面发白、发灰，像蒙了一层雾？</h3>
+      <ol>
+        <li>先把 <b>设置 → 播放器 → 渲染方式</b> 切到 <b>GLSurfaceView</b>：部分电视盒子的视频层会把有限范围画面按全范围合成，画面整体发白、黑位抬高；这一项改走应用自己的 GL 输出，可以绕开。</li>
+        <li>颜色恢复后保持该项即可；仍发白再切 <b>TextureView</b> 对比，两种都发白多半是片源本身偏白。</li>
+        <li>GLSurfaceView 不做 HDR 色调映射，HDR（HLG / HDR10）频道颜色异常时请留在 SurfaceView。</li>
+      </ol>
+
       <h3 id="enhancement-crash">开启超分或插帧后花屏、闪退？</h3>
       <p>该功能的设置页本身有提示：相关模式涉及底层调用，不兼容的设备可能导致应用退出。处理：</p>
       <ol>

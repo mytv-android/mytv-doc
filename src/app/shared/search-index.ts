@@ -1075,7 +1075,7 @@ export const SEARCH_INDEX: SearchIndexEntry[] = [
     "title": "播放器与字幕设置",
     "anchor": "#decode",
     "section": "解码与渲染",
-    "keywords": "本节条目在电视端 设置 → 播放器 与 远程配置面板 的「播放器」页面均可调整。 设置项 说明 渲染方式 SurfaceView （默认，性能更好）/ TextureView 。 「适配视频内容帧率」需要使用 SurfaceView；画面异常时可在两者之间互换排查。 强制软解 开 / 关（默认）。Media3 使用设备和扩展软解码器；IJK / VLC 禁用 MediaCodec、改用 FFmpeg。 硬解异常（花屏、绿屏、无声）时的排查手段，会增加 CPU 占用与功耗。 软解仅用于音频 开 / 关（默认）， 仅 Media3 生效 ：开启后强制软解只作用于音频，视频仍硬解。 适合音频硬解异常（无声、杂音、音画不同步）但视频正常的设备。 IJK / VLC 的音频始终用 FFmpeg 解码，无需此开关。 记忆播放器和解码配置 无 （默认，不记忆）/ Host （按源的主机名记忆）/ URL （按源的完整链接记忆）。 记忆后，给某个频道临时换过的内核、软解配置在换台回来时自动应用。 更改选项会清空现有记忆 ，请谨慎切换。 正则解码配置 电视端点进这一项（或在面板的 播放器 页）可增删改多"
+    "keywords": "本节条目在电视端 设置 → 播放器 与 远程配置面板 的「播放器」页面均可调整。 设置项 说明 渲染方式 SurfaceView （默认，性能更好）/ TextureView / GLSurfaceView 。 「适配视频内容帧率」需要使用 SurfaceView；画面异常时可在三者之间互换排查。 GLSurfaceView 让解码帧经应用自己的 GL 管线输出成 RGBA 层，颜色与 TextureView 同源， Media3 / IJK / VLC 都支持：部分电视盒子的视频层会把有限范围画面合成得偏白、发灰， 切到这一项可绕开，代价是每帧多一次 GPU 拷贝，且不做 HDR 色调映射。 强制软解 开 / 关（默认）。Media3 使用设备和扩展软解码器；IJK / VLC 禁用 MediaCodec、改用 FFmpeg。 硬解异常（花屏、绿屏、无声）时的排查手段，会增加 CPU 占用与功耗。 软解仅用于音频 开 / 关（默认）， 仅 Media3 生效 ：开启后强制软解只作用于音频，视频仍硬解。 适合音频硬解异常（无声、杂音、音画不同步）但视频正常的设备。 IJK / VLC "
   },
   {
     "path": "/player-settings",
@@ -1454,6 +1454,13 @@ export const SEARCH_INDEX: SearchIndexEntry[] = [
     "anchor": "#black-screen",
     "section": "黑屏但有声音？",
     "keywords": "换播放器内核（ 设置 → 播放器 → 视频播放器内核 ）。 切渲染方式（ 设置 → 播放器 → 渲染方式 ，SurfaceView 与 TextureView 互换）。 打开 设置 → 播放器 → 强制软解 。 仍黑屏：该线路的编码设备不支持，换线路。"
+  },
+  {
+    "path": "/faq",
+    "title": "常见问题",
+    "anchor": "#washed",
+    "section": "画面发白、发灰，像蒙了一层雾？",
+    "keywords": "先把 设置 → 播放器 → 渲染方式 切到 GLSurfaceView ：部分电视盒子的视频层会把有限范围画面按全范围合成，画面整体发白、黑位抬高；这一项改走应用自己的 GL 输出，可以绕开。 颜色恢复后保持该项即可；仍发白再切 TextureView 对比，两种都发白多半是片源本身偏白。 GLSurfaceView 不做 HDR 色调映射，HDR（HLG / HDR10）频道颜色异常时请留在 SurfaceView。"
   },
   {
     "path": "/faq",
