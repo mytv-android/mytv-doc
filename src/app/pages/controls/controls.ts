@@ -19,7 +19,7 @@ import { DocShot } from '../../shared/doc-shot';
       <doc-shot
         src="screenshots/app-control.png"
         alt="电视端设置 → 控制：频道列表首尾循环、跨分组切换、按键行为"
-        caption="设置 → 控制：列表首尾循环、跨分组切换等开关，以及进入「按键（手势）行为」改绑按键的子页。"
+        caption="设置 → 控制：列表首尾循环、跨分组切换等开关，以及进入「全屏滑动」「按键行为」的两个子页。"
       />
       <p>
         下表是直播界面的默认键位，均可按下一节的方法改绑。
@@ -60,20 +60,20 @@ import { DocShot } from '../../shared/doc-shot';
         屏幕上方会提示本次长按累计的位移（如「+3分钟」），松手后重新计数。
       </p>
 
-      <h2 id="remap">改键：按键（手势）行为</h2>
+      <h2 id="remap">改键：按键行为</h2>
       <p>
-        入口：<b>设置 → 控制 → 按键（手势）行为</b>。共 10 个按键 / 手势可逐项改绑，
-        方向键与同方向的滑动手势是同一项配置，改一处两边同时生效：
+        入口：<b>设置 → 控制 → 按键行为</b>。共 10 个按键可逐项改绑
+        （触屏的滑动手势不再复用这些配置，见下一节「全屏滑动」）：
       </p>
       <table>
         <thead>
-          <tr><th>按键 / 手势</th><th>默认动作</th></tr>
+          <tr><th>按键</th><th>默认动作</th></tr>
         </thead>
         <tbody>
-          <tr><td><kbd>上键</kbd> / 上滑</td><td>前一频道</td></tr>
-          <tr><td><kbd>下键</kbd> / 下滑</td><td>后一频道</td></tr>
-          <tr><td><kbd>左键</kbd> / 左滑</td><td>前一线路</td></tr>
-          <tr><td><kbd>右键</kbd> / 右滑</td><td>后一线路</td></tr>
+          <tr><td><kbd>上键</kbd></td><td>前一频道</td></tr>
+          <tr><td><kbd>下键</kbd></td><td>后一频道</td></tr>
+          <tr><td><kbd>左键</kbd></td><td>前一线路</td></tr>
+          <tr><td><kbd>右键</kbd></td><td>后一线路</td></tr>
           <tr><td><kbd>选择键</kbd></td><td>频道列表</td></tr>
           <tr><td>长按 <kbd>选择键</kbd></td><td>快捷设置</td></tr>
           <tr><td>长按 <kbd>上键</kbd></td><td>管理订阅源</td></tr>
@@ -90,6 +90,27 @@ import { DocShot } from '../../shared/doc-shot';
       <doc-callout kind="tip" title="屏蔽容易误按的键" icon="block">
         把容易误按的键（例如长按方向键）设为「无操作」，按下就不会有反应，其余键不受影响。
       </doc-callout>
+
+      <h2 id="gesture-zones">全屏滑动</h2>
+      <p>
+        入口：<b>设置 → 控制 → 全屏滑动</b>。触屏设备上，播放画面按手指<b>落点</b>分成左、中、右三个区域，
+        每个区域的竖向滑动执行各自配置的操作，横屏与手机竖屏使用同一套区域划分：
+      </p>
+      <table>
+        <thead>
+          <tr><th>区域</th><th>默认操作</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>左侧区域</td><td>亮度（上滑增亮、下滑压暗）</td></tr>
+          <tr><td>中间区域</td><td>换台（上滑下一频道、下滑上一频道）</td></tr>
+          <tr><td>右侧区域</td><td>音量（上滑增大、下滑减小）</td></tr>
+        </tbody>
+      </table>
+      <p>
+        每个区域可从「亮度 / 音量 / 换台 / 无操作」中任选，也允许选同一个操作。
+        亮度与音量随手指连续调节，画面中央显示图标与进度提示；换台一次滑动换一个频道。
+        打开「<b>反转换台方向</b>」后，换台区域的上滑与下滑方向对调。
+      </p>
 
       <h2 id="channel-switch">换台行为</h2>
       <p>
@@ -118,17 +139,16 @@ import { DocShot } from '../../shared/doc-shot';
         src="screenshots/portrait-player.png"
         [portrait]="true"
         alt="手机竖屏播放器界面与触控层"
-        caption="手机竖屏播放器：顶部 16:9 视频支持单击悬浮浮层、双击暂停、上下滑切台与左右滑 Seek；下方为正在播放卡片、线路分体按钮与频道列表。"
+        caption="手机竖屏播放器：顶部 16:9 视频支持单击悬浮浮层、双击暂停与左中右三区上/下滑；下方为正在播放卡片、线路分体按钮与频道列表。"
       />
       <table>
         <thead>
           <tr><th>区域 / 元素</th><th>触屏手势</th><th>对应操作</th></tr>
         </thead>
         <tbody>
-          <tr><td rowspan="4">16:9 视频区</td><td>单击画面</td><td>显示 / 隐藏顶部返回栏与底部悬浮控制栏（无操作自动淡出）</td></tr>
+          <tr><td rowspan="3">16:9 视频区</td><td>单击画面</td><td>显示 / 隐藏顶部返回栏与底部悬浮控制栏（无操作自动淡出）</td></tr>
           <tr><td>双击画面</td><td>快速暂停 / 恢复播放</td></tr>
-          <tr><td>垂直上下滑</td><td>切台：上滑切换至下一频道，下滑切换至上一频道</td></tr>
-          <tr><td>水平左右滑</td><td>快进 / 快退 10 秒（进度条实时显示位移）</td></tr>
+          <tr><td>左 / 中 / 右三区上滑、下滑</td><td>默认左侧调亮度、中间换台、右侧调音量，可在「设置 → 控制 → 全屏滑动」改绑</td></tr>
           <tr><td rowspan="4">悬浮控制栏</td><td>点击 <code>&lt;</code> / <code>&gt;</code></td><td>上一频道 / 下一频道</td></tr>
           <tr><td>点击 <code>▶</code> / <code>⏸</code></td><td>播放 / 暂停</td></tr>
           <tr><td>点击 <code>⛶</code></td><td>进入横屏全屏播放（或旋转手机横屏）</td></tr>
@@ -141,13 +161,15 @@ import { DocShot } from '../../shared/doc-shot';
       </table>
 
       <h3 id="touch-tv">电视横屏触控手势（触屏电视 / 平板横屏）</h3>
-      <p>在横屏触屏电视或平板横屏状态下，手势等效于遥控器键位（同样跟随「按键（手势）行为」的改绑设置）：</p>
+      <p>横屏触屏电视或平板横屏与手机竖屏使用同一套全屏三区滑动（见上节「全屏滑动」，默认左侧亮度、中间换台、右侧音量）：</p>
       <table>
         <thead>
-          <tr><th>手势</th><th>等效操作</th></tr>
+          <tr><th>手势</th><th>操作</th></tr>
         </thead>
         <tbody>
-          <tr><td>上 / 下 / 左 / 右滑动</td><td>上 / 下 / 左 / 右方向键（默认上/下换台，左/右切线路）</td></tr>
+          <tr><td>左侧区域上 / 下滑</td><td>调亮度（默认）</td></tr>
+          <tr><td>中间区域上 / 下滑</td><td>换台：一次滑动换一个频道（默认）</td></tr>
+          <tr><td>右侧区域上 / 下滑</td><td>调音量（默认）</td></tr>
           <tr><td>单击屏幕</td><td><kbd>OK</kbd> 键（默认打开经典或现代选台面板）</td></tr>
           <tr><td>长按屏幕</td><td>长按 <kbd>OK</kbd>（默认呼出快捷设置面板）</td></tr>
         </tbody>
@@ -166,6 +188,8 @@ import { DocShot } from '../../shared/doc-shot';
       <h2 id="related-settings">相关设置入口</h2>
       <ul>
         <li>换台时屏幕底部是否显示频道信息条：<b>设置 → 界面 → 换台时显示频道信息</b>，见 <a [routerLink]="'/live-screen'">直播主界面与首页</a>。</li>
+        <li>换台后到新画面出现前是否黑屏：<b>设置 → 界面 → 换台时黑屏</b>。</li>
+        <li>全屏三区滑动各区域的操作与换台方向：<b>设置 → 控制 → 全屏滑动</b>，见上文。</li>
         <li>回看时快进快退的跳转方式：<b>设置 → 播放器 → SeekTo方式</b>，见 <a [routerLink]="'/player-settings'">播放器与字幕</a>。</li>
         <li>播放控制界面把进度条换成 EPG 时间轴（左右键微调不变，按 OK 跳到节目开头 / 回到直播）：<b>设置 → 播放器 → SeekTo方式 → EPG时间轴</b>。</li>
       </ul>
