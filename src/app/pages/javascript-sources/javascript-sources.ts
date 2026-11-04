@@ -257,7 +257,7 @@ cctv1</code></pre>
           <tr>
             <td><b>调试日志</b></td>
             <td><code>console.log(...)</code> 或 <code>mytv.log(...)</code></td>
-            <td>将日志输出到应用的系统运行日志，可在网页面板「日志」页实时筛选查看。</td>
+            <td>将日志输出到应用的系统运行日志，可在网页面板「帮助与诊断」页的运行日志里实时筛选查看。</td>
           </tr>
         </tbody>
       </table>
@@ -358,7 +358,7 @@ function main(channelList) &#123;
       <h2 id="debugging">开发与调试技巧</h2>
       <ul>
         <li>
-          <b>查看打印日志</b>：在脚本中加入 <code>console.log("参数:", item.raw)</code>，然后在<a [routerLink]="'/remote-panel'">远程配置面板</a>的「日志」页面搜索 <code>JSLog</code>，即可实时观察脚本运行状态和捕获的异常信息；
+          <b>查看打印日志</b>：在脚本中加入 <code>console.log("参数:", item.raw)</code>，然后在<a [routerLink]="'/remote-panel'">远程配置面板</a>「帮助与诊断」页的运行日志里搜索 <code>JSLog</code>，即可实时观察脚本运行状态和捕获的异常信息；
         </li>
         <li>
           <b>语法兼容</b>：QuickJS 完整支持现代 ES2020 / ES2023 标准语法（包括可选链 <code>?.</code>、空值合并 <code>??</code>、解构赋值、箭头函数与 <code>Promise</code> 等）；

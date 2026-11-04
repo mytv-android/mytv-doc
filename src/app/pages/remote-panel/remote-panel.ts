@@ -28,8 +28,8 @@ import { DocShot } from '../../shared/doc-shot';
       <ul>
         <li>手机 / 电脑必须和电视在<b>同一局域网</b>。</li>
         <li>10591 被其他程序占用时会自动改用随机端口——以推送页上显示的地址为准。</li>
-        <li>面板由应用的前台服务承载（通知栏可见「远程遥控服务正在后台运行」）。开启 <b>设置 → 通用 → 开机静默自启</b> 后，设备开机即在后台提供面板，无需先打开应用；应用被清理后服务随之停止。</li>
-        <li>设置里各编辑框选「扫码编辑」弹出的二维码、设置 → 服务 →「在网页面板中配置」弹出的二维码，扫开也是这个面板。</li>
+        <li>面板由应用的前台服务承载（通知栏可见「远程遥控服务正在后台运行」）。开启 <b>设置 → 应用与系统 → 开机只启动后台服务</b>（原 通用 → 开机静默自启）后，设备开机即在后台提供面板，无需先打开应用；应用被清理后服务随之停止。</li>
+        <li>设置里各编辑框选「扫码编辑」弹出的二维码、设置 → 投屏与扩展 → 脚本服务 →「在网页面板中配置」弹出的二维码，扫开也是这个面板。</li>
       </ul>
 
       <doc-callout kind="warn" title="面板没有密码，注意使用环境" icon="warning">
@@ -43,17 +43,20 @@ import { DocShot } from '../../shared/doc-shot';
         <li><b>明暗外观</b>：右上角太阳 / 月亮图标切换，只影响面板自己，与电视端的<a [routerLink]="'/settings'">主题</a>无关。</li>
         <li>
           <b>改动即保存</b>：设置页里的开关、下拉、输入框改完立即生效推送到电视，不需要找保存按钮。
-          仅有的例外是播放器页里的「实时字幕 ASR」和「字幕翻译」两张卡片，改完要按卡片里的「保存」。
+          仅有的例外是「字幕与画质」页里的「AI 实时字幕」和「字幕翻译」两张卡片，改完要按卡片里的「保存」。
         </li>
         <li>浏览器标签页切回面板时会自动重新拉取最新配置；保存失败会提示「保存失败，请刷新页面后重试」。</li>
       </ul>
 
       <h2 id="home-cards">首页：快捷操作</h2>
-      <p>面板打开后的首页不是状态页，而是一排<b>快捷操作卡片</b>，最常用的推送都在这里：</p>
+      <p>
+        面板打开后的首页不是状态页，而是一排<b>快捷操作卡片</b>，最常用的推送都在这里。
+        卡片标题与电视端设置的新名字一致，下表括号里是改版前的旧名：
+      </p>
       <doc-shot
         src="screenshots/panel-home.png"
         alt="网页面板首页：若干快捷操作卡片"
-        caption="网页面板首页。左侧「关于应用」只读；右侧卡片从「订阅源」「自定义节目单」一路往下是「播放器全局设置」「云同步」「安装 APK」。"
+        caption="网页面板首页。左侧「关于应用」只读；右侧卡片从「订阅源」「自定义节目单」一路往下是「播放器全局设置」「云同步」「安装 APK」（旧版标题，新版依次为「订阅源」「节目单地址」「网络与代理」「云同步」「安装 APK」）。截图左边缘露出的侧边栏还是改版前的分类，新版侧边栏见下文「各设置页一览」。"
       />
       <table>
         <thead>
@@ -68,12 +71,12 @@ import { DocShot } from '../../shared/doc-shot';
               设备上的文件路径、直接从电脑选文件上传。详见<a [routerLink]="'/sources'">订阅源</a>。
             </td>
           </tr>
-          <tr><td><b>网页源央视频 Cookie</b></td><td>粘贴网页版央视频登录后的 Cookie，用于收看付费频道。</td></tr>
-          <tr><td><b>频道图标提供</b></td><td>台标图片地址模板，见<a [routerLink]="'/channels'">频道 · 收藏 · 搜索</a>。</td></tr>
+          <tr><td><b>央视频账号</b></td><td>（原「网页源央视频 Cookie」）粘贴网页版央视频登录后的 Cookie，用于收看付费频道。</td></tr>
+          <tr><td><b>台标地址</b></td><td>（原「频道图标提供」）台标图片地址模板，见<a [routerLink]="'/channels'">频道 · 收藏 · 搜索</a>。</td></tr>
           <tr><td><b>频道别名</b></td><td>编辑频道名归一化别名表（JSON），见<a [routerLink]="'/channels'">频道 · 收藏 · 搜索</a>。</td></tr>
-          <tr><td><b>自定义节目单</b></td><td>推送一条节目单（EPG）地址到电视，见<a [routerLink]="'/epg'">EPG 节目单</a>。</td></tr>
-          <tr><td><b>播放器全局设置</b></td><td>推送全局 UA 与自定义请求头，见<a [routerLink]="'/player-settings'">播放器与字幕</a>。</td></tr>
-          <tr><td><b>云同步</b></td><td>配置云同步服务商与凭据，见<a [routerLink]="'/sync'">云同步与备份</a>。</td></tr>
+          <tr><td><b>节目单地址</b></td><td>（原「自定义节目单」）推送一条节目单（EPG）地址到电视，见<a [routerLink]="'/epg'">EPG 节目单</a>。</td></tr>
+          <tr><td><b>网络与代理</b></td><td>（原「播放器全局设置」）推送「浏览器标识（UA）」与「附加请求头」，与电视端 网络与代理 → 高级设置 里的同名两项相同，见<a [routerLink]="'/player-settings'" fragment="network">播放器与字幕</a>。</td></tr>
+          <tr><td><b>云同步</b></td><td>选择「存到哪里」（原「服务商」）并填写凭据，与电视端 备份与同步 → 云同步 相同，见<a [routerLink]="'/sync'">云同步与备份</a>。</td></tr>
           <tr>
             <td><b>安装 APK</b></td>
             <td>选择电脑上的 APK 上传到电视，电视端弹窗确认后即开始安装——给电视装 / 升级应用最方便的方式。</td>
@@ -84,60 +87,66 @@ import { DocShot } from '../../shared/doc-shot';
       <h2 id="pages">各设置页一览</h2>
       <doc-shot
         src="screenshots/panel-ui.png"
-        alt="网页面板界面页"
-        caption="面板的设置页都是这个样式：一行一项，开关直接拨，改完即保存——以「界面」页为例。"
+        alt="旧版网页面板界面页"
+        caption="旧版面板截图（改版前的「界面」页）。新版设置页按小节分成一张张卡片，出问题才用的项收在页底的「高级设置」卡片里；一行一项、开关直接拨、改完即保存的用法不变。"
       />
-      <p>侧边栏的其余页面与电视端「设置」里的分类一一对应，细节在手册的对应章节，这里只列面板特有的操作：</p>
+      <p>
+        侧边栏最上面是「首页」，下面按电视端设置的 4 组列出 11 个设置页，组名作为小标题，「文件」排在「系统」组最后。
+        每页的小节和条目名与电视端一致，细节在手册的对应章节，这里只列面板上的差异和特有操作。
+        旧地址（如 <code>/sources</code>、<code>/epg</code>、<code>/ui</code>、<code>/general</code>）的书签会自动跳到新页。
+      </p>
       <table>
         <thead>
-          <tr><th>面板页</th><th>对应手册</th><th>面板特有的能力</th></tr>
+          <tr><th>组</th><th>面板页（地址）</th><th>对应手册</th><th>和电视端的差异 / 面板特有的能力</th></tr>
         </thead>
         <tbody>
-          <tr><td>通用</td><td><a [routerLink]="'/settings'">设置项总览</a></td><td>—</td></tr>
-          <tr><td>订阅源</td><td><a [routerLink]="'/sources'">订阅源</a></td><td>从电脑 / 手机选文件上传成源、在线读写文件源内容</td></tr>
-          <tr><td>服务</td><td><a [routerLink]="'/python-services'">服务（Python / PHP）</a></td><td>选择脚本文件上传、检查代码、运行自检</td></tr>
-          <tr><td>节目单</td><td><a [routerLink]="'/epg'">EPG 节目单</a></td><td>—</td></tr>
-          <tr><td>界面</td><td><a [routerLink]="'/live-screen'">直播主界面</a></td><td>—</td></tr>
-          <tr><td>主题</td><td><a [routerLink]="'/settings'">设置项总览</a></td><td>—</td></tr>
-          <tr><td>控制</td><td><a [routerLink]="'/controls'">遥控器与触屏</a></td><td>—（见下方说明）</td></tr>
-          <tr><td>播放器</td><td><a [routerLink]="'/player-settings'">播放器与字幕</a></td><td>—</td></tr>
-          <tr><td>WebView</td><td><a [routerLink]="'/webview-player'">WebView 播放器</a></td><td>—</td></tr>
-          <tr><td>网络</td><td><a [routerLink]="'/settings'">设置项总览</a></td><td>—</td></tr>
-          <tr><td>更新</td><td><a [routerLink]="'/build'">下载与更新</a></td><td>—（注意：不能在这里推 APK）</td></tr>
-          <tr><td>云同步</td><td><a [routerLink]="'/sync'">云同步与备份</a></td><td>导入 / 导出 JSON</td></tr>
+          <tr><td rowspan="4">观看</td><td>订阅源与节目单（<code>/source</code>）</td><td><a [routerLink]="'/sources'">订阅源</a>、<a [routerLink]="'/epg'">EPG 节目单</a></td><td>订阅源列表直接在页内增删、排序；从电脑 / 手机选文件上传成源、在线读写文件源内容；「节目单地址」旁的「管理」打开节目单管理窗口（拖动排序、更新）。原「订阅源」「节目单」两页合并到这里</td></tr>
+          <tr><td>播放（<code>/player</code>）</td><td><a [routerLink]="'/player-settings'">播放器与字幕</a>、<a [routerLink]="'/webview-player'">WebView 播放器</a></td><td>「网页源」小节直接列出 WebView 的各项设置（原「WebView」页），清除 WebView 缓存只能在设备上做</td></tr>
+          <tr><td>字幕与画质（<code>/enhance</code>）</td><td><a [routerLink]="'/player-settings'">播放器与字幕</a>、<a [routerLink]="'/translation'">字幕翻译教程</a></td><td>AI 实时字幕、字幕翻译两张卡片各自要按「保存」；字幕样式面板上没有，只能在设备上改</td></tr>
+          <tr><td>选台与频道列表（<code>/channels</code>）</td><td><a [routerLink]="'/live-screen'">直播主界面</a></td><td>原「界面」页的选台、台标、预览等项</td></tr>
+          <tr><td rowspan="2">个性化</td><td>外观（<code>/look</code>）</td><td><a [routerLink]="'/settings'" fragment="look">设置项总览</a></td><td>含自定义主题；没有「语言」，面板自己的语言用右上角地球图标切换</td></tr>
+          <tr><td>遥控与手势（<code>/control</code>）</td><td><a [routerLink]="'/controls'">遥控器与触屏</a></td><td>遥控器按键、长按、全屏手势各小节全部显示，并标明适用于遥控器还是触屏（见下方说明）</td></tr>
+          <tr><td rowspan="3">连接与数据</td><td>投屏与扩展（<code>/cast</code>）</td><td><a [routerLink]="'/python-services'">服务（Python / PHP）</a></td><td>「接收投屏」开关；「脚本服务」卡片里就是原「服务」页：下载运行环境、运行自检、选择脚本文件上传、检查代码。设备名称与组件下载只能在设备上操作</td></tr>
+          <tr><td>网络与代理（<code>/network</code>）</td><td><a [routerLink]="'/settings'" fragment="network">设置项总览</a></td><td>原「网络」页，加上从「播放器」搬来的代理、UA、请求头、DNS</td></tr>
+          <tr><td>备份与同步（<code>/sync</code>）</td><td><a [routerLink]="'/sync'">云同步与备份</a></td><td>云同步凭据改动即保存（面板上没有上传按钮，上传、恢复在设备上做）；导出 / 导入应用数据（JSON）；「本机备份」里就是原「备份管理」页</td></tr>
+          <tr><td rowspan="3">系统</td><td>应用与系统（<code>/app</code>）</td><td><a [routerLink]="'/settings'" fragment="app">设置项总览</a></td><td>开机、更新渠道、缓存放到外部存储；清除缓存、权限、恢复初始设置只能在设备上做（见下方说明）</td></tr>
+          <tr><td>帮助与诊断（<code>/debug</code>）</td><td><a [routerLink]="'/settings'" fragment="debug">设置项总览</a></td><td>导出 logcat、内嵌运行日志（原「日志」「调试」两页）</td></tr>
+          <tr><td>文件（<code>/file</code>）</td><td>本页下文</td><td>管理电视上的文件</td></tr>
         </tbody>
       </table>
 
-      <h3 id="control-page">「控制」页不是遥控器模拟器</h3>
+      <h3 id="control-page">「遥控与手势」页不是遥控器模拟器</h3>
       <p>
-        面板的「控制」页用来<b>修改电视遥控器的按键行为</b>（每个方向键、确认键、长按分别触发什么），
+        面板的「遥控与手势」页（原「控制」页）用来<b>修改电视遥控器的按键行为与触屏手势</b>（每个方向键、确认键、长按、各区域滑动分别触发什么），
         不是用手机当遥控器。按键映射的说明见<a [routerLink]="'/controls'">遥控器与触屏</a>。
       </p>
 
-      <h3 id="update-page">「更新」页不能推 APK</h3>
+      <h3 id="update-page">「应用与系统」页不能推 APK</h3>
       <p>
-        「更新」页只改更新策略（稳定 / 预览 / 开发通道、强提醒）。想把 APK 文件推到电视安装，用面板<b>首页</b>的「安装 APK」卡片，
+        原「更新」页并入了「应用与系统」页，这里只改更新策略（更新渠道：正式版 / 测试版 / 开发版，以及有新版本时弹窗提醒）。想把 APK 文件推到电视安装，用面板<b>首页</b>的「安装 APK」卡片，
         详见<a [routerLink]="'/build'">下载与更新</a>。
       </p>
 
       <h2 id="file">文件页：管理电视上的文件</h2>
       <ul>
         <li>浏览电视端应用专属目录（文件目录 / 缓存目录），支持新建文件夹、上传、重命名、删除，点目录名进入、面包屑返回。</li>
-        <li>点某个文件的<b>使用</b>按钮，会把它的路径带回首页的订阅源表单（自动切为「文件」类型），推送即成源；给「服务」页添加本地脚本时同样用它拿路径。</li>
+        <li>点某个文件的<b>使用</b>按钮，会把它的路径带回首页的订阅源表单（自动切为「文件」类型），推送即成源；在「投屏与扩展」页的脚本服务里添加本地脚本时同样用它拿路径。</li>
         <li>典型用途：上传本地 m3u 订阅、上传 Python / PHP 脚本、清理缓存目录。</li>
       </ul>
 
-      <h2 id="backup">备份管理页：电视端本地快照</h2>
+      <h2 id="backup">本机备份：电视端本地快照</h2>
       <p>
-        「备份管理」把电视上的全部设置与数据打成一个本地快照，可创建、恢复、删除；
-        恢复会覆盖当前数据且需要重启应用才完全生效。电视端 设置 → 通用 → 备份管理 管理的是同一批快照。它和「云同步」是两回事（快照只存在这台电视上），区别与用法见
+        「备份与同步」页的「本机备份」（原「备份管理」页）把电视上的全部设置与数据打成一个本地快照，可创建、恢复、删除；
+        恢复会覆盖当前数据且需要重启应用才完全生效。电视端 设置 → 备份与同步 → 本机备份 管理的是同一批快照。它和「云同步」是两回事（快照只存在这台电视上），区别与用法见
         <a [routerLink]="'/sync'">云同步与备份</a>。
       </p>
 
-      <h2 id="log-debug">日志与调试页</h2>
+      <h2 id="log-debug">帮助与诊断页：日志与调试</h2>
+      <p>原来的「日志」「调试」两页合并成了「帮助与诊断」页：</p>
       <ul>
-        <li><b>日志</b>：按时间倒序查看应用日志，可按级别（INFO / WARN / ERROR / DEBUG）筛选与分页，提交问题时从这里找线索。</li>
-        <li><b>调试</b>：开关「显示性能信息 / 显示播放器信息 / 显示布局网格」，以及<b>导出 logcat</b>（下载电视的系统日志文件）。</li>
+        <li><b>排查播放问题</b>：「在画面上显示播放信息」开关、<b>导出 logcat</b>（下载电视的系统日志文件），以及内嵌的<b>运行日志</b>——按时间倒序查看应用日志，可按级别（INFO / WARN / ERROR / DEBUG）筛选与分页，提交问题时从这里找线索；</li>
+        <li><b>流畅度</b>：「显示性能信息」「返回时回到原来的位置」开关；</li>
+        <li><b>高级设置</b>：「显示布局网格」。</li>
       </ul>
 
       <h2 id="panel-only">网页面板专属能力</h2>

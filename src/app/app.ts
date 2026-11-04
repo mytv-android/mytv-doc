@@ -32,20 +32,20 @@ export const NAV_ENTRIES: NavEntry[] = [
   { path: '/faq', label: '常见问题', icon: 'help', group: '使用' },
   { path: '/build', label: '下载与更新', icon: 'download', group: '使用' },
 
-  { path: '/channels', label: '频道 · 收藏 · 搜索', icon: 'list', group: '功能' },
-  { path: '/multiview', label: '多屏同播', icon: 'grid_view', group: '功能' },
   { path: '/sources', label: '订阅源（IPTV）', icon: 'rss_feed', group: '功能' },
   { path: '/javascript-sources', label: 'JavaScript 脚本源', icon: 'code', group: '功能' },
   { path: '/epg', label: 'EPG 节目单', icon: 'calendar_month', group: '功能' },
   { path: '/rtp2httpd', label: '配合 rtp2httpd', icon: 'router', group: '功能' },
   { path: '/webview-player', label: 'WebView 播放器', icon: 'web', group: '功能' },
-  { path: '/remote-panel', label: '远程配置面板', icon: 'settings_remote', group: '功能' },
-  { path: '/python-services', label: '服务（Python / PHP）', icon: 'terminal', group: '功能' },
   { path: '/translation', label: '字幕翻译教程', icon: 'translate', group: '功能' },
+  { path: '/channels', label: '频道 · 收藏 · 搜索', icon: 'list', group: '功能' },
+  { path: '/multiview', label: '多屏同播', icon: 'grid_view', group: '功能' },
+  { path: '/python-services', label: '服务（Python / PHP）', icon: 'terminal', group: '功能' },
   { path: '/sync', label: '云同步与备份', icon: 'cloud_sync', group: '功能' },
+  { path: '/remote-panel', label: '远程配置面板', icon: 'settings_remote', group: '功能' },
 
-  { path: '/player-settings', label: '播放器与字幕', icon: 'tune', group: '设置' },
   { path: '/settings', label: '设置项总览', icon: 'settings', group: '设置' },
+  { path: '/player-settings', label: '播放器与字幕', icon: 'tune', group: '设置' },
 ];
 
 @Component({
