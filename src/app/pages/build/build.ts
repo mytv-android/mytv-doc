@@ -52,9 +52,9 @@ import { DocCallout } from '../../shared/doc-callout';
           <tr><th>渠道</th><th>说明</th></tr>
         </thead>
         <tbody>
-          <tr><td><b>正式版</b>（默认，原「稳定版本」）</td><td>问题最少，推荐日常使用。</td></tr>
-          <tr><td><b>测试版</b>（原「预览版本」）</td><td>提前体验新功能，可能有少量问题。</td></tr>
-          <tr><td><b>开发版</b>（原「开发版本」）</td><td>最新改动，可能不稳定。</td></tr>
+          <tr><td><b>稳定版本</b>（默认）</td><td>问题最少，推荐日常使用。</td></tr>
+          <tr><td><b>预览版本</b></td><td>提前体验新功能，可能有少量问题。</td></tr>
+          <tr><td><b>开发版本</b></td><td>最新改动，可能不稳定。</td></tr>
         </tbody>
       </table>
       <p>
