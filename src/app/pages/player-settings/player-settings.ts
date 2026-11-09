@@ -31,7 +31,7 @@ import { DocShot } from '../../shared/doc-shot';
         caption="旧版界面截图（改版前的「设置 → 播放器」页）。新版「播放」页第一项就是「播放内核」，解码与渲染相关项收在页底「高级设置」。"
       />
       <p>
-        <b>设置 → 播放 → 播放内核</b>（原 视频播放器内核）是一排 Media3 / IJK / VLC 按钮，标着「推荐 Media3」；
+        <b>设置 → 播放 → 播放内核</b>（原 视频播放器内核）是一排 Media3 / IJK / VLC / FSPlayer 按钮，标着「推荐 Media3」；
         电视上焦点停在这一行按左右键切换，触屏直接点选。这里改的是全局默认内核，播放中也可以在快捷设置面板里临时切换。
       </p>
       <table>
@@ -50,6 +50,13 @@ import { DocShot } from '../../shared/doc-shot';
           <tr>
             <td><b>VLC</b></td>
             <td>支持更多的字幕格式。<b>需先在组件下载中安装 VLC播放组件</b>。</td>
+          </tr>
+          <tr>
+            <td><b>FSPlayer</b></td>
+            <td>
+              基于 FFmpeg 8，支持 4K/HDR 与 ASS 特效字幕。<b>需先在组件下载中安装 FSPlayer播放组件</b>。
+              字幕由内核直接渲染进画面，不跟随 App 的字幕样式与译文；需要 OpenGL ES 3（老盒子如 Mali-450/400 仅支持 ES2，无法出画），且目前只提供 arm64-v8a / armeabi-v7a。
+            </td>
           </tr>
         </tbody>
       </table>
@@ -72,7 +79,7 @@ import { DocShot } from '../../shared/doc-shot';
           <tr><th>组件</th><th>用途</th></tr>
         </thead>
         <tbody>
-          <tr><td>VLC播放组件 / IJK播放组件</td><td>VLC / IJK 播放内核</td></tr>
+          <tr><td>VLC播放组件 / IJK播放组件 / FSPlayer播放组件</td><td>VLC / IJK / FSPlayer 播放内核</td></tr>
           <tr><td>语音识别组件（原 语音识别运行库（sherpa-onnx））</td><td>AI 实时字幕的识别引擎</td></tr>
           <tr>
             <td>语音识别模型</td>
@@ -142,7 +149,7 @@ import { DocShot } from '../../shared/doc-shot';
               先攒一段再开始播：越长越不容易卡，换台也越慢。默认 0，显示为「不缓冲（换台最快）」。
               按 OK 弹出的面板上方是三档预设：<b>换台最快</b>（0 秒）/ <b>均衡</b>（2 秒）/ <b>不易卡顿</b>（10 秒）；
               下面一根滑块，0～10 秒每档 1 秒，再往上是 15 / 20 / 25 / 30 / 45 / 60 秒；底部有「恢复默认」「完成」。
-              <b>三种内核都按秒设置</b>：IJK 内核按每秒 30 帧自动换算成帧数（10 秒 = 300 帧），不用再自己算帧数。
+              <b>各内核都按秒设置</b>：IJK / FSPlayer 按每秒 30 帧自动换算成帧数（10 秒 = 300 帧），不用再自己算帧数。
               经常卡顿可选「均衡」或调到 3～5 秒。
             </td>
           </tr>
@@ -212,7 +219,7 @@ import { DocShot } from '../../shared/doc-shot';
           <tr>
             <td>使用软件解码（原 强制软解）</td>
             <td>
-              开 / 关（默认）。Media3 使用设备和扩展软解码器；IJK / VLC 禁用 MediaCodec、改用 FFmpeg。
+              开 / 关（默认）。Media3 使用设备和扩展软解码器；IJK / VLC / FSPlayer 禁用 MediaCodec、改用 FFmpeg。
               硬解异常（花屏、绿屏、播不了）时的排查手段，会增加 CPU 占用与功耗。
             </td>
           </tr>
@@ -221,7 +228,7 @@ import { DocShot } from '../../shared/doc-shot';
             <td>
               开 / 关（默认），<b>仅 Media3</b>：开启后软件解码只作用于音频，视频仍硬解。
               适合有画面没声音、杂音、音画不同步但视频正常的设备。
-              IJK / VLC 的音频始终用 FFmpeg 解码，无需此开关。
+              IJK / VLC / FSPlayer 的音频始终用 FFmpeg 解码，无需此开关。
             </td>
           </tr>
           <tr>
@@ -235,13 +242,13 @@ import { DocShot } from '../../shared/doc-shot';
             <td>优先选 AAC 音轨（原 AAC 优先）</td>
             <td>
               开 / 关（默认）。多音轨时优先选择兼容性更好的 AAC。<b>Media3、IJK 生效</b>；
-              VLC 的轨道信息不带编码，无法判断，保持播放器默认选择。
+              VLC 的轨道信息不带编码，无法判断，保持播放器默认选择；FSPlayer 同样保持播放器默认选择。
               手动选过音轨的频道以记忆为准，本项不覆盖。
             </td>
           </tr>
           <tr>
             <td>更仔细地识别视频格式（原 更好的视频探测）</td>
-            <td>开（默认）/ 关。更准确地探测视频格式（对三种内核分别启用不同优化），个别频道打不开或花屏时有用，但起播会慢一点。</td>
+            <td>开（默认）/ 关。更准确地探测视频格式（对各内核分别启用不同优化），个别频道打不开或花屏时有用，但起播会慢一点。</td>
           </tr>
           <tr>
             <td>换台前先停止上一个频道（原 停止上一媒体项）</td>
