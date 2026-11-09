@@ -55,7 +55,7 @@ import { DocShot } from '../../shared/doc-shot';
             <td><b>FSPlayer</b></td>
             <td>
               基于 FFmpeg 8，支持 4K/HDR 与 ASS 特效字幕。<b>需先在组件下载中安装 FSPlayer播放组件</b>。
-              字幕由内核直接渲染进画面，不跟随 App 的字幕样式与译文；需要 OpenGL ES 3（老盒子如 Mali-450/400 仅支持 ES2，无法出画），且目前只提供 arm64-v8a / armeabi-v7a。
+              字幕由内核直接渲染进画面，不跟随 App 的字幕样式与译文；需要 OpenGL ES 3（老盒子如 Mali-450/400 仅支持 ES2，无法出画）；四种 ABI（arm64-v8a / armeabi-v7a / x86 / x86_64）都有组件，模拟器也能用。
             </td>
           </tr>
         </tbody>

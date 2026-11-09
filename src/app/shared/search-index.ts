@@ -1075,7 +1075,7 @@ export const SEARCH_INDEX: SearchIndexEntry[] = [
     "title": "播放器与字幕设置",
     "anchor": "#core",
     "section": "播放内核与组件下载",
-    "keywords": "设置 → 播放 → 播放内核 （原 视频播放器内核）是一排 Media3 / IJK / VLC / FSPlayer 按钮，标着「推荐 Media3」； 电视上焦点停在这一行按左右键切换，触屏直接点选。这里改的是全局默认内核，播放中也可以在快捷设置面板里临时切换。 内核 说明 Media3 （默认） 除 RTSP 单播以外基本支持全部功能，随 App 内置、无需下载。绝大多数情况用它。 IJK 基于 FFmpeg。部分视频（如加密的 DASH）可能无法正常使用。 需先在组件下载中安装 IJK播放组件 。 VLC 支持更多的字幕格式。 需先在组件下载中安装 VLC播放组件 。 FSPlayer 基于 FFmpeg 8，支持 4K/HDR 与 ASS 特效字幕。 需先在组件下载中安装 FSPlayer播放组件 。 字幕由内核直接渲染进画面，不跟随 App 的字幕样式与译文；需要 OpenGL ES 3（老盒子如 Mali-450/400 仅支持 ES2，无法出画），且目前只提供 arm64-v8a / armeabi-v7a。 还没下载的内核，说明会显示「未下载，请先到「组件下载」中下载"
+    "keywords": "设置 → 播放 → 播放内核 （原 视频播放器内核）是一排 Media3 / IJK / VLC / FSPlayer 按钮，标着「推荐 Media3」； 电视上焦点停在这一行按左右键切换，触屏直接点选。这里改的是全局默认内核，播放中也可以在快捷设置面板里临时切换。 内核 说明 Media3 （默认） 除 RTSP 单播以外基本支持全部功能，随 App 内置、无需下载。绝大多数情况用它。 IJK 基于 FFmpeg。部分视频（如加密的 DASH）可能无法正常使用。 需先在组件下载中安装 IJK播放组件 。 VLC 支持更多的字幕格式。 需先在组件下载中安装 VLC播放组件 。 FSPlayer 基于 FFmpeg 8，支持 4K/HDR 与 ASS 特效字幕。 需先在组件下载中安装 FSPlayer播放组件 。 字幕由内核直接渲染进画面，不跟随 App 的字幕样式与译文；需要 OpenGL ES 3（老盒子如 Mali-450/400 仅支持 ES2，无法出画）；四种 ABI（arm64-v8a / armeabi-v7a / x86 / x86 64）都有组件，模拟器也能用。 还没下"
   },
   {
     "path": "/player-settings",
