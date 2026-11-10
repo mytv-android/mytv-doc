@@ -31,7 +31,7 @@ import { DocShot } from '../../shared/doc-shot';
         caption="旧版界面截图（改版前的「设置 → 播放器」页）。新版「播放」页第一项就是「播放内核」，解码与渲染相关项收在页底「高级设置」。"
       />
       <p>
-        <b>设置 → 播放 → 播放内核</b>（原 视频播放器内核）是一排 Media3 / IJK / VLC / FSPlayer 按钮，标着「推荐 Media3」；
+        <b>设置 → 播放 → 播放内核</b>（原 视频播放器内核）是一排 Media3 / IJK / VLC / FSPlayer / MPV 按钮，标着「推荐 Media3」；
         电视上焦点停在这一行按左右键切换，触屏直接点选。这里改的是全局默认内核，播放中也可以在快捷设置面板里临时切换。
       </p>
       <table>
@@ -58,6 +58,14 @@ import { DocShot } from '../../shared/doc-shot';
               字幕由内核直接渲染进画面，不跟随 App 的字幕样式与译文；需要 OpenGL ES 3（老盒子如 Mali-450/400 仅支持 ES2，无法出画）；四种 ABI（arm64-v8a / armeabi-v7a / x86 / x86_64）都有组件，模拟器也能用。
             </td>
           </tr>
+          <tr>
+            <td><b>MPV</b></td>
+            <td>
+              基于 libmpv（mpv 0.41）与 FFmpeg 8.1，支持 AVS3 视频、AV3A（菁彩声）音频与多声道（按设备实际声道下混到 7.1 / 5.1 / 立体声）；
+              字幕由内核原生渲染。<b>需先在组件下载中安装 MPV播放组件</b>。四种 ABI 都有组件。
+              实时字幕与领先字幕通过旁路解码同源音频实现，直播同步精度不如带原生 PCM 通道的内核；同一时刻只支持一个 MPV 播放器，多屏同播时请改用其它内核。
+            </td>
+          </tr>
         </tbody>
       </table>
       <p>还没下载的内核，说明会显示「未下载，请先到「组件下载」中下载」。</p>
@@ -79,7 +87,7 @@ import { DocShot } from '../../shared/doc-shot';
           <tr><th>组件</th><th>用途</th></tr>
         </thead>
         <tbody>
-          <tr><td>VLC播放组件 / IJK播放组件 / FSPlayer播放组件</td><td>VLC / IJK / FSPlayer 播放内核</td></tr>
+          <tr><td>VLC播放组件 / IJK播放组件 / FSPlayer播放组件 / MPV播放组件</td><td>VLC / IJK / FSPlayer / MPV 播放内核</td></tr>
           <tr><td>语音识别组件（原 语音识别运行库（sherpa-onnx））</td><td>AI 实时字幕的识别引擎</td></tr>
           <tr>
             <td>语音识别模型</td>
@@ -149,7 +157,7 @@ import { DocShot } from '../../shared/doc-shot';
               先攒一段再开始播：越长越不容易卡，换台也越慢。默认 0，显示为「不缓冲（换台最快）」。
               按 OK 弹出的面板上方是三档预设：<b>换台最快</b>（0 秒）/ <b>均衡</b>（2 秒）/ <b>不易卡顿</b>（10 秒）；
               下面一根滑块，0～10 秒每档 1 秒，再往上是 15 / 20 / 25 / 30 / 45 / 60 秒；底部有「恢复默认」「完成」。
-              <b>各内核都按秒设置</b>：IJK / FSPlayer 按每秒 30 帧自动换算成帧数（10 秒 = 300 帧），不用再自己算帧数。
+              <b>各内核都按秒设置</b>：IJK / FSPlayer 按每秒 30 帧自动换算成帧数（10 秒 = 300 帧），MPV 换算成 demuxer 预读秒数与体积上限，不用再自己算帧数。
               经常卡顿可选「均衡」或调到 3～5 秒。
             </td>
           </tr>
@@ -219,7 +227,7 @@ import { DocShot } from '../../shared/doc-shot';
           <tr>
             <td>使用软件解码（原 强制软解）</td>
             <td>
-              开 / 关（默认）。Media3 使用设备和扩展软解码器；IJK / VLC / FSPlayer 禁用 MediaCodec、改用 FFmpeg。
+              开 / 关（默认）。Media3 使用设备和扩展软解码器；IJK / VLC / FSPlayer / MPV 禁用 MediaCodec、改用 FFmpeg。
               硬解异常（花屏、绿屏、播不了）时的排查手段，会增加 CPU 占用与功耗。
             </td>
           </tr>
@@ -228,7 +236,7 @@ import { DocShot } from '../../shared/doc-shot';
             <td>
               开 / 关（默认），<b>仅 Media3</b>：开启后软件解码只作用于音频，视频仍硬解。
               适合有画面没声音、杂音、音画不同步但视频正常的设备。
-              IJK / VLC / FSPlayer 的音频始终用 FFmpeg 解码，无需此开关。
+              IJK / VLC / FSPlayer / MPV 的音频始终用 FFmpeg 解码，无需此开关。
             </td>
           </tr>
           <tr>
@@ -418,6 +426,8 @@ import { DocShot } from '../../shared/doc-shot';
           <li><b>IJK / FSPlayer</b>：在内核里把音频包复制一份单独解码，HLS、HTTP-TS/FLV、组播、RTSP、RTMP 等协议都能用，
             需要 IJK 播放组件 0.9.4 / FSPlayer 播放组件 1.1.3-asr；8 秒内拿不到音频（例如 AV3A 音轨）时自动回退。</li>
           <li><b>VLC</b>：仅点播可用；直播拿不到正在播放的声音来对时，不开领先，回退为标准模式。</li>
+          <li><b>MPV</b>：与 VLC 相同，用 Media3 旁路解码同源音频；http(s) 源（HLS / TS / FLV 等）尽量启用，
+            直播没有可见 PCM 对时，字幕与画面可能有轻微偏移，不支持时自动回退为无字幕。</li>
         </ul>
       </doc-callout>
 
