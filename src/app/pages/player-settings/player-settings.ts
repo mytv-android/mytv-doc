@@ -609,8 +609,8 @@ import { DocShot } from '../../shared/doc-shot';
             <td>自定义滤镜表达式</td>
             <td>
               仅「滤镜」选「自定义」时出现，按 mpv 的 <code>vf</code> 语法填写，例如
-              <code>lavfi=eq=saturation=1.2</code> 或 <code>lavfi=hqdn3d=4:3:6:4</code>；
-              留空表示不启用。表达式写错不影响播放，滤镜会被播放器忽略。
+              <code>lavfi=[eq=saturation=1.2]</code> 或 <code>lavfi=[hqdn3d=4:3:6:4]</code>；
+              滤镜参数里的冒号、逗号要用方括号包住，留空表示不启用。表达式写错不影响播放，滤镜会被播放器忽略。
             </td>
           </tr>
         </tbody>
