@@ -70,7 +70,7 @@ import { DocCallout } from '../../shared/doc-callout';
         <li>在面板首页的「订阅源」卡片填名称和链接，点「推送订阅源」。</li>
       </ol>
       <p>
-        面板支持远程链接（含 FTP / SMB / WebDAV）、Xtream Codes、Stalker Portal、本地文件上传等类型，
+        面板支持远程链接（含 FTP / SMB / WebDAV）、Xtream Codes、Stalker Portal、电视端本地文件选择、本地文件上传等类型，
         详见 <a [routerLink]="'/sources'">订阅源</a>。
       </p>
 

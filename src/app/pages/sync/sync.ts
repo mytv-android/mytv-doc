@@ -148,8 +148,9 @@ import { DocShot } from '../../shared/doc-shot';
       <h3 id="local-file">本地文件</h3>
       <ul>
         <li>默认路径 <code>file:///storage/emulated/0/Download/</code>（电视的「下载」目录），同步数据保存为其中的 <code>all_configs.json</code>。</li>
+        <li>路径可手输，也可点路径旁的<b>文件夹按钮</b>选择已有的 JSON 文件或「当前目录」；选择目录时由应用处理路径末尾并仍使用 <code>all_configs.json</code>，带点目录也能正确识别。选择只回填设备路径，不上传或复制文件；电视端设置搜索里的本地云同步路径也可这样选择。</li>
         <li>路径可改到 U 盘等外部存储目录；把生成的 all_configs.json 拷到其他电视，即可离线迁移。</li>
-        <li>需要先在 设置 → 应用与系统 → 权限 授予「读取外部存储/管理全部文件」。</li>
+        <li>需要先在 设置 → 应用与系统 → 权限 授予「读取外部存储/管理全部文件」；有权限时可浏览内部共享存储、SD 卡、U 盘，无权限时只显示应用文件 / 缓存目录，并提示去电视端设置授权。</li>
       </ul>
 
       <h3 id="network-url">网络链接</h3>
