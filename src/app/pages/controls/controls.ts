@@ -18,8 +18,8 @@ import { DocShot } from '../../shared/doc-shot';
       <h2 id="default-keys">直播界面默认键位</h2>
       <doc-shot
         src="screenshots/app-control.png"
-        alt="旧版电视端设置 → 控制页"
-        caption="旧版界面截图（改版前的「设置 → 控制」页）。新版是「设置 → 遥控与手势」，换台开关、遥控器按键、长按和全屏手势直接列在这一页，见下文。"
+        alt="电视端设置 → 遥控与手势"
+        caption="「设置 → 遥控与手势」。换台开关、遥控器按键、长按和全屏手势都列在这一页。"
       />
       <p>
         下表是直播界面的默认键位，均可按下一节的方法改绑。

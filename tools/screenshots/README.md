@@ -65,8 +65,14 @@ $ADB exec-out screencap -p > /tmp/app-raw/00-launch.png
 
 ### 界面语言
 
-模拟器系统语言默认是英文，而 App 的语言是**应用内设置**（设置 → 通用 → 语言 → 中文），
+模拟器系统语言默认是英文，而 App 的语言是**应用内设置**（设置 → 外观 → 语言 → 中文），
 跟系统语言无关。截图前先改成中文，否则一半字符串是英文（只有翻过的才显示中文）。
+
+改语言有两个坑：
+
+- **只改系统语言不够**，App 不跟随系统语言，必须在应用内改；
+- **应用内改完不重进不生效**的说法不成立，但模拟器的 `settings put system system_locales`
+  要重启框架才认——设完 `adb reboot` 一次最稳，不然日期、时间格式还是英文。
 
 ### 导航方式
 
@@ -128,8 +134,11 @@ python tools/screenshots/crop-mark.py app /tmp/app-raw public/screenshots
 
 ## 手机竖屏
 
-采集方式同上，只是 AVD 换成 `Phone_Portrait_Test`（x86_64，1080×2400），
-操作用 `input tap`（触屏，坐标按 1080×2400）。界面语言同样在 设置 → 通用 → 语言 里改。
+采集方式同上，只是 AVD 换成 1080×2400 的竖屏 AVD（x86_64），
+操作用 `input tap`（触屏，坐标按 1080×2400）。界面语言同样在 设置 → 外观 → 语言 里改。
+
+竖屏这版首页的磁贴、设置分类都响应 `input tap`，不必用遥控器按键；
+弹窗和底部抽屉用 `uiautomator dump` 找到节点再点，比按坐标稳。
 
 ```bash
 python tools/screenshots/crop-portrait.py /tmp/portrait-raw public/screenshots

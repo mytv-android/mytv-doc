@@ -30,8 +30,8 @@ import { DocShot } from '../../shared/doc-shot';
       <h3 id="settings-tv">电视与横屏</h3>
       <doc-shot
         src="screenshots/app-settings.png"
-        alt="旧版电视端设置首页：16 个分类图标"
-        caption="旧版界面截图（改版前的 16 个分类磁贴首页）。新版打开设置就是左侧分类导航 + 右侧设置列表，见下文说明。"
+        alt="电视端设置：左侧分类导航 + 右侧设置列表"
+        caption="电视（以及横屏使用的手机、平板）打开设置就是左侧分类导航 + 右侧设置列表，默认停在「订阅源与节目单」。"
       />
       <p>电视（以及横屏使用的手机、平板）打开设置后，左边是一列<b>分类导航</b>，右边是所选分类的设置列表：</p>
       <ul>
@@ -45,8 +45,8 @@ import { DocShot } from '../../shared/doc-shot';
       <h3 id="settings-portrait">手机竖屏</h3>
       <doc-shot
         src="screenshots/portrait-pair-settings.png"
-        alt="旧版手机竖屏设置：三段式分类卡片与屏幕方向弹窗"
-        caption="旧版界面截图（改版前的「常用 / 播放 / 系统」三段式卡片）。新版竖屏设置首页的结构见下文说明。"
+        alt="手机竖屏设置：分类列表与外观页的屏幕方向"
+        caption="手机竖屏的设置首页与「外观」页：左为设置分类列表，右为外观页里的「屏幕方向」。"
       />
       <p>手机竖屏的设置首页从上到下是：</p>
       <ul>
@@ -268,7 +268,7 @@ import { DocShot } from '../../shared/doc-shot';
       <doc-shot
         src="screenshots/app-components.png"
         alt="电视端组件下载页：Python 运行环境、PHP 运行环境、语音识别组件等"
-        caption="组件下载页（旧版截图，页头路径与部分名称已变，操作方式相同）。每行右侧显示状态（未下载 / 下载中 / 已安装…），按 OK 下载，长按 OK 删除。"
+        caption="组件下载页。每行右侧显示状态（未下载 / 下载中 / 已安装…），按 OK 下载，长按 OK 删除。"
       />
       <p>
         <b>设置 → 投屏与扩展 → 组件下载</b> 统一管理所有需要在线下载的组件。每行显示名称、用途和状态

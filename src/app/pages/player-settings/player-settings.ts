@@ -27,8 +27,8 @@ import { DocShot } from '../../shared/doc-shot';
       <h2 id="core">播放内核与组件下载</h2>
       <doc-shot
         src="screenshots/app-player-top.png"
-        alt="旧版电视端设置 → 播放器页"
-        caption="旧版界面截图（改版前的「设置 → 播放器」页）。新版「播放」页第一项就是「播放内核」，解码与渲染相关项收在页底「高级设置」。"
+        alt="电视端设置 → 播放页"
+        caption="「设置 → 播放」页。第一项就是「播放内核」，解码与渲染相关项收在页底「高级设置」。"
       />
       <p>
         <b>设置 → 播放 → 播放内核</b>（原 视频播放器内核）是一排 Media3 / IJK / VLC / FSPlayer / MPV 按钮，标着「推荐 Media3」；
