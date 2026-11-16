@@ -140,7 +140,7 @@ http://192.168.1.1:5140/rtp/239.253.64.200:5140$高清</code></pre>
       <doc-shot
         src="screenshots/panel-source-dialog.png"
         alt="面板编辑订阅源对话框：UA、关闭预览图、关闭延迟检测"
-        caption="面板 → 订阅源与节目单（原「订阅源」页）→ 某一行的菜单 → 编辑：红框三项都在这个对话框里。组播源尤其建议打开「关闭延迟检测」，不然每次进选台界面都会让服务端多拉几路流。"
+        caption="面板「订阅源与节目单」页 → 某一行的 ⋮ → 编辑：红框三项都在这个对话框里。组播源尤其建议打开「关闭延迟检测」，不然每次进选台界面都会让服务端多拉几路流。"
       />
 
       <h2 id="server-settings">推荐设置（rtp2httpd 侧）</h2>
@@ -228,8 +228,8 @@ http://192.168.1.1:5140/rtp/239.253.64.200:5140$高清</code></pre>
       </p>
       <doc-shot
         src="screenshots/panel-player-network.png"
-        alt="旧版网页面板播放器页：全局 UA"
-        caption="旧版面板截图（改版前全局 UA 在「播放器」页）。红框这一项现在是面板「网络与代理」页高级设置里的「浏览器标识（UA）」，改成 Mytv.Android TZ/UTC+8 即可修正回看时区。电视端 设置 → 网络与代理 → 高级设置 → 浏览器标识（UA）也能改。"
+        alt="网页面板网络与代理页：全局 UA"
+        caption="面板「网络与代理」页。把「浏览器标识（UA）」改成 Mytv.Android TZ/UTC+8 即可修正回看时区；电视端 设置 → 网络与代理 → 高级设置 → 浏览器标识（UA）也能改。"
       />
       <doc-callout kind="info" title="回看播完怎么回到直播" icon="movie">
         RTSP 上游如果支持，可以在地址上加 <code>r2h-seek-mode=range(...)</code> 启用 Range Seek：
@@ -259,8 +259,8 @@ http://192.168.1.1:5140/rtp/239.253.64.121:5140?fcc=10.255.14.152:8027&amp;fcc-t
       </ul>
       <doc-shot
         src="screenshots/panel-player-startup.png"
-        alt="旧版网页面板播放器页：更好的视频探测与播放缓冲"
-        caption="旧版面板截图（条目名为改版前的旧名）。红框两项就是起播快慢的关键：想用 FCC 快速换台，把「更仔细地识别视频格式」（面板「播放」页高级设置）关掉、「起播前缓冲」压到 0～1 秒。"
+        alt="网页面板播放页：起播前缓冲"
+        caption="面板「播放」页「播不了或卡顿时」卡片。红框这项就是起播快慢的关键：想用 FCC 快速换台，把「更仔细地识别视频格式」（页底高级设置）关掉、「起播前缓冲」压到 0～1 秒。"
       />
       <doc-shot
         src="screenshots/app-player-startup.png"

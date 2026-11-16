@@ -20,26 +20,30 @@ from PIL import Image, ImageDraw
 MARK = (255, 82, 82)
 
 # —— 网页面板（1400 宽）——
-# 裁剪框按 2026-10-13 之后的面板重新量过：内容卡片从原来的 x≈290..1110（820 宽、
-# 两列网格）变成 x≈444..1203（759 宽、单列），行高也更紧凑，所以 x/y 全部右移/收紧。
+# 裁剪框按 2026-11-16 的面板重新量过：侧边栏收窄成 4 组 13 项，内容卡片从
+# x≈429..1218（789 宽）变成 x≈394..1250（856 宽），页名也从 /sources、/ui、
+# /services 等改成了 /source、/channels、/cast（旧的都做了重定向）。
 PANEL_JOBS = {
-    'panel-home': ('panel-home', (60, 0, 1340, 1310), [], 1400),
-    'panel-sources': ('panel-sources', (429, 80, 1218, 613), [], 1400),
-    'panel-source-dialog': ('panel-source-dialog', (435, 77, 965, 823),
+    # 首页：关于应用 + 订阅源两张卡片
+    'panel-home': ('panel-home', (394, 60, 1250, 700), [], 1400),
+    # 订阅源与节目单页：页头 + 「订阅源」卡片
+    'panel-sources': ('panel-sources', (394, 60, 1250, 640), [], 1400),
+    # 编辑订阅源对话框（整张只截对话框，四周留 10px）
+    'panel-source-dialog': ('panel-source-dialog', (440, 20, 960, 800),
                             [(35, 77, 228, 68), (47, 601, 183, 35), (311, 601, 194, 35)], 1400, 'image'),
-    'panel-source-dialog-plain': ('panel-source-dialog', (435, 77, 965, 823), [], 1400),
-    'panel-player-basic': ('panel-player', (429, 80, 1218, 795), [], 1400),
-    'panel-player-startup': ('panel-player', (429, 1245, 1218, 1905),
-                             [(444, 1286, 759, 105), (444, 1742, 759, 85)], 1400),
-    'panel-player-network': ('panel-player', (429, 2600, 1218, 3135),
-                             [(444, 2908, 759, 91)], 1400),
-    # 字幕翻译卡片：从分组标题裁到卡片内的「保存」按钮（引擎选中 MTranServer 时截的，
-    # 带服务器地址一行；未选引擎时卡片下方不会出现凭据行，框会短一截）
-    'panel-player-translation': ('panel-player', (429, 2240, 1218, 2770), [], 1400),
-    'panel-epg': ('panel-epg', (412, 80, 1201, 470), [], 1400),
-    'panel-services': ('panel-services', (426, 80, 1215, 738), [], 1400),
-    'panel-ui': ('panel-ui', (429, 80, 1218, 585), [], 1400),
-    'panel-sync': ('panel-sync', (426, 80, 1215, 639), [], 1400),
+    'panel-source-dialog-plain': ('panel-source-dialog', (440, 20, 960, 800), [], 1400),
+    # 播放页：页头 + 「常用」卡片（画面滤镜之前）
+    'panel-player-basic': ('panel-player-basic', (394, 55, 1250, 445), [], 1400),
+    # 播放页往下：「播不了或卡顿时」整张卡片
+    'panel-player-startup': ('panel-player-basic', (394, 685, 1250, 965),
+                             [(30, 30, 500, 62), (30, 160, 500, 96)], 1400),
+    'panel-player-network': ('panel-player-network', (394, 60, 1250, 680), [], 1400),
+    'panel-player-translation': ('panel-player-translation', (394, 60, 1250, 1090), [], 1400),
+    'panel-services': ('panel-services', (394, 60, 1250, 670), [], 1400),
+    'panel-ui': ('panel-ui', (394, 60, 1250, 620), [], 1400),
+    'panel-sync': ('panel-sync', (394, 60, 1250, 745), [], 1400),
+    # 节目单已并入「订阅源与节目单」页，取「订阅源」卡片下面那段
+    'panel-epg': ('panel-sources', (394, 480, 1250, 1120), [], 1400),
 }
 
 # —— 应用本体（1920×1080）——

@@ -161,8 +161,8 @@ import { DocShot } from '../../shared/doc-shot';
       </doc-callout>
       <doc-shot
         src="screenshots/panel-player-translation.png"
-        alt="旧版网页面板播放器页：字幕翻译卡片"
-        caption="旧版面板截图（改版前这张卡片在「播放器」页）。新版在面板「字幕与画质」页：引擎、凭据、目标语言、关闭原文、译文位置、译文大小与译文颜色都在这里，改完点卡片内的「保存」。"
+        alt="网页面板字幕与画质页：字幕翻译卡片"
+        caption="面板「字幕与画质」页的「字幕」卡片：引擎、凭据、目标语言、关闭原文、译文位置、译文大小与译文颜色都在这里，改完点卡片内的「保存」。"
       />
 
       <h2 id="keys">各引擎的申请与配置</h2>
