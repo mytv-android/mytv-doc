@@ -25,7 +25,7 @@ import { DocPageHeader } from '../../shared/doc-page-header';
         <b>电视直播</b>（mytv-android）是一款专为电视大屏与移动设备打造的开源流媒体播放应用。
         支持自定义 IPTV 订阅源（m3u / txt / Xtream Codes / Stalker Portal 等）、电子节目单（EPG）、
         网页解析源、QuickJS 原生脚本源（javascript://）、最高 9 路多屏同播、AI 实时超分与插帧、
-        本地及云端语音识别（ASR）字幕与多引擎翻译，并内置轻量级脚本服务（Python / PHP）、云端数据同步以及局域网远程配置面板。
+        本地及云端语音识别（ASR）字幕与多引擎翻译，并内置轻量级脚本服务（Python / PHP / JS）、云端数据同步以及局域网远程配置面板。
       </p>
 
       <h2 id="start">从哪儿开始？</h2>
@@ -54,7 +54,7 @@ import { DocPageHeader } from '../../shared/doc-page-header';
         <li><b>多屏同播</b>：最多 9 路同屏播放，可保存最多 20 套频道组合方案。</li>
         <li><b>投屏</b>：把正在看的频道投到局域网内支持 DLNA / AirPlay / Google Cast 的电视 / 盒子播放；打开 设置 → 投屏与扩展 → 接收投屏 后，也可接收手机等设备推送的 DLNA / AirPlay 内容在本机播放，装上「AirPlay 投屏组件」后支持 iPhone 屏幕镜像与音频（Android 7.0+）。</li>
         <li><b>视频超分与插帧</b>：Anime4K、AMD FSR 1、Real-ESRGAN 等多种超分路径，GPU 帧混合 / RIFE 插帧，目标帧率最高 120 FPS。</li>
-        <li><b>脚本服务（Python / PHP）</b>：在电视上运行脚本（需 Android 7.0 及以上），把脚本产出的频道列表当作本机或局域网订阅源；服务可在应用内（设置 → 投屏与扩展 → 脚本服务）或网页面板中添加与管理。</li>
+        <li><b>脚本服务（Python / PHP / JS）</b>：在电视上运行脚本（Python / PHP 需 Android 7.0 及以上，JS 运行环境内置），把脚本产出的频道列表当作本机或局域网订阅源；服务可在应用内（设置 → 投屏与扩展 → 脚本服务）或网页面板中添加与管理。</li>
         <li><b>组件下载</b>：统一下载管理 IJK / VLC 播放组件、Python / PHP 运行环境、语音识别组件与模型、超分与插帧运行库、AirPlay 投屏组件。</li>
         <li><b>ASR 实时字幕</b>：本地语音识别，把直播语音实时转成字幕，支持 Media3 与 IJK 内核；也可选云端模型（Gemini / 阿里云百炼 / Soniox），识别与翻译一体。</li>
         <li><b>字幕翻译</b>：把实时字幕或已有字幕轨翻译成目标语言，引擎可选腾讯翻译 / 百度翻译 / MTranServer（自托管） / 有道翻译 / 谷歌翻译 / 微软翻译，逐家配置见<a [routerLink]="'/translation'">字幕翻译教程</a>。</li>

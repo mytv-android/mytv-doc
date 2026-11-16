@@ -11,8 +11,8 @@ import { DocShot } from '../../shared/doc-shot';
   template: `
     <div class="doc-page">
       <doc-page-header
-        title="服务（Python / PHP）"
-        lead="在电视上运行脚本，把脚本提供的本地订阅地址（例如央视频直播源）当作订阅源使用。运行环境按需下载，不占安装包体积。"
+        title="服务（Python / PHP / JS）"
+        lead="在电视上运行脚本，把脚本提供的本地订阅地址（例如央视频直播源）当作订阅源使用。Python / PHP 运行环境按需下载，JS 运行环境随应用内置。"
       />
 
       <h2 id="what">这是什么</h2>
@@ -21,21 +21,22 @@ import { DocShot } from '../../shared/doc-shot';
         脚本在电视上对外提供一个订阅地址，像普通订阅源一样添加使用即可，
         也可以分享给同一局域网里的其他设备（APTV、电脑播放器等）。
       </p>
-      <p>支持两种脚本语言，添加服务时二选一：</p>
+      <p>支持三种脚本语言，添加服务时三选一：</p>
       <table>
         <thead>
-          <tr><th></th><th>Python 服务</th><th>PHP 服务</th></tr>
+          <tr><th></th><th>Python 服务</th><th>PHP 服务</th><th>JS 服务</th></tr>
         </thead>
         <tbody>
-          <tr><td>脚本形态</td><td>独立运行的服务脚本，自己监听端口、常驻后台</td><td>单文件 Web 脚本，有请求时才执行一次并返回结果</td></tr>
-          <tr><td>运行环境</td><td>CPython 3.11 + 标准库（含 requests、urllib3 等常用网络库），约 7 MB</td><td>PHP 8.4，含 curl、openssl、json 等常用扩展</td></tr>
-          <tr><td>默认端口</td><td>8767</td><td>8768</td></tr>
-          <tr><td>典型脚本</td><td><code>ysp-live.py</code></td><td><code>ysp.php</code> 等单文件脚本</td></tr>
+          <tr><td>脚本形态</td><td>独立运行的服务脚本，自己监听端口、常驻后台</td><td>单文件 Web 脚本，有请求时才执行一次并返回结果</td><td>nanoService 协议脚本，由内置宿主按请求执行</td></tr>
+          <tr><td>运行环境</td><td>CPython 3.11 + 标准库（含 requests、urllib3 等常用网络库），约 7 MB</td><td>PHP 8.4，含 curl、openssl、json 等常用扩展</td><td>QuickJS（quickjs-android 3.2.3），随应用内置、无需下载</td></tr>
+          <tr><td>默认端口</td><td>8767</td><td>8768</td><td>8769</td></tr>
+          <tr><td>典型脚本</td><td><code>ysp-live.py</code></td><td><code>ysp.php</code> 等单文件脚本</td><td><code>ysp-live.js</code> 等 nanoService 脚本</td></tr>
         </tbody>
       </table>
       <p>
-        两种服务都要先下载对应的运行环境（按需下载，不含在安装包中），且需要
-        <b>Android 7.0 及以上</b>；Android 6.0 设备没有此功能，其余功能不受影响。
+        Python 与 PHP 服务都要先下载对应的运行环境（按需下载，不含在安装包中），且需要
+        <b>Android 7.0 及以上</b>；Android 6.0 设备没有这两类服务，其余功能不受影响。
+        <b>JS 服务的运行环境随应用一起安装</b>，添加后即可用，不占额外下载。
       </p>
 
       <h2 id="install-runtime">第一步：下载运行环境</h2>
@@ -44,6 +45,9 @@ import { DocShot } from '../../shared/doc-shot';
         <li>等待状态从「下载中 → 校验中 → 解压中」变为<b>已安装</b>。</li>
         <li>（可选）在面板「脚本服务」卡片里点<b>运行自检</b>，确认版本、证书与端口绑定都正常。</li>
       </ol>
+      <doc-callout kind="info" title="JS 服务不用下载运行环境" icon="info">
+        JS 服务的运行环境是随应用内置的 QuickJS，面板「脚本服务」卡片里的「JS 运行环境」一行只是显示版本，没有下载 / 删除按钮。
+      </doc-callout>
       <doc-callout kind="info" title="运行环境可随时删除" icon="info">
         在「组件下载」中长按已安装的运行环境可删除；删除不会动已添加的服务，重新下载后即可继续使用。
       </doc-callout>
@@ -57,21 +61,21 @@ import { DocShot } from '../../shared/doc-shot';
       <doc-shot
         src="screenshots/panel-services.png"
         alt="网页面板投屏与扩展页：脚本服务"
-        caption="面板「投屏与扩展」页的「脚本服务」卡片：上面是 Python / PHP 运行环境的状态与下载按钮，下面是已添加的服务，每行可直接启停。"
+        caption="面板「投屏与扩展」页的「脚本服务」卡片：上面是 Python / PHP 运行环境的状态与下载按钮和内置的 JS 运行环境，下面是已添加的服务，每行可直接启停。"
       />
       <ol>
         <li>电视端 <b>设置 → 投屏与扩展 → 脚本服务</b> → <b>添加服务</b>；或面板 <b>投屏与扩展</b> 页「脚本服务」卡片 → <b>添加服务</b>。</li>
         <li>
-          选择 <b>脚本语言</b>（Python 或 PHP）。注意：<b>保存后不能再改语言</b>，选错了删掉重新添加。
+          选择 <b>脚本语言</b>（Python / PHP / JavaScript）。注意：<b>保存后不能再改语言</b>，选错了删掉重新添加。
         </li>
-        <li>填写 <b>服务名称</b>（如「央视频直播」）与 <b>端口</b>（Python 默认 8767、PHP 默认 8768，一般不用改）。</li>
+        <li>填写 <b>服务名称</b>（如「央视频直播」）与 <b>端口</b>（Python 默认 8767、PHP 默认 8768、JS 默认 8769，一般不用改）。</li>
         <li>
           <b>代码来源</b>三选一：
           <ul>
             <li><b>远程链接</b>：填脚本地址即可，保存时设备会自动拉取一次，之后按更新间隔自动更新；</li>
             <li>
               <b>本地上传 / 直接填写</b>：在面板点 <b>选择脚本文件</b> 挑电脑 / 手机上的
-              <code>.py</code> / <code>.php</code> 文件，或把代码整段粘贴进代码框（电视端只有「直接填写」，即粘贴代码）；
+              <code>.py</code> / <code>.php</code> / <code>.js</code> 文件，或把代码整段粘贴进代码框（电视端只有「直接填写」，即粘贴代码）；
               保存时由应用存成电视上的脚本文件。与订阅源的「直接粘贴内容」是同一套做法；
             </li>
             <li>
@@ -85,8 +89,8 @@ import { DocShot } from '../../shared/doc-shot';
         <li>按需打开 <b>局域网共享</b>（允许同一局域网的其他设备访问）与 <b>启用</b>，保存。</li>
       </ol>
       <p>
-        <b>启用</b>的服务在每次打开应用时都会自动运行：运行环境已装好就直接拉起；
-        如果启动时还没下载运行环境，装好之后（设置 → 投屏与扩展 → 组件下载，或面板「脚本服务」卡片里下载）会自动补拉起，不用重启应用。
+        <b>启用</b>的服务在每次打开应用时都会自动运行：Python / PHP 服务在运行环境已装好时直接拉起（没下载则装好后自动补拉起，不用重启应用）；
+        JS 服务的运行环境内置，添加即可用。
         上次异常退出导致闪退的服务会被跳过并在列表里标出异常，修正脚本后手动启动即可。
       </p>
       <p>
@@ -94,6 +98,7 @@ import { DocShot } from '../../shared/doc-shot';
       </p>
       <p>
         在面板编辑已保存的 Python 服务时可点 <b>检查代码</b>（电视端没有此项），对脚本做静态检查（语法错误、缺失的第三方依赖等），排查启动失败时很有用。
+        PHP 与 JS 服务由应用内置宿主执行，没有这项检查。
       </p>
 
       <h3 id="advanced">高级选项</h3>
@@ -126,7 +131,7 @@ import { DocShot } from '../../shared/doc-shot';
             <td><b>脚本退出后自动重启</b>（仅 Python）</td>
             <td>
               脚本异常退出后自动拉起；连续多次启动即退出会停止重试并提示。
-              PHP 脚本按请求执行、不存在“退出”，所以没有这三项。
+              PHP 与 JS 脚本由宿主按请求执行、不存在“退出”，所以没有这三项。
             </td>
           </tr>
         </tbody>
@@ -150,7 +155,7 @@ import { DocShot } from '../../shared/doc-shot';
         <li><code>all.m3u</code> 是这类脚本的约定路径；个别脚本使用其他路径时，以脚本作者的说明为准。</li>
         <li>
           修改<b>局域网共享</b>后服务会自动重启生效。Python 脚本通过环境变量 <code>MYTV_BIND</code>
-          获知该监听本机还是局域网（脚本不读它就按脚本自己的默认）；PHP 服务的监听范围由应用直接控制，无需脚本配合。
+          获知该监听本机还是局域网（脚本不读它就按脚本自己的默认）；PHP 与 JS 服务的监听范围由应用直接控制，无需脚本配合。
         </li>
         <li>
           想让盒子没人看电视时也持续提供服务：打开 <b>设置 → 应用与系统 → 开机只启动后台服务</b>（原 通用 → 开机静默自启，与「开机自动打开」互斥），
@@ -188,7 +193,7 @@ import { DocShot } from '../../shared/doc-shot';
         <li>⋮ 菜单（电视端长按服务）→ <b>查看日志</b>：实时查看脚本输出与报错（打开期间每 3 秒自动刷新）。</li>
         <li>状态含义：<b>运行中</b>（正常提供服务）、<b>启动中</b>（已启动还没就绪）、<b>异常</b>（看行内错误信息与日志）、<b>已停止</b>。</li>
         <li>
-          常见失败：提示「请先下载运行环境」→ 去 <b>组件下载</b>；端口被占用 → 给服务换个端口；
+          常见失败：提示「请先下载运行环境」→ 去 <b>组件下载</b>（JS 服务运行环境内置，不会有这个提示）；端口被占用 → 给服务换个端口；
           远程脚本拉不下来 → 检查电视网络，或在高级选项里填 UA / 代理；
           Python 脚本报缺少模块 → 见下方「已知限制」。
         </li>
@@ -197,7 +202,7 @@ import { DocShot } from '../../shared/doc-shot';
 
       <h2 id="limits">已知限制</h2>
       <ul>
-        <li>需要 <b>Android 7.0 及以上</b>。</li>
+        <li>Python 与 PHP 服务需要 <b>Android 7.0 及以上</b>（运行环境按需下载）；JS 服务运行环境随应用内置。</li>
         <li>
           <b>Python：只能运行纯 Python 脚本</b>。没有 pip；<code>requests</code> 及其依赖
           （urllib3、certifi、idna、charset_normalizer、PySocks）已随应用内置，脚本可直接
@@ -207,6 +212,11 @@ import { DocShot } from '../../shared/doc-shot';
         <li>
           <b>PHP：单文件、按请求执行</b>，可用扩展以运行环境内置的为准（curl、openssl、json 等已包含）；
           请求逐个处理，不适合执行时间很长的脚本。
+        </li>
+        <li>
+          <b>JS：nanoService 协议脚本</b>，由内置 QuickJS 宿主按请求执行，同样没有「脚本自行退出」一说；
+          可用能力以宿主提供的接口为准（http / crypto / storage / scheduler / media.openHLS 等），
+          与播放列表里的 <a [routerLink]="'/javascript-sources'">JavaScript 脚本源</a>是两套不同的用法。
         </li>
         <li>单个服务的日志超过 2 MB 会自动截断重写，避免长期运行写满存储。</li>
         <li>多个 Python 服务共用同一个解释器，代理与环境变量是所有 Python 服务共用的。</li>

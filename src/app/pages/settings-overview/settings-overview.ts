@@ -258,8 +258,8 @@ import { DocShot } from '../../shared/doc-shot';
               Miracast（Windows「连接」等源端）在设备支持 Wi-Fi 直连时自动可用，需在 设置 → 应用与系统 → 权限 授权「附近设备/Wi-Fi 直连」；Google Cast 接收为实验性（本应用互投可用，官方发送端的设备认证不支持）。
             </td>
           </tr>
-          <tr><td>设备名称与投屏状态</td><td>进入「投屏接收」子页：修改投屏设备列表里显示的名称（留空用本机型号），查看本机地址以及 DLNA、AirPlay、Miracast、Google Cast 各自是运行中、未启用还是不可用（并写明原因）。</td></tr>
-          <tr><td>脚本服务</td><td>脚本服务（原「服务」分类）</td><td>添加、编辑、启停 Python / PHP 服务，查看日志与地址，详见 <a [routerLink]="'/python-services'">服务（Python / PHP）</a>。</td></tr>
+          <tr><td>设备名称与投屏状态</td><td>进入「投屏接收」子页：修改投屏设备列表里显示的名称（留空用本机型号），查看本机地址以及 DLNA、AirPlay、Miracast、Google Cast 各自是运行中、未启用还是不可用（并写明原因）。名称也可以在网页面板「投屏与扩展」页直接改。</td></tr>
+          <tr><td>脚本服务</td><td>脚本服务（原「服务」分类）</td><td>添加、编辑、启停 Python / PHP / JS 服务，查看日志与地址，详见 <a [routerLink]="'/python-services'">服务（Python / PHP / JS）</a>。</td></tr>
           <tr><td>可下载组件</td><td>组件下载（原独立分类）</td><td>所有需要在线下载的组件，见下文。</td></tr>
         </tbody>
       </table>

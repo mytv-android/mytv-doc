@@ -102,13 +102,13 @@ import { DocShot } from '../../shared/doc-shot';
         <tbody>
           <tr><td rowspan="4">观看</td><td>订阅源与节目单（<code>/source</code>）</td><td><a [routerLink]="'/sources'">订阅源</a>、<a [routerLink]="'/epg'">EPG 节目单</a></td><td>订阅源列表直接在页内增删、排序；从电脑 / 手机选文件上传成源、在线读写文件源内容；「节目单地址」旁的「管理」打开节目单管理窗口（拖动排序、更新）。原「订阅源」「节目单」两页合并到这里</td></tr>
           <tr><td>播放（<code>/player</code>）</td><td><a [routerLink]="'/player-settings'">播放器与字幕</a>、<a [routerLink]="'/webview-player'">WebView 播放器</a></td><td>「网页源」小节直接列出 WebView 的各项设置（原「WebView」页），清除 WebView 缓存只能在设备上做</td></tr>
-          <tr><td>字幕与画质（<code>/enhance</code>）</td><td><a [routerLink]="'/player-settings'">播放器与字幕</a>、<a [routerLink]="'/translation'">字幕翻译教程</a></td><td>AI 实时字幕、字幕翻译两张卡片各自要按「保存」；字幕样式面板上没有，只能在设备上改</td></tr>
+          <tr><td>字幕与画质（<code>/enhance</code>）</td><td><a [routerLink]="'/player-settings'">播放器与字幕</a>、<a [routerLink]="'/translation'">字幕翻译教程</a></td><td>AI 实时字幕、字幕翻译两张卡片各自要按「保存」；「字幕样式」一行里能改字号、颜色、背景与位置（无预览）</td></tr>
           <tr><td>选台与频道列表（<code>/channels</code>）</td><td><a [routerLink]="'/live-screen'">直播主界面</a></td><td>原「界面」页的选台、台标、预览等项</td></tr>
           <tr><td rowspan="2">个性化</td><td>外观（<code>/look</code>）</td><td><a [routerLink]="'/settings'" fragment="look">设置项总览</a></td><td>含自定义主题；没有「语言」，面板自己的语言用右上角地球图标切换</td></tr>
           <tr><td>遥控与手势（<code>/control</code>）</td><td><a [routerLink]="'/controls'">遥控器与触屏</a></td><td>遥控器按键、长按、全屏手势各小节全部显示，并标明适用于遥控器还是触屏（见下方说明）</td></tr>
-          <tr><td rowspan="3">连接与数据</td><td>投屏与扩展（<code>/cast</code>）</td><td><a [routerLink]="'/python-services'">服务（Python / PHP）</a></td><td>「接收投屏」开关；「脚本服务」卡片里就是原「服务」页：下载运行环境、运行自检、选择脚本文件上传、检查代码。设备名称与组件下载只能在设备上操作</td></tr>
+          <tr><td rowspan="3">连接与数据</td><td>投屏与扩展（<code>/cast</code>）</td><td><a [routerLink]="'/python-services'">服务（Python / PHP）</a></td><td>「接收投屏」开关与设备通告名；「脚本服务」卡片里就是原「服务」页：下载 Python / PHP 运行环境、查看内置的 JS 运行环境、运行自检、选择脚本文件上传、检查代码。组件下载只能在设备上操作</td></tr>
           <tr><td>网络与代理（<code>/network</code>）</td><td><a [routerLink]="'/settings'" fragment="network">设置项总览</a></td><td>原「网络」页，加上从「播放器」搬来的代理、UA、请求头、DNS</td></tr>
-          <tr><td>备份与同步（<code>/sync</code>）</td><td><a [routerLink]="'/sync'">云同步与备份</a></td><td>云同步凭据改动即保存（面板上没有上传按钮，上传、恢复在设备上做）；导出 / 导入应用数据（JSON）；「本机备份」里就是原「备份管理」页</td></tr>
+          <tr><td>备份与同步（<code>/sync</code>）</td><td><a [routerLink]="'/sync'">云同步与备份</a></td><td>云同步凭据改动即保存（面板上没有上传按钮，上传、恢复在设备上做）；导出 / 导入应用数据（JSON）；「本机」小节有「允许系统备份」开关，「本机备份」里就是原「备份管理」页</td></tr>
           <tr><td rowspan="3">系统</td><td>应用与系统（<code>/app</code>）</td><td><a [routerLink]="'/settings'" fragment="app">设置项总览</a></td><td>开机、更新渠道、缓存放到外部存储；清除缓存、权限、恢复初始设置只能在设备上做（见下方说明）</td></tr>
           <tr><td>帮助与诊断（<code>/debug</code>）</td><td><a [routerLink]="'/settings'" fragment="debug">设置项总览</a></td><td>导出 logcat、内嵌运行日志（原「日志」「调试」两页）</td></tr>
           <tr><td>文件（<code>/file</code>）</td><td>本页下文</td><td>管理电视上的文件</td></tr>
@@ -137,7 +137,7 @@ import { DocShot } from '../../shared/doc-shot';
       <ul>
         <li>浏览电视端应用专属目录（文件目录 / 缓存目录），支持新建文件夹、上传、重命名、删除，点目录名进入、面包屑返回。</li>
         <li>点某个文件的<b>使用</b>按钮，会把它的路径带回首页的订阅源表单（自动切为「文件」类型），推送即成源；在「投屏与扩展」页的脚本服务里添加本地脚本时同样用它拿路径。</li>
-        <li>典型用途：上传本地 m3u 订阅、上传 Python / PHP 脚本、清理缓存目录。</li>
+        <li>典型用途：上传本地 m3u 订阅、上传 Python / PHP / JS 脚本、清理缓存目录。</li>
       </ul>
 
       <h2 id="backup">本机备份：电视端本地快照</h2>

@@ -87,7 +87,7 @@ export const routes: Routes = [
       import('./pages/python-services/python-services').then(
         (m) => m.PythonServicesPage,
       ),
-    title: '服务（Python / PHP） · 电视直播 使用文档',
+    title: '服务（Python / PHP / JS） · 电视直播 使用文档',
   },
   {
     path: 'player-settings',
