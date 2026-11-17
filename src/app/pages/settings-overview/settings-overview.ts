@@ -302,7 +302,8 @@ import { DocShot } from '../../shared/doc-shot';
         <tbody>
           <tr><td rowspan="2">下载失败时</td><td>重试次数（原 HTTP请求重试次数）</td><td>获取订阅源、节目单失败时的重试次数，默认 10；可选 1～10、15、20、30、40、50。</td></tr>
           <tr><td>重试间隔（原 HTTP请求重试间隔时间）</td><td>每次重试之间的间隔，默认 1 秒；可选 0 / 1 / 2 / 3 / 5 / 10 / 15 / 20 / 30 秒。</td></tr>
-          <tr><td rowspan="2">代理</td><td>代理服务器（原 播放器 → 代理）</td><td>填 <code>http://</code> 或 <code>socks5://</code> 开头的地址。只有命中下一项规则的地址才走代理。</td></tr>
+          <tr><td rowspan="3">代理</td><td>GitHub 镜像源</td><td>更新检查、发行版与原生组件下载走哪条加速线路。默认「自动测速」并发比较所有线路；也可钉住某一条，它仍会排在最前，其余线路留作回退。2026-11 实测保留 gh-proxy.org、gh-proxy.com、ghfile.geekertao.top、ghfast.top、gh.3w.pm、ghproxy.net 六条；其中前两条同时代理 <code>api.github.com</code>，后四条只加速安装包下载。</td></tr>
+          <tr><td>代理服务器（原 播放器 → 代理）</td><td>填 <code>http://</code> 或 <code>socks5://</code> 开头的地址。只有命中下一项规则的地址才走代理。</td></tr>
           <tr><td>哪些地址走代理（原 代理规则）</td><td>子页里逐条添加正则规则，地址匹配时改走指定代理。</td></tr>
           <tr><td rowspan="3">高级设置</td><td>浏览器标识（UA）（原 全局UA）</td><td>播放请求默认带的 User-Agent，有些源只认特定标识。</td></tr>
           <tr><td>附加请求头（原 自定义headers）</td><td>每个播放请求都带上的请求头，每行一个，格式 <code>Key: Value</code>。</td></tr>
