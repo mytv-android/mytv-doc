@@ -335,7 +335,9 @@ import { DocShot } from '../../shared/doc-shot';
             <td>代理服务器（原 代理）</td>
             <td>
               支持 <code>http://</code> / <code>socks5://</code>，可带认证
-              <code>user:pass&#64;host:port</code>（IJK / VLC 内核的 SOCKS 认证支持有限）。只有命中下一项规则的地址才走代理。
+              <code>user:pass&#64;host:port</code>。SOCKS 代理只有 Media3 与 VLC 内核生效：IJK / FSPlayer 与 MPV 走 FFmpeg，
+              它的 <code>http_proxy</code> 只接受 <code>http://</code>（libavformat 里没有 SOCKS 协议），
+              填 <code>socks5://</code> 会被忽略、改为直连目标（运行日志里有告警）。只有命中下一项规则的地址才走代理。
             </td>
           </tr>
           <tr>

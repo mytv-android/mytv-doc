@@ -1040,14 +1040,14 @@ export const SEARCH_INDEX: SearchIndexEntry[] = [
     "title": "AI 助手（MCP）",
     "anchor": "#streamable",
     "section": "Cursor、Cherry Studio 等支持 Streamable HTTP 的客户端",
-    "keywords": "在客户端的 MCP 配置里加一项： \"mcpServers\": \"mytv\": \"url\": \"http://192.168.1.10:10591/mcp\", \"headers\": \"Authorization\": \"Bearer 令牌 \" ' ' ' ' ' ' ' ' 网页面板的「投屏与扩展」页有一键复制按钮，会自动填好当前设备的地址与令牌。"
+    "keywords": "在客户端的 MCP 配置里加一项（令牌换成电视上显示的）： \"mcpServers\": \"mytv\": \"url\": \"http://192.168.1.10:10591/mcp\", \"headers\": \"Authorization\": \"Bearer 令牌\" 网页面板的「投屏与扩展」页有一键复制按钮，会自动填好当前设备的地址与令牌。"
   },
   {
     "path": "/mcp",
     "title": "AI 助手（MCP）",
     "anchor": "#stdio",
     "section": "只支持 stdio 的客户端（如 Claude Desktop）",
-    "keywords": "用 mcp-remote 转接：局域网 HTTP 要加 --allow-http ；Windows 上参数里的空格会被拆坏，所以令牌放进环境变量。 \"mcpServers\": \"mytv\": \"command\": \"npx\", \"args\": \"-y\", \"mcp-remote\", \"http://192.168.1.10:10591/mcp\", \"--allow-http\", \"--header\", \"Authorization: AUTH HEADER ' ' \" , \"env\": \"AUTH HEADER\": \"Bearer 令牌 \" ' ' ' ' ' '"
+    "keywords": "用 mcp-remote 转接：局域网 HTTP 要加 --allow-http ；Windows 上参数里的空格会被拆坏，所以令牌放进环境变量 AUTH HEADER （值形如 Bearer 令牌 ），参数里写 Authorization: AUTH HEADER ，冒号两边不留空格。 \"mcpServers\": \"mytv\": \"command\": \"npx\", \"args\": \"-y\", \"mcp-remote\", \"http://192.168.1.10:10591/mcp\", \"--allow-http\", \"--header\", \"Authorization: AUTH HEADER\" , \"env\": \"AUTH HEADER\": \"Bearer 令牌\""
   },
   {
     "path": "/mcp",
@@ -1250,7 +1250,7 @@ export const SEARCH_INDEX: SearchIndexEntry[] = [
     "title": "播放器与字幕设置",
     "anchor": "#network",
     "section": "网络请求（设置 → 网络与代理）",
-    "keywords": "以下条目影响播放器发起网络请求的方式，现在都在 设置 → 网络与代理 ：代理两项在「代理」小节，UA、请求头、DNS 在页底「高级设置」。 选中即可编辑（编辑框里先选「扫码编辑」可改用面板，选「直接输入」在电视上填写）， 也可在面板的 网络与代理 页修改，改动即保存。 设置项 说明 代理服务器（原 代理） 支持 http:// / socks5:// ，可带认证 user:pass& 64;host:port （IJK / VLC 内核的 SOCKS 认证支持有限）。只有命中下一项规则的地址才走代理。 哪些地址走代理（原 代理规则） 按正则规则匹配 URL 选择不同代理，可添加多条，分流使用。点进这一项是规则列表，每条为「正则规则 + 代理服务器」，可增删改。 浏览器标识（UA）（原 全局UA） 播放器网络请求的 User-Agent，默认 Mytv.Android 。个别源站校验 UA 时才需要改。 附加请求头（原 自定义headers） 附加到每个播放请求的 HTTP 头，每行一条 Name: Value ；格式不对会提示，无法确定。 DNS 服务器（原 自定义DNS） 播放器域名"
+    "keywords": "以下条目影响播放器发起网络请求的方式，现在都在 设置 → 网络与代理 ：代理两项在「代理」小节，UA、请求头、DNS 在页底「高级设置」。 选中即可编辑（编辑框里先选「扫码编辑」可改用面板，选「直接输入」在电视上填写）， 也可在面板的 网络与代理 页修改，改动即保存。 设置项 说明 代理服务器（原 代理） 支持 http:// / socks5:// ，可带认证 user:pass& 64;host:port 。SOCKS 代理只有 Media3 与 VLC 内核生效：IJK / FSPlayer 与 MPV 走 FFmpeg， 它的 http proxy 只接受 http:// （libavformat 里没有 SOCKS 协议）， 填 socks5:// 会被忽略、改为直连目标（运行日志里有告警）。只有命中下一项规则的地址才走代理。 哪些地址走代理（原 代理规则） 按正则规则匹配 URL 选择不同代理，可添加多条，分流使用。点进这一项是规则列表，每条为「正则规则 + 代理服务器」，可增删改。 浏览器标识（UA）（原 全局UA） 播放器网络请求的 User-Agent，默认 Mytv"
   },
   {
     "path": "/player-settings",
