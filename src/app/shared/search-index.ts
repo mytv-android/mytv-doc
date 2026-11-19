@@ -994,6 +994,132 @@ export const SEARCH_INDEX: SearchIndexEntry[] = [
     "keywords": "常规的订阅源添加、节目单配置以及各项系统偏好设置均可在设备端直接完成，也可以通过设置项旁的「扫码编辑」在手机或电脑网页面板中更舒畅地填写。 对于涉及本地大文件传输、批量维护或系统级调试的操作，推荐或仅支持在网页面板中进行： 安装 APK ：首页「安装 APK」卡片，直接从电脑上传安装包推送到设备安装； 文件管理 ：浏览、上传、重命名或清理设备本地文件与缓存； 本地源管理 ：直接从电脑或手机上传 .m3u / .txt 文件，或在线编辑文件源内容； 脚本服务管理 ：上传 Python / PHP 脚本文件、在线检查代码与运行环境自检； 系统调试 ：一键导出并下载系统 Logcat 日志； 数据备份 ：直接导入或导出应用完整配置数据（JSON）； 运行日志 ：按级别筛选并分页检索应用运行日志。"
   },
   {
+    "path": "/mcp",
+    "title": "AI 助手（MCP）",
+    "anchor": "",
+    "section": "AI 助手（MCP）",
+    "keywords": "让 Claude Code、Cursor、Cherry Studio 这类支持 MCP 的 AI 助手直接读取电视正在播什么、换台、回看往期节目——用中文说一句就行，不用再找遥控器。"
+  },
+  {
+    "path": "/mcp",
+    "title": "AI 助手（MCP）",
+    "anchor": "#what",
+    "section": "这是什么",
+    "keywords": "应用在网页面板同一个端口（默认 10591 ）上新开了一个 /mcp 端点，按 MCP（Model Context Protocol） 的标准协议把电视的播放能力暴露给 AI 助手：读状态、查频道、查节目单、换台、换线路、切订阅源、跳转进度、回看节目、暂停。 AI 助手在自己的对话里调用这些工具，电视上画面随之变化。 它和 远程配置面板 是两个入口：面板是给人点的网页， /mcp 是给 AI 调用的接口。 两者共用同一个端口和前台服务，只是 /mcp 多了一道令牌校验。"
+  },
+  {
+    "path": "/mcp",
+    "title": "AI 助手（MCP）",
+    "anchor": "#enable",
+    "section": "开启步骤",
+    "keywords": "电视上打开 设置 → 投屏与扩展 → AI 助手（MCP） 。 打开「允许 AI 助手连接」。第一次开启会自动生成一串 访问令牌 。 同屏能看到 连接地址 ，形如 http://192.168.1.10:10591/mcp ；手机或电脑要与电视在 同一局域网 。 把地址和令牌填进 AI 助手（见下方「客户端接入」）。 也可以在网页面板的「投屏与扩展」页改这几项，并直接复制一份客户端配置 JSON。 权限级别、电视端提示都能在两边改，改完立即生效。"
+  },
+  {
+    "path": "/mcp",
+    "title": "AI 助手（MCP）",
+    "anchor": "#levels",
+    "section": "权限级别",
+    "keywords": "工具按三档开放，级别越高包含的越多。 tools/list 只列出当前级别能用的工具。 级别 能做什么 只读 看播放状态、频道分组、搜索频道、频道节目单、订阅源列表。 播放控制 （默认） 只读的全部，加上换台、换线路、切换订阅源、跳转进度、回看节目、回到直播、播放/暂停。 管理 播放控制的全部，加上读写设置（仅播放 / 显示 / 节目单类白名单键）、添加订阅源、刷新数据、读运行日志。 下文「工具清单」里标了每个工具的级别。不需要 AI 动手时，把级别压到「只读」最稳妥。"
+  },
+  {
+    "path": "/mcp",
+    "title": "AI 助手（MCP）",
+    "anchor": "#client",
+    "section": "客户端接入",
+    "keywords": "令牌放在请求头 Authorization: Bearer 令牌 里，下面三种写法任选。"
+  },
+  {
+    "path": "/mcp",
+    "title": "AI 助手（MCP）",
+    "anchor": "#claude-code",
+    "section": "Claude Code（原生支持 HTTP 传输）",
+    "keywords": "在终端执行（地址与令牌换成电视上显示的）： claude mcp add --transport http mytv http://192.168.1.10:10591/mcp \\ --header \"Authorization: Bearer 令牌 \""
+  },
+  {
+    "path": "/mcp",
+    "title": "AI 助手（MCP）",
+    "anchor": "#streamable",
+    "section": "Cursor、Cherry Studio 等支持 Streamable HTTP 的客户端",
+    "keywords": "在客户端的 MCP 配置里加一项： \"mcpServers\": \"mytv\": \"url\": \"http://192.168.1.10:10591/mcp\", \"headers\": \"Authorization\": \"Bearer 令牌 \" ' ' ' ' ' ' ' ' 网页面板的「投屏与扩展」页有一键复制按钮，会自动填好当前设备的地址与令牌。"
+  },
+  {
+    "path": "/mcp",
+    "title": "AI 助手（MCP）",
+    "anchor": "#stdio",
+    "section": "只支持 stdio 的客户端（如 Claude Desktop）",
+    "keywords": "用 mcp-remote 转接：局域网 HTTP 要加 --allow-http ；Windows 上参数里的空格会被拆坏，所以令牌放进环境变量。 \"mcpServers\": \"mytv\": \"command\": \"npx\", \"args\": \"-y\", \"mcp-remote\", \"http://192.168.1.10:10591/mcp\", \"--allow-http\", \"--header\", \"Authorization: AUTH HEADER ' ' \" , \"env\": \"AUTH HEADER\": \"Bearer 令牌 \" ' ' ' ' ' '"
+  },
+  {
+    "path": "/mcp",
+    "title": "AI 助手（MCP）",
+    "anchor": "#tools",
+    "section": "工具清单",
+    "keywords": "工具 级别 作用 get player status 只读 当前频道、现在与下一档节目、播放位置（时移 / 回看 / 点播）、分辨率与码率； now 字段是电视当前时间。 list channel groups 只读 频道分组与每组数量。 search channels 只读 按名称 / 频道号搜索，或列收藏、最近观看；每条带当前节目。 get epg 只读 节目单：默认当前频道、从正在播的节目开始；标出能否回看、是否已预约。 list sources 只读 订阅源名称与序号（不含 URL 与凭据）。 change channel 播放控制 按名称 / 别名 / 频道号换台，或按顺序换下一个 / 上一个。 switch line 播放控制 换当前频道的线路，与遥控换线同一逻辑。 switch source 播放控制 切换订阅源，与经典选台面板换源同一入口。 seek 播放控制 跳转进度：相对秒数、点播绝对秒数、或墙钟时间。 play programme 播放控制 回看某个频道的往期节目。 back to live 播放控制 从时移 / 回看回到直播。 playback control "
+  },
+  {
+    "path": "/mcp",
+    "title": "AI 助手（MCP）",
+    "anchor": "#examples",
+    "section": "可以这么说",
+    "keywords": "「换到 CCTV-5」——AI 先 search channels 确认频道，再 change channel ；名称不唯一时会把候选列出来让你选。 「今晚湖南卫视放什么」—— get epg ，默认从正在播的节目开始。 「回看昨晚 8 点的新闻联播」—— get epg 找到节目，再用 play programme 。 「往回倒 5 分钟」——直播可时移时 seek 用负数 offset sec ；再往前越过当前时刻就回到直播。"
+  },
+  {
+    "path": "/mcp",
+    "title": "AI 助手（MCP）",
+    "anchor": "#notice",
+    "section": "电视端提示",
+    "keywords": "「操作时在电视上提示」默认打开：AI 换台、切源、回看时，电视上会弹一条「AI 助手：已切换到 CCTV-5」。 家里人在看的时候不会莫名其妙被换台。关系不大的场合可以关掉。"
+  },
+  {
+    "path": "/mcp",
+    "title": "AI 助手（MCP）",
+    "anchor": "#safety",
+    "section": "安全须知",
+    "keywords": "令牌 泄露（发到群里、截图里露出来）后，在设置页或面板点「重置」，旧令牌立即失效，客户端要重新填。 令牌只防 网页脚本借你的浏览器偷调 和 端口被误映射到公网 。网页面板的 /api/ 本身没有密码， 同一局域网里能打开面板的人同样能改配置，所以请只在可信网络使用，不要把 10591 映射到公网。 文件读写、APK 安装、备份恢复、云同步数据、Python / PHP / JS 服务代码、logcat 原文 永不 对 AI 开放—— 这些要么等于任意代码执行，要么会覆盖整机配置。 管理级的设置写入只认播放 / 显示 / 节目单类白名单键，凭据、远程配置、服务类键会被拒绝。"
+  },
+  {
+    "path": "/mcp",
+    "title": "AI 助手（MCP）",
+    "anchor": "#faq",
+    "section": "常见问题",
+    "keywords": ""
+  },
+  {
+    "path": "/mcp",
+    "title": "AI 助手（MCP）",
+    "anchor": "#faq-ip",
+    "section": "换了网络，地址变了",
+    "keywords": "地址里的 IP 由路由器分配。重开设置页或面板看新地址，客户端配置里改一下即可。"
+  },
+  {
+    "path": "/mcp",
+    "title": "AI 助手（MCP）",
+    "anchor": "#faq-player-off",
+    "section": "AI 说「电视端未在直播页」",
+    "keywords": "播放器没在运行时读不到频道和节目单。让 AI 先调用 change channel 把播放器拉起来，或直接在电视上打开播放页。"
+  },
+  {
+    "path": "/mcp",
+    "title": "AI 助手（MCP）",
+    "anchor": "#faq-overlay",
+    "section": "冷启动一直超时",
+    "keywords": "播放器没在前台时，AI 换台要从后台拉起播放页，Android 10 及以上需要「显示在其他应用上层」权限—— 和投屏接收是同一个前提。去 设置 → 应用与系统 → 权限 授权后重试。"
+  },
+  {
+    "path": "/mcp",
+    "title": "AI 助手（MCP）",
+    "anchor": "#faq-401",
+    "section": "客户端报 401 / 403",
+    "keywords": "401 是令牌不对或没带：检查 Authorization: Bearer 令牌 的写法（冒号后一个空格）。 403 是请求带了非本机的 Origin 头：多半是浏览器里的跨站脚本在调，正常客户端不会这样。"
+  },
+  {
+    "path": "/mcp",
+    "title": "AI 助手（MCP）",
+    "anchor": "#faq-off",
+    "section": "怎么彻底关掉",
+    "keywords": "把「允许 AI 助手连接」关掉， /mcp 直接回 404，网页面板不受影响。"
+  },
+  {
     "path": "/python-services",
     "title": "服务（Python / PHP / JS）",
     "anchor": "",

@@ -82,6 +82,11 @@ export const routes: Routes = [
     title: '远程配置面板 · 电视直播 使用文档',
   },
   {
+    path: 'mcp',
+    loadComponent: () => import('./pages/mcp/mcp').then((m) => m.McpPage),
+    title: 'AI 助手（MCP）· 电视直播 使用文档',
+  },
+  {
     path: 'python-services',
     loadComponent: () =>
       import('./pages/python-services/python-services').then(

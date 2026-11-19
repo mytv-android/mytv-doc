@@ -43,6 +43,7 @@ export const NAV_ENTRIES: NavEntry[] = [
   { path: '/python-services', label: '服务（Python / PHP）', icon: 'terminal', group: '功能' },
   { path: '/sync', label: '云同步与备份', icon: 'cloud_sync', group: '功能' },
   { path: '/remote-panel', label: '远程配置面板', icon: 'settings_remote', group: '功能' },
+  { path: '/mcp', label: 'AI 助手（MCP）', icon: 'smart_toy', group: '功能' },
 
   { path: '/settings', label: '设置项总览', icon: 'settings', group: '设置' },
   { path: '/player-settings', label: '播放器与字幕', icon: 'tune', group: '设置' },
