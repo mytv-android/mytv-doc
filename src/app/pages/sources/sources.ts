@@ -139,6 +139,7 @@ import { DocShot } from '../../shared/doc-shot';
           <tr><td>用户名 / 密码 / 输出类型</td><td>Xtream 类型；用户名 / 密码也用于需要登录的 Stalker Portal</td></tr>
           <tr><td>MAC 地址</td><td>仅 Stalker 类型。支持带冒号或不带冒号输入，保存时会统一为大写冒号格式</td></tr>
           <tr><td>UA</td><td>按源单独设置 User-Agent：拉取该源时使用；频道没单独指定 UA 时播放也沿用</td></tr>
+          <tr><td>自定义请求头</td><td>按源统一设置一组 HTTP 请求头，JSON 写法如 <code>&#123;"Referer":"https://a.com","Cookie":"k=v"&#125;</code>：拉取该源时使用；源里频道没单独声明 Referer / Cookie / Origin / UA 时，播放也沿用。与「UA」叠加，UA 字段优先</td></tr>
           <tr><td>代理</td><td>按源单独设置代理，填 <code>http://</code> 或 <code>socks5://</code> 地址，可带账号密码</td></tr>
           <tr><td>EPG 地址</td><td>给这个源单独指定节目单，配合「优先用订阅源自带的节目单」（原 跟随订阅源）使用，见 <a [routerLink]="'/epg'">EPG 节目单</a></td></tr>
           <tr><td>自动刷新</td><td>单位小时，0 = 关闭（默认）。设为大于 0 后，该源在使用期间每隔这么久在后台静默重新下载一次，不打断播放</td></tr>
