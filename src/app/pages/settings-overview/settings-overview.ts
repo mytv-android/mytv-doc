@@ -302,7 +302,7 @@ import { DocShot } from '../../shared/doc-shot';
         <tbody>
           <tr><td rowspan="2">下载失败时</td><td>重试次数（原 HTTP请求重试次数）</td><td>获取订阅源、节目单失败时的重试次数，默认 10；可选 1～10、15、20、30、40、50。</td></tr>
           <tr><td>重试间隔（原 HTTP请求重试间隔时间）</td><td>每次重试之间的间隔，默认 1 秒；可选 0 / 1 / 2 / 3 / 5 / 10 / 15 / 20 / 30 秒。</td></tr>
-          <tr><td rowspan="3">代理</td><td>GitHub 镜像源</td><td>更新检查、发行版与原生组件下载走哪条加速线路。默认「自动测速」并发比较所有线路；也可钉住某一条，它仍会排在最前，其余线路留作回退。2026-11 实测保留 gh-proxy.org、gh-proxy.com、ghfile.geekertao.top、ghfast.top、gh.3w.pm、ghproxy.net 六条；其中前两条同时代理 <code>api.github.com</code>，后四条只加速安装包下载。</td></tr>
+          <tr><td rowspan="3">代理</td><td>GitHub 镜像源</td><td>更新检查、发行版与原生组件下载走哪条加速线路。默认「自动测速」并发比较所有线路；也可钉住某一条，它仍会排在最前，其余线路留作回退。除内置清单外，应用每次启动还会从 Gitee <code>mytv-android/my-mirror</code> 拉最新列表合并——加镜像、调顺序、下线失效线路都改那个仓库，不用发新版本。顺序铁律是「镜像 / 国内直连优先，raw 最后兜底」：<code>gh-proxy.org</code>、<code>gh-proxy.com</code>、<code>ghfile.geekertao.top</code>、<code>ghfast.top</code>、<code>gh.3w.pm</code>、<code>cors.isteed.cc</code> → 国内直连 → <code>ghproxy.net</code>（慢，兜底）→ <code>raw.githack.com</code> / <code>rawcdn.githack.com</code> / <code>githack.com</code>（只加速 raw 文件）。前两条同时代理 <code>api.github.com</code>，其余只加速资产与 raw 下载。下载时另有速度门槛：前 5 秒拉不到 1 MB 就换下一站。</td></tr>
           <tr><td>代理服务器（原 播放器 → 代理）</td><td>填 <code>http://</code> 或 <code>socks5://</code> 开头的地址。只有命中下一项规则的地址才走代理。</td></tr>
           <tr><td>哪些地址走代理（原 代理规则）</td><td>子页里逐条添加正则规则，地址匹配时改走指定代理。</td></tr>
           <tr><td rowspan="3">高级设置</td><td>浏览器标识（UA）（原 全局UA）</td><td>播放请求默认带的 User-Agent，有些源只认特定标识。</td></tr>
