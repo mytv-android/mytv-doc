@@ -57,7 +57,7 @@ import { DocPageHeader } from '../../shared/doc-page-header';
         <li><b>脚本服务（Python / PHP / JS）</b>：在电视上运行脚本（Python / PHP 需 Android 7.0 及以上，JS 运行环境内置），把脚本产出的频道列表当作本机或局域网订阅源；服务可在应用内（设置 → 投屏与扩展 → 脚本服务）或网页面板中添加与管理。</li>
         <li><b>组件下载</b>：统一下载管理 IJK / VLC 播放组件、Python / PHP 运行环境、语音识别组件与模型、超分与插帧运行库、AirPlay 投屏组件。</li>
         <li><b>ASR 实时字幕</b>：本地语音识别，把直播语音实时转成字幕，支持 Media3 与 IJK 内核；也可选云端模型（Gemini / 阿里云百炼 / Soniox），识别与翻译一体。</li>
-        <li><b>字幕翻译</b>：把实时字幕或已有字幕轨翻译成目标语言，引擎可选腾讯翻译 / 百度翻译 / MTranServer（自托管） / 有道翻译 / 谷歌翻译 / 微软翻译，逐家配置见<a [routerLink]="'/translation'">字幕翻译教程</a>。</li>
+        <li><b>字幕翻译</b>：把实时字幕或已有字幕轨翻译成目标语言，引擎可选腾讯翻译 / 百度翻译 / MTranServer（自托管） / 有道翻译 / 谷歌翻译 / 微软翻译 / 大模型（LLM），逐家配置见<a [routerLink]="'/translation'">字幕翻译教程</a>。</li>
         <li><b>云同步</b>：GitHub Gist / Gitee 代码片段 / WebDAV / 网络链接（只能恢复）/ 本地文件。</li>
         <li><b>加密分组与隐藏规则</b>：分组名以 <code>_数字</code> 结尾即为密码分组；支持按正则隐藏频道。</li>
         <li><b>按任务分类的设置</b>：设置按「观看 / 个性化 / 连接与数据 / 系统」4 组 11 类排列，出问题才动的项收进「高级设置」；支持按名称或拼音首字母搜索，电视左侧导航、手机竖屏卡片式首页、平板双栏，见<a [routerLink]="'/settings'">设置项总览</a>。</li>

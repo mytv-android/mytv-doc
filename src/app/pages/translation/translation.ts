@@ -39,7 +39,7 @@ import { DocShot } from '../../shared/doc-shot';
 
       <h2 id="choose">先选一个引擎</h2>
       <p>
-        六种引擎做的都是一句话一句话的通用文本翻译，日常看剧差别不大，先按「手上有什么」选：
+        七种引擎做的都是一句话一句话的通用文本翻译，日常看剧差别不大，先按「手上有什么」选：
       </p>
       <table>
         <thead>
@@ -82,12 +82,23 @@ import { DocShot } from '../../shared/doc-shot';
             <td>免费层（F0）每月 200 万字符</td>
             <td>能访问 Azure</td>
           </tr>
+          <tr>
+            <td><b>大模型（LLM）</b></td>
+            <td>任一大模型服务的 API Key，加上端点、协议与模型名</td>
+            <td>按 token 计费，字幕量很小、单句通常不到一分钱</td>
+            <td>能访问所填端点（官方或自建网关）</td>
+          </tr>
         </tbody>
       </table>
       <p>
         拿不准就按这个顺序试：<b>有代理先试谷歌</b>（零配置）；<b>家里有 NAS / 软路由就上 MTranServer</b>
         （一次部署，长用最省心，字幕也不出局域网）；都没有再从云平台里挑一个申请凭据。
       </p>
+      <doc-callout kind="info" title="LLM 是另一种取舍" icon="info">
+        大模型翻得最活（口语、省略、上下文都接得住），但<b>每次请求几十毫秒到几秒不等</b>，
+        直播这种一句话接一句话的场景可能跟不上语速；而且按 token 计费、要配的项也最多。
+        拿它换「更地道的译文」，就要接受更慢和要花钱——先按上面的顺序把免费的试完再考虑它。
+      </doc-callout>
       <doc-callout kind="info" title="免费额度以各家控制台为准" icon="info">
         各平台的免费额度、实名要求与计费方式会调整，本页只写要点与申请路径；
         具体额度、价格以对应平台控制台与定价页当前显示的为准。
@@ -107,7 +118,7 @@ import { DocShot } from '../../shared/doc-shot';
         <tbody>
           <tr>
             <td>翻译引擎</td>
-            <td>未配置（默认，不翻译）/ 谷歌翻译 / MTranServer / 腾讯翻译 / 百度翻译 / 有道翻译 / 微软翻译。</td>
+            <td>未配置（默认，不翻译）/ 谷歌翻译 / MTranServer / 腾讯翻译 / 百度翻译 / 有道翻译 / 微软翻译 / 大模型（LLM）。</td>
           </tr>
           <tr>
             <td>目标语言</td>
@@ -279,6 +290,82 @@ import { DocShot } from '../../shared/doc-shot';
         </li>
       </ol>
 
+      <h3 id="key-llm">大模型（LLM）</h3>
+      <p>
+        引擎选「大模型（LLM）」后，子页会多出六项：<b>端点</b>、<b>协议</b>、<b>模型</b>、
+        <b>API Key</b>、<b>User-Agent</b>、<b>思考级别</b>。其中只有 <b>模型</b> 是必填
+        （留空时这一项显示「未配置」，整条翻译链路不会启动），其余都可以先用默认值跑起来。
+      </p>
+      <table>
+        <thead>
+          <tr><th>项</th><th>填什么</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>端点</td>
+            <td>
+              API 地址。<b>留空</b>就走所选协议的官方默认（Anthropic → <code>https://api.anthropic.com</code>，
+              OpenAI → <code>https://api.openai.com/v1</code>）。填了就当 base 用，
+              也可以直接填到完整路径（如 <code>https://api.openai.com/v1/chat/completions</code>）——
+              认得出路径后缀就不会重复拼接，base 末段已经是 <code>/v1</code>、<code>/v4</code>
+              这类版本号时也只补路径、不再补版本段（智谱的 <code>/api/paas/v4</code> 就是这样），
+              因此<b>任何兼容这三套契约的第三方网关、中转、自建代理都能填</b>。
+            </td>
+          </tr>
+          <tr>
+            <td>协议</td>
+            <td>
+              三选一，决定请求长什么样、密钥放哪个头、思考参数怎么写：
+              <b>Anthropic Messages</b>（<code>/v1/messages</code>，<code>x-api-key</code> + <code>anthropic-version</code>）；
+              <b>OpenAI Chat Completions</b>（<code>/chat/completions</code>，<code>Authorization: Bearer</code>）；
+              <b>OpenAI Responses</b>（<code>/responses</code>，同上）。留空时按端点猜，猜不出按 OpenAI Chat Completions。
+            </td>
+          </tr>
+          <tr>
+            <td>模型</td>
+            <td>模型名，照服务商文档写，如 <code>claude-sonnet-4-5</code>、<code>gpt-4o-mini</code>、<code>qwen-plus</code>。</td>
+          </tr>
+          <tr>
+            <td>API Key</td>
+            <td>服务商签发的密钥。Anthropic 协议放 <code>x-api-key</code> 头，OpenAI 两种放 <code>Authorization: Bearer</code> 头。</td>
+          </tr>
+          <tr>
+            <td>User-Agent</td>
+            <td>留空用内置默认值。个别网关按 UA 放行/拦截，被 403 时再改成浏览器 UA 试试。</td>
+          </tr>
+          <tr>
+            <td>思考级别</td>
+            <td>
+              关闭 / 低 / 中 / 高，<b>默认关闭</b>。Anthropic 协议映射成 <code>thinking.budget_tokens</code>
+              （1024 / 4096 / 12288），OpenAI 两种映射成 <code>reasoning_effort</code> /
+              <code>reasoning.effort</code>。级别越高越准也越慢，字幕翻译建议低或关。
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <ol>
+        <li>
+          <b>Anthropic</b>：在
+          <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">Anthropic 控制台</a>
+          创建 API Key，端点留空，协议选「Anthropic Messages」，模型填 <code>claude-sonnet-4-5</code>。
+        </li>
+        <li>
+          <b>OpenAI</b>：在
+          <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener">OpenAI 控制台</a>
+          创建密钥，端点留空，协议选「OpenAI Chat Completions」，模型填 <code>gpt-4o-mini</code>。
+        </li>
+        <li>
+          <b>第三方网关</b>：端点填网关地址，协议按它实现的契约选（多数兼容 OpenAI Chat Completions），
+          模型名用网关文档里那个名字。
+        </li>
+      </ol>
+      <doc-callout kind="tip" title="请求被拒时先看这两处" icon="info">
+        模型名写错是最常见的原因，报错只进日志、画面没有提示。
+        另一个是<b>思考参数不被支持</b>：不支持推理的模型（如 <code>gpt-4o</code>）会因为
+        <code>reasoning_effort</code> 直接返回 400，此时 App 会自动去掉该参数重试一次；
+        仍然失败就把<b>思考级别调成「关闭」</b>。日志 tag 为 <code>LLMTranslation</code>。
+      </doc-callout>
+
       <h2 id="limits">已知限制</h2>
       <ul>
         <li>
@@ -357,6 +444,13 @@ import { DocShot } from '../../shared/doc-shot';
             <td>电视上确认地址和端口写对、和服务在同一局域网；换台设备用浏览器打开同一地址验证服务是否在跑。</td>
           </tr>
           <tr>
+            <td>选了大模型，一直没有译文</td>
+            <td>
+              模型名是不是还空着；端点、协议、密钥三者是否配套（Anthropic 的密钥填到 OpenAI 协议下必被拒）。
+              报错只写日志，看不到就在 <b>设置 → 帮助与诊断 → 运行日志</b> 里搜 <code>LLMTranslation</code>。
+            </td>
+          </tr>
+          <tr>
             <td>译文时有时无</td>
             <td>每秒一次的节流遇上密集对话的正常表现；把引擎换成局域网内的 MTranServer 会明显好转。</td>
           </tr>
@@ -376,10 +470,16 @@ import { DocShot } from '../../shared/doc-shot';
         <li>
           <b>计费方式</b>：云引擎按翻译的字符数计费，字幕只在有字幕时才产生请求，
           长时间挂着直播会持续消耗免费额度；各家额度与单价见对应平台定价页。
+          大模型按 token 计费，单句字幕的输入输出都很小，但思考级别开高会明显拉长计费 token。
         </li>
         <li>
           <b>字幕会出网</b>：用云引擎时，每句字幕的文本都会发送到对应平台，按平台自己的隐私政策处理。
-          不想让字幕离开家里网络就用 MTranServer，识别与翻译全在本机与局域网内完成。
+          不想让字幕离开家里网络就用 MTranServer，识别与翻译全在本机与局域网内完成；
+          用大模型时，端点填自己的网关也能把字幕拦在内网。
+        </li>
+        <li>
+          <b>凭据只存本机</b>：引擎、端点、协议、密钥、模型、UA 与思考级别都只存在电视本地，
+          不参与云同步，换设备要重新配。
         </li>
       </ul>
     </div>
